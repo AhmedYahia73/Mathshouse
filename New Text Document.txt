@@ -1,0 +1,105 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+    integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function() {
+        console.log("sssssssssssssssssssss")
+    })
+</script>
+<style>
+    .activee {
+        padding: 10px 15px !important;
+        background: red !important;
+        color: #fff !important;
+        border-radius: 10px !important;
+    }
+
+    li>a>span {
+        transition: all 0.3s ease-in-out;
+    }
+
+    li:hover>a>span {
+        padding: 10px 15px !important;
+        background: red !important;
+        color: #fff !important;
+        border-radius: 10px !important;
+    }
+</style>
+<!-- Main Header Nav -->
+<header class="header-nav menu_style_home_one home13 navbar-scrolltofixed stricky main-menu">
+    <div class="container">
+        <!-- Ace Responsive Menu -->
+        <nav>
+            <!-- Menu Toggle btn-->
+            <div class="menu-toggle">
+                <img class="nav_logo_img img-fluid" src="images/header-logo.png" alt="header-logo.png">
+                <button type="button" id="menu-btn">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <a href="{{ route('home') }}" class="navbar_brand float-left dn-smd">
+                <img class="logo1 img-fluid" style="height: 50px;"
+                    src="{{ asset('assets/media/logos/Maths_house.png') }}" alt="header-logo6.png">
+                <span class="color-black22">Maths House</span>
+            </a>
+            <!-- Responsive Menu Structure-->
+            <!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
+            <ul id="respMenu" class="ace-responsive-menu" data-menu-style="horizontal">
+                <li>
+                    <a href="{{ route('categories') }}"><span
+                            {{ Route::currentRouteNamed('categories*') ? ' class=activee' : null }}
+                            class="title titleCouses">Courses</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('v_dia_cate') }}"><span
+                            {{ Route::currentRouteNamed('v_dia_cate*') ? ' class=activee' : null }}
+                            class="title titleDiagnostic">Diagnostic Exam</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('v_exams') }}"><span
+                            {{ Route::currentRouteNamed('v_exams*') ? ' class=activee' : null }}
+                            class="title titleExams">Exams</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('v_question') }}"><span
+                            {{ Route::currentRouteNamed('v_question*') ? ' class=activee' : null }}
+                            class="title titleQuestion">Question</span></a>
+                </li>
+                <li {{ Route::currentRouteNamed('#*') ? ' class=activee' : null }}>
+                    <a href="#"><span {{ Route::currentRouteNamed('#*') ? ' class=activee' : null }}
+                            class="title">Live</span></a>
+                </li>
+                <li class="last">
+                    <a href="https://mathshouse.net/index.php/the-firm/"><span
+                            {{ Route::currentRouteNamed('https://mathshouse.net/index.php/the-firm/*') ? ' class=activee' : null }}
+                            class="title titleAbout">About</span></a>
+                </li>
+                <li class="last">
+                    <a href="https://mathshouse.net/index.php/contact"><span
+                            {{ Route::currentRouteNamed('https://mathshouse.net/index.php/contact*') ? ' class=activee' : null }}
+                            class="title titleContact">Contact</span></a>
+                </li>
+            </ul>
+            <ul class="sign_up_btn pull-right dn-smd mt20">
+                <li class="list-inline-item list_s">
+                    @if (empty(auth()->user()))
+                        <a href="{{ route('login.index') }}" class="btn flaticon-user"> <span
+                                class="dn-lg">Login</span></a>
+                    @elseif(auth()->user()->position == 'admin' || auth()->user()->position == 'user_admin')
+                        <a href="{{ route('dashboard') }}" class="btn flaticon-user"> <span
+                                class="dn-lg">Dashboard</span></a>
+                    @elseif(auth()->user()->position == 'teacher')
+                        <a href="{{ route('t_dashboard') }}" class="btn flaticon-user"> <span
+                                class="dn-lg">Dashboard</span></a>
+                    @else
+                        <a href="{{ route('login.index') }}" class="btn flaticon-user"> <span
+                                class="dn-lg">Dashboard</span></a>
+                    @endif
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
