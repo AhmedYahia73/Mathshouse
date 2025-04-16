@@ -227,6 +227,12 @@
             letter-spacing: 1px !important;
             text-align: center !important;
         }
+        input:invalid, select:invalid, textarea:invalid {
+            border-color: #dc3545;
+        }
+        input:valid, select:valid, textarea:valid {
+            border-color: #28a745;
+        }
     </style>
     <div class="section_add d-flex justify-content-start">
         <button class="btn_add_quizz my-3" type="button" data-toggle="modal" data-target="#exampleModalCenter">New
@@ -1921,6 +1927,79 @@
                     }
                 });
             })
+        });
+                // Add this script at the end of your JavaScript section
+        $(document).ready(function() {
+            // Validate form before submission
+            $('form').on('submit', function(e) {
+                // Check required fields
+                const title = $('input[name="title"]').val();
+                const description = $('textarea[name="description"]').val();
+                const time_h_1 = $('input[name="time_h_1"]').val();
+                const time_h_2 = $('input[name="time_h_2"]').val();
+                const time_m_1 = $('input[name="time_m_1"]').val();
+                const time_m_2 = $('input[name="time_m_2"]').val();
+                const score_id = $('select[name="score_id"]').val();
+                const score = $('input[name="score"]').val();
+                const pass_score = $('input[name="pass_score"]').val();
+                
+                // Check if hours and minutes are 2 digits
+                const timeRegex = /^\d{2}$/;
+                
+                if (!title || !description || !time_h_1 || !time_m_1 || !time_h_2 || !time_m_2 || 
+                !score_id || !score || !pass_score) {
+                    alert('Please fill all required fields!');
+                    e.preventDefault();
+                    return false;
+                } 
+                
+                return true;
+            });
+        });
+        $(document).ready(function() {
+            // Validate edit form before submission
+            $('.form_editquizze').on('submit', function(e) {
+                // Check required fields
+                const title = $(this).find('.quizze_title').val();
+                const description = $(this).find('.quizze_description').val();
+                const duration = $(this).find('.quizze_duration').val();
+                const score_id = $(this).find('#score_id_edit').val();
+                const score = $(this).find('.quizze_Total_Score').val();
+                const pass_score = $(this).find('.quizze_Pass_Score').val();
+                
+                // For duration, you might want to split into hours and minutes
+                // Or adjust validation based on your duration format
+                
+                if (!title || !description || !duration || !score_id || !score || !pass_score) {
+                    alert('Please fill all required fields!');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // Additional validation for duration format if needed
+                
+                return true;
+            });
+        });
+                // For add modal
+        function validateAddForm() {
+            const isValid = /* your validation logic */;
+            $('.add_btn').prop('disabled', !isValid);
+        }
+
+        // For edit modal
+        function validateEditForm() {
+            const isValid = /* your validation logic */;
+            $('.btn_Edit_quizze').prop('disabled', !isValid);
+        }
+
+        // Call these functions on input changes
+        $('input, select, textarea').on('input change', function() {
+            if ($(this).closest('#exampleModalCenter').length) {
+                validateAddForm();
+            } else {
+                validateEditForm();
+            }
         });
     </script>
 </x-default-layout>
