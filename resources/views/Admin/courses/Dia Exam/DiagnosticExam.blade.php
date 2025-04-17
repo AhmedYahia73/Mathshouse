@@ -644,8 +644,7 @@
                                         <form class="form_editquizze"
                                             action="{{ route('edit_dia_exam_item', ['id' => $item->id]) }}"
                                             method="POST">
-                                            @csrf
-                                            <input type="hidden" value="{{ $item->id }}" id="dia_id">
+                                            @csrf 
                                             <div class="modal-header" style="border-bottom: 0 !important;">
                                                 <h2 class="modal-title" id="exampleModalLongTitle">Edit Diagnostic
                                                 </h2>
@@ -1028,8 +1027,7 @@
                                                                                     id="question_edite_id{{ $question->id }}" />
 
                                                                                 <input type="hidden"
-                                                                                    value="{{ $item->id }}"
-                                                                                    name='diagnostic_edite_id[]'
+                                                                                    value="{{ $item->id }}" 
                                                                                     class='diagnostic_edite_id'
                                                                                     id='diagnostic_edite_id{{ $question->id }}' />
 
@@ -1705,8 +1703,7 @@
                                 class='question_edite_id' id='question_edite_id${question_idd}'/>
 
                                 <input type="hidden"
-                                value=${quizze_idd}
-                                name='diagnostic_edite_id[]'
+                                value=${quizze_idd} 
                                 class='diagnostic_edite_id' id='diagnostic_edite_id${question_idd}'/>
 
                                 <td class="question_edite_type" id='question_edite_type${question_idd}' style="font-weight: 500; font-size: 1.1rem">
