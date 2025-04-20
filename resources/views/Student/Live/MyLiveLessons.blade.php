@@ -531,8 +531,7 @@ $page_name = 'Lesson';
     {{-- @foreach ($sessions->unique('lesson_id') as $session) --}}
     @php
         $arr_lessons = [];
-    @endphp
-    @foreach ($sessions as $session)
+    @endphp@foreach ($sessions as $session)
     @if ($session->lesson?->chapter?->id &&
     (\Carbon\Carbon::now()->subDays(7) <= $session->date
     &&
@@ -542,24 +541,48 @@ $page_name = 'Lesson';
     &&
     $chapter_id == $session->lesson->chapter->id)
     && !in_array($session->lesson->id, $arr_lessons))       
-            @php
-                $arr_lessons[] = $session->lesson->id;
-            @endphp
-        @foreach ($session->lesson->ideas as $idea_item)
-        @if ( !empty($idea_item->pdf) )
-        <a class="btn btn-success text-center m-2" href="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}"
-            download="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}">
-            PDF {{$idea_item->lesson->lesson_name}} {{$idea_item->idea}}
-        </a>
-        <a class="btn btn-info text-center m-2" target="_blank"
-            href="{{route('stu_live_pdf', ['file_name' => $idea_item->pdf])}}" />
-        Show {{$idea_item->lesson->lesson_name}} {{$idea_item->idea}}
-        </a>
-        <br />
-        @endif
-        @endforeach
-        @endif
-        @endforeach
+        @php
+            $arr_lessons[] = $session->lesson->id;
+        @endphp
+
+        <div class="session-materials mb-4">
+            @foreach ($session->lesson->ideas as $idea_item)
+                @if (!empty($idea_item->pdf))
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <a class="btn btn-success btn-block" href="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}"
+                                download="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}">
+                                <i class="fas fa-file-pdf"></i> Download PDF: {{$idea_item->lesson->lesson_name}} - {{$idea_item->idea}}
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-info btn-block" target="_blank"
+                               href="{{route('stu_live_pdf', ['file_name' => $idea_item->pdf])}}">
+                               <i class="fas fa-eye"></i> View PDF: {{$idea_item->lesson->lesson_name}} - {{$idea_item->idea}}
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-danger btn-block" target="_blank"
+                       href="{{$session->material_link}}">
+                        <i class="fas fa-link"></i> Show Student Material 1
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-warning btn-block" target="_blank"
+                       href="{{$session->teacher_material}}">
+                        <i class="fas fa-chalkboard-teacher"></i> Show Student Material 2
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+@endforeach
+
         </div>
         <!-- tution__section__end -->
 
