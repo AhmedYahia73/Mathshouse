@@ -91,7 +91,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     // return $request->user();
 });
    Route::controller(Ad_ReportsController::class)->group(function(){
-             Route::post('/Report/ScoreSheet/generatePdf','generatePdf')->name('generatePdf');
+    Route::post('/Report/ScoreSheet/generatePdf','generatePdf')->name('generatePdf');
+    Route::post('/Report/ScoreSheet/generateAnsPdf','generateAnsPdf')->name('generateAnsPdf');
             });
 
 Route::prefix('v1')->group(function () {

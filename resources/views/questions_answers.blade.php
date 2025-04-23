@@ -175,8 +175,8 @@
         </div>
         @foreach($questions as $question)
         <div class="question-card">
-            @if (!empty($question->q_url))
-                <img src="{{ asset('images/questions/' . $question->q_url) }}" class="question-image" alt="Question Image">
+            @if (!empty($question->q_ans))
+                <img src="{{ asset('files/q_pdf/' . $question->q_ans[0]->ans_pdf) }}" class="question-image" alt="Question Image">
             @else
                 <div class="no-image">No Image</div>
             @endif

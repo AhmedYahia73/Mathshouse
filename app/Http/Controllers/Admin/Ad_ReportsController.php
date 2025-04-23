@@ -409,4 +409,29 @@ class Ad_ReportsController extends Controller
         return $pdf->setPaper('a4', 'landscape')->stream('questions.pdf');
     }
 
+    
+    public function generateAnsPdf(Request $request) {
+        
+        $user = User::find($request->user_id);
+        $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
+        $questions = $this->quizzes
+        ->whereIn('id', $questionsIds)
+        ->with(['question' => function($query){
+            $query->with(['mcq', 'q_ans', 'g_ans']);
+        }])->get();
+        $questions = $questions->pluck('question');
+        $answers = [];
+        $questions = count($questions) > 0 ?$questions[0]:$questions;
+        foreach ($questions as $question) {
+            if ($question->ans_type == 'MCQ') {
+                $answers[] = $question->mcq;
+            } elseif ($question->ans_type == 'Grid') {
+                $answers[] = $question->q_ans;
+            }
+        }
+      
+        $pdf = Pdf::loadView('questions_answers', compact('questions'));
+        return $pdf->setPaper('a4', 'landscape')->stream('ans_questions.pdf');
+    }
+
 }

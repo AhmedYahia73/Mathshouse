@@ -159,6 +159,18 @@ $ch_id = [];
                     </button>
                 </div>
             </form>
+            <form action="{{ route('generateAnsPdf') }}" method="POST">
+                @csrf
+                <input type="hidden" name="user_id" value="{{ $user_id }}">
+                <input type="hidden" name="selected_ids[]" id="selectedIdsInput">
+
+                <div class="d-flex align-items-center justify-content-center mt-3">
+                    <button type="submit" id="generateAnsPdf"
+                        style="display: none; background-color: #e43e4c; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s;">
+                        Generate Mistakes Answers PDF
+                    </button>
+                </div>
+            </form>
 
 
         </div>
@@ -315,9 +327,10 @@ $(document).on('change', '.row-checkbox', function () {
     selectedQuizzeIds.forEach(quizzeId => {
         $('form').append(`<input type="hidden" name="selected_ids[]" value="${quizzeId}" class="selected-quizze-id">`);
     });
-
+    
     // Show the button if at least one checkbox is selected
     $('#generatePdf').toggle(selectedQuizzeIds.length > 0);
+    $('#generateAnsPdf').toggle(selectedQuizzeIds.length > 0);
 });
 
 
