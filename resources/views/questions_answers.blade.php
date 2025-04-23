@@ -180,11 +180,6 @@
             @else
                 <div class="no-image">No Image</div>
             @endif
-
-            <div class="question-section">
-                <div class="section-title">Question:</div>
-                <div class="question-text">{{ $question->question }}</div>
-            </div>
         </div>
         @endforeach
 

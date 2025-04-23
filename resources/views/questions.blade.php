@@ -179,12 +179,7 @@
                 <img src="{{ asset('images/questions/' . $question->q_url) }}" class="question-image" alt="Question Image">
             @else
                 <div class="no-image">No Image</div>
-            @endif
-
-            <div class="question-section">
-                <div class="section-title">Question:</div>
-                <div class="question-text">{{ $question->question }}</div>
-            </div>
+            @endif 
         </div>
         @endforeach
 
