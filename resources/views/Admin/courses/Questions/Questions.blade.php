@@ -861,13 +861,23 @@
                                                             </div>
                                                             @endif
                                                             @endforeach
+                                                            @foreach ($question->g_ans as $grid_ans)
+                                                            <div class="my-2 d-flex flex-column">
+                                                        
+                                                                <input class="form-control"
+                                                                    value="{{ $grid_ans->grid_ans }}" name="grid_ans[]"
+                                                                    placeholder="Answer" />
+                                                                    <button type="button" class="removeLastAnswer mt-2">Remove
+                                                                        Answer</button>
+                                                            </div>
+                                                            @endforeach
                                                             <div class="my-2 newAnswerSe">
 
                                                             </div>
                                                     <div class="newAnswer gap-3">
                                                         <button type="button" class="removeNewAnswer d-none">Remove
                                                         Answer</button>
-                                                        <button type="button" class="addNewAnswer">New
+                                                        <button type="button" class="addNewAnswerGrid">New
                                                             Answer</button>
                                                     </div>
                                                 </div>
@@ -1292,6 +1302,19 @@
                                         </div>
                                         <input class="form-control" name="mcq_ans[]"
                                             placeholder="New Answer" />`);
+                $(".removeNewAnswer").toggleClass("d-none");
+            })
+            $(".addNewAnswerGrid").click(function() {
+                $(this).toggleClass("d-none");
+                $(".newAnswerSe").append(`              
+                <div class="my-2 d-flex flex-column">
+            
+                    <input class="form-control"
+                        value="{{ $grid_ans->grid_ans }}" name="grid_ans[]"
+                        placeholder="Answer" />
+                        <button type="button" class="removeLastAnswer mt-2">Remove
+                            Answer</button>
+                </div>`);
                 $(".removeNewAnswer").toggleClass("d-none");
             })
             $(".removeNewAnswer").click(function() {
