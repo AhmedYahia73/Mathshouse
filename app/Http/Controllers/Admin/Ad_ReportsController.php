@@ -19,8 +19,7 @@ use App\Models\ExamCodes;
 use App\Models\ExamHistory;
 use App\Models\Exam;
 use App\Models\StudentQuizze;
-use App\Models\ReportVideoList;
-use App\Models\quizze;
+use App\Models\ReportVideoList; 
 
 class Ad_ReportsController extends Controller
 {
@@ -28,7 +27,7 @@ class Ad_ReportsController extends Controller
         private PaymentRequest $paymentRequest,
         private Exam $exam,
         private Question $question,
-        private quizze $quizzes
+        private StudentQuizze $stu_quizzes
      ){}
     public function ad_live_report( Request $req )
     {
@@ -390,12 +389,12 @@ class Ad_ReportsController extends Controller
         
         $user = User::find($request->user_id);
         $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
-        $questions = $this->quizzes
+        $questions = $this->stu_quizzes
         ->whereIn('id', $questionsIds)
-        ->with(['question' => function($query){
+        ->with(['questions' => function($query){
             $query->with(['mcq', 'q_ans', 'g_ans']);
         }])->get();
-        $questions = $questions->pluck('question');
+        $questions = $questions->pluck('questions');
         $answers = [];
         $questions = count($questions) > 0 ?$questions[0]:$questions;
         foreach ($questions as $question) {
@@ -405,21 +404,21 @@ class Ad_ReportsController extends Controller
                 $answers[] = $question->q_ans;
             }
         }
-        $pdf = Pdf::loadView('questions', compact('questions', 'answers'));
+        $pdf = Pdf::loadView('questions', compact('questions', 'answers', 'user'));
         return $pdf->setPaper('a4', 'landscape')->stream('questions.pdf');
     }
 
     
     public function generateAnsPdf(Request $request) {
-        
+           
         $user = User::find($request->user_id);
         $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
-        $questions = $this->quizzes
+        $questions = $this->stu_quizzes
         ->whereIn('id', $questionsIds)
-        ->with(['question' => function($query){
+        ->with(['questions' => function($query){
             $query->with(['mcq', 'q_ans', 'g_ans']);
         }])->get();
-        $questions = $questions->pluck('question');
+        $questions = $questions->pluck('questions');
         $answers = [];
         $questions = count($questions) > 0 ?$questions[0]:$questions;
         foreach ($questions as $question) {
@@ -429,8 +428,7 @@ class Ad_ReportsController extends Controller
                 $answers[] = $question->q_ans;
             }
         }
-      
-        $pdf = Pdf::loadView('questions_answers', compact('questions'));
+        $pdf = Pdf::loadView('questions_answers', compact('questions', 'answers', 'user'));
         return $pdf->setPaper('a4', 'landscape')->stream('ans_questions.pdf');
     }
 

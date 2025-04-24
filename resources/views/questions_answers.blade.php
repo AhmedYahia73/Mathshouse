@@ -174,6 +174,25 @@
             <h2>Questions Report</h2>
         </div>
         @foreach($questions as $question)
+        
+        @php
+            $lesson = $question->lessons;
+            $chapter = $lesson->chapter;
+            $course = $chapter->course;
+            $category = $course->category;
+        @endphp
+        <h3>
+            Category: {{ $category }}
+        </h3>
+        <h3>
+            Course: {{ $course }}
+        </h3>
+        <h3>
+            Chapter: {{ $chapter }}
+        </h3>
+        <h3>
+            Lesson: {{ $lesson }}
+        </h3>
         <div class="question-card">
             @if (!empty($question->q_ans))
                 <img src="{{ asset('files/q_pdf/' . $question->q_ans[0]->ans_pdf) }}" class="question-image" alt="Question Image">

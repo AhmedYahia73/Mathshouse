@@ -236,7 +236,7 @@ $ch_id = [];
                             console.log("ele", ele)
                             var newRow = `<tr>
                                 <td style="padding-top: 15px !important">
-                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["quizze_id"]}">
+                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["id"]}">
                                 </td>
                                 <td style="padding-top: 15px !important">${ele.quizze.title}</td>
                                 <td style="padding-top: 15px !important">${ele.score + "/" + ele.quizze.score}</td>
@@ -271,7 +271,7 @@ $ch_id = [];
                             console.log("ele", ele)
                             var newRow = `<tr>
                                 <td style="padding-top: 15px !important">
-                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["quizze_id"]}">
+                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["id"]}">
                                 </td>
                                 <td style="padding-top: 15px !important">${ele.quizze.title}</td>
                                 <td style="padding-top: 15px !important">${ele.score + "/" + ele.quizze.score}</td>

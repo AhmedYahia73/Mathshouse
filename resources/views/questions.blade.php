@@ -173,7 +173,28 @@
         <div class="headtitle">
             <h2>Questions Report</h2>
         </div>
+        <h2>
+            Student: {{ $user->f_name . " " . $user->l_name }}
+        </h2>
         @foreach($questions as $question)
+        @php
+            $lesson = $question->lessons;
+            $chapter = $lesson->chapter;
+            $course = $chapter->course;
+            $category = $course->category;
+        @endphp
+        <h3>
+            Category: {{ $category }}
+        </h3>
+        <h3>
+            Course: {{ $course }}
+        </h3>
+        <h3>
+            Chapter: {{ $chapter }}
+        </h3>
+        <h3>
+            Lesson: {{ $lesson }}
+        </h3>
         <div class="question-card">
             @if (!empty($question->q_url))
                 <img src="{{ asset('images/questions/' . $question->q_url) }}" class="question-image" alt="Question Image">
