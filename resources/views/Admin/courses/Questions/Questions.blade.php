@@ -1310,7 +1310,7 @@
                 <div class="my-2 d-flex flex-column">
             
                     <input class="form-control"
-                        value="{{ $grid_ans->grid_ans }}" name="grid_ans[]"
+                         name="grid_ans[]"
                         placeholder="Answer" />
                         <button type="button" class="removeLastAnswer mt-2">Remove
                             Answer</button>
