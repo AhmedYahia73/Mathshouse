@@ -172,33 +172,44 @@
     <div class="container">
         <div class="headtitle">
             <h2>Questions Report</h2>
+            <h2>
+                Student: {{ $user->f_name . " " . $user->l_name }}
+            </h2>
         </div>
         @foreach($questions as $question)
-        
         @php
             $lesson = $question->lessons;
             $chapter = $lesson->chapter;
             $course = $chapter->course;
             $category = $course->category;
         @endphp
-        <h3>
-            Category: {{ $category }}
-        </h3>
-        <h3>
-            Course: {{ $course }}
-        </h3>
-        <h3>
-            Chapter: {{ $chapter }}
-        </h3>
-        <h3>
-            Lesson: {{ $lesson }}
-        </h3>
-        <div class="question-card">
-            @if (!empty($question->q_ans))
-                <img src="{{ asset('files/q_pdf/' . $question->q_ans[0]->ans_pdf) }}" class="question-image" alt="Question Image">
-            @else
-                <div class="no-image">No Image</div>
-            @endif
+
+        <div class="mb-8 p-6 bg-white shadow-md rounded-2xl border border-gray-200">
+            <div class="mb-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-gray-700">
+                <div>
+                    <span class="font-semibold">Category:</span>
+                    <div>{{ $category->cate_name }}</div>
+                </div>
+                <div>
+                    <span class="font-semibold">Course:</span>
+                    <div>{{ $course->course_name }}</div>
+                </div>
+                <div>
+                    <span class="font-semibold">Chapter:</span>
+                    <div>{{ $chapter->chapter_name }}</div>
+                </div>
+                <div>
+                    <span class="font-semibold">Lesson:</span>
+                    <div>{{ $lesson->lesson_name }}</div>
+                </div>
+            </div>
+            <div class="question-card">
+                @if (!empty($question->q_ans))
+                    <img src="{{ asset('files/q_pdf/' . $question->q_ans[0]->ans_pdf) }}" class="question-image" alt="Question Image">
+                @else
+                    <div class="no-image">No Image</div>
+                @endif
+            </div>
         </div>
         @endforeach
 
