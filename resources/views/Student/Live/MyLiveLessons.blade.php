@@ -552,13 +552,13 @@ $page_name = 'Lesson';
                         <div class="col-md-6">
                             <a class="btn btn-success btn-block" href="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}"
                                 download="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}">
-                                <i class="fas fa-file-pdf"></i> Download PDF: {{$idea_item->lesson->lesson_name}} - {{$idea_item->idea}}
+                                <i class="fas fa-file-pdf"></i> Download: {{$idea_item->idea}}
                             </a>
                         </div>
                         <div class="col-md-6">
                             <a class="btn btn-info btn-block" target="_blank"
                                href="{{route('stu_live_pdf', ['file_name' => $idea_item->pdf])}}">
-                               <i class="fas fa-eye"></i> View PDF: {{$idea_item->lesson->lesson_name}} - {{$idea_item->idea}}
+                               <i class="fas fa-eye"></i> View: {{$idea_item->idea}}
                             </a>
                         </div>
                     </div>
