@@ -97,7 +97,7 @@
                                 @endif
                             @endif
                             @php
-                                $ch_arr[$item->question->lessons->chapter->chapter_name] = $item->question->lessons->chapter->chapter_name;
+                                $ch_arr[$item?->question?->lessons?->chapter?->chapter_name ?? null] = $item?->question?->lessons?->chapter?->chapter_name ?? null;
                             @endphp
                             @endforeach
                         </div>
