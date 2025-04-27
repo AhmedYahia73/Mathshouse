@@ -78,21 +78,23 @@
                             @endphp
                             @foreach ( $item->mistakes as $item )
                             @if ( !isset($ch_arr[$item?->question?->lessons?->chapter?->chapter_name ?? null]) )
-                            <table class="table">
-                                <tr class="inner_row">
-                                    <td>
-                                    Chapter => {{$item?->question?->lessons?->chapter?->chapter_name ?? null}}
-                                    </td>
-                                    <td>
-                                        <a href="{{route('buy_chapter', ['id' => $item->question->lessons->chapter->id])}}" class="btn btn-primary">
-                                            Buy
-                                        </a>
-                                        @php
-                                            $arr_id[] = $item->question->lessons->chapter->id;
-                                        @endphp
-                                    </td>
-                                </tr>
-                            </table>
+                                @if (!empty($item?->question?->lessons?->chapter?->chapter_name ?? null))
+                                <table class="table">
+                                    <tr class="inner_row">
+                                        <td>
+                                        Chapter => {{$item?->question?->lessons?->chapter?->chapter_name ?? null}}
+                                        </td>
+                                        <td>
+                                            <a href="{{route('buy_chapter', ['id' => $item?->question?->lessons?->chapter?->id])}}" class="btn btn-primary">
+                                                Buy
+                                            </a>
+                                            @php
+                                                $arr_id[] = $item->question->lessons->chapter->id;
+                                            @endphp
+                                        </td>
+                                    </tr>
+                                </table>
+                                @endif
                             @endif
                             @php
                                 $ch_arr[$item->question->lessons->chapter->chapter_name] = $item->question->lessons->chapter->chapter_name;
