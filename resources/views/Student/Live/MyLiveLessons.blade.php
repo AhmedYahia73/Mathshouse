@@ -482,7 +482,7 @@ $page_name = 'Lesson';
                                                     </span> </h5>
                                             </div>
                                         </a>
-                                        @foreach ($session->lesson->ideas as $idea_item)
+                                        @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
                                         <form action="{{route('stu_live_lesson')}}" method="post">
                                             @csrf
                                             <input type="hidden" name="idea" value="{{$idea_item->id}}">
@@ -546,7 +546,7 @@ $page_name = 'Lesson';
         @endphp
 
         <div class="session-materials mb-4">
-            @foreach ($session->lesson->ideas as $idea_item)
+            @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
                 @if (!empty($idea_item->pdf))
                     <div class="row mb-3">
                         <div class="col-md-6">

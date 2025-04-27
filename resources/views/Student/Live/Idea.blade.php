@@ -529,7 +529,7 @@
                                         aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
 
-                                            @foreach ($session->lesson->ideas as $idea_item)
+                                            @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
                                             <form action="{{route('stu_live_lesson')}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="idea" value="{{$idea_item->id}}">

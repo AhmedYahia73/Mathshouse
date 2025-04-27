@@ -404,8 +404,10 @@ class Ad_ReportsController extends Controller
                 $answers[] = $question->q_ans;
             }
         }
-        $pdf = Pdf::loadView('questions', compact('questions', 'answers', 'user'));
-        return $pdf->setPaper('a4', 'landscape')->stream('questions.pdf');
+
+        $pdf = Pdf::loadView('questions', compact('questions', 'answers', 'user'))
+        ->setPaper('a4', 'landscape');
+        return $pdf->download('questions.pdf');
     }
 
     
@@ -427,9 +429,11 @@ class Ad_ReportsController extends Controller
             } elseif ($question->ans_type == 'Grid') {
                 $answers[] = $question->q_ans;
             }
-        }
-        $pdf = Pdf::loadView('questions_answers', compact('questions', 'answers', 'user'));
-        return $pdf->setPaper('a4', 'landscape')->stream('ans_questions.pdf');
+        } 
+        
+        $pdf = Pdf::loadView('questions_answers', compact('questions', 'answers', 'user'))
+        ->setPaper('a4', 'landscape');
+        return $pdf->download('ans_questions.pdf');
     }
 
 }

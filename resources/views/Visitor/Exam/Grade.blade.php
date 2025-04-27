@@ -334,7 +334,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="d-flex justify-content-center">
-                                        <button class="btn btn-primary mistake_btn">
+                                        <button id="scrollToBottomBtn" class="btn btn-primary mistake_btn">
                                             View Mistakes
                                         </button>
 
@@ -618,6 +618,12 @@
 </script>
 
 <script>
+    document.getElementById("scrollToBottomBtn").addEventListener("click", function() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
     let recomm_questions = document.querySelector('.recomm_questions');
     let recomm_btn = document.querySelector('.recomm_btn');
     

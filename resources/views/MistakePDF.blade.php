@@ -130,11 +130,15 @@
         <p class="student-name"><strong>Student:</strong> {{ auth()->user()->nick_name }}</p>
         <p class="category"><strong>Category:</strong> {{ $dai_exam->course->category->cate_name }}</p>
         <p class="course"><strong>Course:</strong> {{ $dai_exam->course->course_name }}</p>
+        <p class="course"><strong>Time:</strong> {{ $history->time }}</p>
+        <p class="course"><strong>Date:</strong> {{ $history->date }}</p>
+        <p class="course"><strong>Delay:</strong> {{ $delay }}</p>
+        <p class="course"><strong>Score:</strong> {{ $history->score }}</p>
     </div>
 
     @foreach ( $mistakes as $mistake )
         <div class="row mistake">
-                <p class="course-title"><strong>Chapter:</strong> {{ $mistake->question->lessons->chapter->chapter_name }}</p>
+                <p class="course-title">{{ $mistake->question->lessons->chapter->chapter_name }}</p>
                 @if ( !empty($mistake->question->question) )
                     <span class="quesMisake">{!! $mistake->question->question !!}</span>
                 @endif

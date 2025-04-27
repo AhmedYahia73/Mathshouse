@@ -593,7 +593,7 @@
         <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
             @csrf
             <div class="main-wrapper">
-                @foreach ($exam->question->sortBy('q_num') as $question)
+                @foreach ($exam->question->sortBy('section_id')->sortBy('q_num') as $question)
                     <div class="question">
                         <input type="hidden" value="{{ $question->id }}" class="questionID"
                             id="questionID{{ $question->id }}">
@@ -746,6 +746,7 @@
 @include('Student.inc.footer')
 
 <script>
+
     let q_answers = document.querySelectorAll('.q_answers');
     let mcq_id = document.querySelectorAll('.mcq_id');
     let chose_mcq = document.querySelectorAll('.chose_mcq');

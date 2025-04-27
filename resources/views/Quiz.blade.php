@@ -3,91 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Table</title>
+    <title>Student Report</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;T
-    margin: 0;
-    padding: 20px;
-}
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
 
-table.styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 18px;
-    text-align: left;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    overflow: hidden;
-}
+        .container {
+            max-width: 800px;
+            background: #fff;
+            margin: auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
 
-table.styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
-}
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-table.styled-table th,
-table.styled-table td {
-    padding: 12px 15px;
-}
+        .header h1 {
+            font-size: 32px;
+            color: #00796b;
+            margin: 0;
+            letter-spacing: 1px;
+        }
 
-table.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
+        .info {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
 
-table.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+        .info h2 {
+            font-size: 20px;
+            margin: 8px 0;
+            font-weight: 500;
+        }
 
-table.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
+        .info .delay {
+            color: #d32f2f;
+            font-weight: bold;
+        }
 
-table.styled-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-table .delay{
-    color: #ff0000;
-}
-table .not_delay{
-    color: #009879;
-}
+        table.styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 16px;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
 
+        table.styled-table thead tr {
+            background-color: #00796b;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        table.styled-table th, 
+        table.styled-table td {
+            padding: 14px 18px;
+            border: 1px solid #e0e0e0;
+        }
+
+        table.styled-table tbody tr:nth-of-type(even) {
+            background-color: #f0f0f0;
+        }
+
+        table.styled-table tbody tr:hover {
+            background-color: #e0f2f1;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
     </style>
 </head>
 <body>
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Delay</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    {{$report['date']}}
-                </td>
-                <td>
-                    {{$report['time']}}
-                </td>
-                @if ( $report['color'] )
-                <td class="delay">
-                    {{$report['delay']}}
-                </td>
-                @else
-                <td class="not_delay">
-                    {{$report['delay']}}
-                </td>
-                @endif
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="header">
+            <h1>Student Performance Report</h1>
+        </div>
+
+        <div class="info">
+            <h2>Student: {{ $data?->student?->f_name ?? '' }} {{ $data?->student?->l_name ?? '' }}</h2>
+            <h2>Course: {{ $quiz?->lesson?->chapter?->course?->course_name ?? '' }}</h2>
+            <h2>Date: {{ $report['date'] }}</h2>
+            <h2>Day: {{ date('l', strtotime($report['date'])) }}</h2>
+            <h2>Time: {{ $report['time'] }}</h2>
+            @if ($report['color']) 
+                <h2 class="delay">Delay: {{ $report['delay'] }}</h2>
+            @else
+                <h2>Delay: {{ $report['delay'] }}</h2>
+            @endif
+            <h2>Score: {{ $data->score }}</h2>
+        </div>
+
+        <!-- Optional Table -->
+        <!--
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Example Field</td>
+                    <td>Example Value</td>
+                </tr>
+            </tbody>
+        </table>
+        -->
+
+        <div class="footer">
+            © {{ date('Y') }} Student Report System
+        </div>
+    </div>
 </body>
 </html>

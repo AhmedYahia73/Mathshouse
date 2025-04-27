@@ -71,7 +71,7 @@ class DomPdfController extends Controller
         $exam_time = $exam->time;
         
         // Parse exam time
-        $exam_time_parts = explode('H', $exam_time);
+        $exam_time_parts = explode(':', $exam_time);
         $e_hours = isset($exam_time_parts[0]) ? intval($exam_time_parts[0]) : 0;
         $e_minutes = isset($exam_time_parts[1]) ? intval($exam_time_parts[1]) : 0;
     
@@ -161,11 +161,11 @@ class DomPdfController extends Controller
             'date' => $data->date,
             'time' => $data->time,
             'delay' => $delay,
-            'color' => $color
+            'color' => $color, 
         ];
     
         // Generate the PDF
-        $pdf = PDF::loadView('Quiz', compact('report'));
+        $pdf = PDF::loadView('Quiz', compact('report', 'quiz', 'data'));
         
         // Optionally, save the PDF to a file
         // $pdf->save(storage_path('invoices/invoice.pdf'));
@@ -177,11 +177,42 @@ class DomPdfController extends Controller
     public function dia_exam_mistake_pdf( $id ){
         $mistakes = DaiExamMistake::where('student_exam_id', $id)
         ->get();
-        $dai_exam = DiagnosticExamsHistory::where('id', $id )
-        ->first()->exams;
+        $history = DiagnosticExamsHistory::where('id', $id )
+        ->first();
+        $dai_exam = $history->exams;
 
+        
+        // Parse exam time
+        $exam_time_parts = explode(':', $dai_exam->time);
+        $e_hours = isset($exam_time_parts[0]) ? intval($exam_time_parts[0]) : 0;
+        $e_minutes = isset($exam_time_parts[1]) ? intval($exam_time_parts[1]) : 0;
+    
+        // Parse data time
+        $history_time = explode(':', $history->time);
+        $hours = isset($history_time[0]) ? intval($history_time[0]) : 0;
+        $minutes = isset($history_time[1]) ? intval($history_time[1]) : 0;
+        $seconds = isset($history_time[2]) ? intval($history_time[2]) : 0;
+    
+        // Calculate the times in seconds
+        $e_time = $e_hours * 60 * 60 + $e_minutes * 60;
+        $time = $hours * 60 * 60 + $minutes * 60 + $seconds;
+        $delay = $e_time - $time;
+        $color = false;
+
+        // Determine delay status
+        if ($delay == 0) {
+            $delay = 'On Time';
+        } else {
+            $delay = -$delay;
+            $color = $delay > 0 ? true : false;  
+            $h = intval($delay / (60 * 60));
+            $delay = $delay - $h * 60 * 60;
+            $m = intval($delay / 60);
+            $s = $delay - $m * 60;        
+            $delay = "$h H $m M $s S";
+        }
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam'));
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam', 'delay', 'history'));
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
     }

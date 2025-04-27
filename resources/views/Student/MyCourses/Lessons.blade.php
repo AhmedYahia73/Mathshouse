@@ -705,7 +705,7 @@
                                                     data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
 
-                                                        @foreach ($lesson->ideas as $idea)
+                                                        @foreach ($lesson->ideas->sortBy('idea_order') as $idea)
                                                         @php
                                                             $arr2[$idea->id] = $idea;
                                                         @endphp
@@ -758,7 +758,7 @@
                                 @if ($chapter_id == $chapter->id)
                                     @foreach ($chapter->lessons as $lesson)
                                         @if ($lesson->id == $L_id)
-                                            @foreach ($lesson->ideas as $ideas)
+                                            @foreach ($lesson->ideas->sortBy('idea_order') as $ideas)
                                                 @if ($ideas->id == $idea_num)
                                                     <div class="lesson__content__main d-none" style="margin-bottom: 80px;">
                                                         <div class="lesson__content__wrap">
@@ -817,7 +817,7 @@
                                                             <div class="accordion-body bg-white">
                                                                 <!-- List of Ideas -->
                                                                 <h6 class="fw-bold text-danger">Ideas</h6>
-                                                                @foreach ($lesson->ideas as $idea)
+                                                                @foreach ($lesson->ideas->sortBy('idea_order') as $idea)
                                                                 @php
                                                                     $arr2[$idea->id] = $idea;
                                                                 @endphp
@@ -869,7 +869,7 @@
                                         @if ($chapter_id == $chapter->id)
                                             @foreach ($chapter->lessons as $lesson)
                                                 @if ($lesson->id == $L_id)
-                                                    @foreach ($lesson->ideas as $ideas)
+                                                    @foreach ($lesson->ideas->sortBy('idea_order') as $ideas)
                                                         @if ($ideas->id == $idea_num && !in_array($ideas->id, $renderedIdeas))
                                                             @php
                                                                 $renderedIdeas[] = $ideas->id;
