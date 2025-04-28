@@ -563,65 +563,63 @@
  
                         @endif
                         @endforeach
+          
+                        @foreach ($lives as $live_item)
+                        @if ( $live_item->lesson?->chapter?->id &&
+                            $chapter_id == $live_item->lesson->chapter->id && 
+                            \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+                            && !in_array($live_item->lesson->id, $arr_lessons)
+                            )
+                            @php
+                                $arr_lessons[] = $live_item->lesson_id;
+                            @endphp
                         
-                                                    
-                            @foreach ($lives as $live_item)
-                            @if ( $live_item->lesson?->chapter?->id &&
-                                $chapter_id == $live_item->lesson->chapter->id && 
-                                \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
-                                && !in_array($live_item->lesson->id, $arr_lessons)
-                                )
-                                @php
-                                    $arr_lessons[] = $live_item->lesson_id;
-                                @endphp
-                            
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                            aria-expanded="false" aria-controls="collapseFour">
-                                            {{ $live_item->lesson->lesson_name }}
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                        aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                        aria-expanded="false" aria-controls="collapseFour">
+                                        {{ $live_item->lesson->lesson_name }}
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse"
+                                    aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
 
-                                            @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
-                                            <form action="{{route('stu_live_lesson')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="idea" value="{{$idea_item->id}}">
-                                                <button class="scc__wrap btn">
-                                                    <div class="scc__info">
-                                                        <i class="icofont-video-alt"></i>
-                                                        <h5> <span>
-                                                                {{ $idea_item->idea }}
-                                                            </span> </h5>
-                                                    </div>
-                                                </button>
-                                            </form>
-                                            @endforeach
+                                        @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                        <form action="{{route('stu_live_lesson')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="idea" value="{{$idea_item->id}}">
+                                            <button class="scc__wrap btn">
+                                                <div class="scc__info">
+                                                    <i class="icofont-video-alt"></i>
+                                                    <h5> <span>
+                                                            {{ $idea_item->idea }}
+                                                        </span> </h5>
+                                                </div>
+                                            </button>
+                                        </form>
+                                        @endforeach
 
-                                            <hr />
-                                            
-                                            @foreach ($live_item->lesson->quizze as $quizze)
-                                                <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
-                                                    class="scc__wrap">
-                                                    <div class="scc__info">
-                                                        <i class="fa-solid fa-paperclip"></i>
-                                                        <h5> <span>
-                                                                {{ $quizze->title }}
-                                                            </span> </h5>
-                                                    </div>
-                                                </a>
-                                            @endforeach
-                                        </div>
+                                        <hr />
+                                        
+                                        @foreach ($live_item->lesson->quizze as $quizze)
+                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                class="scc__wrap">
+                                                <div class="scc__info">
+                                                    <i class="fa-solid fa-paperclip"></i>
+                                                    <h5> <span>
+                                                            {{ $quizze->title }}
+                                                        </span> </h5>
+                                                </div>
+                                            </a>
+                                        @endforeach
                                     </div>
                                 </div>
- 
-                        @endif
-                        @endforeach
+                            </div>
 
+                    @endif
+                    @endforeach
 
                     </div>
                 </div>
