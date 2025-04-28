@@ -203,8 +203,9 @@ class Stu_LiveController extends Controller
         ->first();
         $sessions = $user->session_attendance;
         $chapter_id  = $chapter_id;
+        $lives = $user->lessons;
 
-        return view('Student.Live.MyLiveLessons', compact('sessions', 'chapter_id'));
+        return view('Student.Live.MyLiveLessons', compact('sessions', 'chapter_id', 'lives'));
     }
 
     public function stu_live_lesson( Request $request ){
@@ -216,8 +217,9 @@ class Stu_LiveController extends Controller
         ->first();
         $reports = ReportVideoList::all();
         $chapter_id = $idea?->lesson?->chapter?->id ?? 0;
+        $lives = $user->lessons;
 
-        return view('Student.Live.Idea', compact('sessions', 'idea_num', 'idea', 'reports', 'chapter_id'));
+        return view('Student.Live.Idea', compact('sessions', 'idea_num', 'idea', 'reports', 'chapter_id', 'lives'));
     }
 
     public function stu_private_req(){

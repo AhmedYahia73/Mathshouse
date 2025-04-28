@@ -87,6 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->profile_photo_path;
     }
     
+    public function lessons()
+    {
+        return $this->hasMany(LiveLesson::class, 'user_id');
+    }
+    
     public function teacher_courses()
     {
         return $this->belongsToMany(Course::class, 'teacher_courses');

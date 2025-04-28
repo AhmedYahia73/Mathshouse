@@ -518,8 +518,82 @@ $page_name = 'Lesson';
                                 </div>
                             </div>
 
-                            @endif
-                            @endforeach
+                        @endif
+                        @endforeach
+                        @foreach ($lives as $live_item)
+                        @if ( $live_item->lesson?->chapter?->id &&
+                            $chapter_id == $live_item->lesson->chapter->id && 
+                            \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+                            && !in_array($live_item->lesson->id, $arr_lessons)
+                            )
+                            @php
+                                $arr_lessons[] = $live_item->lesson_id;
+                            @endphp
+                            <div class="accordion-item">
+                                {{
+                                $chapter_id != $live_item->lesson->chapter->id }}
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
+                                        {{ $live_item->lesson->lesson_name }}
+                                        <div style="font-size: 16px; " class="text-muted">
+                                            <br />
+                                            <br />
+                                            {{$live_item->stu_attend[0]->created_at}}
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+
+                                        <a href="{{$live_item->material_link}}" class="scc__wrap">
+                                            <div class="scc__info text-success">
+                                                <i class="icofont-video-alt"></i>
+                                                <h5> <span>
+                                                        Recorded Live Session
+                                                    </span> </h5>
+                                            </div>
+                                        </a>
+                                        @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                        <form action="{{route('stu_live_lesson')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="idea" value="{{$idea_item->id}}">
+                                            <button class="scc__wrap btn">
+                                                <div class="scc__info">
+                                                    <i class="icofont-video-alt"></i>
+                                                    <h5> <span>
+                                                            {{ $idea_item->idea }}
+                                                        </span> </h5>
+                                                </div>
+                                            </button>
+                                        </form>
+                                        @endforeach
+
+                                        <hr />
+
+                                        @foreach ($live_item->lesson->quizze as $quizze)
+                                        <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}" class="scc__wrap">
+                                            <div class="scc__info">
+                                                <i class="fa-solid fa-question text-danger"></i>
+                                                <h5>
+                                                    <span class="text-primary">
+                                                        Q{{$loop->iteration}}
+                                                    </span>
+                                                    <span>
+                                                        {{ $quizze->title }}
+                                                    </span>
+                                                </h5>
+                                            </div>
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endif
+                        @endforeach
 
 
                     </div>
@@ -531,7 +605,8 @@ $page_name = 'Lesson';
     {{-- @foreach ($sessions->unique('lesson_id') as $session) --}}
     @php
         $arr_lessons = [];
-    @endphp@foreach ($sessions as $session)
+    @endphp
+    @foreach ($sessions as $session)
     @if ($session->lesson?->chapter?->id &&
     (\Carbon\Carbon::now()->subDays(7) <= $session->date
     &&
@@ -581,6 +656,40 @@ $page_name = 'Lesson';
             </div>
         </div>
     @endif
+@endforeach
+
+@foreach ($lives as $live_item)
+@if ( $live_item->lesson?->chapter?->id &&
+    $chapter_id == $live_item->lesson->chapter->id && 
+    \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+    && !in_array($live_item->lesson->id, $arr_lessons)
+    )
+    @php
+        $arr_lessons[] = $live_item->lesson_id;
+    @endphp
+
+    <div class="session-materials mb-4">
+        @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+            @if (!empty($idea_item->pdf))
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <a class="btn btn-success btn-block" href="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}"
+                            download="{{asset('files\\lessons_pdf\\' . $idea_item->pdf)}}">
+                            <i class="fas fa-file-pdf"></i> Download: {{$idea_item->idea}}
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-info btn-block" target="_blank"
+                           href="{{route('stu_live_pdf', ['file_name' => $idea_item->pdf])}}">
+                           <i class="fas fa-eye"></i> View: {{$idea_item->idea}}
+                        </a>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+        
+    </div>
+@endif
 @endforeach
 
         </div>
