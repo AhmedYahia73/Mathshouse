@@ -540,7 +540,7 @@ $page_name = 'Lesson';
                                         <div style="font-size: 16px; " class="text-muted">
                                             <br />
                                             <br />
-                                            {{$live_item->stu_attend[0]->created_at}}
+                                            {{$live_item->created_at}}
                                         </div>
                                     </button>
                                 </h2>
