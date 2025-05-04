@@ -295,7 +295,7 @@ class Ad_ReportsController extends Controller
             where('course_id', $req->course_id)
             ->with('lessons')
             ->get();
-            $lessons = $lessons->pluck('lessons.id');
+            $lessons = $lessons->pluck('lessons')->flatten()->pluck('id');
         }
         $data = StudentQuizze::
         where('student_id', $req->user_id)
