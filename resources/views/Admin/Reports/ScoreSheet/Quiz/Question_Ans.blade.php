@@ -261,10 +261,10 @@
                     </div>
                 </div>
                 {{-- Modal Video --}}
-                <div class="modal fade" id="modalVideo{{ $q_ans->id }}" tabindex="-1" aria-hidden="true"
+                {{-- <div class="modal fade" id="modalVideo{{ $q_ans->id }}" tabindex="-1" aria-hidden="true"
                     style="display: none;">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width: 640px !important;">
                             <div class="modal-header">
 
                                 <h5 class="modal-title" id="modalCenterTitle">Video</h5>
@@ -273,35 +273,46 @@
                             </div>
 
                             <div
-                                style="width: 100% !important;display: flex;align-items: flex-start;justify-content: space-around;column-gap: 100px; overflow: hidden;padding: 10px 0;">
+                            style="width: 100% !important; display: flex; align-items: flex-start; justify-content: space-around; column-gap: 100px; overflow: hidden; padding: 10px 0;">
 
-                                {{-- <iframe scrolling="no" allowfullscreen width="560" height="315" src="{{ $q_ans->ans_video }}"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe> --}}
-                                
-                                    <iframe scrolling="no" allowfullscreen width="560" height="315" src="{{ $q_ans->ans_video }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen></iframe>
+                            <iframe
+                                scrolling="no"
+                                allowfullscreen
+                                width="100%"
+                                height="320"
+                                src="{{ $q_ans->ans_video }}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                            </iframe>
 
-                                @if (!empty($q_ans->ans_video))
-                                    <div class="list_cont">
-                                        <h4 class="pr-3 text-success">
-                                            If you have an issues must clicked here
-                                            <i class="fa fa-arrow-right"></i>
-                                        </h4>
-                                        <i class="fa-solid fa-ellipsis-vertical iconList"></i>
-                                        <div class="list_item d-none">
-                                            @foreach ($reports as $report)
-                                                <span class="report_item">
-                                                    <input type="hidden" class="report_val" value="{{ $report }}" />
-                                                    <input type="hidden" class="q_ans_val" value="{{ $q_ans }}" />
-                                                    {{ $report->list }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
+                        </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="modal fade" id="modalVideo{{ $q_ans->id }}" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content"  style="width: 640px !important;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Video</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div style="width: 100%; overflow: hidden; padding: 10px 0;">
+                                <div style="width: 100%; height: 400px;">
+                                    <iframe
+                                        style="width: 100%; height: 100%;"
+                                        src="{{ $q_ans->ans_video }}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
                             </div>
 
                             <div class="modal-footer">
@@ -367,5 +378,5 @@
             })
         }
     </script>
-    
+
 </x-default-layout>

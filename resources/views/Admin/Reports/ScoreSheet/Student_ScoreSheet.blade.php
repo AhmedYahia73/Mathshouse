@@ -1,7 +1,7 @@
 @php
 function fun_admin()
 {
-return 'admin';
+    return 'admin';
 }
 $chapter_name = null;
 $ch_id = [];
@@ -91,10 +91,9 @@ $ch_id = [];
                     class="course_name"></span></span>
         </div>
         <div class="col-12 d-flex align-items-center justify-content-start gap-5">
-
             <select class="selCourse mx-2"
                 style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="Course_Course" id="selCourse">
+                name="course_id" id="selCourse">
                 <option selected disabled>Select Course</option>
                 @foreach ($courses as $item)
                 <option value="{{ $item->id }}">{{ $item->course_name }}</option>
@@ -102,12 +101,12 @@ $ch_id = [];
             </select>
             <select class="selChapter mx-2"
                 style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="Course_Chapter" id="selChapter">
+                name="chapter_id" id="selChapter">
                 <option value="">Select Chapter</option>
             </select>
             <select class="selLesson mx-2"
                 style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="Course_Lesson" id="selLesson">
+                name="lesson_id" id="selLesson">
                 <option value="">Select Lesson</option>
             </select>
             <input type="hidden" value="{{ $courses }}" class="course_data" />
@@ -115,10 +114,6 @@ $ch_id = [];
             <input type="hidden" value="{{ $lessons }}" class="lesson_data" />
         </div>
         <div class="col-12">
-            {{-- <div class="action-buttons mb-5">
-                <button id="selectAll">Select All</button>
-                <button id="deselectAll">Deselect All</button>
-            </div> --}}
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <table class="table col-12  mt-2">
                     <thead>
@@ -151,6 +146,9 @@ $ch_id = [];
                 @csrf
                 <input type="hidden" name="user_id" value="{{ $user_id }}">
                 <input type="hidden" name="selected_ids[]" id="selectedIdsInput">
+                <input type="hidden" name="course_id" id="selectedCourseId">
+                <input type="hidden" name="chapter_id" id="selectedChapterId">
+                <input type="hidden" name="lesson_id" id="selectedLessonId">
 
                 <div class="d-flex align-items-center justify-content-center mt-3">
                     <button type="submit" id="generatePdf"
@@ -162,7 +160,10 @@ $ch_id = [];
             <form action="{{ route('generateAnsPdf') }}" method="POST">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ $user_id }}">
-                <input type="hidden" name="selected_ids[]" id="selectedIdsInput">
+                <input type="hidden" name="selected_ids[]" id="selectedIdsInputAns">
+                <input type="hidden" name="course_id" id="selectedCourseIdAns">
+                <input type="hidden" name="chapter_id" id="selectedChapterIdAns">
+                <input type="hidden" name="lesson_id" id="selectedLessonIdAns">
 
                 <div class="d-flex align-items-center justify-content-center mt-3">
                     <button type="submit" id="generateAnsPdf"
@@ -171,10 +172,7 @@ $ch_id = [];
                     </button>
                 </div>
             </form>
-
-
         </div>
-
     </div>
 
     <script>
@@ -191,9 +189,58 @@ $ch_id = [];
         chapter_data = JSON.parse(chapter_data.value);
         lesson_data = JSON.parse(lesson_data.value);
 
+        function loadScoreSheet() {
+            var courseId = $("#selCourse").val();
+            var chapterId = $("#selChapter").val();
+            var lessonId = $("#selLesson").val();
+
+            // Set the selected values in the PDF forms
+            $("#selectedCourseId").val(courseId);
+            $("#selectedChapterId").val(chapterId);
+            $("#selectedLessonId").val(lessonId);
+            $("#selectedCourseIdAns").val(courseId);
+            $("#selectedChapterIdAns").val(chapterId);
+            $("#selectedLessonIdAns").val(lessonId);
+
+            if (!courseId) return; // Don't load if no course selected
+
+            $.ajax({
+                url: "{{ route('ad_lesson_score_sheet') }}",
+                type: "GET",
+                data: {
+                    user_id: {{ $user_id }},
+                    course_id: courseId,
+                    chapter_id: chapterId,
+                    lesson_id: lessonId
+                },
+                success: function(data) {
+                    $("#myTable").empty(); // Clear previous results
+
+                    if(data.data && data.data.length > 0) {
+                        $(data.data).each((index, ele) => {
+                            var newRow = `<tr>
+                                <td style="padding-top: 15px !important">
+                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["id"]}">
+                                </td>
+                                <td style="padding-top: 15px !important">${ele.quizze.title}</td>
+                                <td style="padding-top: 15px !important">${ele.score + "/" + ele.quizze.score}</td>
+                                <td style="padding-top: 15px !important">${ele.time}</td>
+                                <td style="padding-top: 15px !important">${ele.date}</td>
+                                <td><a class="conBtn" href="Mistakes/${ele.id}">View Mistakes</a></td>
+                                <td><a class="conBtn" href="Quiz/Report/${ele.id}">Report</a></td>
+                            </tr>`;
+                            $("#myTable").append(newRow);
+                        });
+                    } else {
+                        $("#myTable").append(`<tr><td colspan="7" class="text-center">No data found for the selected filters</td></tr>`);
+                    }
+                }
+            });
+        }
+
         selCourse.addEventListener('change', () => {
-            selChapter.innerHTML = `<option selected disabled>
-            Select Chapter</option>`;
+            selChapter.innerHTML = `<option selected disabled>Select Chapter</option>`;
+            selLesson.innerHTML = `<option selected disabled>Select Lesson</option>`;
 
             chapter_data.forEach(element => {
                 if (element.course_id == selCourse.value) {
@@ -205,11 +252,12 @@ $ch_id = [];
             let selectedIndex = selCourse.selectedIndex;
             let selectedText = selCourse.options[selectedIndex].text;
             course_name.innerText = selectedText;
+
+            loadScoreSheet();
         });
 
         selChapter.addEventListener('change', () => {
-            selLesson.innerHTML = `<option selected disabled>
-            Select Lesson</option>`;
+            selLesson.innerHTML = `<option selected disabled>Select Lesson</option>`;
 
             lesson_data.forEach(element => {
                 if (element.chapter_id == selChapter.value) {
@@ -217,170 +265,29 @@ $ch_id = [];
                 <option value="${element.id}">${element.lesson_name}</option>`;
                 }
             });
+
+            loadScoreSheet();
         });
+
+        selLesson.addEventListener('change', () => {
+            loadScoreSheet();
+        });
+
         $(document).ready(function() {
-            $("#selCourse").change(function() {
-                var lessonID = $(this).val()
-                $.ajax({
-                    url: "{{ route('ad_lesson_score_sheet') }}",
-                    type: "GET",
-                    data: {
-                        user_id: {{ $user_id }},
-                        lesson_id: lessonID
-                    },
-                    success: function(data) {
-                        console.log(data)
-                        console.log(data.data)
+            $(document).on('change', '.row-checkbox', function() {
+                let selectedQuizzeIds = [];
+                $('.row-checkbox:checked').each(function() {
+                    selectedQuizzeIds.push($(this).data('quizze-id'));
+                });
 
-                        $(data.data).each((index, ele) => {
-                            console.log("ele", ele)
-                            var newRow = `<tr>
-                                <td style="padding-top: 15px !important">
-                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["id"]}">
-                                </td>
-                                <td style="padding-top: 15px !important">${ele.quizze.title}</td>
-                                <td style="padding-top: 15px !important">${ele.score + "/" + ele.quizze.score}</td>
-                                <td style="padding-top: 15px !important">${ele.time}</td>
-                                <td style="padding-top: 15px !important">${ele.date}</td>
-                                <td><a class="conBtn" href="Mistakes/${ele.id}">View Mistakes</a></td>
-                                <td><a class="conBtn" href="Quiz/Report/${ele.id}">Report</a></td>
-                            </tr>`;
-                            $("#myTable").append(newRow)
-                            console.log(ele)
-                        })
+                // Update both forms with selected IDs
+                $('#selectedIdsInput').val(selectedQuizzeIds.join(','));
+                $('#selectedIdsInputAns').val(selectedQuizzeIds.join(','));
 
-                    }
-                })
-            })
-
-            $("#selLesson").change(function() {
-
-                var lessonID = $(this).val()
-                $.ajax({
-                    url: "{{ route('ad_lesson_score_sheet') }}",
-                    type: "GET",
-                    data: {
-                        user_id: {{ $user_id }},
-                        lesson_id: lessonID
-                    },
-                    success: function(data) {
-                        console.log(data)
-                        console.log(data.data)
-
-                        $(data.data).each((index, ele) => {
-                            console.log("ele", ele)
-                            var newRow = `<tr>
-                                <td style="padding-top: 15px !important">
-                                    <input type="checkbox" class="row-checkbox" data-quizze-id="${ele["id"]}">
-                                </td>
-                                <td style="padding-top: 15px !important">${ele.quizze.title}</td>
-                                <td style="padding-top: 15px !important">${ele.score + "/" + ele.quizze.score}</td>
-                                <td style="padding-top: 15px !important">${ele.time}</td>
-                                <td style="padding-top: 15px !important">${ele.date}</td>
-                                <td><a class="conBtn" href="Mistakes/${ele.id}">View Mistakes</a></td>
-                                <td><a class="conBtn" href="Quiz/Report/${ele.id}">Report</a></td>
-                            </tr>`;
-                            $("#myTable").append(newRow)
-                            console.log(ele)
-                        })
-
-                    }
-                })
-            })
-
-            // Select All functionality
-            // $("#selectAll").click(function () {
-            //     $(".row-checkbox").prop("checked", true); // Select all checkboxes
-            //     if ($(".row-checkbox:checked").length > 0) {
-            //         $("#generatePdf").show(); // Show the button
-            //     }
-            // });
-
-            // Deselect All functionality
-            // $("#deselectAll").click(function () {
-            //     $(".row-checkbox").prop("checked", false); // Deselect all checkboxes
-            //     $("#generatePdf").hide(); // Hide the button
-            // });
-
-             // Show/Hide the "Generate Mistakes PDF" button based on checkbox selection
-            // $(document).on('change', '.row-checkbox', function () {
-            //     if ($('.row-checkbox:checked').length > 0) {
-            //         $('#generatePdf').show(); // Show the button if at least one checkbox is selected
-            //     } else {
-            //         $('#generatePdf').hide(); // Hide the button if no checkboxes are selected
-            //     }
-            // });
-
-
-$(document).on('change', '.row-checkbox', function () {
-    let selectedQuizzeIds = [];
-    $('.row-checkbox:checked').each(function () {
-        selectedQuizzeIds.push($(this).data('quizze-id'));
-    });
-
-    console.log("Selected Quizze IDs:", selectedQuizzeIds);
-
-    // Remove previous hidden inputs
-    $('.selected-quizze-id').remove();
-
-    // Append hidden inputs for each selected quizze_id
-    selectedQuizzeIds.forEach(quizzeId => {
-        $('form').append(`<input type="hidden" name="selected_ids[]" value="${quizzeId}" class="selected-quizze-id">`);
-    });
-    
-    // Show the button if at least one checkbox is selected
-    $('#generatePdf').toggle(selectedQuizzeIds.length > 0);
-    $('#generateAnsPdf').toggle(selectedQuizzeIds.length > 0);
-});
-
-
-
-
-            // Handle the click event of the "Generate Mistakes PDF" button
-            // $('#generatePdf').click(function () {
-            //     let selectedIds = [];
-            //     $('.row-checkbox:checked').each(function () {
-            //         selectedIds.push($(this).data('id'));
-            //     });
-            //     console.log("Selected IDs:", selectedIds);
-
-            // // Send selected IDs via POST request
-            // // $.ajax({
-            // //     url: "{{ route('generatePdf') }}", // Replace with your API route
-            // //     type: "POST",
-            // //     headers: {
-            // //             "X-CSRF-TOKEN": "{{ csrf_token() }}" // Include CSRF token if needed
-            // //         },
-            // //     data: {
-            // //         user_id: {{ $user_id }},
-            // //         selected_ids: selectedIds
-            // //     },
-            // //     success: function(response) {
-            // //         // Create a temporary link element to download the PDF
-            // //         let link = document.createElement('a');
-            // //         link.href = response.pdf_url; // Assuming the response contains the URL to the generated PDF
-            // //         link.download = 'questions_pdf.pdf';
-            // //         document.body.appendChild(link);
-            // //         link.click();
-            // //         document.body.removeChild(link);
-            // //         console.log("PDF generated successfully:", response);
-            // //     },
-            // //     error: function(xhr, status, error) {
-            // //         console.error("Error generating PDF:", error);
-            // //     }
-            // // });
-
-            // });
-
-
-        })
+                // Show/hide buttons based on selection
+                $('#generatePdf').toggle(selectedQuizzeIds.length > 0);
+                $('#generateAnsPdf').toggle(selectedQuizzeIds.length > 0);
+            });
+        });
     </script>
-
-
 </x-default-layout>
-{{-- route('lesson_score_sheet')
-data : {lesson_id : 1}
-MyCourses/Mistakes/1
-Quiz/Report/1
-
---}}

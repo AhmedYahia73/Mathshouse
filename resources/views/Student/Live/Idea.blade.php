@@ -7,51 +7,186 @@
 @include('Student.inc.menu')
 @extends('Student.inc.nav')
 
-@section('page_content') 
+@section('page_content')
 <style>
-    .list_cont {
-        position: relative;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-bottom: 20px;
-    }
+   .list-container {
+    width: 100%;
+    background-color: #fefefe;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative; /* To position the dropdown within the container */
+    overflow: visible; /* Allow content to overflow */
+}
 
-    .list_cont>i {
-        font-size: 30px;
-        cursor: pointer;
-    }
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .list_item {
-        position: absolute;
-        top: 0;
-        right: 35px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #efefef;
-        z-index: 10000;
-        overflow: hidden;
-    }
+.dropdown-menu {
+    max-height: 500px;  /* Adjust this value depending on how much content you have */
+    overflow-y: auto;   /* Enable vertical scrolling if content exceeds max-height */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    position: absolute; /* Ensure dropdown is placed inside the container */
+    top: 100%; /* Place the dropdown below the button */
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000; /* Ensures it appears above other elements */
+}
 
-    .list_item>span {
-        width: 100%;
-        text-align: center;
-        font-size: 1.3rem;
-        padding: 10px 20px;
-        color: #000;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-    }
+.dropdown-item {
+    padding: 10px 15px;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+}
 
-    .list_item>span:hover {
-        background: #cacaca;
-        color: #fff;
+.dropdown-item:hover {
+    background-color: #f9f9f9;
+}
 
+.dropdown-toggle {
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: #a31922;
+}
+
+
+/* Wrapper to Maintain Aspect Ratio */
+.responsive-video {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* Make Video Fill Container */
+.responsive-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures full coverage without scroll */
+    border: none;
+}
+
+/* General Button Styles */
+/* .btn-action {
+    background-color: #FEF5F3;
+    color: #CF202F;
+    border: 2px solid #CF202F;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+} */
+
+/* Ensure the button and text remain responsive */
+.btn-action {
+    max-width: 100%;
+    min-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* Make the lesson name truncation work properly */
+.lesson-name {
+    max-width: 50%; /* Adjust based on screen size */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-action {
+        font-size: 0.9rem;
+        padding: 8px;
     }
+    .lesson-name {
+        max-width: 40%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-action {
+        font-size: 0.85rem;
+        padding: 6px;
+    }
+    .lesson-name {
+        max-width: 35%;
+    }
+}
+
+
+.btn-action:hover {
+    background-color: #CF202F;  /* Red background on hover */
+    color: #FEF5F3;  /* Light cream color text on hover */
+    border-color: #FEF5F3;  /* Light cream color border on hover */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.dropdown-item:hover {
+    background-color: #FEF5F3;  /* Light cream color hover */
+    color: #CF202F;  /* Red text on hover */
+}
+
+/* .btn-action {
+    max-width: 600px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+
+/* Icon Styling */
+.btn-action i {
+    margin-right: 8px;
+}
+
+/* Adjust the margins */
+.m-2 {
+    margin: 0.5rem !important;
+}
+
 </style>
 
 @include('success')
@@ -481,163 +616,208 @@
     <div class="tution sp_bottom_100 sp_top_50">
         <div class="container-fluid full__width__padding">
             <div class="row">
-                <div class="list_cont">
-                    <h4 class="pr-3 text-success">
-                        If you have an issues must clicked here
-                        <i class="fa fa-arrow-right"></i>
-                    </h4>
-                    <i class="fa-solid fa-ellipsis-vertical" id="iconList"></i>
-                    <div class="list_item d-none">
-                        @foreach ( $reports as $report )
-                            <span class="report_item">
-                                <input type="hidden" class="report_val" value="{{$report}}" />
-                                {{$report->list}}
-                            </span>
-                        @endforeach
-                    </div>
-                </div>
                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
-
-                    <div class="accordion content__cirriculum__wrap" id="accordionExample">
-
+                    <div class="accordion content__curriculum__wrap shadow-sm p-3 bg-white rounded" id="accordionExample">
                         @php
                             $arr_lessons = [];
                         @endphp
                         @foreach ($sessions as $session)
                         @if ( $session->lesson?->chapter?->id &&
-                            $chapter_id == $session->lesson->chapter->id && 
+                            $chapter_id == $session->lesson->chapter->id &&
                             ((\Carbon\Carbon::now()->subDays(7) <= $session->date
                             or
                             ($session->lesson->getExtraDays() >= date('Y-m-d'))
                             &&
-                            $chapter_id == $session->lesson->chapter->id))
+                            $chapter_id == $session->lesson->chapter->id)
                             && !in_array($session->lesson->id, $arr_lessons)
-                            )
+                            ))
                             @php
                                 $arr_lessons[] = $session->lesson->id;
                             @endphp
-                            
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                            aria-expanded="false" aria-controls="collapseFour">
-                                            {{ $session->lesson->lesson_name }}
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                        aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
 
-                                            @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
-                                            <form action="{{route('stu_live_lesson')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="idea" value="{{$idea_item->id}}">
-                                                <button class="scc__wrap btn">
-                                                    <div class="scc__info">
-                                                        <i class="icofont-video-alt"></i>
-                                                        <h5> <span>
-                                                                {{ $idea_item->idea }}
-                                                            </span> </h5>
-                                                    </div>
-                                                </button>
-                                            </form>
-                                            @endforeach
+                            <div class="accordion-item mb-3">
+                                <h2 class="accordion-header" id="headingLesson{{ $session->lesson->id }}">
+                                    <button class="accordion-button fw-bold collapsed text-white bg-danger"
+                                            id="accordion{{ $session->lesson->id }}"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseLesson{{ $session->lesson->id }}"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLesson{{ $session->lesson->id }}">
+                                        <i class="fa-solid fa-book me-2"></i>
+                                        {{ $session->lesson->lesson_name }}
+                                    </button>
+                                </h2>
+                                <div id="collapseLesson{{ $session->lesson->id }}"
+                                     class="accordion-collapse collapse"
+                                     aria-labelledby="headingLesson{{ $session->lesson->id }}"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body bg-white">
+                                        <h6 class="fw-bold text-danger">Ideas</h6>
+                                        @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                        <form action="{{route('stu_live_lesson')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="idea" value="{{$idea_item->id}}">
+                                            <button class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark w-100 bg-transparent border-0 text-start">
+                                                <i class="icofont-video-alt text-danger me-2"></i>
+                                                <h5 class="m-0">{{ $idea_item->idea }}</h5>
+                                            </button>
+                                        </form>
+                                        @endforeach
 
-                                            <hr />
-                                            
-                                            @foreach ($session->lesson->quizze as $quizze)
-                                                <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
-                                                    class="scc__wrap">
-                                                    <div class="scc__info">
-                                                        <i class="fa-solid fa-paperclip"></i>
-                                                        <h5> <span>
-                                                                {{ $quizze->title }}
-                                                            </span> </h5>
-                                                    </div>
-                                                </a>
-                                            @endforeach
-                                        </div>
+                                        <hr />
+
+                                        <h6 class="fw-bold text-danger">Quizzes</h6>
+                                        @foreach ($session->lesson->quizze as $quizze)
+                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                               class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
+                                                <i class="fa-solid fa-question text-danger me-2"></i>
+                                                <h5 class="m-0">
+                                                    <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
+                                                </h5>
+                                            </a>
+                                        @endforeach
                                     </div>
                                 </div>
- 
+                            </div>
                         @endif
                         @endforeach
-          
+
                         @foreach ($lives as $live_item)
                         @if ( $live_item->lesson?->chapter?->id &&
-                            $chapter_id == $live_item->lesson->chapter->id && 
+                            $chapter_id == $live_item->lesson->chapter->id &&
                             \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
                             && !in_array($live_item->lesson->id, $arr_lessons)
                             )
                             @php
                                 $arr_lessons[] = $live_item->lesson_id;
                             @endphp
-                        
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingFour">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                        aria-expanded="false" aria-controls="collapseFour">
+
+                            <div class="accordion-item mb-3">
+                                <h2 class="accordion-header" id="headingLesson{{ $live_item->lesson->id }}">
+                                    <button class="accordion-button fw-bold collapsed text-white bg-danger"
+                                            id="accordion{{ $live_item->lesson->id }}"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseLesson{{ $live_item->lesson->id }}"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLesson{{ $live_item->lesson->id }}">
+                                        <i class="fa-solid fa-book me-2"></i>
                                         {{ $live_item->lesson->lesson_name }}
                                     </button>
                                 </h2>
-                                <div id="collapseFour" class="accordion-collapse collapse"
-                                    aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-
+                                <div id="collapseLesson{{ $live_item->lesson->id }}"
+                                     class="accordion-collapse collapse"
+                                     aria-labelledby="headingLesson{{ $live_item->lesson->id }}"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body bg-white">
+                                        <h6 class="fw-bold text-danger">Ideas</h6>
                                         @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
                                         <form action="{{route('stu_live_lesson')}}" method="post">
                                             @csrf
                                             <input type="hidden" name="idea" value="{{$idea_item->id}}">
-                                            <button class="scc__wrap btn">
-                                                <div class="scc__info">
-                                                    <i class="icofont-video-alt"></i>
-                                                    <h5> <span>
-                                                            {{ $idea_item->idea }}
-                                                        </span> </h5>
-                                                </div>
+                                            <button class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark w-100 bg-transparent border-0 text-start">
+                                                <i class="icofont-video-alt text-danger me-2"></i>
+                                                <h5 class="m-0">{{ $idea_item->idea }}</h5>
                                             </button>
                                         </form>
                                         @endforeach
 
                                         <hr />
-                                        
+
+                                        <h6 class="fw-bold text-danger">Quizzes</h6>
                                         @foreach ($live_item->lesson->quizze as $quizze)
                                             <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
-                                                class="scc__wrap">
-                                                <div class="scc__info">
-                                                    <i class="fa-solid fa-paperclip"></i>
-                                                    <h5> <span>
-                                                            {{ $quizze->title }}
-                                                        </span> </h5>
-                                                </div>
+                                               class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
+                                                <i class="fa-solid fa-question text-danger me-2"></i>
+                                                <h5 class="m-0">
+                                                    <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
+                                                </h5>
                                             </a>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
-
-                    @endif
-                    @endforeach
-
+                        @endif
+                        @endforeach
                     </div>
                 </div>
-                <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12"
-                data-aos="fade-up">
-                    <div class="lesson__content__main">
-                        <div class="lesson__content__wrap">
-                            <h3>{{ $idea->idea }}</h3>
+
+                <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
+                    <div class="lesson__content__main" style="margin-bottom: 80px;">
+                        <div class="mb-4 text-center">
+                            <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem; letter-spacing: 1px;">
+                                {{ $idea->idea }}
+                            </h3>
                         </div>
-            
-                        <div class="plyr__video-embed rbtplayer"> 
-                            <iframe style="width: 100%; margin-top: 45px;" scrolling="no" 
-                                src="{{$idea->v_link}}" title="YouTube video player"
-                                frameborder="0" allowfullscreen
+
+                        <div class="plyr__video-embed">
+                            <iframe scrolling="no" allowfullscreen style="width: 100%; margin-top: 45px;"
+                                src="{{$idea->v_link}}"
+                                title="YouTube video player"
+                                frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowfullscreen></iframe>
                         </div>
                     </div>
+
+                    <div class="list-container p-4 rounded shadow-sm" style="background-color: #fefefe; border: 1px solid #ddd;">
+                        <!-- Dropdown Trigger -->
+                        <div class="list-header d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem; color: #CF202F;">
+                                Select an Issue:
+                            </h4>
+                            <div class="dropdown" style="width: 70%">
+                                <button
+                                    class="btn dropdown-toggle text-white px-4 py-2"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style="background-color: #CF202F; border: none; border-radius: 5px;">
+                                    Report Issue
+                                </button>
+                                <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton" style="width: 100%; border: 1px solid #ddd;">
+                                    @foreach ($reports as $report)
+                                    <li class="dropdown-item report-item" style="cursor: pointer;">
+                                        <input type="hidden" class="report-val" value="{{$report}}" />
+                                        <span>{{$report->list}}</span>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!empty($idea->pdf))
+                        <div class="btn-group m-2 w-100">
+                            <button class="btn btn-action dropdown-toggle rounded shadow-sm d-flex align-items-center w-100 text-start"
+                                    type="button"
+                                    id="dropdownMenu{{$idea->id}}"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="fas fa-file-pdf me-2"></i>
+                                <span class="lesson-name flex-grow-1 text-truncate">
+                                    {{$idea->lesson->lesson_name}}
+                                </span>
+                                <span class="ms-2">{{$idea->idea}}</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
+                                <li>
+                                    <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}"
+                                        download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
+                                        <i class="fas fa-download"></i> Download PDF
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
+                                        <i class="fas fa-eye"></i> View PDF
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <br />
+                    @endif
                 </div>
             </div>
 
@@ -660,7 +840,7 @@
                 console.log("ssss")
                 $(".list_item").toggleClass("d-none")
             })
-        }) 
+        })
 
         let lesson__content__main = document.querySelector('.lesson__content__main');
         lesson__content__main.classList.remove('d-none');
@@ -680,7 +860,7 @@
                             'lesson_video_id' : {{$idea_num}},
                         }
                         $(".list_item").toggleClass("d-none")
-                        
+
                         $.ajax("{{ route('report_video_api') }}", {
                             type: 'GET', // http method
                             data: {
