@@ -506,7 +506,7 @@
         background: #ccc;
     }
 
-    .btn-sendQuizz {
+    /* .btn-sendQuizz {
         position: absolute;
         right: -45%;
         top: 9%;
@@ -524,7 +524,7 @@
 
     .btn-sendQuizz:hover {
         background: cadetblue;
-    }
+    } */
 
     /* .addSl {
         font-size: 2rem;
@@ -627,7 +627,7 @@ button {
         pointer-events: none;
     }
 
-    .btn-submit-quiz {
+    .btn-sendQuizz {
         position: absolute;
         right: 20px;
         background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
@@ -641,12 +641,12 @@ button {
         box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
     }
 
-    .btn-submit-quiz:hover {
+    .btn-sendQuizz:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(245, 101, 101, 0.4);
     }
 
-    .btn-submit-quiz.d-none {
+    .btn-sendQuizz.d-none {
         display: none;
     }
 
@@ -797,7 +797,7 @@ button {
                                     </div>
                                     <div class="section-value">
                                         <span>Answer Preview:</span>
-                                        <input type="number" id="preview_value" readonly> <!-- This will show the preview -->
+                                        <input type="number" id="preview_value" readonly name="q_grid_ans[]" value="00000"> <!-- This will show the preview -->
                                     </div>
                                 </div>
                             @endif
@@ -809,7 +809,7 @@ button {
             {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
-                    <button class="btn-submit-quiz" type="Submit">Submit Quiz</button>
+                    <button class="btn-sendQuizz d-none" type="Submit">Submit Quiz</button>
                 </ul>
             </div>
         </form>
@@ -953,7 +953,6 @@ button {
             })
         })
 
-
         /* Show Discraption */
         $(".angle-show-disc").click(function() {
             $('.disc-ruels-quizzes').toggleClass("d-none");
@@ -988,10 +987,10 @@ button {
         /* /////////////// */
         /* Rewrite value in inpit */
         /* /////////////// */
-        // $("#input_val30").keyup(() => {
-        //     var answerValue = $("#input_val30").val()
-        //     $("#section-value30").val(answerValue)
-        // })
+        $("#input_val30").keyup(() => {
+            var answerValue = $("#input_val30").val()
+            $("#section-value30").val(answerValue)
+        })
          // Event listener for the '/' button
     // Add slash button - using event delegation in case elements are dynamic
     $(document).ready(function() {
@@ -1128,9 +1127,9 @@ button {
                         $(".question.active").removeClass("active");
 
                         if (whichPage == totalPages) {
-                            $(".btn-submit-quiz").removeClass("d-none");
+                            $(".btn-sendQuizz").removeClass("d-none");
                         } else {
-                            $(".btn-submit-quiz").addClass("d-none");
+                            $(".btn-sendQuizz").addClass("d-none");
                         }
 
                         currentPage = whichPage;
