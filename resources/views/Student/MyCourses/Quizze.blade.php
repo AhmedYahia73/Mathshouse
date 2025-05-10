@@ -498,15 +498,15 @@
         cursor: pointer;
     }
 
-    .activee {
+    /* .activee {
         background: #0ab1ce;
-    }
+    } */
 
     .disablee {
         background: #ccc;
     }
 
-    .btn-sendQuizz {
+    /* .btn-sendQuizz {
         position: absolute;
         right: -45%;
         top: 9%;
@@ -524,9 +524,9 @@
 
     .btn-sendQuizz:hover {
         background: cadetblue;
-    }
+    } */
 
-    .addSl {
+    /* .addSl {
         font-size: 2rem;
         border: none;
         background: transparent;
@@ -535,9 +535,138 @@
         border: 2px solid #2222;
         padding: 1px 20px;
         border-radius: 15px;
-    }
+    } */
 
     /* ///Section Pagination  */
+
+    .answer-setValue {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.section-setValue, .section-value {
+    margin-bottom: 10px;
+}
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 8px 12px;
+    margin-left: 5px;
+    background: #0ab1ce;
+    /* color: white;
+    border: none; */
+    border-radius: 4px;
+    cursor: pointer;
+}
+#preview_value {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+    /* ///Section Pagination  */
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        align-items: center;
+        background: #fff;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+    }
+
+    .page-item {
+        margin: 0 3px;
+        text-align: center;
+    }
+
+    .page-link {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: #4a5568;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid transparent ;
+        padding: 0 !important;
+    }
+
+    .page-item.activee .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .page-item:not(.activee):not(.disabled) .page-link:hover {
+        background: #f7fafc;
+        border-color: #e2e8f0;
+    }
+
+    .page-item.disabled .page-link {
+        color: #cbd5e0;
+        pointer-events: none;
+    }
+
+    .btn-sendQuizz {
+        position: absolute;
+        right: 20px;
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
+    }
+
+    .btn-sendQuizz:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(245, 101, 101, 0.4);
+    }
+
+    .btn-sendQuizz.d-none {
+        display: none;
+    }
+
+    /* Animation for page transitions */
+    .question {
+        transition: opacity 0.3s ease;
+    }
+
+    .question:not(.active) {
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    .question.active {
+        opacity: 1;
+        height: auto;
+        position: relative;
+    }
 </style>
 @include('Student.inc.header')
 
@@ -661,14 +790,14 @@
                                     <div class="section-setValue">
                                         <span>Answer:</span>
                                         <div class="input_val">
-                                            <input type="text" step="0.001" value="0"
-                                                class="gridVal">
+                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val">
                                         </div>
-                                        <input type="button" value="/" class="addSl">
+                                        <input type="button" value="/" class="addSl"> <!-- Button to add "/" -->
+                                        <input type="button" value="Enter" class="enterBtn"> <!-- Button for Enter functionality -->
                                     </div>
                                     <div class="section-value">
                                         <span>Answer Preview:</span>
-                                        <input type="number" name="q_grid_ans[]" value="00000" readonly>
+                                        <input type="number" id="preview_value" readonly name="q_grid_ans[]" value="00000"> <!-- This will show the preview -->
                                     </div>
                                 </div>
                             @endif
@@ -678,33 +807,11 @@
                 @endforeach
             </div>
             {{-- end Section Question --}}
-            <ul class="paginationn">
-                {{--             <li class="page-item previouss-page disablee">
-                <a href="#" class="page-link">prev</a>
-            </li>
-            <li class="page-item currentt-page activee">
-                <a href="#" class="page-link">1</a>
-            </li>
-            <li class="page-item dotss">
-                <a href="#" class="page-link">...</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">5</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">6</a>
-            </li>
-            <li class="page-item dotss">
-                <a href="#" class="page-link">...</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">10</a>
-            </li>
-            <li class="page-item nextt-page">
-                <a href="#" class="page-link">Next</a>
-            </li> --}}
-                <button class="btn-sendQuizz d-none" type="Submit">Submit</button>
-            </ul>
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <button class="btn-sendQuizz d-none" type="Submit">Submit Quiz</button>
+                </ul>
+            </div>
         </form>
     </main>
 </div>
@@ -758,9 +865,9 @@
 
             var objTim = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
             $("#timer_val").val(objTim);
- 
+
                 ++totalSeconds;
-            
+
             var timer_val = $("#timer_val").val();
             $.ajax({
                 url: "{{ route('api_timer') }}",
@@ -846,7 +953,6 @@
             })
         })
 
-
         /* Show Discraption */
         $(".angle-show-disc").click(function() {
             $('.disc-ruels-quizzes').toggleClass("d-none");
@@ -885,6 +991,65 @@
             var answerValue = $("#input_val30").val()
             $("#section-value30").val(answerValue)
         })
+         // Event listener for the '/' button
+    // Add slash button - using event delegation in case elements are dynamic
+    $(document).ready(function() {
+    // Event handlers for fraction input
+    $(document).on('click', '.addSl', function() {
+        let input = $(this).siblings('.gridVal');
+        let currentVal = input.val();
+        if (!currentVal.includes('/')) {
+            input.val(currentVal + '/');
+        }
+    });
+
+    $(document).on('click', '.enterBtn', calculateFraction);
+    $(document).on('keypress', '.gridVal', function(e) {
+        if (e.which === 13) calculateFraction();
+    });
+
+    function calculateFraction() {
+        const container = $(this).closest('.answer-setValue');
+        const input = container.find('.gridVal').val().trim();
+        const preview = container.find('#preview_value');
+
+        if (!input) {
+            preview.val("0");
+            return;
+        }
+
+        if (input.includes('/')) {
+            const parts = input.split('/');
+            if (parts.length === 2) {
+                const numerator = parseFloat(parts[0]);
+                const denominator = parseFloat(parts[1]);
+
+                if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                    const result = numerator / denominator;
+                    // Format the result - whole numbers without decimals, others with 2 decimals
+                    preview.val(formatResult(result));
+                    return;
+                }
+            }
+            preview.val("Invalid fraction");
+            return;
+        }
+
+        const num = parseFloat(input);
+        preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
+    }
+
+    function formatResult(value) {
+        // Round to 2 decimal places first
+        const rounded = Math.round(value * 100) / 100;
+
+        // Check if it's a whole number after rounding
+        if (rounded % 1 === 0) {
+            return rounded.toString(); // Return as integer string
+        }
+        return rounded.toFixed(2); // Return with 2 decimal places
+    }
+});
 
         /* /////////////// */
         /* But border out side the answer  */
@@ -920,123 +1085,115 @@
         /* Handel pagination question */
         /* /////////////// */
         function getPageList(totalPages, page, maxLength) {
-            function range(start, end) {
-                // return Array.form(Array(end - start + 1), (_, 1) => i + start);
-                return result = $.map(Array(end - start + 1), function(_, i) {
-                    return i + start;
-                });
-                console.log("start", start)
-                console.log("end", end)
-            }
+                    function range(start, end) {
+                        return $.map(Array(end - start + 1), function(_, i) {
+                            return i + start;
+                        });
+                    }
 
+                    var sideWidth = maxLength < 9 ? 1 : 2;
+                    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
 
-            var sideWidth = maxLength < 9 ? 1 : 2;
-            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-            console.log("maxLength", maxLength);
-            console.log("sideWidth", sideWidth);
-            console.log("rightWidth", rightWidth);
-            console.log("leftWidth", leftWidth);
-            console.log("totalpages", totalPages);
-            console.log("page", page);
-            console.log("#".repeat(15));
+                    if (totalPages <= maxLength) {
+                        return range(1, totalPages);
+                    }
 
-            if (totalPages <= maxLength) {
-                return range(1, totalPages)
-            }
+                    if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                        return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1,
+                            totalPages));
+                    }
 
-            if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1,
-                    totalPages));
-            }
-            /* Customize list question tap and bots between list   */
-            if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth -
-                    leftWidth,
-                    totalPages));
-            }
+                    if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                        return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth,
+                            totalPages));
+                    }
 
-            return range(1, sideWidth).concat(0, range(page - sideWidth, page + rightWidth), 0, range(
-                totalPages - sideWidth + 1, totalPages));
-        }
-
-        $(function() {
-            var numberOfItems = $(".question").length;
-            var limitPerPage = 1; //How many question show in this page pagination
-            var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = Math.ceil(numberOfItems /
-                3); //How many question visible show in this page pagination
-
-            var currentPage;
-
-            console.log("paginationSize", paginationSize)
-
-            function showPage(whichPage) {
-                if (whichPage < 1 || whichPage > totalPages) return false;
-                console.log("totalPages", totalPages)
-                console.log("whichPage", whichPage)
-                console.log("#".repeat(20))
-                console.log("currentPage", currentPage)
-
-                if (whichPage == totalPages) {
-                    $(".btn-sendQuizz").removeClass("d-none");
-                } else {
-                    $(".btn-sendQuizz").addClass("d-none");
-
+                    return range(1, sideWidth).concat(0, range(page - sideWidth, page + rightWidth), 0, range(
+                        totalPages - sideWidth + 1, totalPages));
                 }
 
-                currentPage = whichPage;
+                $(function() {
+                    var numberOfItems = $(".question").length;
+                    var limitPerPage = 1;
+                    var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                    var paginationSize = Math.ceil(numberOfItems / 3);
+                    var currentPage;
 
-                $(".question").hide().slice((currentPage - 1) * limitPerPage,
-                    currentPage * limitPerPage).show();
-                $(".paginationn li").slice(1, -1).remove();
+                    function showPage(whichPage) {
+                        if (whichPage < 1 || whichPage > totalPages) return false;
 
-                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                    $("<li>").addClass("page-item").addClass("currentt-page")
-                        .toggleClass("activee", item === currentPage).append($("<a>")
-                            .addClass(
-                                "page-link").attr({
-                                href: "javascript:void(0)"
-                            }).text(item || "...")).insertBefore(".nextt-page");
-                });
+                        // Hide current question with animation
+                        $(".question.active").removeClass("active");
 
-                $(".previouss-page").toggleClass("disablee", currentPage === 1);
-                $(".nextt-page").toggleClass("disablee", currentPage === totalPages);
-                return true;
-            }
+                        if (whichPage == totalPages) {
+                            $(".btn-sendQuizz").removeClass("d-none");
+                        } else {
+                            $(".btn-sendQuizz").addClass("d-none");
+                        }
 
-            $(".paginationn").append(
+                        currentPage = whichPage;
 
-                $("<li>").addClass("page-item").addClass("previouss-page").append($("<a>")
-                    .addClass(
-                        "page-link").attr({
-                        href: "javascript:void(0)"
-                    }).text("Prev")),
-                $("<li>").addClass("page-item").addClass("nextt-page").append($("<a>").addClass(
-                    "page-link").attr({
-                    href: "javascript:void(0)"
-                }).text("Next"))
-            );
+                        // Show new question with animation
+                        $(".question").hide().slice((currentPage - 1) * limitPerPage,
+                            currentPage * limitPerPage).addClass("active").show();
 
-            $(".main_wrapper").show();
-            showPage(1);
+                        $(".pagination li").slice(1, -1).remove();
 
-            $(document).on("click", ".paginationn li.currentt-page:not(.activee)", function() {
-                return showPage(+$(this).text());
-            })
-            /* Go to next question */
-            $(".nextt-page").on("click", () => {
-                return showPage(currentPage + 1)
-            });
-            /* Go to pre question */
-            $(".previouss-page").on("click", () => {
-                return showPage(currentPage - 1)
-            });
-        });
-        $(".addSl").on("click", function() {
-            var inpVal = $(this).closest(".section-setValue").find(".gridVal");
-            var currentVal = inpVal.val().toString();
-            inpVal.val(currentVal + "/");
+                        getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                            $("<li>").addClass("page-item").addClass("current-page")
+                                .toggleClass("activee", item === currentPage).append($("<a>")
+                                    .addClass("page-link").attr({
+                                        href: "javascript:void(0)",
+                                        "aria-label": item ? `Page ${item}` : "More pages"
+                                    }).text(item || "...")).insertBefore(".next-page");
+                        });
+
+                        $(".previous-page").toggleClass("disabled", currentPage === 1);
+                        $(".next-page").toggleClass("disabled", currentPage === totalPages);
+                        return true;
+                    }
+
+                    // Initialize pagination
+                    $(".pagination").append(
+                        $("<li>").addClass("page-item").addClass("previous-page").append(
+                            $("<a>").addClass("page-link").attr({
+                                href: "javascript:void(0)",
+                                "aria-label": "Previous"
+                            }).html(
+                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                                )
+                        ),
+                        $("<li>").addClass("page-item").addClass("next-page").append(
+                            $("<a>").addClass("page-link").attr({
+                                href: "javascript:void(0)",
+                                "aria-label": "Next"
+                            }).html(
+                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                                )
+                        )
+                    );
+
+                    $(".main-wrapper").show();
+                    showPage(1);
+
+                    // Event handlers
+                    $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
+                        return showPage(+$(this).text());
+                    });
+
+                    $(".next-page").on("click", function() {
+                        return showPage(currentPage + 1);
+                    });
+
+                    $(".previous-page").on("click", function() {
+                        return showPage(currentPage - 1);
+                    });
+
+        // $(".addSl").on("click", function() {
+        //     var inpVal = $(this).closest(".section-setValue").find(".gridVal");
+        //     var currentVal = inpVal.val().toString();
+        //     inpVal.val(currentVal + "/");
         });
     });
 </script>

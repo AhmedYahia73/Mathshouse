@@ -47,12 +47,17 @@
         }
 
         .imgMistake {
-            width: auto;
+            width: 100%;
             height: 300px;
             object-fit: cover;
             object-position: center;
             border-radius: 15px;
             cursor: pointer;
+
+            /* width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center; */
         }
 
         .imgMistakeModal {

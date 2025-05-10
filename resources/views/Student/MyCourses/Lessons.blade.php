@@ -668,74 +668,64 @@
         <div class="tution sp_bottom_100 sp_top_50">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    {{-- <div class="list_cont">
-                        <h4 class="pr-3 text-success">
-                            If you have an issues must clicked here
-                            <i class="fa fa-arrow-right"></i>
-                        </h4>
-                        <i class="fa-solid fa-ellipsis-vertical" id="iconList"></i>
-                        <div class="list_item d-none">
-                            @foreach ( $reports as $report )
-                                <span class="report_item">
-                                    <input type="hidden" class="report_val" value="{{$report}}" />
-                                    {{$report->list}}
-                                </span>
-                            @endforeach
-                        </div>
-                    </div> --}}
-
-                    {{-- <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
-
-                        <div class="accordion content__cirriculum__wrap" id="accordionExample">
-
+                    <!-- Sidebar for Lessons -->
+                    <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="accordion content__curriculum__wrap shadow-sm p-3 bg-white rounded" id="accordionExample">
                             @foreach ($payment_request as $order)
                                 @foreach ($order->order as $chapter)
                                     @if ($chapter_id == $chapter->id)
                                         @foreach ($chapter->lessons as $lesson)
-                                            @if( !isset($arr[$lesson->id]) )
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingFour">
-                                                    <button class="accordion-button" id="accodion{{ $lesson->id }}"
-                                                        type="button">
+                                            @if (!isset($arr[$lesson->id]))
+                                            <div class="accordion-item mb-3">
+                                                <!-- Lesson Header -->
+                                                <h2 class="accordion-header" id="headingLesson{{ $lesson->id }}">
+                                                    <button
+                                                        class="accordion-button fw-bold collapsed text-white bg-danger"
+                                                        id="accordion{{ $lesson->id }}"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseLesson{{ $lesson->id }}"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseLesson{{ $lesson->id }}">
+                                                        <i class="fa-solid fa-book me-2"></i>
                                                         {{ $lesson->lesson_name }}
                                                     </button>
                                                 </h2>
-                                                <div id="collapseFour{{ $lesson->id }}"
-                                                    class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                                <!-- Ideas and Quizzes -->
+                                                <div
+                                                    id="collapseLesson{{ $lesson->id }}"
+                                                    class="accordion-collapse collapse"
+                                                    aria-labelledby="headingLesson{{ $lesson->id }}"
                                                     data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-
+                                                    <div class="accordion-body bg-white">
+                                                        <!-- List of Ideas -->
+                                                        <h6 class="fw-bold text-danger">Ideas</h6>
                                                         @foreach ($lesson->ideas->sortBy('idea_order') as $idea)
                                                         @php
                                                             $arr2[$idea->id] = $idea;
                                                         @endphp
-                                                            <a href="{{ route('stu_lessons', ['id' => $chapter_id, 'L_id' => $idea->lesson->id, 'idea' => $idea->id]) }}"
-                                                                class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5> <span>
-                                                                            {{ $idea->idea }}
-                                                                        </span> </h5>
-                                                                </div>
-                                                            </a>
+                                                        <a
+                                                            href="{{ route('stu_lessons', ['id' => $chapter_id, 'L_id' => $idea->lesson->id, 'idea' => $idea->id]) }}"
+                                                            class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
+                                                            <i class="icofont-video-alt text-danger me-2"></i>
+                                                            <h5 class="m-0">{{ $idea->idea }}</h5>
+                                                        </a>
                                                         @endforeach
 
+                                                        <!-- Divider -->
                                                         <hr />
 
+                                                        <!-- List of Quizzes -->
+                                                        <h6 class="fw-bold text-danger">Quizzes</h6>
                                                         @foreach ($lesson->quizze as $quizze)
-                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
-                                                                class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="fa-solid fa-question  text-danger"></i>
-                                                                    <h5>
-                                                                        <span class="text-primary ml-3">
-                                                                            Q{{$loop->iteration}}
-                                                                        </span>
-                                                                        <span>
-                                                                            {{ $quizze->title }}
-                                                                        </span> </h5>
-                                                                </div>
-                                                            </a>
+                                                        <a
+                                                            href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                            class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
+                                                            <i class="fa-solid fa-question text-danger me-2"></i>
+                                                            <h5 class="m-0">
+                                                                <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
+                                                            </h5>
+                                                        </a>
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -748,31 +738,42 @@
                                     @endif
                                 @endforeach
                             @endforeach
-
-
                         </div>
                     </div>
+
+                    <!-- Main Video Content -->
                     <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
+                        @php
+                            $renderedIdeas = [];
+                        @endphp
+
                         @foreach ($payment_request as $order)
                             @foreach ($order->order as $chapter)
                                 @if ($chapter_id == $chapter->id)
                                     @foreach ($chapter->lessons as $lesson)
                                         @if ($lesson->id == $L_id)
                                             @foreach ($lesson->ideas->sortBy('idea_order') as $ideas)
-                                                @if ($ideas->id == $idea_num)
-                                                    <div class="lesson__content__main d-none" style="margin-bottom: 80px;">
-                                                        <div class="lesson__content__wrap">
-                                                            <h3>{{ $ideas->idea }}</h3>
-                                                        </div>
+                                                @if ($ideas->id == $idea_num && !in_array($ideas->id, $renderedIdeas))
+                                                    @php
+                                                        $renderedIdeas[] = $ideas->id;
+                                                    @endphp
+                                            <div class="lesson__content__main d-none" style="margin-bottom: 80px;">
+                                                <div class="mb-4 text-center">
+                                                    <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem; letter-spacing: 1px;">
+                                                        {{ $ideas->idea }}
+                                                    </h3>
+                                                </div>
 
-                                                        <div class="plyr__video-embed rbtplayer">
-                                                            <iframe  scrolling="no" allowfullscreen style="width: 100%; margin-top: 45px;"
-                                                                src="{{ $ideas->v_link }}" title="YouTube video player"
-                                                                frameborder="0"
-                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                                allowfullscreen></iframe>
-                                                        </div>
-                                                    </div>
+                                                <div class="plyr__video-embed">
+                                                    <iframe  scrolling="no" allowfullscreen style="width: 100%; margin-top: 45px;"
+                                                        src="{{ $ideas->v_link }}"
+                                                        title="YouTube video player"
+                                                        frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen></iframe>
+                                                </div>
+                                            </div>
+
                                                 @endif
                                             @endforeach
                                         @endif
@@ -780,260 +781,75 @@
                                 @endif
                             @endforeach
                         @endforeach
-                    </div> --}}
 
-
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- Sidebar for Lessons -->
-                            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
-                                <div class="accordion content__curriculum__wrap shadow-sm p-3 bg-white rounded" id="accordionExample">
-                                    @foreach ($payment_request as $order)
-                                        @foreach ($order->order as $chapter)
-                                            @if ($chapter_id == $chapter->id)
-                                                @foreach ($chapter->lessons as $lesson)
-                                                    @if (!isset($arr[$lesson->id]))
-                                                    <div class="accordion-item mb-3">
-                                                        <!-- Lesson Header -->
-                                                        <h2 class="accordion-header" id="headingLesson{{ $lesson->id }}">
-                                                            <button
-                                                                class="accordion-button fw-bold collapsed text-white bg-danger"
-                                                                id="accordion{{ $lesson->id }}"
-                                                                type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseLesson{{ $lesson->id }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapseLesson{{ $lesson->id }}">
-                                                                <i class="fa-solid fa-book me-2"></i>
-                                                                {{ $lesson->lesson_name }}
-                                                            </button>
-                                                        </h2>
-                                                        <!-- Ideas and Quizzes -->
-                                                        <div
-                                                            id="collapseLesson{{ $lesson->id }}"
-                                                            class="accordion-collapse collapse"
-                                                            aria-labelledby="headingLesson{{ $lesson->id }}"
-                                                            data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body bg-white">
-                                                                <!-- List of Ideas -->
-                                                                <h6 class="fw-bold text-danger">Ideas</h6>
-                                                                @foreach ($lesson->ideas->sortBy('idea_order') as $idea)
-                                                                @php
-                                                                    $arr2[$idea->id] = $idea;
-                                                                @endphp
-                                                                <a
-                                                                    href="{{ route('stu_lessons', ['id' => $chapter_id, 'L_id' => $idea->lesson->id, 'idea' => $idea->id]) }}"
-                                                                    class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
-                                                                    <i class="icofont-video-alt text-danger me-2"></i>
-                                                                    <h5 class="m-0">{{ $idea->idea }}</h5>
-                                                                </a>
-                                                                @endforeach
-
-                                                                <!-- Divider -->
-                                                                <hr />
-
-                                                                <!-- List of Quizzes -->
-                                                                <h6 class="fw-bold text-danger">Quizzes</h6>
-                                                                @foreach ($lesson->quizze as $quizze)
-                                                                <a
-                                                                    href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
-                                                                    class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
-                                                                    <i class="fa-solid fa-question text-danger me-2"></i>
-                                                                    <h5 class="m-0">
-                                                                        <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
-                                                                    </h5>
-                                                                </a>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                                                    @php
-                                                        $arr[$lesson->id] = $lesson;
-                                                    @endphp
-                                                @endforeach
-                                            @endif
+                        <div class="list-container p-4 rounded shadow-sm" style="background-color: #fefefe; border: 1px solid #ddd;">
+                            <!-- Dropdown Trigger -->
+                            <div class="list-header d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem; color: #CF202F;">
+                                    Select an Issue:
+                                </h4>
+                                <div class="dropdown" style="width: 70%">
+                                    <button
+                                        class="btn dropdown-toggle text-white px-4 py-2"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        style="background-color: #CF202F; border: none; border-radius: 5px;">
+                                        Report Issue
+                                    </button>
+                                    <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton" style="width: 100%; border: 1px solid #ddd;">
+                                        @foreach ($reports as $report)
+                                        <li class="dropdown-item report-item" style="cursor: pointer;">
+                                            <input type="hidden" class="report-val" value="{{$report}}" />
+                                            <span>{{$report->list}}</span>
+                                        </li>
                                         @endforeach
-                                    @endforeach
+                                    </ul>
                                 </div>
-                            </div>
-
-                            <!-- Main Video Content -->
-                            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
-                                @php
-                                    $renderedIdeas = [];
-                                @endphp
-
-                                @foreach ($payment_request as $order)
-                                    @foreach ($order->order as $chapter)
-                                        @if ($chapter_id == $chapter->id)
-                                            @foreach ($chapter->lessons as $lesson)
-                                                @if ($lesson->id == $L_id)
-                                                    @foreach ($lesson->ideas->sortBy('idea_order') as $ideas)
-                                                        @if ($ideas->id == $idea_num && !in_array($ideas->id, $renderedIdeas))
-                                                            @php
-                                                                $renderedIdeas[] = $ideas->id;
-                                                            @endphp
-                                                    <div class="lesson__content__main d-none" style="margin-bottom: 80px;">
-                                                        <div class="mb-4 text-center">
-                                                            <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem; letter-spacing: 1px;">
-                                                                {{ $ideas->idea }}
-                                                            </h3>
-                                                        </div>
-
-                                                        <div class="plyr__video-embed">
-                                                            <iframe  scrolling="no" allowfullscreen style="width: 100%; margin-top: 45px;"
-                                                                src="{{ $ideas->v_link }}"
-                                                                title="YouTube video player"
-                                                                frameborder="0"
-                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                                allowfullscreen></iframe>
-                                                        </div>
-                                                    </div>
-
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @endforeach
-                                @endforeach
-
-                                <div class="list-container p-4 rounded shadow-sm" style="background-color: #fefefe; border: 1px solid #ddd;">
-                                    <!-- Dropdown Trigger -->
-                                    <div class="list-header d-flex align-items-center justify-content-between">
-                                        <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem; color: #CF202F;">
-                                            Select an Issue:
-                                        </h4>
-                                        <div class="dropdown" style="width: 70%">
-                                            <button
-                                                class="btn dropdown-toggle text-white px-4 py-2"
-                                                type="button"
-                                                id="dropdownMenuButton"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                                style="background-color: #CF202F; border: none; border-radius: 5px;">
-                                                Report Issue
-                                            </button>
-                                            <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton" style="width: 100%; border: 1px solid #ddd;">
-                                                @foreach ($reports as $report)
-                                                <li class="dropdown-item report-item" style="cursor: pointer;">
-                                                    <input type="hidden" class="report-val" value="{{$report}}" />
-                                                    <span>{{$report->list}}</span>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                @foreach ($arr2 as $idea)
-                                    @if (!empty($idea->pdf))
-                                        <!-- Button with Dropdown for PDF actions -->
-                                         {{-- <div class="btn-group m-2">
-                                            <button class="btn btn-action dropdown-toggle rounded shadow-sm d-flex align-items-center"
-                                                    type="button"
-                                                    id="dropdownMenu{{$idea->id}}"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                <i class="fas fa-file-pdf me-2"></i>
-                                                <span class="text-truncate" style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;">
-                                                    {{$idea->lesson->lesson_name}}
-                                                </span>
-                                                {{$idea->idea}}
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}" download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
-                                                        <i class="fas fa-download"></i> Download PDF
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
-                                                        <i class="fas fa-eye"></i> View PDF
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div> --}}
-
-                                        <div class="btn-group m-2 w-100">
-                                            <button class="btn btn-action dropdown-toggle rounded shadow-sm d-flex align-items-center w-100 text-start"
-                                                    type="button"
-                                                    id="dropdownMenu{{$idea->id}}"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                <i class="fas fa-file-pdf me-2"></i>
-                                                <span class="lesson-name flex-grow-1 text-truncate">
-                                                    {{$idea->lesson->lesson_name}}
-                                                </span>
-                                                <span class="ms-2">{{$idea->idea}}</span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}"
-                                                       download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
-                                                        <i class="fas fa-download"></i> Download PDF
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
-                                                        <i class="fas fa-eye"></i> View PDF
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <br />
-                                    @endif
-                                @endforeach
-
                             </div>
                         </div>
-                    </div>
 
+
+                        @foreach ($arr2 as $idea)
+                            @if (!empty($idea->pdf))
+                                <div class="btn-group m-2 w-100">
+                                    <button class="btn btn-action dropdown-toggle rounded shadow-sm d-flex align-items-center w-100 text-start"
+                                            type="button"
+                                            id="dropdownMenu{{$idea->id}}"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="fas fa-file-pdf me-2"></i>
+                                        <span class="lesson-name flex-grow-1 text-truncate">
+                                            {{$idea->lesson->lesson_name}}
+                                        </span>
+                                        <span class="ms-2">{{$idea->idea}}</span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}"
+                                                download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
+                                                <i class="fas fa-download"></i> Download PDF
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
+                                                <i class="fas fa-eye"></i> View PDF
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <br />
+                            @endif
+                        @endforeach
+
+                    </div>
 
                 </div>
 
             </div>
         </div>
-        {{-- @foreach ($arr2 as $idea)
-        @if ( !empty($idea->pdf) )
-            <a class="btn btn-success text-center m-2" href="{{asset('files\\lessons_pdf\\' . $idea->pdf)}}" download="{{asset('files\\lessons_pdf' . $idea->pdf)}}">
-                PDF {{$idea->lesson->lesson_name}} {{$idea->idea}}
-            </a>
-            <a class="btn btn-info text-center m-2" target="_blank" href="{{route('stu_live_pdf', ['file_name' => $idea->pdf])}}" />
-                Show {{$idea->lesson->lesson_name}} {{$idea->idea}}
-            </a>
-            <br />
-        @endif
-        @endforeach --}}
-
-    {{-- @foreach ($arr2 as $idea)
-        @if (!empty($idea->pdf))
-            <!-- Button with Dropdown for PDF actions -->
-            <div class="btn-group m-2">
-                <button class="btn btn-action dropdown-toggle rounded shadow-sm" type="button" id="dropdownMenu{{$idea->id}}" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-file-pdf"></i> {{$idea->lesson->lesson_name}} {{$idea->idea}}
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
-                    <li>
-                        <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}" download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
-                            <i class="fas fa-download"></i> Download PDF
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
-                            <i class="fas fa-eye"></i> View PDF
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <br />
-        @endif
-    @endforeach
-     --}}
-
         </div>
 
 
@@ -1075,36 +891,6 @@
         let lesson__content__main = document.querySelector('.lesson__content__main');
         lesson__content__main.classList.remove('d-none');
 
-        //___________________________________________________________________________________________
-        // let report_item = document.querySelectorAll('.report_item');
-        // let report_val = document.querySelectorAll('.report_val');
-
-        // for (let i = 0, end = report_item.length; i < end; i++) {
-        //     report_item[i].addEventListener('click', ( e ) => {
-        //         for (let j = 0; j < end; j++) {
-        //             if ( report_item[j] == e.target ) {
-        //                 let  obj = report_val[j].value;
-        //                 obj = JSON.parse(obj);
-        //                 obj = {
-        //                     'list_id' : obj.id,
-        //                     'lesson_video_id' : {{$idea_num}},
-        //                 }
-        //                 $(".list_item").toggleClass("d-none")
-
-        //                 $.ajax("{{ route('report_video_api') }}", {
-        //                     type: 'GET', // http method
-        //                     data: {
-        //                         obj: obj
-        //                     }, // data to submit
-        //                     success: function(data) {
-        //                         console.log(data);
-        //                     },
-        //                 });
-        //             }
-        //         }
-        //     })
-        // }
-
         document.addEventListener('DOMContentLoaded', () => {
         const reportItems = document.querySelectorAll('.report-item');
         const reportVals = document.querySelectorAll('.report-val');
@@ -1128,7 +914,7 @@
                 });
             });
         });
-});
+        });
 
     </script>
 @endsection
