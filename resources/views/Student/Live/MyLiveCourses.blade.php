@@ -586,13 +586,19 @@ $page_name = 'Lesson';
             @endforeach
             
             @foreach ($lives as $live_item)
-            @if ( $live_item->lesson?->chapter?->id &&
-                $chapter_id == $live_item->lesson->chapter->id && 
-                \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
-                && !in_array($live_item->lesson->id, $arr_lessons)
-                )
+            
+    
+            @if ( $live_item->lesson?->chapter?->course?->id &&
+                \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at 
+                &&
+                !in_array($live_item->lesson?->chapter?->course?->id ?? null,$arr)
+                or
+                $live_item->lesson?->chapter?->course?->id && 
+                (!in_array($live_item->lesson?->chapter?->course?->id ?? null,$arr) 
+                && $live_item->lesson->getExtraDays() >= date('Y-m-d')))
+                
                 @php
-                    $arr_lessons[] = $live_item->lesson_id;
+                $arr_sessions[] = $live_item->lesson_id
                 @endphp
             <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                 <div class="gridarea__wraper">
