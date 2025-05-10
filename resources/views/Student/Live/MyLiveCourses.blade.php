@@ -584,6 +584,109 @@ $page_name = 'Lesson';
             @endif
 
             @endforeach
+            
+            @foreach ($lives as $live_item)
+            @if ( $live_item->lesson?->chapter?->id &&
+                $chapter_id == $live_item->lesson->chapter->id && 
+                \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+                && !in_array($live_item->lesson->id, $arr_lessons)
+                )
+                @php
+                    $arr_lessons[] = $live_item->lesson_id;
+                @endphp
+            <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                <div class="gridarea__wraper">
+                    <div class="gridarea__img">
+                        <a
+                            href="{{ route('stu_live_chapters', ['course_id' => $live_item->lesson?->chapter?->course?->id ?? null]) }}">
+                            <img loading="lazy"
+                                src="{{ asset('images/courses/' . $live_item->lesson?->chapter?->course?->course_url ?? null) }}"
+                                alt="grid"></a>
+                        <div class="gridarea__small__button">
+                            <div class="grid__badge">Data &amp; Tech</div>
+                        </div>
+                        <div class="gridarea__small__icon">
+                            <a href="#"><i class="icofont-heart-alt"></i></a>
+                        </div>
+
+                    </div>
+                    <div class="gridarea__content">
+                        <div class="gridarea__list">
+                            <ul>
+                            </ul>
+                        </div>
+                        <div class="gridarea__heading">
+                            <h3>
+                                <a
+                                    href="{{ route('stu_live_chapters', ['course_id' => $live_item->lesson?->chapter?->course?->id ?? null]) }}">
+                                    {{ $live_item->lesson?->chapter?->course?->course_name ?? null }}
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="gridarea__bottom">
+
+                            <a href="#">
+                                <div class="gridarea__small__img">
+                                    <img loading="lazy" src="../img/grid/grid_small_1.jpg" alt="grid">
+                                    <div class="gridarea__small__content">
+                                        <h6>
+                                            {{ $live_item->lesson?->chapter?->course?->teacher?->name  ?? null}}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            {{-- <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        {{ $live_item->lesson->lesson_name }}
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        @foreach ($live_item->lesson->ideas as $idea)
+                        <a href="{{ route('stu_live_lesson', ['idea' => $idea->id]) }}" class="scc__wrap">
+                            <div class="scc__info">
+                                <i class="icofont-video-alt"></i>
+                                <h5> <span>
+                                        {{ $idea->idea }}
+                                    </span> </h5>
+                            </div>
+                        </a>
+                        @endforeach
+
+                        <hr />
+
+                        @foreach ($live_item->lesson->quizze as $quizze)
+                        <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}" class="scc__wrap">
+                            <div class="scc__info">
+                                <i class="fa-solid fa-paperclip"></i>
+                                <h5> <span>
+                                        {{ $quizze->title }}
+                                    </span> </h5>
+                            </div>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div> --}}
+
+            @php
+            $arr[] = $live_item->lesson?->chapter?->course?->id ?? null;
+            @endphp
+            @endif
+
+            @endforeach
     </div>
 
 
