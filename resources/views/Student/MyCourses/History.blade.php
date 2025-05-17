@@ -47,7 +47,7 @@
                 {{$item->score}}/100
             </td>
             <td>
-                {{count($item?->quizze?->question)}}
+                {{count($item?->quizze?->question ?? [])}}
             </td>
             <td>
                 Right: {{$item->r_questions}}
