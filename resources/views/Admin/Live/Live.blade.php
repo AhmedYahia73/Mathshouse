@@ -647,22 +647,16 @@ return 'admin';
                                                     </label>
                                                     <div class="select2-danger" data-select2-id="33">
                                                         <div class="position-relative" data-select2-id="443">
-                                                            <select id="select2Danger" name="user_id[]"
-                                                                class="select2 form-select select2-hidden-accessible"
-                                                                multiple=""
-                                                                data-select2-id="select2Danger{{ $session->id }}"
-                                                                tabindex="-1" aria-hidden="true">
+                                                            <select id="select2Danger" name="user_id[]" class="select2 form-select" multiple>
                                                                 @foreach ($session->users as $user)
-                                                                <option value="{{ $user->id }}" selected
-                                                                    data-select2-id="edit{{ $session->id }}{{ $user->id }}">
-                                                                    {{ $user->nick_name }}</option>
+                                                                    <option value="{{ $user->id }}" selected>{{ $user->nick_name }}</option>
                                                                 @endforeach
-                                                                @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}"
-                                                                    data-select2-id="{{ $user->id }}">
-                                                                    {{ $user->nick_name }}</option>
+
+                                                                @foreach ($users->whereNotIn('id', $session->users->pluck('id')) as $user)
+                                                                    <option value="{{ $user->id }}">{{ $user->nick_name }}</option>
                                                                 @endforeach
                                                             </select>
+
                                                         </div>
                                                     </div>
                                                 </div>
