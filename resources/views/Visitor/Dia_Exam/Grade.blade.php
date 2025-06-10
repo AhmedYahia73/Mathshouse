@@ -99,9 +99,9 @@ $page_name = 'Grade';
                                     <td>
                                         @if ($studentDiaExam->exam->time <= $exam->time)
                                             <span style="color: green">
-                                                +{{ $studentDiaExam->exam->daily}}
+                                                -{{ $studentDiaExam->exam->daily}}
                                                 <br>
-                                                Student solution time : - {{ date('i:s',
+                                                Student solution time : + {{ date('i:s',
 
                                                 strtotime($studentDiaExam->exam->time)) }}
                                             </span>

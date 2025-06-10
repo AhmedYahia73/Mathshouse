@@ -860,8 +860,22 @@
                                                                         Answer</button>
                                                             </div>
                                                             @endif
-                                                            @endforeach
-                                                            @foreach ($question->g_ans as $grid_ans)
+                                                            @endforeach     
+                                                            @php
+                                                                if ($question->q_id) {
+                                                                    $answers = DB::table('grid_ans')
+                                                                    ->where('q_id', $question->q_id)
+                                                                    ->get();
+                                                                } else {
+                                                                    $answers = DB::table('grid_ans')
+                                                                    ->where(
+                                                                        'q_id',
+                                                                        $question->q_id ? $question->q_id : $question->id,
+                                                                    )
+                                                                    ->get();
+                                                                }
+                                                            @endphp
+                                                            @foreach ($answers as $grid_ans)
                                                             <div class="my-2 d-flex flex-column">
                                                         
                                                                 <input class="form-control"
