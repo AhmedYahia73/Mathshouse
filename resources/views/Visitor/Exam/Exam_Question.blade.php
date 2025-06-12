@@ -817,7 +817,7 @@ button {
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
-                                        <input type="text" class="gridVal" id="input_val" value="q_grid_ans[]" placeholder="e.g. 1/6">
+                                        <input type="text" class="gridVal" id="input_val" name="q_grid_ans[]" placeholder="e.g. 1/6">
                                         <button type="button" class="addSl">/</button>
                                         <button type="button" class="enterBtn">Enter</button>
                                     </div>
