@@ -694,7 +694,7 @@
                                 <div class="section-setValue">
                                     <span>Answer:</span>
                                     <div class="input_val">
-                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0"
+                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0" value="q_grid_ans[]"
                                             class="gridVal">
                                     </div>
                                     <input type="button" value="/" class="addSl">

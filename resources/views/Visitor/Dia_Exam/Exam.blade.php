@@ -762,7 +762,7 @@ button {
                 @foreach ($exam->question as $question)
                 <div class="question">
                     <input type="hidden" value="{{ $question->id }}" class="questionID"
-                        id="questionID{{ $question->id }}">
+                    id="questionID{{ $question->id }}">
                     <div class="question-side">
                         <div class="text-question">
                             <span class="question-num">
@@ -840,7 +840,7 @@ button {
                             <div class="section-setValue">
                                 <span>Answer:</span>
                                 <div class="input_val">
-                                    <input type="text" step="0.001" value="0" class="gridVal" id="input_val">
+                                    <input type="text" step="0.001" value="0" name="q_grid_ans[]" class="gridVal" id="input_val">
                                 </div>
                                 <input type="button" value="/" class="addSl"> <!-- Button to add "/" -->
                                 <input type="button" value="Enter" class="enterBtn"> <!-- Button for Enter functionality -->
