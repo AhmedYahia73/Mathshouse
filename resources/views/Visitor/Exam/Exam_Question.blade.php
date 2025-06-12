@@ -722,7 +722,7 @@ button {
         <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
             @csrf
             <div class="main-wrapper">
-                @foreach ($exam->question->sortBy('section')->sortBy('q_num') as $question)
+                @foreach ($exam->question->sortBy('q_num')->sortBy('section') as $question)
                     <div class="question">
                         <input type="hidden" value="{{ $question->id }}" class="questionID"
                             id="questionID{{ $question->id }}">
