@@ -118,7 +118,7 @@ class DomPdfController extends Controller
         // $pdf->save(storage_path('invoices/invoice.pdf'));
     
         // Stream the PDF to the browser
-        return $pdf->download('DiaExam.pdf');
+        return $pdf->stream('DiaExam.pdf');
     }
 
     public function quizze_report( $id ){
@@ -213,7 +213,8 @@ class DomPdfController extends Controller
             $delay = "$h H $m M $s S";
         }
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam', 'delay', 'history'));
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam', 'delay', 'history'))
+        ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
     }
