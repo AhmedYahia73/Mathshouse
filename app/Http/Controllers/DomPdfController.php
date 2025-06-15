@@ -118,7 +118,7 @@ class DomPdfController extends Controller
         // $pdf->save(storage_path('invoices/invoice.pdf'));
     
         // Stream the PDF to the browser
-        return $pdf->stream('DiaExam.pdf');
+        return $pdf->download('DiaExam.pdf');
     }
 
     public function quizze_report( $id ){
