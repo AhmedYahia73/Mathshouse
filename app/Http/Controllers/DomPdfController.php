@@ -111,7 +111,8 @@ class DomPdfController extends Controller
         ->get();
     
         // Generate the PDF
-        $pdf = PDF::loadView('DiaExam', compact('report', 'exam', 'history', 'mistakes'));
+        $pdf = PDF::loadView('DiaExam', compact('report', 'exam', 'history', 'mistakes'))
+        ->setPaper('a4', 'landscape');
         
         // Optionally, save the PDF to a file
         // $pdf->save(storage_path('invoices/invoice.pdf'));
