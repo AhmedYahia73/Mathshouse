@@ -107,7 +107,7 @@ class V_DiaExamController extends Controller
             }
         }
 
-       // "":["{\"q_id\":20}","{\"q_id\":1}"],"q_grid_ans":["1","1"]}
+       // "":["{\"q_id\":20}","{\"q_id\":1}"],"q_grid_ans":["1","1"]} 
         if ( isset($req->q_grid_answers) ) {
             for ( $i = 0, $end = count($req->q_grid_answers); $i < $end; $i++ ) {
                 $total_question++;

@@ -185,8 +185,9 @@ class Stu_LiveController extends Controller
         $user = User::where('id', auth()->user()->id)
         ->first();
         $sessions = $user->session_attendance;
+        $lives = $user->lessons;
 
-        return view('Student.Live.MyLiveCourses', compact('sessions'));
+        return view('Student.Live.MyLiveCourses', compact('sessions', 'lives'));
     }
 
     public function stu_live_chapters( $course_id ){
@@ -194,8 +195,9 @@ class Stu_LiveController extends Controller
         ->first();
         $sessions = $user->session_attendance; 
         $course_id = $course_id;
+        $lives = $user->lessons;
 
-        return view('Student.Live.MyLiveChapters', compact('sessions', 'course_id'));
+        return view('Student.Live.MyLiveChapters', compact('sessions', 'course_id', 'lives'));
     }
 
     public function stu_myLiveLesson( $chapter_id ){

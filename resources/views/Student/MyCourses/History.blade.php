@@ -41,18 +41,18 @@
                 <br />
             </td>
             <td>
-                {{$item->quizze->title}}
+                {{$item?->quizze?->title}}
             </td>
             <td>
                 {{$item->score}}/100
             </td>
             <td>
-                {{count($item->quizze->question)}}
+                {{count($item?->quizze?->question ?? [])}}
             </td>
             <td>
                 Right: {{$item->r_questions}}
                 <br />
-                Wrong: {{count($item->quizze->question) - $item->r_questions}}
+                Wrong: {{count($item?->quizze?->question ?? []) - $item->r_questions}}
             </td>
             <td>
                 {{$item->time}}

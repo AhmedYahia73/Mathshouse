@@ -111,7 +111,8 @@ class DomPdfController extends Controller
         ->get();
     
         // Generate the PDF
-        $pdf = PDF::loadView('DiaExam', compact('report', 'exam', 'history', 'mistakes'));
+        $pdf = PDF::loadView('DiaExam', compact('report', 'exam', 'history', 'mistakes'))
+        ->setPaper('a4', 'landscape');
         
         // Optionally, save the PDF to a file
         // $pdf->save(storage_path('invoices/invoice.pdf'));
@@ -212,7 +213,8 @@ class DomPdfController extends Controller
             $delay = "$h H $m M $s S";
         }
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam', 'delay', 'history'));
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam', 'delay', 'history'))
+        ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
     }
@@ -224,7 +226,8 @@ class DomPdfController extends Controller
         ->first()->exams;
 
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam'));
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam'))
+        ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
     }

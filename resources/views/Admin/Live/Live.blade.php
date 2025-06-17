@@ -652,7 +652,7 @@ return 'admin';
                                                                 multiple=""
                                                                 data-select2-id="select2Danger{{ $session->id }}"
                                                                 tabindex="-1" aria-hidden="true">
-                                                                @foreach ($session->users as $user)
+                                                                {{-- @foreach ($session->users as $user)
                                                                 <option value="{{ $user->id }}" selected
                                                                     data-select2-id="edit{{ $session->id }}{{ $user->id }}">
                                                                     {{ $user->nick_name }}</option>
@@ -661,6 +661,13 @@ return 'admin';
                                                                 <option value="{{ $user->id }}"
                                                                     data-select2-id="{{ $user->id }}">
                                                                     {{ $user->nick_name }}</option>
+                                                                @endforeach --}}
+                                                                @foreach ($session->users as $user)
+                                                                    <option value="{{ $user->id }}" selected>{{ $user->nick_name }}</option>
+                                                                @endforeach
+
+                                                                @foreach ($users->whereNotIn('id', $session->users->pluck('id')) as $user)
+                                                                    <option value="{{ $user->id }}">{{ $user->nick_name }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

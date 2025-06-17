@@ -75,6 +75,9 @@ class LiveController extends Controller
         where('id', $id)
         ->update($arr);
 
+        SessionStudent::where('session_id', $id)
+        ->delete();
+
         if ( !empty($req->group_id)  && !empty($req->user_id) ) {
             $group_students = GroupStudent::
             where('group_id', $req->group_id)

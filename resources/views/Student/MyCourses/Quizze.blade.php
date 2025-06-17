@@ -790,7 +790,7 @@ button {
                                     <div class="section-setValue">
                                         <span>Answer:</span>
                                         <div class="input_val">
-                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val">
+                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val" name="q_grid_ans[]">
                                         </div>
                                         <input type="button" value="/" class="addSl"> <!-- Button to add "/" -->
                                         <input type="button" value="Enter" class="enterBtn"> <!-- Button for Enter functionality -->

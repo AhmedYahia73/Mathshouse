@@ -722,7 +722,7 @@ button {
         <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
             @csrf
             <div class="main-wrapper">
-                @foreach ($exam->question->sortBy('section_id')->sortBy('q_num') as $question)
+                @foreach ($exam->question->sortBy('q_num')->sortBy('section') as $question)
                     <div class="question">
                         <input type="hidden" value="{{ $question->id }}" class="questionID"
                             id="questionID{{ $question->id }}">
@@ -817,7 +817,7 @@ button {
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
-                                        <input type="text" class="gridVal" id="input_val" placeholder="e.g. 1/6">
+                                        <input type="text" class="gridVal" id="input_val" name="q_grid_ans[]" placeholder="e.g. 1/6">
                                         <button type="button" class="addSl">/</button>
                                         <button type="button" class="enterBtn">Enter</button>
                                     </div>
