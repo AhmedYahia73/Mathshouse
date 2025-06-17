@@ -42,7 +42,7 @@
         border-radius: 20px;
         background: #c4c4c446;
     }
-
+    
     .quesMisake {
         font-size: 1.2rem;
         font-weight: 500;
@@ -50,8 +50,8 @@
     }
 
     .imgMistake {
-        width: auto;
-        height: 300px;
+        width: 100%;
+        height: auto;
         object-fit: cover;
         object-position: center;
         border-radius: 15px;
@@ -107,7 +107,7 @@
 
 <h3 class="txMista">Mistakes</h3>
 <div class="allMistakes app-email card my-3 mistakes_questions">
-    <div class="row g-0 mistake  p-3"> 
+    <div class="row g-0 mistake  p-3">
             @if ( !empty($mistake->question->question) )
                 <span class="quesMisake">{!!$mistake->question->question!!}</span>
             @endif
@@ -184,7 +184,7 @@
     let q_ans_item = document.querySelectorAll('.q_ans_item');
     let close_qiuzze_btn = document.querySelectorAll('.close_qiuzze_btn');
     let close_form_btn = document.querySelectorAll('.close_form_btn');
-    
+
     for (let i = 0, end = ans_item_btn.length; i < end; i++) {
         ans_item_btn[i].addEventListener('click', ( e ) => {
             for (let j = 0; j < end; j++) {
@@ -227,7 +227,7 @@
     let mistake_btn = document.querySelectorAll('.mistake_btn');
     let ans_item_btn = document.querySelectorAll('.ans_item_btn');
     let ans_item = document.querySelectorAll('.ans_item');
-    
+
     for (let i = 0, end = ans_item_btn.length; i < end; i++) {
         ans_item_btn[i].addEventListener('click', ( e ) => {
             for (let j = 0; j < end; j++) {

@@ -122,17 +122,17 @@ $ch_id = [];
                                 scope="col">
                                 Select
                             </th>
-                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-5" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">QUIZZES </th>
-                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-1" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Score</th>
-                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-1" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Time</th>
-                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-1" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Date</th>
-                            <th class="col-3" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Mistakes</th>
-                            <th class="col-3" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
+                            <th class="col-2" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Reports</th>
                         </tr>
                     </thead>
