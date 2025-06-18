@@ -226,8 +226,39 @@ class DomPdfController extends Controller
         ->first();
         $dai_exam = $history->exams;
 
+        
+        // Parse exam time
+        $exam_time_parts = explode(':', $dai_exam->time);
+        $e_hours = isset($exam_time_parts[0]) ? intval($exam_time_parts[0]) : 0;
+        $e_minutes = isset($exam_time_parts[1]) ? intval($exam_time_parts[1]) : 0;
+    
+        // Parse data time
+        $history_time = explode(':', $history->time);
+        $hours = isset($history_time[0]) ? intval($history_time[0]) : 0;
+        $minutes = isset($history_time[1]) ? intval($history_time[1]) : 0;
+        $seconds = isset($history_time[2]) ? intval($history_time[2]) : 0;
+    
+        // Calculate the times in seconds
+        $e_time = $e_hours * 60 * 60 + $e_minutes * 60;
+        $time = $hours * 60 * 60 + $minutes * 60 + $seconds;
+        $delay = $e_time - $time;
+        $color = false;
+
+        // Determine delay status
+        if ($delay == 0) {
+            $delay = 'On Time';
+        } else {
+            $delay = -$delay;
+            $color = $delay > 0 ? true : false;  
+            $h = intval($delay / (60 * 60));
+            $delay = $delay - $h * 60 * 60;
+            $m = intval($delay / 60);
+            $s = $delay - $m * 60;        
+            $delay = "$h H $m M $s S";
+        }
+
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history', 'dai_exam'))
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history', 'dai_exam', 'delay'))
         ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
