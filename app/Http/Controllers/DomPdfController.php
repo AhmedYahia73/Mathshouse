@@ -223,7 +223,8 @@ class DomPdfController extends Controller
         $mistakes = ExamMistake::where('student_exam_id', $id)
         ->get();
         $history = ExamHistory::where('id', $id )
-        ->first()->exams;
+        ->first();
+        $dai_exam = $history->exams;
 
         // Generate the PDF
         $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history'))
