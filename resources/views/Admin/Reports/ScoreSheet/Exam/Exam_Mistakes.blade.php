@@ -47,8 +47,8 @@
         }
 
         .imgMistake {
-            width: auto;
-            height: 300px;
+            width: 100%;
+            height: auto;
             object-fit: cover;
             object-position: center;
             border-radius: 15px;
