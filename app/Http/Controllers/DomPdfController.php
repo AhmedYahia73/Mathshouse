@@ -227,7 +227,7 @@ class DomPdfController extends Controller
         $dai_exam = $history->exams;
 
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history'))
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history', 'dai_exam'))
         ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
