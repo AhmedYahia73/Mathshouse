@@ -222,11 +222,11 @@ class DomPdfController extends Controller
     public function exam_mistake_pdf( $id ){
         $mistakes = ExamMistake::where('student_exam_id', $id)
         ->get();
-        $dai_exam = ExamHistory::where('id', $id )
+        $history = ExamHistory::where('id', $id )
         ->first()->exams;
 
         // Generate the PDF
-        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'dai_exam'))
+        $pdf = PDF::loadView('MistakePDF', compact('mistakes', 'history'))
         ->setPaper('a4', 'landscape');
         // Stream the PDF to the browser
         return $pdf->stream('MistakePDF.pdf');
