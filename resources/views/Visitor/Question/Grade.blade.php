@@ -331,9 +331,9 @@
 
                                 Answer :
                                 @if ($question->ans_type == 'MCQ')
-                                    {{ $question->mcq[0]->mcq_answers }}
+                                    {{ @$question->mcq[0]->mcq_answers }}
                                 @else
-                                    {{ $question->g_ans[0]->grid_ans }}
+                                    {{ @$question->g_ans[0]->grid_ans }}
                                 @endif
                                 <br />
                                 <div
