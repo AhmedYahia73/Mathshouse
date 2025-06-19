@@ -394,8 +394,8 @@ class Ad_ReportsController extends Controller
         ->with(['questions' => function($query){
             $query->with(['mcq', 'q_ans', 'g_ans']);
         }])->get();
-        $questions = $questions->pluck('questions');
-        $answers = []; 
+        $questions = $questions->pluck('questions')->flatten(1);
+        $answers = [];
         foreach ($questions as $question) {
             if ($question->ans_type == 'MCQ') {
                 $answers[] = $question->mcq;
