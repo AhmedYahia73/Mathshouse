@@ -395,8 +395,7 @@ class Ad_ReportsController extends Controller
             $query->with(['mcq', 'q_ans', 'g_ans']);
         }])->get();
         $questions = $questions->pluck('questions');
-        $answers = [];
-        $questions = count($questions) > 0 ?$questions[0]:$questions;
+        $answers = []; 
         foreach ($questions as $question) {
             if ($question->ans_type == 'MCQ') {
                 $answers[] = $question->mcq;
@@ -421,8 +420,7 @@ class Ad_ReportsController extends Controller
             $query->with(['mcq', 'q_ans', 'g_ans']);
         }])->get();
         $questions = $questions->pluck('questions');
-        $answers = [];
-        $questions = count($questions) > 0 ?$questions[0]:$questions;
+        $answers = []; 
         foreach ($questions as $question) {
             if ($question->ans_type == 'MCQ') {
                 $answers[] = $question->mcq;
