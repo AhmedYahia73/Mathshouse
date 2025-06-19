@@ -197,20 +197,17 @@
         width: 100%;
         background: #fff;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        flex-direction: column;
         column-gap: 10px;
         padding: 10px;
     }
 
     /* Question Side */
     main .main-wrapper .question .question-side {
-        width: 50%;
-        height: 550px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: scroll
     }
 
     /* width */
@@ -272,7 +269,7 @@
 
     /* Answer Side */
     main .main-wrapper .question .answer-side {
-        width: 50%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -540,32 +537,37 @@
     /* ///Section Pagination  */
 
     .answer-setValue {
-    margin: 20px 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-.section-setValue, .section-value {
-    margin-bottom: 10px;
-}
-input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-button {
-    padding: 8px 12px;
-    margin-left: 5px;
-    background: #0ab1ce;
-    /* color: white;
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .section-setValue,
+    .section-value {
+        margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        background: #0ab1ce;
+        /* color: white;
     border: none; */
-    border-radius: 4px;
-    cursor: pointer;
-}
-#preview_value {
-    background: #f5f5f5;
-    font-weight: bold;
-}
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #preview_value {
+        background: #f5f5f5;
+        font-weight: bold;
+    }
 
     /* ///Section Pagination  */
 
@@ -605,7 +607,7 @@ button {
         text-decoration: none;
         font-weight: 500;
         transition: all 0.3s ease;
-        border: 1px solid transparent ;
+        border: 1px solid transparent;
         padding: 0 !important;
     }
 
@@ -790,14 +792,17 @@ button {
                                     <div class="section-setValue">
                                         <span>Answer:</span>
                                         <div class="input_val">
-                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val" name="q_grid_ans[]">
+                                            <input type="text" step="0.001" value="0" class="gridVal"
+                                                id="input_val" name="q_grid_ans[]">
                                         </div>
                                         <input type="button" value="/" class="addSl"> <!-- Button to add "/" -->
-                                        <input type="button" value="Enter" class="enterBtn"> <!-- Button for Enter functionality -->
+                                        <input type="button" value="Enter" class="enterBtn">
+                                        <!-- Button for Enter functionality -->
                                     </div>
                                     <div class="section-value">
                                         <span>Answer Preview:</span>
-                                        <input type="number" id="preview_value" readonly name="q_grid_ans[]" value="00000"> <!-- This will show the preview -->
+                                        <input type="number" id="preview_value" readonly name="q_grid_ans[]"
+                                            value="00000"> <!-- This will show the preview -->
                                     </div>
                                 </div>
                             @endif
@@ -866,7 +871,7 @@ button {
             var objTim = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
             $("#timer_val").val(objTim);
 
-                ++totalSeconds;
+            ++totalSeconds;
 
             var timer_val = $("#timer_val").val();
             $.ajax({
@@ -978,83 +983,91 @@ button {
         });
 
         /* /////////////// */
-        /* Handel Data question */
-        /* /////////////// */
-
-
-
-
-        /* /////////////// */
         /* Rewrite value in inpit */
         /* /////////////// */
         $("#input_val30").keyup(() => {
             var answerValue = $("#input_val30").val()
             $("#section-value30").val(answerValue)
         })
-         // Event listener for the '/' button
-    // Add slash button - using event delegation in case elements are dynamic
-    $(document).ready(function() {
-    // Event handlers for fraction input
-    $(document).on('click', '.addSl', function() {
-        let input = $(this).siblings('.gridVal');
-        let currentVal = input.val();
-        if (!currentVal.includes('/')) {
-            input.val(currentVal + '/');
-        }
-    });
+        // Event listener for the '/' button
+        // Add slash button - using event delegation in case elements are dynamic
+        $(document).ready(function() {
+            // Event handlers for fraction input
+            $(document).on('click', '.addSl', function() {
+                // Find the closest answer-setValue container first
+                let container = $(this).closest('.answer-setValue');
+                // Then find the gridVal input within that container
+                let input = container.find('.gridVal');
+                let currentVal = input.val();
 
-    $(document).on('click', '.enterBtn', calculateFraction);
-    $(document).on('keypress', '.gridVal', function(e) {
-        if (e.which === 13) calculateFraction();
-    });
+                // Only add slash if not already present and input isn't empty
+                if (currentVal && !currentVal.includes('/')) {
+                    input.val(currentVal + '/');
+                }
+            });
 
-    function calculateFraction() {
-        const container = $(this).closest('.answer-setValue');
-        const input = container.find('.gridVal').val().trim();
-        const preview = container.find('#preview_value');
+            $(document).on('click', '.enterBtn', calculateFraction);
+            $(document).on('keypress', '.gridVal', function(e) {
+                if (e.which === 13) calculateFraction();
+            });
 
-        if (!input) {
-            preview.val("0");
-            return;
-        }
+            function calculateFraction() {
+                // Get the container based on which button was clicked
+                const container = $(this).closest('.answer-setValue');
+                const input = container.find('.gridVal').val().trim();
+                const preview = container.find('#preview_value');
 
-        if (input.includes('/')) {
-            const parts = input.split('/');
-            if (parts.length === 2) {
-                const numerator = parseFloat(parts[0]);
-                const denominator = parseFloat(parts[1]);
-
-                if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-                    const result = numerator / denominator;
-                    // Format the result - whole numbers without decimals, others with 2 decimals
-                    preview.val(formatResult(result));
+                if (!input) {
+                    preview.val("0");
                     return;
                 }
+
+                if (input.includes('/')) {
+                    const parts = input.split('/');
+                    if (parts.length === 2) {
+                        const numerator = parseFloat(parts[0]);
+                        const denominator = parseFloat(parts[1]);
+
+                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                            const result = numerator / denominator;
+                            preview.val(formatResult(result));
+                            return;
+                        }
+                    }
+                    preview.val("Invalid fraction");
+                    return;
+                }
+
+                const num = parseFloat(input);
+                preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
             }
-            preview.val("Invalid fraction");
-            return;
-        }
 
-        const num = parseFloat(input);
-        preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
-    }
+            // Modify the event handlers to pass the context
+            $(document).on('click', '.enterBtn', function() {
+                calculateFraction.call(this); // Pass the clicked element as context
+            });
 
-    function formatResult(value) {
-        // Round to 2 decimal places first
-        const rounded = Math.round(value * 100) / 100;
+            $(document).on('keypress', '.gridVal', function(e) {
+                if (e.which === 13) {
+                    calculateFraction.call(this); // Pass the input element as context
+                }
+            });
 
-        // Check if it's a whole number after rounding
-        if (rounded % 1 === 0) {
-            return rounded.toString(); // Return as integer string
-        }
-        return rounded.toFixed(2); // Return with 2 decimal places
-    }
-});
+            function formatResult(value) {
+                // Round to 2 decimal places first
+                const rounded = Math.round(value * 100) / 100;
+
+                // Check if it's a whole number after rounding
+                if (rounded % 1 === 0) {
+                    return rounded.toString(); // Return as integer string
+                }
+                return rounded.toFixed(2); // Return with 2 decimal places
+            }
+        });
 
         /* /////////////// */
         /* But border out side the answer  */
         /* /////////////// */
-
 
         $(".chosen").each((elePar, valPar) => {
 
@@ -1078,122 +1091,151 @@ button {
             })
         })
 
-
-
-
         /* /////////////// */
         /* Handel pagination question */
         /* /////////////// */
-        function getPageList(totalPages, page, maxLength) {
-                    function range(start, end) {
-                        return $.map(Array(end - start + 1), function(_, i) {
-                            return i + start;
-                        });
-                    }
+        function getPageList(totalPages, currentPage, paginationSize) {
+            if (totalPages < 1) return [];
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (paginationSize < 3) paginationSize = 3;
 
-                    var sideWidth = maxLength < 9 ? 1 : 2;
-                    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-                    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            let pages = [];
+            let startPage, endPage;
 
-                    if (totalPages <= maxLength) {
-                        return range(1, totalPages);
-                    }
+            if (totalPages <= paginationSize) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+                return pages;
+            }
 
-                    if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                        return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1,
-                            totalPages));
-                    }
+            const half = Math.floor(paginationSize / 2);
+            startPage = Math.max(1, currentPage - half);
+            endPage = Math.min(totalPages, startPage + paginationSize - 1);
 
-                    if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                        return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth,
-                            totalPages));
-                    }
+            if (endPage - startPage + 1 < paginationSize) {
+                startPage = Math.max(1, endPage - paginationSize + 1);
+            }
 
-                    return range(1, sideWidth).concat(0, range(page - sideWidth, page + rightWidth), 0, range(
-                        totalPages - sideWidth + 1, totalPages));
+            if (startPage > 1) {
+                pages.push(1);
+                if (startPage > 2) {
+                    pages.push('...');
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pages.push('...');
+                }
+                pages.push(totalPages);
+            }
+
+            return pages;
+        }
+
+        $(function() {
+            var numberOfItems = $(".question").length;
+            var limitPerPage = 1;
+            var totalPages = Math.ceil(numberOfItems / limitPerPage);
+            var paginationSize = Math.ceil(numberOfItems / 3);
+            var currentPage;
+
+            function showPage(whichPage) {
+                if (whichPage < 1 || whichPage > totalPages) return false;
+
+                // Hide current question with animation
+                $(".question.active").removeClass("active");
+
+                if (whichPage == totalPages) {
+                    $(".btn-sendQuizz").removeClass("d-none");
+                } else {
+                    $(".btn-sendQuizz").addClass("d-none");
                 }
 
-                $(function() {
-                    var numberOfItems = $(".question").length;
-                    var limitPerPage = 1;
-                    var totalPages = Math.ceil(numberOfItems / limitPerPage);
-                    var paginationSize = Math.ceil(numberOfItems / 3);
-                    var currentPage;
+                currentPage = whichPage;
 
-                    function showPage(whichPage) {
-                        if (whichPage < 1 || whichPage > totalPages) return false;
+                // Show new question with animation
+                $(".question").hide().slice((currentPage - 1) * limitPerPage,
+                    currentPage * limitPerPage).addClass("active").show();
 
-                        // Hide current question with animation
-                        $(".question.active").removeClass("active");
+                $(".pagination li").slice(1, -1).remove();
 
-                        if (whichPage == totalPages) {
-                            $(".btn-sendQuizz").removeClass("d-none");
-                        } else {
-                            $(".btn-sendQuizz").addClass("d-none");
-                        }
+                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass("current-page")
+                        .toggleClass("activee", item === currentPage).append($("<a>")
+                            .addClass("page-link").attr({
+                                href: "javascript:void(0)",
+                                "aria-label": item ? `Page ${item}` : "More pages"
+                            }).text(item || "...")).insertBefore(".next-page");
+                });
 
-                        currentPage = whichPage;
+                $(".previous-page").toggleClass("disabled", currentPage === 1);
+                $(".next-page").toggleClass("disabled", currentPage === totalPages);
+                return true;
+            }
 
-                        // Show new question with animation
-                        $(".question").hide().slice((currentPage - 1) * limitPerPage,
-                            currentPage * limitPerPage).addClass("active").show();
+            // Initialize pagination
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Previous"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                    )
+                ),
+                $("<li>").addClass("page-item").addClass("next-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Next"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                    )
+                )
+            );
 
-                        $(".pagination li").slice(1, -1).remove();
+            $(".main-wrapper").show();
+            showPage(1);
 
-                        getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                            $("<li>").addClass("page-item").addClass("current-page")
-                                .toggleClass("activee", item === currentPage).append($("<a>")
-                                    .addClass("page-link").attr({
-                                        href: "javascript:void(0)",
-                                        "aria-label": item ? `Page ${item}` : "More pages"
-                                    }).text(item || "...")).insertBefore(".next-page");
-                        });
+            // Event handlers
+            // Inside your $(function() { ... }); block, modify the click handler for pagination items:
 
-                        $(".previous-page").toggleClass("disabled", currentPage === 1);
-                        $(".next-page").toggleClass("disabled", currentPage === totalPages);
-                        return true;
+            $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
+                const pageText = $(this).text();
+                if (pageText === '...') {
+                    // Get the current page list
+                    const pages = getPageList(totalPages, currentPage, paginationSize);
+                    // Find the index of the clicked dots
+                    const dotsIndex = pages.indexOf('...');
+
+                    // Determine if it's the left or right dots
+                    if (dotsIndex === 1) { // Left dots (before first page)
+                        // Show pages around the first page
+                        return showPage(Math.floor(currentPage / 2));
+                    } else { // Right dots (before last page)
+                        // Show pages around the last page
+                        return showPage(Math.floor((currentPage + totalPages) / 2));
                     }
+                } else {
+                    return showPage(+pageText);
+                }
+            });
 
-                    // Initialize pagination
-                    $(".pagination").append(
-                        $("<li>").addClass("page-item").addClass("previous-page").append(
-                            $("<a>").addClass("page-link").attr({
-                                href: "javascript:void(0)",
-                                "aria-label": "Previous"
-                            }).html(
-                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
-                                )
-                        ),
-                        $("<li>").addClass("page-item").addClass("next-page").append(
-                            $("<a>").addClass("page-link").attr({
-                                href: "javascript:void(0)",
-                                "aria-label": "Next"
-                            }).html(
-                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
-                                )
-                        )
-                    );
+            $(".next-page").on("click", function() {
+                return showPage(currentPage + 1);
+            });
 
-                    $(".main-wrapper").show();
-                    showPage(1);
+            $(".previous-page").on("click", function() {
+                return showPage(currentPage - 1);
+            });
 
-                    // Event handlers
-                    $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
-                        return showPage(+$(this).text());
-                    });
 
-                    $(".next-page").on("click", function() {
-                        return showPage(currentPage + 1);
-                    });
-
-                    $(".previous-page").on("click", function() {
-                        return showPage(currentPage - 1);
-                    });
-
-        // $(".addSl").on("click", function() {
-        //     var inpVal = $(this).closest(".section-setValue").find(".gridVal");
-        //     var currentVal = inpVal.val().toString();
-        //     inpVal.val(currentVal + "/");
         });
     });
 </script>
