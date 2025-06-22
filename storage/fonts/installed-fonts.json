@@ -39,5 +39,11 @@
         "500": "C:\\xampp\\htdocs\\Math_House\\storage\\fonts\/rubik_500_c5ab0af2d954c4140f26e728dad090b3",
         "600": "C:\\xampp\\htdocs\\Math_House\\storage\\fonts\/rubik_600_5d61a1f1e601158e12a385b1e07b6a27",
         "bold": "rubik_bold_98a50ec8225be60b521143fc843a3c06"
+    },
+    "poppins": {
+        "normal": "C:\\xampp\\htdocs\\Mathshouse\\storage\\fonts\/poppins_normal_c6711d47669d7317aa5bfeda9f1dded3",
+        "500": "C:\\xampp\\htdocs\\Mathshouse\\storage\\fonts\/poppins_500_a8989f7b44a711b1b2ef07347b37ec13",
+        "600": "C:\\xampp\\htdocs\\Mathshouse\\storage\\fonts\/poppins_600_8766355d2de6e5a80a8dfebc31aeaedf",
+        "bold": "poppins_bold_e65267788fadc7206923de221454a2be"
     }
 }
