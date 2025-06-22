@@ -185,10 +185,8 @@
         width: 100%;
         padding: 0 10px;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        row-gap: 10px;
+        flex-direction: column;
+        column-gap: 10px;
         border-bottom: 3px dashed #e2e2e2;
     }
 
@@ -205,12 +203,10 @@
 
     /* Question Side */
     main .main-wrapper .question .question-side {
-        width: 50%;
-        height: 550px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: scroll
     }
 
     /* width */
@@ -272,7 +268,7 @@
 
     /* Answer Side */
     main .main-wrapper .question .answer-side {
-        width: 50%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -709,7 +705,8 @@
                                 <div class="section-setValue">
                                     <span>Answer:</span>
                                     <div class="input_val">
-                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0" class="gridVal" id="input_val30">
+                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0"
+                                            class="gridVal" id="input_val30">
                                     </div>
                                     <input type="button" value="/" class="addSl">
                                 </div>
@@ -725,33 +722,12 @@
                 </div>
             </div>
             {{-- end Section Question --}}
-            <ul class="paginationn">
-                {{--             <li class="page-item previouss-page disablee">
-                <a href="#" class="page-link">prev</a>
-            </li>
-            <li class="page-item currentt-page activee">
-                <a href="#" class="page-link">1</a>
-            </li>
-            <li class="page-item dotss">
-                <a href="#" class="page-link">...</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">5</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">6</a>
-            </li>
-            <li class="page-item dotss">
-                <a href="#" class="page-link">...</a>
-            </li>
-            <li class="page-item currentt-page">
-                <a href="#" class="page-link">10</a>
-            </li>
-            <li class="page-item nextt-page">
-                <a href="#" class="page-link">Next</a>
-            </li> --}}
-                <button class="btn-sendQuizz d-none" type="Submit">Submit</button>
-            </ul>
+            {{-- end Section Question --}}
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <button class="btn-submit-quiz" type="Submit">Submit Quiz</button>
+                </ul>
+            </div>
         </form>
     </main>
 </div>
@@ -925,13 +901,6 @@
         });
 
         /* /////////////// */
-        /* Handel Data question */
-        /* /////////////// */
-
-
-
-
-        /* /////////////// */
         /* Rewrite value in inpit */
         /* /////////////// */
         // $("#input_val30").keyup(() => {
@@ -939,52 +908,69 @@
         //     $("#section-value30").val(answerValue)
         // })
 
-// Keyup event to handle direct input changes (e.g., "1" or "1/5")
-$("#input_val30").keyup(() => {
-    updatePreview();
-});
+        $(document).ready(function() {
+            // Event handlers for fraction input
+            $(document).on('click', '.addSl', function() {
+                // Find the closest answer-setValue container first
+                let container = $(this).closest('.answer-setValue');
+                // Then find the gridVal input within that container
+                let input = container.find('.gridVal');
+                let currentVal = input.val();
 
-// Click event for the "/" button to add "/" to the input field
-$(".addSl").click(() => {
-    var currentValue = $("#input_val30").val();
+                // Only add slash if not already present and input isn't empty
+                if (currentVal && !currentVal.includes('/')) {
+                    input.val(currentVal + '/');
+                }
+            });
 
-    // Add "/" only if it doesn't already exist
-    if (!currentValue.includes('/')) {
-        $("#input_val30").val(currentValue + '/');
-    }
-    updatePreview();
-});
+            $(document).on('click', '.enterBtn', calculateFraction);
+            $(document).on('keypress', '.gridVal', function(e) {
+                if (e.which === 13) calculateFraction();
+            });
 
-// Function to update the Answer Preview based on the input
-function updatePreview() {
-    var answerValue = $("#input_val30").val();
-    var previewValue = answerValue;
+            function calculateFraction() {
+                // Get the container based on which button was clicked
+                const container = $(this).closest('.answer-setValue');
+                const input = container.find('.gridVal').val().trim();
+                const preview = container.find('#preview_value');
 
-    // Check if the input contains a fraction (e.g., "1/5")
-    if (answerValue.includes('/')) {
-        var parts = answerValue.split('/');
-        var numerator = parseFloat(parts[0]);
-        var denominator = parseFloat(parts[1]);
+                if (!input) {
+                    preview.val("0");
+                    return;
+                }
 
-        // Validate if both parts are numbers and denominator is not zero
-        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-            previewValue = numerator / denominator;
-        } else {
-            previewValue = "Invalid fraction";  // Optional: Show error for invalid fraction
-        }
-    } else if (!isNaN(answerValue)) {
-        // If the input is just a regular number
-        previewValue = parseFloat(answerValue);
-    }
+                if (input.includes('/')) {
+                    const parts = input.split('/');
+                    if (parts.length === 2) {
+                        const numerator = parseFloat(parts[0]);
+                        const denominator = parseFloat(parts[1]);
 
-    // Update the preview field with the calculated or entered value
-    $("#section-value30").val(previewValue);
-}
+                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                            const result = numerator / denominator;
+                            preview.val(formatResult(result));
+                            return;
+                        }
+                    }
+                    preview.val("Invalid fraction");
+                    return;
+                }
 
-        /* /////////////// */
-        /* But border out side the answer  */
-        /* /////////////// */
+                const num = parseFloat(input);
+                preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
+            }
 
+
+            function formatResult(value) {
+                // Round to 2 decimal places first
+                const rounded = Math.round(value * 100) / 100;
+
+                // Check if it's a whole number after rounding
+                if (rounded % 1 === 0) {
+                    return rounded.toString(); // Return as integer string
+                }
+                return rounded.toFixed(2); // Return with 2 decimal places
+            }
+        });
 
         $(".chosen").each((elePar, valPar) => {
 
@@ -1008,130 +994,146 @@ function updatePreview() {
             })
         })
 
+        function getPageList(totalPages, currentPage, paginationSize) {
+            if (totalPages < 1) return [];
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (paginationSize < 3) paginationSize = 3;
 
+            let pages = [];
+            let startPage, endPage;
 
-
-        /* /////////////// */
-        /* Handel pagination question */
-        /* /////////////// */
-        function getPageList(totalPages, page, maxLength) {
-            function range(start, end) {
-                // return Array.form(Array(end - start + 1), (_, 1) => i + start);
-                return result = $.map(Array(end - start + 1), function(_, i) {
-                    return i + start;
-                });
-                console.log("start", start)
-                console.log("end", end)
+            if (totalPages <= paginationSize) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+                return pages;
             }
 
+            const half = Math.floor(paginationSize / 2);
+            startPage = Math.max(1, currentPage - half);
+            endPage = Math.min(totalPages, startPage + paginationSize - 1);
 
-            var sideWidth = maxLength < 9 ? 1 : 2;
-            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-            console.log("maxLength", maxLength);
-            console.log("sideWidth", sideWidth);
-            console.log("rightWidth", rightWidth);
-            console.log("leftWidth", leftWidth);
-            console.log("totalpages", totalPages);
-            console.log("page", page);
-            console.log("#".repeat(15));
-
-            if (totalPages <= maxLength) {
-                return range(1, totalPages)
+            if (endPage - startPage + 1 < paginationSize) {
+                startPage = Math.max(1, endPage - paginationSize + 1);
             }
 
-            if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1,
-                    totalPages));
-            }
-            /* Customize list question tap and bots between list   */
-            if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth -
-                    leftWidth,
-                    totalPages));
+            if (startPage > 1) {
+                pages.push(1);
+                if (startPage > 2) {
+                    pages.push('...');
+                }
             }
 
-            return range(1, sideWidth).concat(0, range(page - sideWidth, page + rightWidth), 0, range(
-                totalPages - sideWidth + 1, totalPages));
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pages.push('...');
+                }
+                pages.push(totalPages);
+            }
+
+            return pages;
         }
 
         $(function() {
             var numberOfItems = $(".question").length;
-            var limitPerPage = 1; //How many question show in this page pagination
+            var limitPerPage = 1;
             var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = Math.ceil(numberOfItems /
-                3); //How many question visible show in this page pagination
-
+            var paginationSize = Math.ceil(numberOfItems / 3);
             var currentPage;
-
-            console.log("paginationSize", paginationSize)
 
             function showPage(whichPage) {
                 if (whichPage < 1 || whichPage > totalPages) return false;
-                console.log("totalPages", totalPages)
-                console.log("whichPage", whichPage)
-                console.log("#".repeat(20))
-                console.log("currentPage", currentPage)
+
+                // Hide current question with animation
+                $(".question.active").removeClass("active");
 
                 if (whichPage == totalPages) {
-                    $(".btn-sendQuizz").removeClass("d-none");
+                    $(".btn-submit-quiz").removeClass("d-none");
                 } else {
-                    $(".btn-sendQuizz").addClass("d-none");
-
+                    $(".btn-submit-quiz").addClass("d-none");
                 }
 
                 currentPage = whichPage;
 
+                // Show new question with animation
                 $(".question").hide().slice((currentPage - 1) * limitPerPage,
-                    currentPage * limitPerPage).show();
-                $(".paginationn li").slice(1, -1).remove();
+                    currentPage * limitPerPage).addClass("active").show();
+
+                $(".pagination li").slice(1, -1).remove();
 
                 getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                    $("<li>").addClass("page-item").addClass("currentt-page")
+                    $("<li>").addClass("page-item").addClass("current-page")
                         .toggleClass("activee", item === currentPage).append($("<a>")
-                            .addClass(
-                                "page-link").attr({
-                                href: "javascript:void(0)"
-                            }).text(item || "...")).insertBefore(".nextt-page");
+                            .addClass("page-link").attr({
+                                href: "javascript:void(0)",
+                                "aria-label": item ? `Page ${item}` : "More pages"
+                            }).text(item || "...")).insertBefore(".next-page");
                 });
 
-                $(".previouss-page").toggleClass("disablee", currentPage === 1);
-                $(".nextt-page").toggleClass("disablee", currentPage === totalPages);
+                $(".previous-page").toggleClass("disabled", currentPage === 1);
+                $(".next-page").toggleClass("disabled", currentPage === totalPages);
                 return true;
             }
 
-            $(".paginationn").append(
-
-                $("<li>").addClass("page-item").addClass("previouss-page").append($("<a>")
-                    .addClass(
-                        "page-link").attr({
-                        href: "javascript:void(0)"
-                    }).text("Prev")),
-                $("<li>").addClass("page-item").addClass("nextt-page").append($("<a>").addClass(
-                    "page-link").attr({
-                    href: "javascript:void(0)"
-                }).text("Next"))
+            // Initialize pagination
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Previous"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                    )
+                ),
+                $("<li>").addClass("page-item").addClass("next-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Next"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                    )
+                )
             );
 
-            $(".main_wrapper").show();
+            $(".main-wrapper").show();
             showPage(1);
 
-            $(document).on("click", ".paginationn li.currentt-page:not(.activee)", function() {
-                return showPage(+$(this).text());
-            })
-            /* Go to next question */
-            $(".nextt-page").on("click", () => {
-                return showPage(currentPage + 1)
+            // Event handlers
+            $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
+                const pageText = $(this).text();
+                if (pageText === '...') {
+                    // Get the current page list
+                    const pages = getPageList(totalPages, currentPage, paginationSize);
+                    // Find the index of the clicked dots
+                    const dotsIndex = pages.indexOf('...');
+
+                    // Determine if it's the left or right dots
+                    if (dotsIndex === 1) { // Left dots (before first page)
+                        // Show pages around the first page
+                        return showPage(Math.floor(currentPage / 2));
+                    } else { // Right dots (before last page)
+                        // Show pages around the last page
+                        return showPage(Math.floor((currentPage + totalPages) / 2));
+                    }
+                } else {
+                    return showPage(+pageText);
+                }
             });
-            /* Go to pre question */
-            $(".previouss-page").on("click", () => {
-                return showPage(currentPage - 1)
+
+            $(".next-page").on("click", function() {
+                return showPage(currentPage + 1);
             });
+
+            $(".previous-page").on("click", function() {
+                return showPage(currentPage - 1);
+            });
+
         });
-        // $(".addSl").on("click", function() {
-        //     var inpVal = $(this).closest(".section-setValue").find(".gridVal");
-        //     var currentVal = inpVal.val().toString();
-        //     inpVal.val(currentVal + "/");
-        // });
+
     });
 </script>
