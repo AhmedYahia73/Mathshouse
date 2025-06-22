@@ -234,11 +234,46 @@
                     } else {
                         $("#myTable").append(
                             `<tr><td colspan="7" class="text-center">No data found for the selected filters</td></tr>`
-                            );
+                        );
                     }
                 }
             });
         }
+
+        // selCourse.addEventListener('change', () => {
+        //     selChapter.innerHTML = `<option selected disabled>Select Chapter</option>`;
+        //     selLesson.innerHTML = `<option selected disabled>Select Lesson</option>`;
+
+        //     chapter_data.forEach(element => {
+        //         if (element.course_id == selCourse.value) {
+        //             selChapter.innerHTML += `
+    //         <option value="${element.id}">${element.chapter_name}</option>`;
+        //         }
+        //     });
+
+        //     let selectedIndex = selCourse.selectedIndex;
+        //     let selectedText = selCourse.options[selectedIndex].text;
+        //     course_name.innerText = selectedText;
+
+        //     loadScoreSheet();
+        // });
+
+        // selChapter.addEventListener('change', () => {
+        //     selLesson.innerHTML = `<option selected disabled>Select Lesson</option>`;
+
+        //     lesson_data.forEach(element => {
+        //         if (element.chapter_id == selChapter.value) {
+        //             selLesson.innerHTML += `
+    //         <option value="${element.id}">${element.lesson_name}</option>`;
+        //         }
+        //     });
+
+        //     loadScoreSheet();
+        // });
+
+        // selLesson.addEventListener('change', () => {
+        //     loadScoreSheet();
+        // });
 
         selCourse.addEventListener('change', () => {
             selChapter.innerHTML = `<option selected disabled>Select Chapter</option>`;
@@ -255,6 +290,9 @@
             let selectedText = selCourse.options[selectedIndex].text;
             course_name.innerText = selectedText;
 
+            // Save selected course ID to localStorage
+            localStorage.setItem('selectedCourseId', selCourse.value);
+
             loadScoreSheet();
         });
 
@@ -268,10 +306,16 @@
                 }
             });
 
+            // Save selected chapter ID to localStorage
+            localStorage.setItem('selectedChapterId', selChapter.value);
+
             loadScoreSheet();
         });
 
         selLesson.addEventListener('change', () => {
+            // Save selected lesson ID to localStorage
+            localStorage.setItem('selectedLessonId', selLesson.value);
+
             loadScoreSheet();
         });
 
