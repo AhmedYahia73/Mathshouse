@@ -431,7 +431,7 @@
                                 $arr_lessons = [];
                             @endphp
 
-                            @foreach ($sessions as $session)
+                            @foreach ($sessions->sortBy('lesson_id') as $session)
                                 @if (
                                     $session->lesson?->chapter?->id &&
                                         $chapter_id == $session->lesson->chapter->id &&
@@ -598,7 +598,7 @@
                         $arr_lessons = [];
                         @endphp
 
-                        @foreach ($sessions as $session)
+                        @foreach ($sessions->sortBy('lesson_id') as $session)
                         @if (
                             $session->lesson?->chapter?->id &&
                                 (\Carbon\Carbon::now()->subDays(7) <= $session->date && $chapter_id == $session->lesson->chapter->id or
