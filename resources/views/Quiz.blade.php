@@ -138,6 +138,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <title>Student Report</title>
     <style>
         * {
@@ -147,10 +149,11 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 30px;
             color: #333;
-            padding: 20px;
         }
 
         /* Sticky Header with Logo */
@@ -321,9 +324,9 @@
 </head>
 <body>
     <!-- Sticky Header with Logo -->
-    <header class="header-logo">
+    {{-- <header class="header-logo">
         <img src="{{ asset('assets/media/logos/mathshouse_white_logoHeader.png') }}" alt="Maths House Logo" style="height: 80px !important;" class="app-sidebar-logo-default" />
-    </header>
+    </header> --}}
 
     <!-- Main Content -->
     <div class="container">
