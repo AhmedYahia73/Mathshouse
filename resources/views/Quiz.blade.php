@@ -132,13 +132,20 @@
     </div>
 </body>
 </html> --}}
+@php
+    $page_name = 'Mistakes';
+@endphp
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Report</title>
+    <title>Mistakes</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -172,10 +179,10 @@
 
         /* Main Container */
         .container {
-            max-width: 900px;
-            background: linear-gradient(135deg, #FFE6E8, #fff);
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 40px;
+            background: #fbe5e6;
             border-radius: 15px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.5s ease forwards;
@@ -183,69 +190,119 @@
 
         /* Header Title */
         .header {
+            margin-bottom: 1.5rem;
             text-align: center;
-            margin-bottom: 2.5rem;
         }
 
         .header h1 {
             font-size: 2rem;
             color: #CF3F43;
-            margin: 0;
             letter-spacing: 1.2px;
             font-weight: 700;
             text-transform: uppercase;
         }
 
-        /* Info Section */
+        /* Info Section Grid */
         .info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             margin-bottom: 2rem;
-            line-height: 1.8;
         }
 
-        .info h2 {
-            font-size: 1.3rem;
-            margin: 10px 0;
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: #CF3F43;
+            margin-right: 10px;
+        }
+
+        .info-item h2 {
+            font-size: 1.1rem;
             font-weight: 500;
             color: #333;
         }
 
-        .info .delay {
+        .info-item .delay {
             color: #CF3F43;
             font-weight: 600;
         }
 
-        /* Table Styling */
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Mistakes Section */
+        .mistakes-section {
             margin-top: 2rem;
-            font-size: 1rem;
+        }
+
+        .mistake {
             background: #fff;
             border-radius: 10px;
-            overflow: hidden;
+            padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .styled-table thead tr {
-            background-color: #CF3F43;
-            color: #fff;
+        .mistake:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-title {
+            font-size: 1.8rem;
+            color: #CF3F43;
             font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .styled-table th,
-        .styled-table td {
-            padding: 15px 20px;
-            border: 1px solid #e0e0e0;
-            text-align: left;
+        .quesMisake {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f9f9f9;
+        .imgMistake {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .styled-table tbody tr:hover {
-            background-color: #FFE6E8;
-            transition: background-color 0.3s ease;
+        .imgMistake:hover {
+            transform: scale(1.02);
+        }
+
+        /* Modal Styling */
+        .modal-dialog {
+            max-width: 80%;
+            margin: 1.75rem auto;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.5 !important;
+        }
+
+        .imgMistakeModal {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
         /* Footer */
@@ -266,6 +323,12 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 992px) {
+            .info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -273,24 +336,31 @@
             }
 
             .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            .info-item h2 {
                 font-size: 1rem;
             }
 
-            .info h2 {
+            .course-title {
+                font-size: 1.5rem;
+            }
+
+            .quesMisake {
                 font-size: 1.1rem;
-            }
-
-            .styled-table {
-                font-size: 0.9rem;
-            }
-
-            .styled-table th,
-            .styled-table td {
-                padding: 10px 12px;
             }
 
             .header-logo img {
                 max-width: 120px;
+            }
+
+            .modal-dialog {
+                max-width: 95%;
             }
         }
     </style>
@@ -298,31 +368,66 @@
 <body>
     <!-- Sticky Header with Logo -->
     <header class="header-logo">
-        <img src="{{ asset('assets/media/logos/mathshouse_white_logoHeader.png') }}"  alt="Maths House Logo" style="height: 80px !important;" class="app-sidebar-logo-default" />
+        <img src="{{ asset('logos/Maths-house.png') }}" alt="Maths House Logo">
     </header>
 
     <!-- Main Content -->
     <div class="container">
         <div class="header">
-            <h1>Student Performance Report</h1>
+            <h1>Mistakes</h1>
         </div>
 
+        <!-- Exam Details -->
         <div class="info">
-            <h2>Student: {{ $data?->student?->f_name ?? '' }} {{ $data?->student?->l_name ?? '' }}</h2>
-            <h2>Course: {{ $quiz?->lesson?->chapter?->course?->course_name ?? '' }}</h2>
-            <h2>Date: {{ $report['date'] }}</h2>
-            <h2>Day: {{ date('l', strtotime($report['date'])) }}</h2>
-            <h2>Time: {{ $report['time'] }}</h2>
-            @if ($report['color'])
-                <h2 class="delay">Delay: {{ $report['delay'] }}</h2>
-            @else
-                <h2>Delay: {{ $report['delay'] }}</h2>
-            @endif
-            <h2>Score: {{ $data->score }}</h2>
+            <div class="info-item">
+                <h2><i class="fas fa-user"></i> Student: {{ auth()->user()->nick_name }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-book"></i> Course: {{ $dai_exam->course->course_name }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-folder"></i> Category: {{ $dai_exam->course->category->cate_name }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-file-alt"></i> Exam: {{ $dai_exam->title }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-calendar"></i> Date: {{ $history->date }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-clock"></i> Time: {{ $history->time }}</h2>
+            </div>
+            <div class="info-item">
+                <h2 class="delay"><i class="fas fa-hourglass-half"></i> Delay: {{ $delay }}</h2>
+            </div>
+            <div class="info-item">
+                <h2><i class="fas fa-star"></i> Score: {{ $history->score }}</h2>
+            </div>
         </div>
 
+        <!-- Mistakes Section -->
+        <div class="mistakes-section">
+            @foreach ($mistakes as $mistake)
+                <div class="mistake">
+                    <p class="course-title">{{ $mistake->question->lessons->chapter->chapter_name }}</p>
+                    @if (!empty($mistake->question->question))
+                        <span class="quesMisake">{!! $mistake->question->question !!}</span>
+                    @endif
+                    @if (!empty($mistake->question->q_url))
+                        <div style="width: 100%; padding: 5px;">
+                            <img class="imgMistake"
+                                 src="{{ asset('images/questions/' . $mistake->question->q_url) }}"
+                                 data-bs-toggle="modal"
+                                 data-bs-target="#kt_modal_edit{{$mistake->id}}{{$mistake->question->id}}" />
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Footer -->
         <div class="footer">
-            © {{ date('Y') }} Student Report System
+            © {{ date('Y') }} Maths House
         </div>
     </div>
 </body>
