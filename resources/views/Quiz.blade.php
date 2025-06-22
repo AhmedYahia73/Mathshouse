@@ -212,7 +212,6 @@
             transition: transform 0.3s ease;
             max-width: 100%;
             overflow: hidden;
-            background: #fff;
         }
 
         .info-item:hover {
