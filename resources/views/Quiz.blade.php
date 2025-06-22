@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -66,7 +66,7 @@
             font-weight: bold;
         }
 
-        table.styled-table th, 
+        table.styled-table th,
         table.styled-table td {
             padding: 14px 18px;
             border: 1px solid #e0e0e0;
@@ -100,7 +100,7 @@
             <h2>Date: {{ $report['date'] }}</h2>
             <h2>Day: {{ date('l', strtotime($report['date'])) }}</h2>
             <h2>Time: {{ $report['time'] }}</h2>
-            @if ($report['color']) 
+            @if ($report['color'])
                 <h2 class="delay">Delay: {{ $report['delay'] }}</h2>
             @else
                 <h2>Delay: {{ $report['delay'] }}</h2>
@@ -125,6 +125,201 @@
             </tbody>
         </table>
         -->
+
+        <div class="footer">
+            © {{ date('Y') }} Student Report System
+        </div>
+    </div>
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Sticky Header with Logo */
+        .header-logo {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .header-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            background: linear-gradient(135deg, #FFE6E8, #fff);
+            margin: 2rem auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Header Title */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #CF3F43;
+            margin: 0;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Info Section */
+        .info {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .info h2 {
+            font-size: 1.3rem;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .info .delay {
+            color: #CF3F43;
+            font-weight: 600;
+        }
+
+        /* Table Styling */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            font-size: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .styled-table thead tr {
+            background-color: #CF3F43;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 15px 20px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #FFE6E8;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1rem;
+            }
+
+            .info h2 {
+                font-size: 1.1rem;
+            }
+
+            .styled-table {
+                font-size: 0.9rem;
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 10px 12px;
+            }
+
+            .header-logo img {
+                max-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header with Logo -->
+    <header class="header-logo">
+        <img src="{{ asset('assets/media/logos/mathshouse_white_logoHeader.png') }}"  alt="Maths House Logo" style="height: 80px !important;" class="app-sidebar-logo-default" />
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="header">
+            <h1>Student Performance Report</h1>
+        </div>
+
+        <div class="info">
+            <h2>Student: {{ $data?->student?->f_name ?? '' }} {{ $data?->student?->l_name ?? '' }}</h2>
+            <h2>Course: {{ $quiz?->lesson?->chapter?->course?->course_name ?? '' }}</h2>
+            <h2>Date: {{ $report['date'] }}</h2>
+            <h2>Day: {{ date('l', strtotime($report['date'])) }}</h2>
+            <h2>Time: {{ $report['time'] }}</h2>
+            @if ($report['color'])
+                <h2 class="delay">Delay: {{ $report['delay'] }}</h2>
+            @else
+                <h2>Delay: {{ $report['delay'] }}</h2>
+            @endif
+            <h2>Score: {{ $data->score }}</h2>
+        </div>
 
         <div class="footer">
             © {{ date('Y') }} Student Report System
