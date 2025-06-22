@@ -389,6 +389,9 @@ class Ad_ReportsController extends Controller
         
         $user = User::find($request->user_id);
         $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
+		$questionsIds =  $questionsIds[0];
+		$questionsIds = str_replace(['[', ']'], '', $questionsIds);
+		$questionsIds = explode(',', $questionsIds);
         $questions = $this->stu_quizzes
         ->whereIn('id', $questionsIds)
         ->with(['questions' => function($query){
@@ -414,6 +417,9 @@ class Ad_ReportsController extends Controller
            
         $user = User::find($request->user_id);
         $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
+        $questionsIds =  $questionsIds[0];
+		$questionsIds = str_replace(['[', ']'], '', $questionsIds);
+		$questionsIds = explode(',', $questionsIds);
         $questions = $this->stu_quizzes
         ->whereIn('id', $questionsIds)
         ->with(['questions' => function($query){
@@ -433,5 +439,4 @@ class Ad_ReportsController extends Controller
         ->setPaper('a4', 'landscape');
         return $pdf->download('ans_questions.pdf');
     }
-
 }
