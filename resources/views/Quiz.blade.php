@@ -306,7 +306,7 @@
                 <h2><i class="fas fa-calendar"></i> Date: {{ $report['date'] }}</h2>
             </div>
             <div class="info-item">
-                <h2><i class="fas fa-calendar-day"></i> Day: {{ date('l', strtotime($report['date }')) }}</h2>
+                <h2><i class="fas fa-calendar-day"></i> Day: {{ date('l', strtotime($report['date'])) }}</h2>
             </div>
             <div class="info-item">
                 <h2><i class="fas fa-clock"></i> Time: {{ $report['time'] }}</h2>
