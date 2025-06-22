@@ -1,10 +1,10 @@
 @php
-function fun_admin()
-{
-    return 'admin';
-}
-$chapter_name = null;
-$ch_id = [];
+    function fun_admin()
+    {
+        return 'admin';
+    }
+    $chapter_name = null;
+    $ch_id = [];
 @endphp
 <x-default-layout>
     @section('title', 'ScoreSheet Report')
@@ -92,21 +92,21 @@ $ch_id = [];
         </div>
         <div class="col-12 d-flex align-items-center justify-content-start gap-5">
             <select class="selCourse mx-2"
-                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="course_id" id="selCourse">
+                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;" name="course_id"
+                id="selCourse">
                 <option selected disabled>Select Course</option>
                 @foreach ($courses as $item)
-                <option value="{{ $item->id }}">{{ $item->course_name }}</option>
+                    <option value="{{ $item->id }}">{{ $item->course_name }}</option>
                 @endforeach
             </select>
             <select class="selChapter mx-2"
-                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="chapter_id" id="selChapter">
+                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;" name="chapter_id"
+                id="selChapter">
                 <option value="">Select Chapter</option>
             </select>
             <select class="selLesson mx-2"
-                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;"
-                name="lesson_id" id="selLesson">
+                style="width: 20%;font-size: 1.4rem;font-weight: 600; border: none;border-radius: 0;" name="lesson_id"
+                id="selLesson">
                 <option value="">Select Lesson</option>
             </select>
             <input type="hidden" value="{{ $courses }}" class="course_data" />
@@ -216,7 +216,7 @@ $ch_id = [];
                 success: function(data) {
                     $("#myTable").empty(); // Clear previous results
 
-                    if(data.data && data.data.length > 0) {
+                    if (data.data && data.data.length > 0) {
                         $(data.data).each((index, ele) => {
                             var newRow = `<tr>
                                 <td style="padding-top: 15px !important">
@@ -232,7 +232,9 @@ $ch_id = [];
                             $("#myTable").append(newRow);
                         });
                     } else {
-                        $("#myTable").append(`<tr><td colspan="7" class="text-center">No data found for the selected filters</td></tr>`);
+                        $("#myTable").append(
+                            `<tr><td colspan="7" class="text-center">No data found for the selected filters</td></tr>`
+                            );
                     }
                 }
             });
@@ -280,9 +282,9 @@ $ch_id = [];
                     selectedQuizzeIds.push($(this).data('quizze-id'));
                 });
 
-                // Update both forms with selected IDs
-                $('#selectedIdsInput').val(selectedQuizzeIds.join(','));
-                $('#selectedIdsInputAns').val(selectedQuizzeIds.join(','));
+                // Set the value as JSON string
+                $('#selectedIdsInput').val(JSON.stringify(selectedQuizzeIds));
+                $('#selectedIdsInputAns').val(JSON.stringify(selectedQuizzeIds));
 
                 // Show/hide buttons based on selection
                 $('#generatePdf').toggle(selectedQuizzeIds.length > 0);
