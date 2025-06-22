@@ -324,9 +324,9 @@
 </head>
 <body>
     <!-- Sticky Header with Logo -->
-    {{-- <header class="header-logo">
+    <header class="header-logo">
         <img src="{{ asset('assets/media/logos/mathshouse_white_logoHeader.png') }}" alt="Maths House Logo" style="height: 80px !important;" class="app-sidebar-logo-default" />
-    </header> --}}
+    </header>
 
     <!-- Main Content -->
     <div class="container">
