@@ -10,6 +10,29 @@
 @extends('layout.loginMaster')
 @section('styleCssSection')
     <style>
+    .gradeInp {
+        position: relative;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 5px;
+    }
+
+    .gradeInp select {
+        width: 100%;
+        outline: none;
+        border: none;
+        border-bottom: solid red;
+        padding: 10px 0;
+        font-size: 1.2rem;
+        font-weight: 500;
+        background-color: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
         .parContainer {
             width: 100%;
             height: 100%;
@@ -278,6 +301,21 @@
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
                 </div>
+              <div class="gradeInp">
+                <select name="grade" class="form-control" id="gradeInput">
+                    <option disabled>Select Grade ...</option>
+                    @for ($i = 1; $i <= 13; $i++)
+                        <option value="{{ $i }}" {{ $i == old('grade') ? 'selected' : null }}>
+                            {{ $i }}
+                        </option>
+                    @endfor
+                </select>
+                <span class="d-none">Please Set Your Grade</span>
+                @error('grade')
+                    <span style="color: red;">{{ $message }}</span>
+                @enderror
+            </div>
+
                 <div class="passInp">
                     <input type="password" id="passInput" name="password" placeholder="Password">
                     <span class="d-none">Please Set Your Password</span>
@@ -398,6 +436,9 @@
             $("#emailInput").keyup(function() {
                 checkFaild($(this));
                 // checkFaildEmail($(this));
+            })
+            $("#gradeInput").keyup(function() {
+                checkFaild($(this));
             })
             $("#phoneInput").keyup(function() {
                 checkFaild($(this));

@@ -262,11 +262,12 @@ class UserController extends Controller
     
             return view('Admin.Users.Students', compact('students', 'data'));
         }
-        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_email', 'parent_phone');
+        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_email', 'parent_phone', 'grade');
         $req->validate([
         'nick_name'    => 'required',
         'email'        => 'required|email',
         'phone'        => 'required',
+        'grade'        => 'required|numeric',
         ]);
         $arr['password'] = bcrypt($req->password);
         $arr['position'] = 'student';
@@ -277,16 +278,13 @@ class UserController extends Controller
     }
 
     public function stu_edit( Request $req ){
-        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_email', 'parent_phone');
-        $req->validate([
-        'nick_name'         => 'required',
-        'email'        => 'required|email',
-        'phone'        => 'required',
-        ]);
+        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 
+        'parent_email', 'parent_phone', 'grade');
+
         $arr['state'] = $req->state == 1 ? 'Show': 'hidden';
         if ( !empty($req->password) ) {
             $arr['password'] = bcrypt($req->password);
-        } 
+        }
         
         User::
         where('id', $req->user_id)

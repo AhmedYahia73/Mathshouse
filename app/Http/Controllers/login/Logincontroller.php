@@ -280,7 +280,8 @@ class Logincontroller extends Controller
                         'l_name'=>'required',
                         'nick_name'=>'required',
                         'phone'=>'required',
-                        'email' => 'email|required'
+                        'email' => 'email|required',
+                        'grade' => 'required|numeric'
                 ]);
                         
                 if ( $req->password != $req->conf_password ) {

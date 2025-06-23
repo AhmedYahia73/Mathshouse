@@ -59,6 +59,17 @@
                                         <input class='form-control' value="{{@$data['phone']}}" name="phone" placeholder="Phone" />
                                     </div>
                                     <div class='my-3'>
+                                        <label>Grade</label>
+                                            <select name="grade" class="form-control" id="gradeInput">
+                                                <option disabled>Select Grade ...</option>
+                                                @for ($i = 1; $i <= 13; $i++)
+                                                    <option value="{{ $i }}">
+                                                        {{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                    </div>
+                                    <div class='my-3'>
                                         <label>Parent E-mail</label>
                                         <input class='form-control' value="{{@$data['parent_email']}}" name="parent_email" placeholder="Parent E-mail" />
                                     </div>

@@ -304,6 +304,18 @@
                                                     </div>
                                                 </div>
 
+                                                <div class='my-3 px-3'>
+                                                    <label>Grade</label>
+                                                        <select name="grade" class="form-control" id="gradeInput">
+                                                            <option disabled>Select Grade ...</option>
+                                                            @for ($i = 1; $i <= 13; $i++)
+                                                                <option value="{{ $i }}" {{ $item->grade == $i ? 'selected' : null }}>
+                                                                    {{ $i }}
+                                                                </option>
+                                                            @endfor
+                                                        </select>
+                                                </div>
+
                                                 <div class="my-2 px-3">
                                                     <label>
                                                         Phone
