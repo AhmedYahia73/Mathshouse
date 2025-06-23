@@ -187,7 +187,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
         row-gap: 10px;
         border-bottom: 3px dashed #e2e2e2;
     }
