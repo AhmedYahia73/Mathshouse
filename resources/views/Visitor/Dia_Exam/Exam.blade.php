@@ -771,14 +771,13 @@
         </div> --}}
     </header>
     <main>
-        <form action="{{ route('dia_exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
+        <form action="{{ route('dia_exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;"
+            id="quizForm">
             @csrf
-            
-            <!-- Hidden input for start time -->
+            <!-- Hidden input for start time (Unix timestamp) -->
             <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
-            <!-- Hidden input for time difference -->
+            <!-- Hidden input for time difference in HH:MM:SS -->
             <input type="hidden" name="time" id="time_diff">
-
             <div class="main-wrapper">
                 @foreach ($exam->question as $question)
                     <div class="question">
@@ -786,12 +785,8 @@
                             id="questionID{{ $question->id }}">
                         <div class="question-side">
                             <div class="text-question">
-                                <span class="question-num">
-                                    {{ $loop->iteration }}
-                                </span>
-                                <p>
-                                    {!! $question->question !!}
-                                </p>
+                                <span class="question-num">{{ $loop->iteration }}</span>
+                                <p>{!! $question->question !!}</p>
                             </div>
                             <div class="img-question">
                                 <span>Examples</span>
@@ -801,6 +796,7 @@
                             </div>
                         </div>
                         <div class="answer-side">
+                            <!-- Existing answer-side content -->
                             <div class="options">
                                 <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
                                 <div class="options-list d-none">
@@ -818,7 +814,7 @@
                             {{-- Supp Question --}}
 
                             {{-- Input to set and send value about answer question to array --}}
-                            <input type="hidden" id="timer_val" name="timer_val" />
+                            {{-- <input type="hidden" id="timer_val" name="timer_val" /> --}}
                             <input type="hidden" name="quizze" value="{{ $exam }}">
 
                             {{-- Answer chosen --}}
@@ -843,7 +839,7 @@
                             @else
                                 <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
                                     value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                {{-- Answer Set Value --}}
+                                     {{-- Answer Set Value --}}
                                 {{-- <div class="answer-setValue">
                             <div class="section-setValue">
                                 <span>Answer:</span>
@@ -864,14 +860,12 @@
                                             <input type="text" step="0.001" value="0" name="q_grid_ans[]"
                                                 class="gridVal" id="input_val">
                                         </div>
-                                        <input type="button" value="/" class="addSl"> <!-- Button to add "/" -->
+                                        <input type="button" value="/" class="addSl">
                                         <input type="button" value="Enter" class="enterBtn">
-                                        <!-- Button for Enter functionality -->
                                     </div>
                                     <div class="section-value">
                                         <span>Answer Preview:</span>
                                         <input type="number" id="preview_value" readonly>
-                                        <!-- This will show the preview -->
                                     </div>
                                 </div>
                             @endif
@@ -883,7 +877,7 @@
             {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
-                    <button class="btn-submit-quiz d-none" type="Submit">Submit Quiz</button>
+                    <button class="btn-submit-quiz d-none" type="submit">Submit Quiz</button>
                 </ul>
             </div>
         </form>
@@ -993,19 +987,43 @@
 
         //edit here for time
         // Handle form submission
+        // Ensure jQuery is loaded
+        if (typeof $ === 'undefined') {
+            console.error('jQuery is not loaded!');
+        }
+
+        // Handle form submission
         $('#quizForm').on('submit', function(e) {
-            // Get start time from hidden input
-            const startTime = parseInt($('#start_time').val()) * 1000; // Convert to milliseconds
-            // Get current time (end time)
+            console.log('Form submit triggered');
+
+            // Get start time
+            const startTimeVal = $('#start_time').val();
+            console.log('Start time:', startTimeVal);
+
+            if (!startTimeVal) {
+                console.error('Start time is missing or empty!');
+                return; // Prevent submission if start_time is missing
+            }
+
+            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
             const endTime = Date.now();
-            // Calculate difference in seconds
-            const timeDiff = Math.floor((endTime - startTime) / 1000);
-            // Set time difference in hidden input
-            $('#time_diff').val(timeDiff);
-            // Form submission proceeds normally
+            const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
+
+            // Convert to HH:MM:SS
+            const hours = Math.floor(timeDiffSeconds / 3600);
+            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
+            const seconds = timeDiffSeconds % 60;
+            const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            // Set time difference
+            console.log('Formatted time:', formattedTime);
+            $('#time_diff').val(formattedTime);
+            console.log('Time diff set:', $('#time_diff').val());
+
+            // Allow form submission to proceed
         });
 
-        // Existing timer code (unchanged)
+        // Timer for display (unchanged)
         var hoursLabel = $("#hour");
         var minutesLabel = $("#minutes");
         var secondsLabel = $("#seconds");
@@ -1040,28 +1058,29 @@
         }
 
         /* Send Timer */
-        $(".btn-submit-quiz").click(function() {
+        // $(".btn-submit-quiz").click(function() {
 
-            var Hours_quizz = $("#hour").text();
-            var Min_quizz = $("#minutes").text();
-            var Sec_quizz = $("#seconds").text();
-            var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
-            var objTim = alltime;
+        //     var Hours_quizz = $("#hour").text();
+        //     var Min_quizz = $("#minutes").text();
+        //     var Sec_quizz = $("#seconds").text();
+        //     var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
+        //     var objTim = alltime;
 
-            var timer_val = $("#timer_val").val(JSON.stringify(objTim));
-            var timer = timer_val.val();
-            console.log()
-            $.ajax({
-                url: "{{ route('api_timer') }}",
-                type: "GET",
-                data: {
-                    timer,
-                },
-                success: function(data) {
-                    console.log("data", data)
-                }
-            })
-        })
+        //     var timer_val = $("#timer_val").val(JSON.stringify(objTim));
+        //     var timer = timer_val.val();
+        //     console.log()
+        //     $.ajax({
+        //         url: "{{ route('api_timer') }}",
+        //         type: "GET",
+        //         data: {
+        //             timer,
+        //         },
+        //         success: function(data) {
+        //             console.log("data", data)
+        //         }
+        //     })
+        // })
+
         /* Send Report about the question */
         $(".report_item").on("click", function() {
             console.log("Report id", $(this).find(".reportID").val())
