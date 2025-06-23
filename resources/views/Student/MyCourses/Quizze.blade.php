@@ -187,19 +187,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
         row-gap: 10px;
         border-bottom: 3px dashed #e2e2e2;
     }
 
-     {
+    main .main-wrapper .question {
         position: relative;
         width: 100%;
         background: #fff;
         display: flex;
         column-gap: 10px;
         padding: 10px;
-    }main .main-wrapper .question
+    }
 
     /* Media query for small screens (e.g., max-width: 768px) */
     @media (max-width: 768px) {
