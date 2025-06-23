@@ -773,6 +773,12 @@
     <main>
         <form action="{{ route('dia_exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
             @csrf
+            
+            <!-- Hidden input for start time -->
+            <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
+            <!-- Hidden input for time difference -->
+            <input type="hidden" name="time" id="time_diff">
+
             <div class="main-wrapper">
                 @foreach ($exam->question as $question)
                     <div class="question">
@@ -917,6 +923,89 @@
 <script>
     $(document).ready(function() {
         /* Timer question */
+        // var hoursLabel = $("#hour");
+        // var minutesLabel = $("#minutes");
+        // var secondsLabel = $("#seconds");
+        // var totalHours = 0;
+        // var totalMinutes = 0;
+        // var totalSeconds = 0;
+
+        // setInterval(setTime, 1000);
+
+        // function setTime() {
+        //     var Hours_quizz = $("#hour").text();
+        //     var Min_quizz = $("#minutes").text();
+        //     var Sec_quizz = $("#seconds").text();
+        //     var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
+        //     var objTim = alltime;
+
+        //     $("#timer_val").val(JSON.stringify(objTim));
+
+        //     console.log("Hours_quizz", Hours_quizz)
+        //     console.log("Min_quizz", Min_quizz)
+        //     console.log("Sec_quizz", Sec_quizz)
+        //     console.log("objTim", objTim)
+        //     console.log("timer_val ", $("#timer_val").val())
+        //         ++totalSeconds;
+        //     secondsLabel.html(pad(totalSeconds % 60));
+        //     secondsLabel.html(pad(parseInt(totalSeconds)));
+
+        //     if (totalSeconds <= 59) {
+        //         console.log("sec < 59")
+        //         // var Hours_quizz = $("#hr").text();
+        //         // var Min_quizz = $("#minutes").text();
+        //         // var Sec_quizz = $("#seconds").text();
+        //         // var Timer_quizz = Hours_quizz + Min_quizz + Sec_quizz;
+
+        //         // console.log("Hours_quizz", Hours_quizz)
+        //         // console.log("Min_quizz", Min_quizz)
+        //         // console.log("Sec_quizz", Sec_quizz)
+        //         // console.log("Timer_quizz", Timer_quizz)
+        //     } else {
+        //         secondsLabel.html(pad(parseInt(0)));
+        //         totalSeconds = 0;
+        //         totalMinutes++;
+        //         minutesLabel.html(pad(parseInt(totalMinutes)));
+        //         console.log("5555")
+
+        //         if (totalMinutes <= 59) {
+        //             console.log("min < 59")
+        //         } else {
+        //             minutesLabel.html(pad(parseInt(0)));
+        //             totalMinutes = 0;
+        //             totalHours++;
+        //             hoursLabel.html(pad(parseInt(totalHours)));
+        //             console.log("6666")
+        //         }
+        //     }
+
+
+        // }
+
+        // function pad(val) {
+        //     var valString = val + "";
+        //     if (valString.length < 2) {
+        //         return "0" + valString;
+        //     } else {
+        //         return valString;
+        //     }
+        // }
+
+        //edit here for time
+        // Handle form submission
+        $('#quizForm').on('submit', function(e) {
+            // Get start time from hidden input
+            const startTime = parseInt($('#start_time').val()) * 1000; // Convert to milliseconds
+            // Get current time (end time)
+            const endTime = Date.now();
+            // Calculate difference in seconds
+            const timeDiff = Math.floor((endTime - startTime) / 1000);
+            // Set time difference in hidden input
+            $('#time_diff').val(timeDiff);
+            // Form submission proceeds normally
+        });
+
+        // Existing timer code (unchanged)
         var hoursLabel = $("#hour");
         var minutesLabel = $("#minutes");
         var secondsLabel = $("#seconds");
@@ -927,63 +1016,29 @@
         setInterval(setTime, 1000);
 
         function setTime() {
-            var Hours_quizz = $("#hour").text();
-            var Min_quizz = $("#minutes").text();
-            var Sec_quizz = $("#seconds").text();
-            var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
-            var objTim = alltime;
-
-            $("#timer_val").val(JSON.stringify(objTim));
-
-            console.log("Hours_quizz", Hours_quizz)
-            console.log("Min_quizz", Min_quizz)
-            console.log("Sec_quizz", Sec_quizz)
-            console.log("objTim", objTim)
-            console.log("timer_val ", $("#timer_val").val())
-                ++totalSeconds;
+            ++totalSeconds;
             secondsLabel.html(pad(totalSeconds % 60));
-            secondsLabel.html(pad(parseInt(totalSeconds)));
 
-            if (totalSeconds <= 59) {
-                console.log("sec < 59")
-                // var Hours_quizz = $("#hr").text();
-                // var Min_quizz = $("#minutes").text();
-                // var Sec_quizz = $("#seconds").text();
-                // var Timer_quizz = Hours_quizz + Min_quizz + Sec_quizz;
-
-                // console.log("Hours_quizz", Hours_quizz)
-                // console.log("Min_quizz", Min_quizz)
-                // console.log("Sec_quizz", Sec_quizz)
-                // console.log("Timer_quizz", Timer_quizz)
-            } else {
-                secondsLabel.html(pad(parseInt(0)));
+            if (totalSeconds >= 60) {
+                secondsLabel.html(pad(0));
                 totalSeconds = 0;
                 totalMinutes++;
-                minutesLabel.html(pad(parseInt(totalMinutes)));
-                console.log("5555")
+                minutesLabel.html(pad(totalMinutes));
 
-                if (totalMinutes <= 59) {
-                    console.log("min < 59")
-                } else {
-                    minutesLabel.html(pad(parseInt(0)));
+                if (totalMinutes >= 60) {
+                    minutesLabel.html(pad(0));
                     totalMinutes = 0;
                     totalHours++;
-                    hoursLabel.html(pad(parseInt(totalHours)));
-                    console.log("6666")
+                    hoursLabel.html(pad(totalHours));
                 }
             }
-
-
         }
 
         function pad(val) {
             var valString = val + "";
-            if (valString.length < 2) {
-                return "0" + valString;
-            } else {
-                return valString;
-            }
+            return valString.length < 2 ? "0" + valString : valString;
         }
+
         /* Send Timer */
         $(".btn-submit-quiz").click(function() {
 
