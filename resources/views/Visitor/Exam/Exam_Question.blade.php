@@ -736,6 +736,10 @@
     <main>
         <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;" id="quizForm">
             @csrf
+             <!-- Hidden input for start time (Unix timestamp) -->
+            <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
+            <!-- Hidden input for time difference in HH:MM:SS -->
+            <input type="hidden" name="time" id="time_diff">
             <div class="main-wrapper">
                 @foreach ($exam->question->sortBy('q_num')->sortBy('section') as $question)
                     <div class="question">
