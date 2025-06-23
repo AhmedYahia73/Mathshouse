@@ -129,7 +129,7 @@
 
     .options-list {
         position: absolute;
-        top: 25%;
+        top: 60%;
         left: 22%;
         width: 60%;
         margin: 0;
@@ -192,14 +192,22 @@
         border-bottom: 3px dashed #e2e2e2;
     }
 
-    main .main-wrapper .question {
+     {
         position: relative;
         width: 100%;
         background: #fff;
         display: flex;
-        flex-direction: column;
         column-gap: 10px;
         padding: 10px;
+    }main .main-wrapper .question
+
+    /* Media query for small screens (e.g., max-width: 768px) */
+    @media (max-width: 768px) {
+        main .main-wrapper .question {
+            flex-direction: column;
+            row-gap: 10px;
+            /* Optional: Add spacing between stacked items */
+        }
     }
 
     /* Question Side */
@@ -258,8 +266,8 @@
     }
 
     main .main-wrapper .question .question-side .img-question img {
-        min-width: 80%;
-        max-width: 80%;
+        min-width: 100%;
+        max-width: 100%;
         height: auto;
         object-fit: cover;
         object-position: center;
@@ -269,12 +277,18 @@
 
     /* Answer Side */
     main .main-wrapper .question .answer-side {
-        width: 100%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         align-items: center;
         /* background: #20e690; */
         /* overflow-y: scroll */
+    }
+
+    @media (max-width: 768px) {
+        main .main-wrapper .question .answer-side {
+            width: 100%;
+        }
     }
 
     /* width */

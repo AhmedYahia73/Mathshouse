@@ -252,7 +252,7 @@
                     {!! $question->question !!}
                 @endif
                 @if (!empty($question->q_url))
-                    <img style="width: 200px; height: 200px;" src="{{ asset('images/questions/' . $question->q_url) }}"
+                    <img style="width: 100%; height: 300px;" src="{{ asset('images/questions/' . $question->q_url) }}"
                         data-bs-toggle="modal" data-bs-target="#kt_modal_edit{{ $question->id }}" />
 
                     <!-- Modal -->
@@ -373,7 +373,7 @@
                                 src="{{ $q_ans->ans_video }}" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
-                        
+
 
                                     @if (!empty($q_ans->ans_video))
                                         <div class="list_cont">
