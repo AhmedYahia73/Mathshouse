@@ -734,7 +734,7 @@
         </div> --}}
     </header>
     <main>
-        <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;">
+        <form action="{{ route('exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;" id="quizForm">
             @csrf
             <div class="main-wrapper">
                 @foreach ($exam->question->sortBy('q_num')->sortBy('section') as $question)
@@ -775,7 +775,7 @@
                             {{-- Supp Question --}}
 
                             {{-- Input to set and send value about answer question to array --}}
-                            <input type="hidden" id="timer_val" name="timer_val" />
+                            {{-- <input type="hidden" id="timer_val" name="timer_val" /> --}}
                             <input type="hidden" name="quizze" value="{{ $exam }}">
 
                             {{-- Answer chosen --}}
@@ -800,35 +800,6 @@
                             @else
                                 <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
                                     value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                {{-- Answer Set Value --}}
-                                {{-- <div class="answer-setValue">
-                                    <div class="section-setValue">
-                                        <span>Answer:</span>
-                                        <div class="input_val">
-                                            <input type="text" name="q_grid_ans[]" step="0.001" value="0"
-                                                class="gridVal">
-                                        </div>
-                                        <input type="button" value="/" class="addSl">
-                                    </div>
-                                    <div class="section-value">
-                                        <span>Answer Preview:</span>
-                                        <input type="number" value="00000" readonly>
-                                    </div>
-                                </div> --}}
-
-                                {{-- <div class="answer-setValue">
-                                    <div class="section-setValue">
-                                        <span>Answer:</span>
-                                        <div class="input_val">
-                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val30">
-                                        </div>
-                                        <input type="button" value="/" class="addSl">
-                                    </div>
-                                    <div class="section-value">
-                                        <span>Answer Preview:</span>
-                                        <input type="number" name="q_grid_ans[]" id="section-value30" value="00000" readonly>
-                                    </div>
-                                </div> --}}
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
@@ -855,7 +826,7 @@
             {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
-                    <button class="btn-submit-quiz" type="Submit">Submit Quiz</button>
+                    <button class="btn-submit-quiz" type="submit">Submit Quiz</button>
                 </ul>
             </div>
         </form>
@@ -895,7 +866,45 @@
 <script>
     $(document).ready(function() {
 
-        /* Timer question */
+        //edit here for time
+        // Handle form submission
+        // Ensure jQuery is loaded
+        if (typeof $ === 'undefined') {
+            console.error('jQuery is not loaded!');
+        }
+
+        // Handle form submission
+        $('#quizForm').on('submit', function(e) {
+            console.log('Form submit triggered');
+
+            // Get start time
+            const startTimeVal = $('#start_time').val();
+            console.log('Start time:', startTimeVal);
+
+            if (!startTimeVal) {
+                console.error('Start time is missing or empty!');
+                return; // Prevent submission if start_time is missing
+            }
+
+            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
+            const endTime = Date.now();
+            const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
+
+            // Convert to HH:MM:SS
+            const hours = Math.floor(timeDiffSeconds / 3600);
+            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
+            const seconds = timeDiffSeconds % 60;
+            const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            // Set time difference
+            console.log('Formatted time:', formattedTime);
+            $('#time_diff').val(formattedTime);
+            console.log('Time diff set:', $('#time_diff').val());
+
+            // Allow form submission to proceed
+        });
+
+        // Timer for display (unchanged)
         var hoursLabel = $("#hour");
         var minutesLabel = $("#minutes");
         var secondsLabel = $("#seconds");
@@ -906,89 +915,44 @@
         setInterval(setTime, 1000);
 
         function setTime() {
-            var Hours_quizz = $("#hour").text();
-            var Min_quizz = $("#minutes").text();
-            var Sec_quizz = $("#seconds").text();
-
-            var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
-            var objTim = alltime;
-
-            $("#timer_val").val(JSON.stringify(objTim));
-
-            console.log("Hours_quizz", Hours_quizz)
-            console.log("Min_quizz", Min_quizz)
-            console.log("Sec_quizz", Sec_quizz)
-            console.log("objTim", objTim)
-            console.log("timer_val ", $("#timer_val").val())
-                ++totalSeconds;
+            ++totalSeconds;
             secondsLabel.html(pad(totalSeconds % 60));
-            secondsLabel.html(pad(parseInt(totalSeconds)));
 
-            if (totalSeconds <= 59) {
-                console.log("sec < 59")
-                // var Hours_quizz = $("#hr").text();
-                // var Min_quizz = $("#minutes").text();
-                // var Sec_quizz = $("#seconds").text();
-                // var Timer_quizz = Hours_quizz + Min_quizz + Sec_quizz;
-
-                // console.log("Hours_quizz", Hours_quizz)
-                // console.log("Min_quizz", Min_quizz)
-                // console.log("Sec_quizz", Sec_quizz)
-                // console.log("Timer_quizz", Timer_quizz)
-            } else {
-                secondsLabel.html(pad(parseInt(0)));
+            if (totalSeconds >= 60) {
+                secondsLabel.html(pad(0));
                 totalSeconds = 0;
                 totalMinutes++;
-                minutesLabel.html(pad(parseInt(totalMinutes)));
-                console.log("5555")
+                minutesLabel.html(pad(totalMinutes));
 
-                if (totalMinutes <= 59) {
-                    console.log("min < 59")
-                } else {
-                    minutesLabel.html(pad(parseInt(0)));
+                if (totalMinutes >= 60) {
+                    minutesLabel.html(pad(0));
                     totalMinutes = 0;
                     totalHours++;
-                    hoursLabel.html(pad(parseInt(totalHours)));
-                    console.log("6666")
+                    hoursLabel.html(pad(totalHours));
                 }
             }
-
-            var timer_val = $("#timer_val").val();
-            $.ajax({
-                url: "{{ route('api_timer') }}",
-                type: "GET",
-                data: {
-                    timer_val,
-                },
-                success: function(data) {
-                    console.log("data", data)
-                }
-            })
         }
 
         function pad(val) {
             var valString = val + "";
-            if (valString.length < 2) {
-                return "0" + valString;
-            } else {
-                return valString;
-            }
+            return valString.length < 2 ? "0" + valString : valString;
         }
 
+
         /* Send Timer */
-        $(".btn-sendQuizz").click(function() {
-            var timer_val = $("#timer_val").val();
-            $.ajax({
-                url: "{{ route('api_timer') }}",
-                type: "GET",
-                data: {
-                    timer_val,
-                },
-                success: function(data) {
-                    console.log("data", data)
-                }
-            })
-        })
+        // $(".btn-sendQuizz").click(function() {
+        //     var timer_val = $("#timer_val").val();
+        //     $.ajax({
+        //         url: "{{ route('api_timer') }}",
+        //         type: "GET",
+        //         data: {
+        //             timer_val,
+        //         },
+        //         success: function(data) {
+        //             console.log("data", data)
+        //         }
+        //     })
+        // })
 
         /* Send Report about the question */
         $(".report_item").on("click", function() {
