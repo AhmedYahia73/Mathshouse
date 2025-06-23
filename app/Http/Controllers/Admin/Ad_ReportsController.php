@@ -253,7 +253,8 @@ class Ad_ReportsController extends Controller
     public function score_sheet_student( $user_id ){
         $lessons = Lesson::all();
         $chapters = Chapter::all();
-        $courses = Course::all();
+        $courses = User::where('id', $user_id)
+        ->first()->courses_live;
         $student = User::where('id', $user_id)->first();
 
         return view('Admin.Reports.ScoreSheet.Student_ScoreSheet', 
