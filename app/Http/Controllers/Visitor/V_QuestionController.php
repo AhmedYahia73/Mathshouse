@@ -219,7 +219,7 @@ class V_QuestionController extends Controller
     }
 
     public function q_sol( Request $req ){ 
-        $timer_val = json_decode(Cookie::get('timer'));
+        $timer_val = $req->time;
         $arr = [];
         $ans = false;
         $question = [];

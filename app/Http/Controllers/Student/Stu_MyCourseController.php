@@ -234,7 +234,7 @@ class Stu_MyCourseController extends Controller
 
     public function quizze_ans(Request $req)
     {
-        $timer_val = Cookie::get('timer');
+        $timer_val = $req->time;
         $timer_val = empty($timer_val) ? '00:00:00' : $timer_val;
         $quizze_id = json_decode($req->quizze)->id;
         $quizze = quizze::where('id', $quizze_id)

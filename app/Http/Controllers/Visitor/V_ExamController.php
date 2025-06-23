@@ -205,7 +205,7 @@ class V_ExamController extends Controller
 
     public function exam_ans( $id, Request $req )
     { 
-        $timer_val = json_decode(Cookie::get('timer'));
+        $timer_val = $req->time; 
         $exam = Exam::where('id', $id)
         ->first();
         $report_v = ReportVideoList::all();
