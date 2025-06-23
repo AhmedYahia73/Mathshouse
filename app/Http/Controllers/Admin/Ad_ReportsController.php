@@ -408,9 +408,10 @@ class Ad_ReportsController extends Controller
             }
         }
 
+        $pdf_name =  'Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
         $pdf = Pdf::loadView('questions', compact('questions', 'answers', 'user'))
         ->setPaper('a4', 'landscape');
-        return $pdf->download('questions.pdf');
+        return $pdf->download($pdf_name . '.pdf');
     }
 
     
@@ -436,8 +437,9 @@ class Ad_ReportsController extends Controller
             }
         } 
         
+        $pdf_name =  'Ans - Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
         $pdf = Pdf::loadView('questions_answers', compact('questions', 'answers', 'user'))
         ->setPaper('a4', 'landscape');
-        return $pdf->download('ans_questions.pdf');
+        return $pdf->download($pdf_name . '.pdf');
     }
 }

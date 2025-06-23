@@ -280,7 +280,7 @@ class V_QuestionController extends Controller
     
 
     public function q_parallel_sol( Request $req ){ 
-        $timer_val = json_decode(Cookie::get('timer'));
+        $timer_val = $req->timer_val;
         $arr = [];
         $ans = false;
         $question = [];
