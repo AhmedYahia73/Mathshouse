@@ -205,7 +205,8 @@ class V_ExamController extends Controller
 
     public function exam_ans( $id, Request $req )
     { 
-        $timer_val = $req->time; 
+        $timer_val = $req->time;
+        return $req->all();
         $exam = Exam::where('id', $id)
         ->first();
         $report_v = ReportVideoList::all();
