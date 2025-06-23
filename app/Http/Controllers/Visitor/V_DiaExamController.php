@@ -78,6 +78,7 @@ class V_DiaExamController extends Controller
 
     public function dia_exam_ans( $id, Request $req )
     {
+        return $req->all();
         $timer_val = json_decode(Session::get('timer'));
         
         $exam = DiagnosticExam::where('id', $id)
