@@ -149,8 +149,8 @@
     <div class="container">
         
         <div class="headtitle">
-            <h2>Questions Report</h2>
-            <h2>Student: {{ $user->f_name . ' ' . $user->l_name }}</h2>
+            <h2>Ans - Questions ({{ $questions->count() }}) for
+             {{ $user->f_name . ' ' . $user->l_name }}</h2>
         </div>
 
         @php
