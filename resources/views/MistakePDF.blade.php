@@ -136,13 +136,13 @@
         <p class="course"><strong>Score:</strong> {{ $history->score }}</p>
     </div>
 
-    @foreach ( $mistakes as $mistake )
+    @foreach ($mistakes as $mistake)
         <div class="row mistake">
                 <p class="course-title">{{ $mistake->question->lessons->chapter->chapter_name }}</p>
-                @if ( !empty($mistake->question->question) )
+                @if (!empty($mistake->question->question))
                     <span class="quesMisake">{!! $mistake->question->question !!}</span>
                 @endif
-                @if ( !empty($mistake->question->q_url) )
+                @if (!empty($mistake->question->q_url))
                 <div style="width: 100%; padding: 5px;">
                     <img class="imgMistake"
                     src="{{ asset('images/questions/' . $mistake->question->q_url) }}" data-bs-toggle="modal"
@@ -159,11 +159,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @page {
+            size: A4 portrait;
+            margin: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -193,6 +199,21 @@
             height: auto;
         }
 
+         /* Sticky Header with Logo */
+        .header-logo {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        
         /* Mistakes Title */
         .txMista {
             width: 100%;
@@ -206,30 +227,13 @@
         }
 
         /* Mistakes Container */
-        .allMistakes {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            row-gap: 30px;
-            padding: 20px 0;
-        }
-
-        /* Individual Mistake */
-        .mistake {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            row-gap: 15px;
-            padding: 25px;
-            border-radius: 15px;
-            background: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeIn 0.5s ease forwards;
+        .page-section {
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: auto;
+            max-width: 1000px;
+            page-break-after: always;
         }
 
         .mistake:hover {
@@ -313,6 +317,14 @@
             color: #b02a2e;
         }
 
+         .question-card {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            padding: 20px !important;
+            margin-bottom: 20px !important;
+            box-shadow: none;
+        }
+
         /* Exam Details */
         .exam-details {
             width: 100%;
@@ -330,7 +342,9 @@
             margin-bottom: 15px;
         }
 
-        .student-name, .category, .course {
+        .student-name,
+        .category,
+        .course {
             font-size: 1.1rem;
             margin: 8px 0;
             color: #333;
@@ -348,8 +362,15 @@
 
         /* Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive Design */
@@ -376,42 +397,49 @@
         }
     </style>
 </head>
+
 <body>
-    <!-- Header with Logo -->
-    <header class="header">
-        <img src="{{ asset('logos/Maths-house.png') }}" alt="Maths House Logo">
+    <div class="container">
+
+        <!-- Header with Logo -->
+        <header class="header-logo">
+        <img src="{{ asset('assets/media/logos/mathshouse_white_logoHeader.png') }}" alt="Maths House Logo" style="height: 80px !important;" class="app-sidebar-logo-default" />
     </header>
 
-    <!-- Mistakes Section -->
-    <h3 class="txMista">Mistakes</h3>
-    <div class="allMistakes app-email card my-3 mistakes_questions">
-        <div class="exam-details">
-            <h2 class="exam-title">{{ $dai_exam->title }}</h2>
-            <p class="student-name"><strong>Student:</strong> {{ auth()->user()->nick_name }}</p>
-            <p class="category"><strong>Category:</strong> {{ $dai_exam->course->category->cate_name }}</p>
-            <p class="course"><strong>Course:</strong> {{ $dai_exam->course->course_name }}</p>
-            <p class="course"><strong>Time:</strong> {{ $history->time }}</p>
-            <p class="course"><strong>Date:</strong> {{ $history->date }}</p>
-            <p class="course"><strong>Delay:</strong> {{ $delay }}</p>
-            <p class="course"><strong>Score:</strong> {{ $history->score }}</p>
-        </div>
-
-        @foreach ($mistakes as $mistake)
-            <div class="row mistake">
-                <p class="course-title">{{ $mistake->question->lessons->chapter->chapter_name }}</p>
-                @if (!empty($mistake->question->question))
-                    <span class="quesMisake">{!! $mistake->question->question !!}</span>
-                @endif
-                @if (!empty($mistake->question->q_url))
-                    <div style="width: 100%; padding: 5px;">
-                        <img class="imgMistake"
-                             src="{{ asset('images/questions/' . $mistake->question->q_url) }}"
-                             data-bs-toggle="modal"
-                             data-bs-target="#kt_modal_edit{{$mistake->id}}{{$mistake->question->id}}" />
-                    </div>
-                @endif
+        <!-- Mistakes Section -->
+        <h3 class="txMista">Mistakes</h3>
+        <div class="page-section app-email card mistakes_questions">
+            <div class="exam-details">
+                <h2 class="exam-title">{{ $dai_exam->title }}</h2>
+                <p class="student-name"><strong>Student:</strong> {{ auth()->user()->nick_name }}</p>
+                <p class="category"><strong>Category:</strong> {{ $dai_exam->course->category->cate_name }}</p>
+                <p class="course"><strong>Course:</strong> {{ $dai_exam->course->course_name }}</p>
+                <p class="course"><strong>Time:</strong> {{ $history->time }}</p>
+                <p class="course"><strong>Date:</strong> {{ $history->date }}</p>
+                <p class="course"><strong>Delay:</strong> {{ $delay }}</p>
+                <p class="course"><strong>Score:</strong> {{ $history->score }}</p>
             </div>
-        @endforeach
+
+            @foreach ($mistakes as $mistake)
+                <div class="row page-section">
+                    <div class="question-card">
+                        <p class="course-title">{{ $mistake->question->lessons->chapter->chapter_name }}</p>
+                        @if (!empty($mistake->question->question))
+                            <span class="quesMisake">{!! $mistake->question->question !!}</span>
+                        @endif
+                        @if (!empty($mistake->question->q_url))
+                            <div style="width: 100%; padding: 5px;">
+                                <img class="imgMistake"
+                                    src="{{ asset('images/questions/' . $mistake->question->q_url) }}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_edit{{ $mistake->id }}{{ $mistake->question->id }}" />
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 </body>
+
 </html>

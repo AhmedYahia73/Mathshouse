@@ -387,7 +387,7 @@
                         </tr>
                     </thead>
                     <tbody id="myTable">
-            @foreach ( $arr as $item ) 
+            @foreach ( $arr as $item )
                 <tr>
                     <td style="text-align: start !important">
                     {{$item->lessons->chapter->chapter_name}}
@@ -400,7 +400,7 @@
                             $arr_id[] = $item->lessons->chapter->id;
                         @endphp
                     </td>
-                </tr> 
+                </tr>
             @endforeach
         </tbody>
     </table>
@@ -419,13 +419,13 @@
 
 <div class="app-email card my-3 mistakes_questions d-none">
     <div class="border-0">
-        <div class="row g-0  p-3"> 
-            @foreach ( $mistakes as $question ) 
+        <div class="row g-0  p-3">
+            @foreach ( $mistakes as $question )
             @if ( !empty($question->question) )
             {!! $question->question !!}
             @endif
             @if ( !empty($question->q_url) )
-            <img style="width: 200px; height: 200px;"
+            <img style="width: 100%; height: 300px;"
                 src="{{ asset('images/questions/' . $question->q_url) }}" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_edit{{ $question->id }}" />
 
@@ -435,16 +435,16 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-    
+
                                 <h5 class="modal-title" id="modalCenterTitle">Show Question</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-    
+
                             <div class='p-3'>
                                 <img style="height: 70vh;" src="{{ asset('images/questions/' . $question->q_url) }}" />
                             </div>
-    
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-label-secondary"
                                     data-bs-dismiss="modal">
@@ -459,7 +459,7 @@
                 <b> Answer :
                 @if ( $question->ans_type == 'MCQ' )
                     {{@$question->mcq[0]->mcq_answers}}
-                @else 
+                @else
                 {{$question->g_ans[0]->grid_ans}}
                 @endif
                 </b>
@@ -592,7 +592,7 @@
                 </div>
                 <hr />
             @endforeach
-                
+
         </div>
     </div>
 </div>
@@ -602,7 +602,7 @@
     let mistake_btn = document.querySelector('.mistake_btn');
     let ans_item_btn = document.querySelectorAll('.ans_item_btn');
     let ans_item = document.querySelectorAll('.ans_item');
-    
+
     for (let i = 0, end = ans_item_btn.length; i < end; i++) {
         ans_item_btn[i].addEventListener('click', ( e ) => {
             for (let j = 0; j < end; j++) {
@@ -626,11 +626,11 @@
     });
     let recomm_questions = document.querySelector('.recomm_questions');
     let recomm_btn = document.querySelector('.recomm_btn');
-    
+
     recomm_btn.addEventListener('click', () => {
         recomm_questions.classList.toggle('d-none');
     })
-        
+
         $(document).ready(function() {
             console.log("first")
             $(".accordion-button").click(function() {

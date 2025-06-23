@@ -345,26 +345,26 @@
                 {!! $item->question !!}
                 @endif
                 @if ( !empty($item->q_url) )
-                <img style="width: 200px; height: 200px;"
+                <img style="width: 100%; height: 300px;"
                     src="{{ asset('images/questions/' . $item->q_url) }}" data-bs-toggle="modal"
                     data-bs-target="#kt_modal_edit{{ $item->id }}" />
-    
+
                     <!-- Modal -->
                     <div class="modal fade" id="kt_modal_edit{{ $item->id }}" tabindex="-1"
                         aria-hidden="true" style="display: none;">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-        
+
                                     <h5 class="modal-title" id="modalCenterTitle">Show Question</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-        
+
                                 <div class='p-3'>
                                     <img style="height: 70vh;" src="{{ asset('images/questions/' . $item->q_url) }}" />
                                 </div>
-        
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-label-secondary"
                                         data-bs-dismiss="modal">
@@ -380,17 +380,17 @@
                         <button class="ansShow" data-bs-toggle="modal" data-bs-target="#modalAnswer{{ $item->id }}">Show
                             Answer</button>
                     </div>
-    
+
                     {{-- Modal Answer --}}
                     <div class="modal fade" id="modalAnswer{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         style="display: none;">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-    
+
                                    Show answer it will deduct from question package ??
                                 </div>
-    
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                                         Close
@@ -402,7 +402,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <hr />
@@ -416,7 +416,7 @@
     let mistake_btn = document.querySelector('.mistake_btn');
     let ans_item_btn = document.querySelectorAll('.ans_item_btn');
     let ans_item = document.querySelectorAll('.ans_item');
-    
+
     for (let i = 0, end = ans_item_btn.length; i < end; i++) {
         ans_item_btn[i].addEventListener('click', ( e ) => {
             for (let j = 0; j < end; j++) {
@@ -428,7 +428,7 @@
     }
     mistake_btn.addEventListener('click', () => {
         mistakes_questions.classList.toggle('d-none');
-    }) 
+    })
         $(document).ready(function() {
             console.log("first")
             $(".accordion-button").click(function() {
