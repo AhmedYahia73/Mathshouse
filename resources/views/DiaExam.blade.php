@@ -90,7 +90,7 @@ table.styled-table {
     <div>
         <div>
             <div class="studentName">
-                <h1>StudentName</h1>
+                <h1>{{ auth()->user()->f_name . ' 'auth()->user()->l_name }}</h1>
             </div>
             <div class="examInfo">
                 <div class="row">
