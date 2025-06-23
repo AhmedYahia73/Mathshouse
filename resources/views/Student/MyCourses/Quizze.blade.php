@@ -831,7 +831,7 @@
             {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
-                    <button class="btn-sendQuizz d-none" type="Submit">Submit Quiz</button>
+                    <button class="btn-sendQuizz d-none" type="submit">Submit Quiz</button>
                 </ul>
             </div>
         </form>
