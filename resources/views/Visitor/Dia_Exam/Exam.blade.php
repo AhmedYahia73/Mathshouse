@@ -130,10 +130,10 @@
     .options-list {
         position: absolute;
         top: 60%;
-        left: 22%;
-        width: 60%;
+        /* left: 22%; */
+        width: 100%;
         margin: 0;
-        padding: 10px;
+        padding: 1px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -155,7 +155,7 @@
         padding: 5px;
         text-align: center;
         cursor: pointer;
-        font-size: 1.1rem;
+        font-size: 0.7rem;
     }
 
     .options-list .options-tx li:hover {
@@ -276,7 +276,7 @@
 
     /* Answer Side */
     main .main-wrapper .question .answer-side {
-        width: 35%;
+        width: 7%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -394,16 +394,17 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        row-gap: 80px;
-        margin-top: 60px;
+        row-gap: 10px;
+        margin-top: 40px;
         /* background: red; */
 
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        column-gap: 10px;
+        row-gap: 10px;
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue span {
@@ -412,12 +413,12 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val {
-        width: 35%;
-        padding: 10px;
-        border-radius: 10px;
-        border: 2px solid #cdcdcd;
+        width: 100%;
+        padding: 1px;
+        /* border-radius: 10px; */
+        /* border: 2px solid #cdcdcd; */
         border-radius: 20px;
-        padding-bottom: 15px;
+        /* padding-bottom: 15px; */
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val>input {
@@ -431,6 +432,7 @@
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
         display: flex;
+        flex-direction: column;
         align-items: center;
         width: 100%;
         justify-content: flex-start;
@@ -443,9 +445,9 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value input {
-        width: 50%;
+        width: 100%;
         border: none;
-        padding: 10px;
+        /* padding: 10px; */
         background: none;
         font-size: 1.2rem;
         text-align: center;
@@ -551,7 +553,7 @@
 
     .answer-setValue {
         margin: 20px 0;
-        padding: 15px;
+        /* padding: 15px; */
         border: 1px solid #ddd;
         border-radius: 5px;
     }
@@ -839,7 +841,7 @@
                             @else
                                 <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
                                     value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                     {{-- Answer Set Value --}}
+                                {{-- Answer Set Value --}}
                                 {{-- <div class="answer-setValue">
                             <div class="section-setValue">
                                 <span>Answer:</span>
@@ -864,7 +866,7 @@
                                         <input type="button" value="Enter" class="enterBtn">
                                     </div>
                                     <div class="section-value">
-                                        <span>Answer Preview:</span>
+                                        <span>Preview:</span>
                                         <input type="number" id="preview_value" readonly>
                                     </div>
                                 </div>
