@@ -1,4 +1,4 @@
-@php
+{{-- @php
     $page_name = 'Lesson';
     $arr2 = [];
 @endphp
@@ -919,5 +919,367 @@
     </script>
 @endsection
 
+
+@include('Student.inc.footer') --}}
+@php
+    $page_name = 'Lesson';
+    $arr2 = [];
+@endphp
+@section('title', 'Lessons')
+@include('Student.inc.header')
+@include('Student.inc.menu')
+@extends('Student.inc.nav')
+
+@section('page_content')
+    <style>
+        /* Main Layout Styles */
+        .main-lesson-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Lesson Section */
+        .lesson-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .lesson-header {
+            font-size: 1rem;
+            background-color: #CF202F;
+            color: #f9f9f9;
+            padding: 15px 20px;
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .lesson-header:hover {
+            background-color: #e01728;
+        }
+
+        .lesson-header i {
+            transition: transform 0.3s ease;
+        }
+
+        /* Remove the .collapsed class styles - we'll handle this differently */
+
+        .lesson-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .lesson-content.show {
+            padding: 20px;
+            max-height: 5000px; /* Large enough to accommodate content */
+        }
+
+        /* Content Row - Ideas and Quizzes */
+        .content-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ideas-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .quizzes-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Idea Card */
+        .idea-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .idea-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .idea-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-video {
+            background-color: #CF202F;
+            color: white;
+            border: none;
+        }
+
+        .btn-pdf-view {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+        }
+
+        .btn-pdf-download {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .btn-quiz {
+            background-color: #CF202F;
+            color: white;
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-row {
+                flex-direction: column;
+            }
+
+            .lesson-header {
+                font-size: 1.3rem;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+    @include('success')
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+
+    <main class="main_wrapper overflow-hidden">
+        <div class="tution sp_bottom_100 sp_top_50">
+            <div class="container-fluid full__width__padding">
+                <div class="row">
+                    <!-- Main Content Area -->
+                    <div class="" data-aos="fade-up">
+                        <div class="main-lesson-container">
+                            @php
+                                $renderedIdeas = [];
+                            @endphp
+
+                            @foreach ($payment_request as $order)
+                                @foreach ($order->order as $chapter)
+                                    @if ($chapter_id == $chapter->id)
+                                        @foreach ($chapter->lessons as $lesson)
+                                            @foreach ($lesson->ideas->sortBy('idea_order') as $ideas)
+                                                @if ($ideas->id == $idea_num && !in_array($ideas->id, $renderedIdeas))
+                                                    @php
+                                                        $renderedIdeas[] = $ideas->id;
+                                                    @endphp
+                                                    <!-- Main Video at Top -->
+                                                    <div class="" >
+                                                        <div class="mb-4 text-center">
+                                                            <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem;">
+                                                                {{ $ideas->idea }}
+                                                            </h3>
+                                                        </div>
+                                                        <div class="" style="width: 100%; height: 400px;">
+                                                            <iframe scrolling="no" allowfullscreen
+                                                                style="width: 100%; height:100%;"
+                                                                src="{{ $ideas->v_link }}" title="YouTube video player"
+                                                                frameborder="0"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                allowfullscreen>
+                                                            </iframe>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endforeach
+
+                            <!-- Report Issue Section -->
+                            <div class="list-container p-4 rounded shadow-sm mb-4">
+                                <div class="list-header d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem;">
+                                        Select an Issue:
+                                    </h4>
+                                    <div class="dropdown" style="width: 70%">
+                                        <button class="btn dropdown-toggle text-white px-4 py-2" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                            style="background-color: #CF202F; border: none; border-radius: 5px;">
+                                            Report Issue
+                                        </button>
+                                        <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton"
+                                            style="width: 100%; border: 1px solid #ddd;">
+                                            @foreach ($reports as $report)
+                                                <li class="dropdown-item report-item" style="cursor: pointer;">
+                                                    <input type="hidden" class="report-val" value="{{ $report }}" />
+                                                    <span>{{ $report->list }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lessons List -->
+                            @foreach ($payment_request as $order)
+                                @foreach ($order->order as $chapter)
+                                    @if ($chapter_id == $chapter->id)
+                                        @foreach ($chapter->lessons as $lesson)
+                                            @if (!isset($arr[$lesson->id]))
+                                                <div class="lesson-section">
+                                                    <div class="lesson-header" onclick="toggleLesson({{ $lesson->id }})">
+                                                        {{ $lesson->lesson_name }}
+                                                        <i class="fas fa-chevron-down"></i>
+                                                    </div>
+
+                                                    <div class="lesson-content @if($lesson->id == $L_id) show @endif"
+                                                         id="lessonContent{{ $lesson->id }}">
+                                                        <div class="content-row">
+                                                            <!-- Ideas Column -->
+                                                            <div class="ideas-column">
+                                                                <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
+                                                                @foreach ($lesson->ideas->sortBy('idea_order') as $idea)
+                                                                    <div class="idea-card">
+                                                                        <div class="idea-title">{{ $idea->idea }}</div>
+                                                                        <div class="idea-buttons">
+                                                                            <a href="{{ route('stu_lessons', ['id' => $chapter_id, 'L_id' => $lesson->id, 'idea' => $idea->id]) }}"
+                                                                                class="btn btn-sm btn-video">
+                                                                                <i class="icofont-video-alt me-1"></i> Video
+                                                                            </a>
+                                                                            @if (!empty($idea->pdf))
+                                                                                <a target="_blank"
+                                                                                    href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}"
+                                                                                    class="btn btn-sm btn-pdf-view">
+                                                                                    <i class="fas fa-eye me-1"></i> View PDF
+                                                                                </a>
+                                                                                <a href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}"
+                                                                                    download
+                                                                                    class="btn btn-sm btn-pdf-download">
+                                                                                    <i class="fas fa-download me-1"></i>
+                                                                                    Download
+                                                                                </a>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+
+                                                            <!-- Quizzes Column -->
+                                                            <div class="quizzes-column">
+                                                                <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
+                                                                @foreach ($lesson->quizze as $quizze)
+                                                                    <div class="quiz-card">
+                                                                        <div class="quiz-title">Q{{ $loop->iteration }}:
+                                                                            {{ $quizze->title }}</div>
+                                                                        <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                                            class="btn btn-sm btn-quiz">
+                                                                            <i class="fa-solid fa-question me-1"></i> Take
+                                                                            Quiz
+                                                                        </a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @php
+                                                $arr[$lesson->id] = $lesson;
+                                            @endphp
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleLesson(lessonId) {
+            const content = document.getElementById(`lessonContent${lessonId}`);
+            const icon = document.querySelector(`#lessonContent${lessonId}`).previousElementSibling.querySelector('i');
+
+            content.classList.toggle('show');
+
+            if (content.classList.contains('show')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        $(document).ready(function() {
+            // Initialize - show current lesson's content if it exists
+            @if(isset($L_id))
+                const currentLesson = document.getElementById('lessonContent{{ $L_id }}');
+                if (currentLesson) {
+                    currentLesson.classList.add('show');
+                    const icon = currentLesson.previousElementSibling.querySelector('i');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            @endif
+
+            // Report item click handler
+            const reportItems = document.querySelectorAll('.report-item');
+            const reportVals = document.querySelectorAll('.report-val');
+
+            reportItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    const reportData = JSON.parse(reportVals[index].value);
+                    const requestData = {
+                        list_id: reportData.id,
+                        lesson_video_id: {{ $idea_num }},
+                    };
+
+                    $.ajax("{{ route('report_video_api') }}", {
+                        type: 'GET',
+                        data: {
+                            obj: requestData
+                        },
+                        success: function(data) {
+                            console.log(data);
+                        },
+                    });
+                });
+            });
+        });
+    </script>
+@endsection
 
 @include('Student.inc.footer')
