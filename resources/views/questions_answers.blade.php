@@ -186,10 +186,10 @@
             </div>
 
             @php
-                $lesson = $questions->pluck('lessons')->unique('id')->values();
-                $chapter = $lesson->pluck('chapter')->flatten(1)->unique('id')->values();
-                $course = $chapter->pluck('course')->flatten(1)->unique('id')->values();
-                $category = $course->pluck('category')->flatten(1)->unique('id')->values();
+                $lesson = $questions?->pluck('lessons')?->unique('id')?->values() ?? [];
+                $chapter = $lesson?->pluck('chapter')?->flatten(1)?->unique('id')?->values() ?? [];
+                $course = $chapter?->pluck('course')?->flatten(1)?->unique('id')?->values() ?? [];
+                $category = $course?->pluck('category')?->flatten(1)?->unique('id')?->values() ?? [];
             @endphp
             <div class="info-grid">
                 <div>
