@@ -389,7 +389,7 @@
         font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 500px;
+        width: 0;
         background: none;
         cursor: pointer;
     }
