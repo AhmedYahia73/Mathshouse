@@ -721,6 +721,7 @@ use PaymentPaymob;
     }
 
     public function course_payment_money( Request $req ){
+              $price = floatval(Cookie::get('chapters_price'));
             $course = json_decode(Session::get('marketing'));
             $payment_methods = PaymentMethod::
             where('statue', 1)
@@ -851,7 +852,6 @@ use PaymentPaymob;
             }
         }
         else {
-            
         foreach ($course->prices as $item) {
             if ( $item->price == $price ) {
                 $duration = $item->duration;
