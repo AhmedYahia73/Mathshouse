@@ -575,7 +575,7 @@ use PaymentPaymob;
         $arr['user_id'] = auth()->user()->id;
         $img_state = true;
         $paymentMethod = PaymentMethod::find($req->payment_method_id);
-        $payment = $paymentMethod->payment;
+        $payment = $paymentMethod?->payment;
         extract($_FILES['image']);
         $img_name = null;
         $tmp = null;
@@ -721,6 +721,7 @@ use PaymentPaymob;
     }
 
     public function course_payment_money( Request $req ){
+            $course = json_decode(Session::get('marketing'));
             $payment_methods = PaymentMethod::
             where('statue', 1)
             ->where('id',$req->payment_method_id)
