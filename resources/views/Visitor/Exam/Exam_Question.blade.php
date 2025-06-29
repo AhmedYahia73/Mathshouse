@@ -106,10 +106,10 @@
 
     .quizzes-page .options {
         position: relative;
-        width: 100%;
+        /* width: 100%;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-end; */
         /* margin-right: 100px; */
     }
 
@@ -124,7 +124,7 @@
         cursor: pointer;
         background: none;
         border: none;
-        margin-right: 100px;
+        /* margin-right: 100px; */
     }
 
     .options-list {
@@ -141,6 +141,7 @@
         list-style-type: none;
         background: #dedede;
         border: 1px solid #ccc;
+                border-right: 0;
         z-index: 100;
     }
 
@@ -282,6 +283,7 @@
         align-items: center;
         /* background: #20e690; */
         /* overflow-y: scroll */
+                justify-content: center;
     }
 
     @media (max-width: 768px) {
@@ -340,24 +342,28 @@
         margin-top: 30px;
         display: flex;
         flex-direction: column;
-        row-gap: 30px;
+        row-gap: 10px;
         align-items: center;
         padding: 5px;
     }
 
 
-    main .main-wrapper .question .answer-side .answer-chosen .chosen {
+     main .main-wrapper .question .answer-side .answer-chosen .chosen {
         width: 80%;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         background: #fefefe;
-        border-radius: 20px;
+        border: 2px solid #ddd;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-right: 0;
+        /* border-radius: 20px; */
         column-gap: 20px;
-        padding: 5px 12px;
+        padding: 3px 8px;
         cursor: pointer;
         transition: border 0.3s ease-in;
-        box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%);
+        /* box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%); */
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen:hover {
@@ -374,7 +380,7 @@
         padding: 0px 10px;
         text-align: center;
         font-weight: 500;
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen input {
@@ -383,7 +389,7 @@
         font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 500px;
+        width: 0;
         background: none;
         cursor: pointer;
     }

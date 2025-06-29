@@ -106,10 +106,10 @@
 
     .quizzes-page .options {
         position: relative;
-        width: 100%;
+        /* width: 100%;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-end; */
         /* margin-right: 100px; */
     }
 
@@ -124,16 +124,16 @@
         cursor: pointer;
         background: none;
         border: none;
-        margin-right: 100px;
+        /* margin-right: 100px; */
     }
 
     .options-list {
         position: absolute;
-        top: 25%;
-        left: 22%;
-        width: 60%;
+        top: 60%;
+        /* left: 22%; */
+        width: 100%;
         margin: 0;
-        padding: 10px;
+        padding: 1px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -141,6 +141,7 @@
         list-style-type: none;
         background: #dedede;
         border: 1px solid #ccc;
+                border-right: 0;
         z-index: 100;
     }
 
@@ -155,7 +156,7 @@
         padding: 5px;
         text-align: center;
         cursor: pointer;
-        font-size: 1.1rem;
+        font-size: 0.7rem;
     }
 
     .options-list .options-tx li:hover {
@@ -185,8 +186,9 @@
         width: 100%;
         padding: 0 10px;
         display: flex;
-        flex-direction: column;
-        column-gap: 10px;
+        justify-content: center;
+        align-items: center;
+        row-gap: 10px;
         border-bottom: 3px dashed #e2e2e2;
     }
 
@@ -195,10 +197,17 @@
         width: 100%;
         background: #fff;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
         column-gap: 10px;
         padding: 10px;
+    }
+
+    /* Media query for small screens (e.g., max-width: 768px) */
+    @media (max-width: 768px) {
+        main .main-wrapper .question {
+            flex-direction: column;
+            row-gap: 10px;
+            /* Optional: Add spacing between stacked items */
+        }
     }
 
     /* Question Side */
@@ -257,8 +266,8 @@
     }
 
     main .main-wrapper .question .question-side .img-question img {
-        min-width: 80%;
-        max-width: 80%;
+        min-width: 100%;
+        max-width: 100%;
         height: auto;
         object-fit: cover;
         object-position: center;
@@ -268,12 +277,19 @@
 
     /* Answer Side */
     main .main-wrapper .question .answer-side {
-        width: 100%;
+        width: 7%;
         display: flex;
         flex-direction: column;
         align-items: center;
         /* background: #20e690; */
         /* overflow-y: scroll */
+                justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        main .main-wrapper .question .answer-side {
+            width: 100%;
+        }
     }
 
     /* width */
@@ -326,24 +342,28 @@
         margin-top: 30px;
         display: flex;
         flex-direction: column;
-        row-gap: 30px;
+        row-gap: 10px;
         align-items: center;
         padding: 5px;
     }
 
 
-    main .main-wrapper .question .answer-side .answer-chosen .chosen {
+     main .main-wrapper .question .answer-side .answer-chosen .chosen {
         width: 80%;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         background: #fefefe;
-        border-radius: 20px;
+        border: 2px solid #ddd;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-right: 0;
+        /* border-radius: 20px; */
         column-gap: 20px;
-        padding: 5px 12px;
+        padding: 3px 8px;
         cursor: pointer;
         transition: border 0.3s ease-in;
-        box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%);
+        /* box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%); */
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen:hover {
@@ -360,7 +380,7 @@
         padding: 0px 10px;
         text-align: center;
         font-weight: 500;
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen input {
@@ -369,7 +389,7 @@
         font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 500px;
+        width: 0;
         background: none;
         cursor: pointer;
     }
@@ -380,16 +400,17 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        row-gap: 80px;
-        margin-top: 60px;
+        row-gap: 10px;
+        margin-top: 40px;
         /* background: red; */
 
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        column-gap: 10px;
+        row-gap: 10px;
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue span {
@@ -398,12 +419,12 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val {
-        width: 35%;
-        padding: 10px;
-        border-radius: 10px;
-        border: 2px solid #cdcdcd;
+        width: 100%;
+        padding: 1px;
+        /* border-radius: 10px; */
+        /* border: 2px solid #cdcdcd; */
         border-radius: 20px;
-        padding-bottom: 15px;
+        /* padding-bottom: 15px; */
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val>input {
@@ -417,6 +438,7 @@
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
         display: flex;
+        flex-direction: column;
         align-items: center;
         width: 100%;
         justify-content: flex-start;
@@ -429,9 +451,9 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value input {
-        width: 50%;
+        width: 100%;
         border: none;
-        padding: 10px;
+        /* padding: 10px; */
         background: none;
         font-size: 1.2rem;
         text-align: center;
@@ -494,10 +516,6 @@
         cursor: pointer;
     }
 
-    .activee {
-        background: #0ab1ce;
-    }
-
     .disablee {
         background: #ccc;
     }
@@ -522,7 +540,7 @@
         background: cadetblue;
     }
 
-    .addSl {
+    /* .addSl {
         font-size: 2rem;
         border: none;
         background: transparent;
@@ -531,9 +549,147 @@
         border: 2px solid #2222;
         padding: 1px 20px;
         border-radius: 15px;
+    } */
+
+
+
+
+
+
+
+    .answer-setValue {
+        margin: 20px 0;
+        /* padding: 15px; */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .section-setValue,
+    .section-value {
+        margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        background: #0ab1ce;
+        /* color: white;
+    border: none; */
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #preview_value {
+        background: #f5f5f5;
+        font-weight: bold;
     }
 
     /* ///Section Pagination  */
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        align-items: center;
+        background: #fff;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+    }
+
+    .page-item {
+        margin: 0 3px;
+        text-align: center;
+    }
+
+    .page-link {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: #4a5568;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        padding: 0 !important;
+    }
+
+    .page-item.activee .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .page-item:not(.activee):not(.disabled) .page-link:hover {
+        background: #f7fafc;
+        border-color: #e2e8f0;
+    }
+
+    .page-item.disabled .page-link {
+        color: #cbd5e0;
+        pointer-events: none;
+    }
+
+    .btn-submit-quiz {
+        position: absolute;
+        right: 20px;
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
+    }
+
+    .btn-submit-quiz:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(245, 101, 101, 0.4);
+    }
+
+    .btn-submit-quiz.d-none {
+        display: none;
+    }
+
+    /* Animation for page transitions */
+    .question {
+        transition: opacity 0.3s ease;
+    }
+
+    .question:not(.active) {
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    .question.active {
+        opacity: 1;
+        height: auto;
+        position: relative;
+    }
 </style>
 @include('Student.inc.header')
 
@@ -551,7 +707,7 @@
             </p>
         </div>
         {{-- Timer section --}}
-        <div class="timer-quizzes">
+         <div class="timer-quizzes">
             {{-- show section --}}
             <div class="show-timer">
                 <div class="timer">
@@ -570,162 +726,97 @@
                 <button class="show-btn">Show</button>
             </div>
         </div>
-        {{-- Options section --}}
-        {{-- <div class="options">
-            <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
-            <div class="options-list d-none">
-                <ul class="options-tx">
-                    @foreach ($reports as $report)
-                        <li>
-                            <div type="button" data-bs-toggle="modal" data-bs-target="#modalCenter{{ $report->id }}">
-                                {{ $report->list }}
-                            </div>
-                            <!-- Modal -->
-                            <form method="POST" action="{{ route('Ad_report_list_edit', ['id' => $report->id]) }}"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal fade" id="modalCenter{{ $report->id }}" tabindex="-1"
-                                    aria-hidden="true" style="display: none;">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-
-                                            <div class="modal-header">
-
-                                                <h5 class="modal-title" id="modalCenterTitle">Make Report</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-
-
-                                            <div class="my-2 px-3">
-                                                <label>
-                                                    Report
-                                                </label>
-                                                <input class='form-control' name="list" placeholder="Report" />
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-label-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    Close
-                                                </button>
-                                                <button class="btn btn-primary">Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div> --}}
     </header>
     <main>
-        <form action="{{ route('q_sol') }}" method="POST" style="width: 100%;">
+        <form action="{{ route('q_sol') }}" method="POST" style="width: 100%;" id="quizForm">
             @csrf
+            <!-- Hidden input for start time (Unix timestamp) -->
+            <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
+            <!-- Hidden input for time difference in HH:MM:SS -->
+            <input type="hidden" name="time" id="time_diff">
             <div class="main-wrapper">
-                <div class="question">
-                    <input type="hidden" value="{{ $question->id }}" class="questionID"
-                        id="questionID{{ $question->id }}">
-                    <div class="question-side">
-                        <div class="text-question">
-                            <span class="question-num">
-                                1
-                            </span>
-                            <p>
-                                {!! $question->question !!}
-                            </p>
+                    <div class="question">
+                        <input type="hidden" value="{{ $question->id }}" class="questionID"
+                            id="questionID{{ $question->id }}">
+                        <div class="question-side">
+                            <div class="text-question">
+                                <span class="question-num">
+                                    1
+                                </span>
+                                <p>
+                                    {!! $question->question !!}
+                                </p>
+                            </div>
+                            <div class="img-question">
+                                <span>Examples</span>
+                                @if (!empty($question->q_url))
+                                    <img src="{{ asset('images/questions/' . $question->q_url) }}" alt="question">
+                                @endif
+                            </div>
                         </div>
-                        <div class="img-question">
-                            <span>Examples</span>
-                            @if (!empty($question->q_url))
-                                <img src="{{ asset('images/questions/' . $question->q_url) }}" alt="question">
+                        <div class="answer-side">
+                            <div class="options">
+                                <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
+                                <div class="options-list d-none">
+                                    <ul class="options-tx">
+                                        @foreach ($reports as $report)
+                                            <li class="report_item">
+                                                {{ $report->list }}
+                                                <input type="hidden" class="reportID" value="{{ $report->id }}">
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {{-- Input to set and send value about answer question to array --}}
+                            {{-- <input type="hidden" id="timer_val" name="timer_val" /> --}}
+                            {{-- <input type="hidden" name="quizze" value="{{ $exam }}"> --}}
+
+                            {{-- Answer chosen --}}
+
+                            @php
+                                $arr = ['A', 'B', 'C', 'D'];
+                                $iter = 1;
+                            @endphp
+                            @if ($question->ans_type == 'MCQ')
+                                <div class="answer-chosen">
+                                    <input name="q_answers[]" type="hidden" class="q_answers"
+                                        value="{{ json_encode(['q_id' => $question->id]) }}" />
+                                    @foreach ($question->mcq as $mcq)
+                                        <div class="chosen chose_mcq chosen{{ $iter }}"
+                                            id="chosen{{ $iter }}{{ $loop->iteration }}">
+                                            <input type="hidden" class="mcq_id" value="{{ $mcq->id }}">
+                                            <button type="button" class="ans_btn">{{ $mcq->mcq_num }}</button>
+                                            <input type="text" value="{{ $mcq->mcq_ans }}" readonly>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
+                                    value="{{ json_encode(['q_id' => $question->id]) }}" />
+                                <div class="answer-setValue">
+                                    <div class="section-setValue">
+                                        <span>Answer:</span>
+                                        <input type="text" class="gridVal" id="input_val" name="q_grid_ans[]"
+                                            placeholder="e.g. 1/6">
+                                        <button type="button" class="addSl">/</button>
+                                        <button type="button" class="enterBtn">Enter</button>
+                                    </div>
+                                    <div class="section-value">
+                                        <span>Preview:</span>
+                                        <input type="text" id="preview_value" readonly>
+                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>
-                    <div class="answer-side">
-                        <div class="options">
-                            <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
-                            <div class="options-list d-none">
-                                <ul class="options-tx">
-                                    @foreach ($reports as $report)
-                                        <li class="report_item">
-                                            {{ $report->list }}
-                                            <input type="hidden" class="reportID" value="{{ $report->id }}">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        {{-- Supp Question --}}
 
-                        {{-- Input to set and send value about answer question to array --}}
-                        <input type="hidden" id="timer_val" name="timer_val" />
-
-                        {{-- Answer chosen --}}
-
-                        @php
-                            $arr = ['A', 'B', 'C', 'D'];
-                            $iter = 1;
-                        @endphp
-                        @if ($question->ans_type == 'MCQ')
-                            <div class="answer-chosen">
-                                <input name="q_answers[]" type="hidden" class="q_answers"
-                                    value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                @foreach ($question->mcq as $mcq)
-                                    <div class="chosen chose_mcq chosen{{ $iter }}"
-                                        id="chosen{{ $iter }}{{ $loop->iteration }}">
-                                        <input type="hidden" class="mcq_id" value="{{ $mcq->id }}">
-                                        <button type="button" class="ans_btn">{{ $mcq->mcq_num }}</button>
-                                        <input type="text" value="{{ $mcq->mcq_ans }}" readonly>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
-                                value="{{ json_encode(['q_id' => $question->id]) }}" />
-                            {{-- Answer Set Value --}}
-                            {{-- <div class="answer-setValue">
-                                <div class="section-setValue">
-                                    <span>Answer:</span>
-                                    <div class="input_val">
-                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0"
-                                            class="gridVal">
-                                    </div>
-                                    <input type="button" value="/" class="addSl">
-                                </div>
-                                <div class="section-value">
-                                    <span>Answer Preview:</span>
-                                    <input type="number" value="00000" readonly>
-                                </div>
-                            </div> --}}
-
-                            <div class="answer-setValue">
-                                <div class="section-setValue">
-                                    <span>Answer:</span>
-                                    <div class="input_val">
-                                        <input type="text" name="q_grid_ans[]" step="0.001" value="0"
-                                            class="gridVal" id="input_val30">
-                                    </div>
-                                    <input type="button" value="/" class="addSl">
-                                </div>
-                                <div class="section-value">
-                                    <span>Answer Preview:</span>
-                                    <input type="number" id="section-value30" value="00000" readonly>
-                                </div>
-                            </div>
-
-                        @endif
-
-                    </div>
-                </div>
             </div>
-            {{-- end Section Question --}}
             {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
-                    <button class="btn-submit-quiz" type="Submit">Submit Quiz</button>
+                    <button class="btn-submit-quiz" type="submit">Submit Quiz</button>
                 </ul>
             </div>
         </form>
@@ -763,6 +854,368 @@
     }
 </script>
 <script>
+    $(document).ready(function() {
+
+        //edit here for time
+        // Handle form submission
+        // Ensure jQuery is loaded
+        if (typeof $ === 'undefined') {
+            console.error('jQuery is not loaded!');
+        }
+
+        // Handle form submission
+        $('#quizForm').on('submit', function(e) {
+            console.log('Form submit triggered');
+
+            // Get start time
+            const startTimeVal = $('#start_time').val();
+            console.log('Start time:', startTimeVal);
+
+            if (!startTimeVal) {
+                console.error('Start time is missing or empty!');
+                return; // Prevent submission if start_time is missing
+            }
+
+            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
+            const endTime = Date.now();
+            const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
+
+            // Convert to HH:MM:SS
+            const hours = Math.floor(timeDiffSeconds / 3600);
+            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
+            const seconds = timeDiffSeconds % 60;
+            const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            // Set time difference
+            console.log('Formatted time:', formattedTime);
+            $('#time_diff').val(formattedTime);
+            console.log('Time diff set:', $('#time_diff').val());
+
+            // Allow form submission to proceed
+        });
+
+        // Timer for display (unchanged)
+        var hoursLabel = $("#hour");
+        var minutesLabel = $("#minutes");
+        var secondsLabel = $("#seconds");
+        var totalHours = 0;
+        var totalMinutes = 0;
+        var totalSeconds = 0;
+
+        setInterval(setTime, 1000);
+
+        function setTime() {
+            ++totalSeconds;
+            secondsLabel.html(pad(totalSeconds % 60));
+
+            if (totalSeconds >= 60) {
+                secondsLabel.html(pad(0));
+                totalSeconds = 0;
+                totalMinutes++;
+                minutesLabel.html(pad(totalMinutes));
+
+                if (totalMinutes >= 60) {
+                    minutesLabel.html(pad(0));
+                    totalMinutes = 0;
+                    totalHours++;
+                    hoursLabel.html(pad(totalHours));
+                }
+            }
+        }
+
+        function pad(val) {
+            var valString = val + "";
+            return valString.length < 2 ? "0" + valString : valString;
+        }
+
+
+        /* Send Timer */
+        // $(".btn-sendQuizz").click(function() {
+        //     var timer_val = $("#timer_val").val();
+        //     $.ajax({
+        //         url: "{{ route('api_timer') }}",
+        //         type: "GET",
+        //         data: {
+        //             timer_val,
+        //         },
+        //         success: function(data) {
+        //             console.log("data", data)
+        //         }
+        //     })
+        // })
+
+        /* Send Report about the question */
+        $(".report_item").on("click", function() {
+            console.log("Report id", $(this).find(".reportID").val())
+            console.log("ques id", $(this).closest(".question").find(".questionID").val())
+            $.ajax({
+                url: "{{ route('api_report_question') }}",
+                type: "GET",
+                data: {
+                    question_id: $(this).closest(".question").find(".questionID").val(),
+                    list_id: $(this).find(".reportID").val(),
+                },
+                success: function(data) {
+                    console.log(data)
+                }
+            })
+        })
+
+
+        /* Show Discraption */
+        $(".angle-show-disc").click(function() {
+            $('.disc-ruels-quizzes').toggleClass("d-none");
+            $('.angle-show-disc').toggleClass("rotateEle");
+        });
+        /* Hide Timer */
+        $(".hide-btn").click(function() {
+            $(".show-timer").addClass("d-none");
+            $(".hide-timer").removeClass("d-none");
+        });
+        /* Show Timer */
+        $(".show-btn").click(function() {
+            $(".hide-timer").addClass("d-none");
+            $(".show-timer").removeClass("d-none");
+        });
+        /* Show dropDown */
+        $(".btn-dropdown").click(function() {
+            $('.options-list').toggleClass("d-none");
+        });
+        /* Hide dropDown */
+        $(".options-list li").click(function() {
+            $(".options-list").toggleClass("d-none");
+        });
+
+        // Add slash button - using event delegation in case elements are dynamic
+        $(document).ready(function() {
+            // Event handlers for fraction input
+            $(document).on('click', '.addSl', function() {
+                let input = $(this).siblings('.gridVal');
+                let currentVal = input.val();
+                if (!currentVal.includes('/')) {
+                    input.val(currentVal + '/');
+                }
+            });
+
+            $(document).on('click', '.enterBtn', calculateFraction);
+            $(document).on('keypress', '.gridVal', function(e) {
+                if (e.which === 13) calculateFraction();
+            });
+
+            function calculateFraction() {
+                const container = $(this).closest('.answer-setValue');
+                const input = container.find('.gridVal').val().trim();
+                const preview = container.find('#preview_value');
+
+                if (!input) {
+                    preview.val("0");
+                    return;
+                }
+
+                if (input.includes('/')) {
+                    const parts = input.split('/');
+                    if (parts.length === 2) {
+                        const numerator = parseFloat(parts[0]);
+                        const denominator = parseFloat(parts[1]);
+
+                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                            const result = numerator / denominator;
+                            // Format the result - whole numbers without decimals, others with 2 decimals
+                            preview.val(formatResult(result));
+                            return;
+                        }
+                    }
+                    preview.val("Invalid fraction");
+                    return;
+                }
+
+                const num = parseFloat(input);
+                preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
+            }
+
+            function formatResult(value) {
+                // Round to 2 decimal places first
+                const rounded = Math.round(value * 100) / 100;
+
+                // Check if it's a whole number after rounding
+                if (rounded % 1 === 0) {
+                    return rounded.toString(); // Return as integer string
+                }
+                return rounded.toFixed(2); // Return with 2 decimal places
+            }
+        });
+        /* /////////////// */
+        /* But border out side the answer  */
+        /* /////////////// */
+
+        $(".chosen").each((elePar, valPar) => {
+
+            var staPar = elePar + 1;
+            console.log("elePar", elePar)
+            console.log("staPar", staPar)
+            console.log("valPar", valPar)
+            var elementPar = `.${$(valPar).attr("class").slice(0, 6) + staPar}`;
+
+            console.log(elementPar)
+
+            $(elementPar).each((ele, val) => {
+                console.log("ele", ele)
+                console.log("val", val)
+                var element = `#${$(val).attr("id")}`;
+                console.log(element)
+                $(element).click(() => {
+                    $(elementPar).removeClass("selectedd");
+                    $(element).addClass("selectedd");
+                })
+            })
+        })
+
+        /* /////////////// */
+        /* Handel pagination question */
+        function getPageList(totalPages, currentPage, paginationSize) {
+            if (totalPages < 1) return [];
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (paginationSize < 3) paginationSize = 3;
+
+            let pages = [];
+            let startPage, endPage;
+
+            if (totalPages <= paginationSize) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+                return pages;
+            }
+
+            const half = Math.floor(paginationSize / 2);
+            startPage = Math.max(1, currentPage - half);
+            endPage = Math.min(totalPages, startPage + paginationSize - 1);
+
+            if (endPage - startPage + 1 < paginationSize) {
+                startPage = Math.max(1, endPage - paginationSize + 1);
+            }
+
+            if (startPage > 1) {
+                pages.push(1);
+                if (startPage > 2) {
+                    pages.push('...');
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pages.push('...');
+                }
+                pages.push(totalPages);
+            }
+
+            return pages;
+        }
+
+
+        $(function() {
+            var numberOfItems = $(".question").length;
+            var limitPerPage = 1;
+            var totalPages = Math.ceil(numberOfItems / limitPerPage);
+            var paginationSize = Math.ceil(numberOfItems / 3);
+            var currentPage;
+
+            function showPage(whichPage) {
+                if (whichPage < 1 || whichPage > totalPages) return false;
+
+                // Hide current question with animation
+                $(".question.active").removeClass("active");
+
+                if (whichPage == totalPages) {
+                    $(".btn-submit-quiz").removeClass("d-none");
+                } else {
+                    $(".btn-submit-quiz").addClass("d-none");
+                }
+
+                currentPage = whichPage;
+
+                // Show new question with animation
+                $(".question").hide().slice((currentPage - 1) * limitPerPage,
+                    currentPage * limitPerPage).addClass("active").show();
+
+                $(".pagination li").slice(1, -1).remove();
+
+                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass("current-page")
+                        .toggleClass("activee", item === currentPage).append($("<a>")
+                            .addClass("page-link").attr({
+                                href: "javascript:void(0)",
+                                "aria-label": item ? `Page ${item}` : "More pages"
+                            }).text(item || "...")).insertBefore(".next-page");
+                });
+
+                $(".previous-page").toggleClass("disabled", currentPage === 1);
+                $(".next-page").toggleClass("disabled", currentPage === totalPages);
+                return true;
+            }
+
+            // Initialize pagination
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Previous"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                    )
+                ),
+                $("<li>").addClass("page-item").addClass("next-page").append(
+                    $("<a>").addClass("page-link").attr({
+                        href: "javascript:void(0)",
+                        "aria-label": "Next"
+                    }).html(
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                    )
+                )
+            );
+
+            $(".main-wrapper").show();
+            showPage(1);
+
+            // Event handlers
+            $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
+                const pageText = $(this).text();
+                if (pageText === '...') {
+                    // Get the current page list
+                    const pages = getPageList(totalPages, currentPage, paginationSize);
+                    // Find the index of the clicked dots
+                    const dotsIndex = pages.indexOf('...');
+
+                    // Determine if it's the left or right dots
+                    if (dotsIndex === 1) { // Left dots (before first page)
+                        // Show pages around the first page
+                        return showPage(Math.floor(currentPage / 2));
+                    } else { // Right dots (before last page)
+                        // Show pages around the last page
+                        return showPage(Math.floor((currentPage + totalPages) / 2));
+                    }
+                } else {
+                    return showPage(+pageText);
+                }
+            });
+
+            $(".next-page").on("click", function() {
+                return showPage(currentPage + 1);
+            });
+
+            $(".previous-page").on("click", function() {
+                return showPage(currentPage - 1);
+            });
+
+        });
+    });
+</script>
+{{-- <script>
     $(document).ready(function() {
         /* Timer question */
         var hoursLabel = $("#hour");
@@ -1136,4 +1589,4 @@
         });
 
     });
-</script>
+</script> --}}
