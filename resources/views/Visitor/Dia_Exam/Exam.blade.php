@@ -407,14 +407,17 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         row-gap: 10px;
+        padding: 5px;
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue span {
-        font-size: 1.2rem;
+        width: 100%;
+        font-size: 0.8rem;
         font-weight: 500;
     }
 
@@ -430,13 +433,14 @@
     main .main-wrapper .question .answer-side .answer-setValue .input_val>input {
         width: 100%;
         border: none;
-        font-size: 1.2rem;
+        font-size: 0.5rem;
         text-align: center;
         background: transparent;
         border-bottom: 2px dashed #c2c2c2;
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
+                width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -446,7 +450,7 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value span {
-        font-size: 1.2rem;
+        font-size: 0.8rem;
         font-weight: 500;
     }
 
@@ -455,10 +459,9 @@
         border: none;
         /* padding: 10px; */
         background: none;
-        font-size: 1.2rem;
+        font-size: 1rem;
         text-align: center;
         border-radius: 20px;
-        border: 2px solid #cdcdcd;
     }
 
     /* Section Pagination  */
@@ -570,6 +573,7 @@
     }
 
     input[type="text"] {
+        width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -578,7 +582,7 @@
     button {
         padding: 8px 12px;
         margin-left: 5px;
-        background: #0ab1ce;
+        background: #e53e3e;
         /* color: white;
     border: none; */
         border-radius: 4px;
@@ -653,6 +657,18 @@
     .btn-submit-quiz {
         position: absolute;
         right: 20px;
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
+    }
+    
+    .enterBtn{
         background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         color: white;
         border: none;
@@ -868,8 +884,10 @@
                                             <input type="text" step="0.001" value="0" name="q_grid_ans[]"
                                                 class="gridVal" id="input_val">
                                         </div>
-                                        <input type="button" value="/" class="addSl">
-                                        <input type="button" value="Enter" class="enterBtn">
+                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
+                                            class="addSl">/</button>
+                                        <button type="button"
+                                            class="enterBtn">Enter</button>
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
