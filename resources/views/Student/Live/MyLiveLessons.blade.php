@@ -1084,10 +1084,14 @@
                                                         <div class="idea-card">
                                                             <div class="idea-title">{{ $idea_item->idea }}</div>
                                                             <div class="idea-buttons">
-                                                                <a href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
+                                                        <form action="{{ route('stu_live_lesson') }}" method="post"
+                                                            class="mb-2">
+                                                            @csrf
+                                                                <button href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
                                                                    class="btn btn-sm btn-video">
                                                                     <i class="icofont-video-alt me-1"></i> Video
-                                                                </a>
+                                                                </button>
+                                                        </form>
                                                                 @if (!empty($idea_item->pdf))
                                                                     <a target="_blank"
                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
@@ -1146,10 +1150,14 @@
                                                         <div class="idea-card">
                                                             <div class="idea-title">{{ $idea_item->idea }}</div>
                                                             <div class="idea-buttons">
-                                                                <a href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
+                                                        <form action="{{ route('stu_live_lesson') }}" method="post"
+                                                            class="mb-2">
+                                                            @csrf
+                                                                <button href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
                                                                    class="btn btn-sm btn-video">
                                                                     <i class="icofont-video-alt me-1"></i> Video
-                                                                </a>
+                                                                </button>
+                                                        </form>
                                                                 @if (!empty($idea_item->pdf))
                                                                     <a target="_blank"
                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
