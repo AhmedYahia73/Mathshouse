@@ -1086,8 +1086,10 @@
                                                             <div class="idea-buttons">
                                                         <form action="{{ route('stu_live_lesson') }}" method="post"
                                                             class="mb-2">
+                                                            <input type="hidden" name="idea"
+                                                                value="{{ $idea_item->id }}">
                                                             @csrf
-                                                                <button href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
+                                                                <button
                                                                    class="btn btn-sm btn-video">
                                                                     <i class="icofont-video-alt me-1"></i> Video
                                                                 </button>
@@ -1153,7 +1155,9 @@
                                                         <form action="{{ route('stu_live_lesson') }}" method="post"
                                                             class="mb-2">
                                                             @csrf
-                                                                <button href="{{ route('stu_live_lesson', ['idea' => $idea_item->id]) }}"
+                                                            <input type="hidden" name="idea"
+                                                                value="{{ $idea_item->id }}">
+                                                                <button
                                                                    class="btn btn-sm btn-video">
                                                                     <i class="icofont-video-alt me-1"></i> Video
                                                                 </button>
