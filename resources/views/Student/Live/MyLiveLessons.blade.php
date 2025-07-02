@@ -1072,6 +1072,10 @@
                                             <i class="fas fa-chevron-down"></i>
                                         </div>
                                         <div class="lesson-content" id="lessonContent{{ $session->lesson->id }}">
+                                                                                                                                <!-- Recorded Live Session -->
+                                        <a href="{{ $session->material_link }}" class="btn btn-sm btn-video">
+                                            <i class="icofont-video-alt me-1"></i> Live Material
+                                        </a>
                                             <div class="content-row">
                                                 <!-- Ideas Column -->
                                                 <div class="ideas-column">
@@ -1096,11 +1100,6 @@
                                                                         <i class="fas fa-download me-1"></i> Download
                                                                     </a>
                                                                 @endif
-                                                                <!-- Recorded Live Session -->
-                                                                <a href="{{ $session->material_link }}"
-                                                                   class="btn btn-sm btn-video">
-                                                                    <i class="icofont-video-alt me-1"></i> Recorded Live
-                                                                </a>
                                                             </div>
                                                         </div>
                                                     @endforeach
