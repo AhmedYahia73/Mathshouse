@@ -556,8 +556,8 @@
                                             <input type="hidden" class="chapter_id" value="{{ $chapter->id }}" />
 
                                             @php
-                                            $min = $chapter->price[0]->price;
-                                            $discount = $chapter->price[0]->discount;
+                                            $min = @$chapter->price[0]->price;
+                                            $discount = @$chapter->price[0]->discount;
                                             @endphp
 
                                             @foreach ($chapter->price as $ch_price)
