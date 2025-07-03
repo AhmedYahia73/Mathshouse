@@ -11,6 +11,7 @@ use App\Mail\Sign_upEmail;
 use App\Models\User;
 use App\Models\ConfirmSign;
 use App\Models\LoginUser;
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\City;
 use App\Models\Currancy;
@@ -267,9 +268,10 @@ class Logincontroller extends Controller
 
         public function sign_up(){
                $countries = Country::all();
+               $categories = Category::all();
                 $cities = City::all();
                 return view('pages.authanticated.sign_up', 
-                compact('countries', 'cities'));
+                compact('countries', 'cities', 'categories'));
         }
 
         public function sign_up_add( Request $req ){
@@ -281,7 +283,8 @@ class Logincontroller extends Controller
                         'nick_name'=>'required',
                         'phone'=>'required',
                         'email' => 'email|required',
-                        'grade' => 'required|numeric'
+                        'grade' => 'required|numeric',
+                        'category_id' => 'required|exists:categories,id',
                 ]);
                         
                 if ( $req->password != $req->conf_password ) {
@@ -289,7 +292,7 @@ class Logincontroller extends Controller
                         return redirect()->back();
                 }
                  
-                $arr = $req->only('f_name', 'l_name', 'email', 'nick_name', 'phone', 'city_id', 'grade');
+                $arr = $req->only('f_name', 'l_name', 'email', 'nick_name', 'phone', 'city_id', 'grade', 'category_id');
                 $arr['position'] = 'student';
                 $arr['state'] = 'Show';
                 $arr['password'] = bcrypt($req->password);

@@ -300,13 +300,27 @@
                     @error('phone')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
-                </div>
-              <div class="gradeInp">
+                </div><div class="gradeInp">
+                <select name="category_id" class="form-control" id="categoryInput">
+                    <option disabled selected>Select Category ...</option>
+                    @foreach ($categories as $item)
+                        <option value="{{ $item->id }}" {{ $item->id == old('category_id') ? 'selected' : null }}>
+                            {{ $item->cate_name }}
+                        </option>
+                    @endforeach
+                </select>
+                <span class="d-none">Please Set Your Category</span>
+                @error('category_id')
+                    <span style="color: red;">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="gradeInp">
                 <select name="grade" class="form-control" id="gradeInput">
-                    <option disabled>Select Grade ...</option>
+                    <option disabled selected>Select Grade ...</option>
                     @for ($i = 1; $i <= 13; $i++)
                         <option value="{{ $i }}" {{ $i == old('grade') ? 'selected' : null }}>
-                            {{ $i }}
+                            Grade {{ $i }}
                         </option>
                     @endfor
                 </select>
@@ -373,7 +387,28 @@
     </script>
 
     <script>
+
         $(document).ready(function() {
+
+            $("#categoryInput").change(function() {
+                checkFaild($(this));
+            });
+            $("#gradeInput").change(function() {
+                checkFaild($(this));
+            });
+            if ($("#categoryInput").val() == null) {
+                $("#categoryInput").next().removeClass("d-none");
+                e.preventDefault();
+            } else {
+                $("#categoryInput").next().addClass("d-none");
+            }
+
+            if ($("#gradeInput").val() == null) {
+                $("#gradeInput").next().removeClass("d-none");
+                e.preventDefault();
+            } else {
+                $("#gradeInput").next().addClass("d-none");
+            }
 
             $(".hidePass").click(function() {
                 $(this).addClass("d-none")

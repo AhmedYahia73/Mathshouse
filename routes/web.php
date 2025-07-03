@@ -458,9 +458,12 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
             Route::get('/Report/ScoreSheet/Parallel/{id}','ad_question_parallel')->name('ad_question_parallel');
             Route::post('/Report/ScoreSheet/Solve/{id}','ad_solve_parallel')->name('ad_solve_parallel');
         });
-         Route::controller(ScoreSheetExamController::class)->group(function () {
-        Route::get('Report/ScoreSheet/student/{user}', 'index')->name('scor_sheet_exam'); // Fetch course score data
-        Route::get('Report/ScoreSheet/get/courseExam/{user}', 'show')->name('course_exam'); // Get course score data
+
+         Route::controller(ScoreSheetExamController::class)->group(function () {        
+            Route::post('/generateExamPdf', 'generateExamPdf')->name('generateExamPdf');
+            Route::post('/generateExamAnsPdf', 'generateExamAnsPdf')->name('generateExamAnsPdf');
+            Route::get('Report/ScoreSheet/student/{user}', 'index')->name('scor_sheet_exam'); // Fetch course score data
+            Route::get('Report/ScoreSheet/get/courseExam/{user}', 'show')->name('course_exam'); // Get course score data
     });
     });
 

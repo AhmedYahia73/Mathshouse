@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\LiveController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\Ad_ReportsController;
 use App\Http\Controllers\Admin\TeacherReportController;
+use App\Http\Controllers\Admin\scoreSheet\ScoreSheetExamController;
 
 use App\Http\Controllers\Visitor\CoursesController;
 use App\Http\Controllers\Visitor\V_ExamController;
@@ -46,6 +47,8 @@ Route::controller(TeacherReportController::class)
     Route::get('/', 'data')->name('teacher_report');
     Route::get('/Filter', 'filter')->name('teacher_report_filter');
 });
+Route::post('/filter_exams', [ScoreSheetExamController::class, 'filter_exams'])->name('filter_exams');
+
 Route::post('/question_type', [QuestionController::class, 'question_type'])->name('question_type');
 Route::get('/quize_data', [QuizzeController::class, 'quize_data'])->name('quize_data');
 Route::get('/dia_exam_data', [DiagnosticExamController::class, 'dia_exam_data'])->name('dia_exam_data');
