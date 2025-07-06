@@ -173,7 +173,7 @@
             @if ( $item->date <= now() )
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$item->teacher->nick_name}}</td>
+                <td>{{$item?->teacher?->nick_name}}</td>
                 <td>{{$item->name}}</td>
                 <td>{{$item->date}}</td>
                 <td>{{$item->from}}</td>

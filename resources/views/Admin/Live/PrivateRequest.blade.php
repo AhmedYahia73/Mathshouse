@@ -43,7 +43,7 @@
                   {{$element->to}}
               </td>
               <td>
-                  {{$element->teacher->nick_name}}
+                  {{$element?->teacher?->nick_name}}
               </td>
               
           </tr>
