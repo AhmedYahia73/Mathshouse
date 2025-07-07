@@ -41,6 +41,14 @@ class QuestionController extends Controller
             $q_ans_item = Q_ans::where('Q_id', $id)
             ->whereNotIn('id', $req->id)
             ->delete();
+            for ($i=0, $end = count($req->id); $i < $end; $i++) { 
+                
+                Q_ans::
+                where('Q_id', $id)
+                ->update([ 
+                    'ans_video' => $req->ans_video[$i], 
+                ]); 
+            }
             for ($i=count($req->id), $end = count($req->ans_video); $i < $end; $i++) {
                 $pdf = now() . rand(1, 10000) . $name[$i];
                 $pdf = str_replace([' ', ':', '-'], 'X', $pdf);
