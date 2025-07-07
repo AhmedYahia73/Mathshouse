@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MyEmail;
+use App\Mail\Sign_upEmail;
+use App\Mail\ForgetPassword as ForgetPasswordEmail;
 
+use App\Models\ForgetPassword;
 use App\Models\LoginUser;
 use App\Models\User;
 
@@ -31,6 +36,16 @@ class UserLoginController extends Controller
                     'faild' => ' This Account Unavailable'
                 ]);
             }
+            $user_login = LoginUser::
+            where('user_id', $user->id)
+            ->where('type', 'mobile')
+            ->first();
+            if(!empty($user_login)){
+                return response()->json([
+                    'errors' => 'You login from another device'
+                ], 400);
+            }
+
             LoginUser::create([
             'type' => 'mobile', 
             'user_id'=> $user->id]);
@@ -59,6 +74,35 @@ class UserLoginController extends Controller
         }
         if ($user->tokens()->delete()) {
             return response()->json(['success' => 'Logout Success'], 200);
+        }
+    }
+
+    public function forget_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $user = User::where('email', $request->user)
+            ->orWhere('phone', $request->user)
+            ->first();
+
+        if (!empty($user)) {
+            $code = rand(100000, 999999);
+            ForgetPassword::create([
+                'user_id' => $user->id,
+                'code' => $code,
+            ]);
+
+            Mail::To($user->email)->send(new ForgetPasswordEmail($user->id, $code));
+        } else {
+            return response()->json([
+                'faild' => 'Email or Phone is Wrong'
+            ]);
         }
     }
 }
