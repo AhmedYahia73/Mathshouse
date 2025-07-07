@@ -10,6 +10,7 @@ use App\Models\IdeaLesson;
 
 class MyCoursesController extends Controller
 {
+    // user/my_course
     // user/my_ideas/{lesson_id}
     public function my_course(Request $request){
         $courses = [];

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\User\Login\UserLoginController;
 use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
+use App\Http\Controllers\Api\User\UserLive\MyLivesController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -23,4 +24,11 @@ Route::post('/stu_sign_up_add',[UserLoginController::class, 'api_sign_up_add'])-
 Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::get('/my_course', [MyCoursesController::class, 'my_course']);
     Route::get('/my_ideas/{lesson_id}', [MyCoursesController::class, 'my_ideas']);
+
+    Route::controller(MyLivesController::class)->prefix('lives')
+    ->group(function(){
+        Route::get('my_lives', 'my_lives');
+        Route::get('private_request_lists', 'private_request_lists');
+        Route::get('private_request', 'private_request');
+    });
 });
