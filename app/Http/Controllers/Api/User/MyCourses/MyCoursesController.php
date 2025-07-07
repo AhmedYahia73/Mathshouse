@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\PaymentRequest;
+use App\Models\IdeaLesson;
 
 class MyCoursesController extends Controller
 {
+    // user/my_ideas/{lesson_id}
     public function my_course(Request $request){
         $courses = [];
         $chapters = [];
@@ -61,6 +63,40 @@ class MyCoursesController extends Controller
 
         return response()->json([
             'courses' => $courses
+        ]);
+    }
+
+    public function my_ideas(Request $request, $lesson_id){
+        $payment_request = PaymentRequest::where('user_id', auth()->id())
+        ->where('state', 'Approve')
+        ->whereHas('order', function ($query) use($lesson_id) {
+            $query->whereHas('lessons', function($q) use($lesson_id){
+                $q->where('id', $lesson_id);
+            });
+        })
+        ->first();
+        if(empty($payment_request)){
+            return response()->json([
+                'errors' => 'You must buy this course'
+            ], 400);
+        }
+
+        $ideas = IdeaLesson:: 
+        where('lesson_id', $lesson_id)
+        ->orderBy('idea_order')
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'idea' => $item->idea,
+                'syllabus' => $item->syllabus,
+                'v_link' => $item->v_link,
+                'pdf' => url('files/lessons_pdf/' . $item->pdf),
+            ];
+        });
+
+        return response()->json([
+            'ideas' => $ideas,
         ]);
     }
 }
