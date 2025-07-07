@@ -11,8 +11,8 @@ use App\Http\Controllers\Api\User\Login\UserLoginController;
 
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
-
 Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
+
 Route::post('/confirm_code', [UserLoginController::class, 'confirm_code']);
 Route::post('/update_password', [UserLoginController::class, 'update_password']);
 
