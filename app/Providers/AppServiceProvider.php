@@ -5,6 +5,10 @@ namespace App\Providers;
 use App\Core\KTBootstrap;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +31,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // Update defaultStringLength
         Builder::defaultStringLength(191);
-
         KTBootstrap::init();
+
+        Route::middleware('api')
+        ->prefix('user')
+        ->group(base_path('routes/user.php'));
+        Route::middleware('api')
+        ->prefix('admin')
+        ->group(base_path('routes/admin.php'));
     }
 }

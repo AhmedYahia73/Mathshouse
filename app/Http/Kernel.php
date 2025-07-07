@@ -63,6 +63,10 @@ class Kernel extends HttpKernel
         'auth.user_admin' => \App\Http\Middleware\UserAdminMiddleWare::class,
         'auth.teacher' => \App\Http\Middleware\TeacherMiddelware::class,
         'auth.student' => \App\Http\Middleware\StudentMiddeleware::class,
+        
+        'auth.MobileAdmin' => \App\Http\Middleware\MobileAdminMiddleware::class,
+        'auth.MobileUser' => \App\Http\Middleware\MobileUserMiddleware::class,
+        
         'limit.sessions' => \App\Http\Middleware\LimitActiveSessions::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
