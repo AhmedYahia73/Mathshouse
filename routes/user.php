@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\User\Login\UserLoginController;
+use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -20,5 +21,5 @@ Route::any('/stu_sign_up_page',[UserLoginController::class, 'api_sign_up_page'])
 Route::post('/stu_sign_up_add',[UserLoginController::class, 'api_sign_up_add'])->name('api_sign_up_add');
 
 Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
-
+    Route::get('/my_course', [MyCoursesController::class, 'my_course']);
 });
