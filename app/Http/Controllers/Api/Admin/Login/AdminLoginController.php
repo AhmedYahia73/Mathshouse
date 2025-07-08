@@ -23,7 +23,7 @@ class AdminLoginController extends Controller
             ],400);
         }
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) { 
             $user = User::where('email', $request->email)
             ->with('user_admin.user_role')->first();
             if ($user->state == 'hidden') {

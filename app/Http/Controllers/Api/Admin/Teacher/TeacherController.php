@@ -148,6 +148,15 @@ class TeacherController extends Controller
     }
 
     public function delete(Request $request, $id){
-        
+        $teacher = $this->user
+        ->where('position', 'teacher')
+        ->where('id', $id)
+        ->first(); 
+        $this->delete_image('images/users', $teacher->image);
+        $teacher->delete();
+
+        return response()->json([
+            'success' => 'You delete data success'
+        ]);
     }
 }
