@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Admin\Login;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+
 class AdminLoginController extends Controller
 {
     public function login(Request $request)
