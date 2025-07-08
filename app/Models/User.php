@@ -57,6 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'q_number',
         'state',
     ];
+    protected $appends = ['image_link'];
+
+    public function getImageLinkAttribute(){
+        if ($this->image) { 
+            return url('images/users/' . $this->image);
+        }
+        return $this->image;
+    }
 
     /**
      * The attributes that should be hidden for serialization.
