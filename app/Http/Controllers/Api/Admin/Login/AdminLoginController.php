@@ -24,7 +24,8 @@ class AdminLoginController extends Controller
         }
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)
+            ->with('user_admin.user_role')->first();
             if ($user->state == 'hidden') {
                 return response()->json([
                     'faild' => ' This Account Unavailable'
