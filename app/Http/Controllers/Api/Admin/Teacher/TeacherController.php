@@ -17,6 +17,7 @@ class TeacherController extends Controller
     public function __construct(private User $user,
     private Category $categories, private Course $courses,
     private TeacherCourse $teacher_course){}
+    use Image;
 
     protected $teacherRequest = [
         'nick_name' ,
