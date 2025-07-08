@@ -36,6 +36,7 @@ class TeacherController extends Controller
                 'name' => $item->nick_name,
                 'email' => $item->email,
                 'phone' => $item->phone,
+                'image' => $item->image_link,
                 'categories' => $item->teacher_courses?->pluck('category'),
                 'courses' => $item->teacher_courses,
             ];
