@@ -68,14 +68,11 @@ class MyLivesController extends Controller
                 ->where('end_date','>=',date('Y-m-d'));
             });
         })
-        ->with('session.lesson.chapter.course.category')
+        ->with('session.lesson.chapter.course')
         ->get()
         ?->pluck('session')
         ?->pluck('lesson')
-        ->unique('id')
-        ->groupBy(function($lesson) {
-            return $lesson->chapter->course->category->id;
-        });
+        ->unique('id');
         $lives2 = LiveLesson::
         where('user_id', auth()->user()->id)
         ->where('created_at', '>=', $new_date)
@@ -84,14 +81,51 @@ class MyLivesController extends Controller
         })
         ->where('user_id', auth()->user()->id)
         ->with(['lesson' => function($query){
-            $query->with(['chapter.course.category', 'sessions']);
+            $query->with(['chapter.course', 'sessions']);
         }])
         ->get()
         ?->pluck('lesson');
+        $lives = $lives1->merge($lives2)->unique('id')
+        ->groupBy(function($lesson) {
+            return $lesson->chapter->course->category->id;
+        })
+       ->map(function ($lessonsGroup) {
+            $courseModel = $lessonsGroup->first()->chapter->course;
+            return [
+                'id' => $courseModel->id,
+                'course_name' => $courseModel->course_name,
+                'course_des' => $courseModel->course_des,
+                'teacher' => $courseModel?->teacher?->nick_name,
+                'image' => url("images/courses/" . $courseModel->course_url) ,
+                'chapters' => $lessonsGroup
+                    ->groupBy(fn($lesson) => $lesson->chapter->id)
+                    ->map(function ($lessonsInChapter) {
+                        $chapterModel = $lessonsInChapter->first()->chapter;
+
+                        return [ 
+                            'id' => $chapterModel->id,
+                            'chapter_name' => $chapterModel->chapter_name, 
+                            'image' => url("images/Chapters/" . $chapterModel->ch_url),
+                            'teacher' => $chapterModel?->teacher?->nick_name,
+                            'lessons' => $lessonsInChapter
+                                ->unique('id')
+                                ->map(fn($lesson) => [ 
+                                    'id' => $lesson->id,
+                                    'lesson_name' => $lesson->lesson_name,
+                                    'description' => $lesson->lesson_des, 
+                                    'teacher' => $lesson?->teacher?->nick_name,
+                                    'image' => url('images/lesson/' . $lesson->lesson_url),
+                                ])
+                                ->values(),
+                        ];
+                    })
+                    ->values(),   
+                ];
+            })
+            ->values();
 
         return response()->json([
-            'lives1' => $lives1,
-            'lives2' => $lives2,
+            'lives' => $lives,
         ]);
         // $session->lesson?->chapter?->id &&
         //     $chapter_id == $session->lesson->chapter->id &&
