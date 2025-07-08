@@ -17,8 +17,6 @@ use App\Models\User;
 
 class UserLoginController extends Controller
 {
-    public function login(Request $request)
-    {      
 // /user/login
 // email, password
 // /user/logout
@@ -28,8 +26,8 @@ class UserLoginController extends Controller
 // user/update_password
 // keys
 // user, code, password
-
-
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
