@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(MyLivesController::class)->prefix('lives')
     ->group(function(){
         Route::get('my_lives', 'my_lives');
+        Route::get('lessons_live', 'lessons_live');
         Route::get('private_request_lists', 'private_request_lists');
         Route::get('private_request', 'private_request');
     });

@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api\User\UserLive;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 use App\Models\SessionStudent;
+use App\Models\SessionAttendance;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\LiveLesson;
 use App\Models\Session;
 
 class MyLivesController extends Controller
@@ -53,6 +56,56 @@ class MyLivesController extends Controller
         ]);
     }
 
+    public function lessons_live(Request $request){
+        
+        $new_date = Carbon::now()->subDays(7);
+        $lives1 = SessionAttendance::
+        where('user_id', auth()->user()->id)
+        ->whereHas('session', function($query) use($new_date){
+            $query->where('date', '>=', $new_date)
+            ->orWhereHas('lesson.extraDays', function($query1){
+                $query1->where('user_id', auth()->user()->id)
+                ->where('end_date','>=',date('Y-m-d'));
+            });
+        })
+        ->with('session.lesson.chapter.course.category')
+        ->get()
+        ?->pluck('session')
+        ?->pluck('lesson')
+        ->unique('id')
+        ->groupBy(function($lesson) {
+            return $lesson->chapter->course->category->id;
+        });
+        $lives2 = LiveLesson::
+        where('user_id', auth()->user()->id)
+        ->where('created_at', '>=', $new_date)
+        ->orWhereHas('lesson.extraDays', function($query){
+            $query->where('end_date', '>=', date('Y-m-d'));
+        })
+        ->where('user_id', auth()->user()->id)
+        ->with(['lesson' => function($query){
+            $query->with(['chapter.course.category', 'sessions']);
+        }])
+        ->get()
+        ?->pluck('lesson');
+
+        return response()->json([
+            'lives1' => $lives1,
+            'lives2' => $lives2,
+        ]);
+        // $session->lesson?->chapter?->id &&
+        //     $chapter_id == $session->lesson->chapter->id &&
+        //     (\Carbon\Carbon::now()->subDays(7) <= $session->date ||
+        //         $session->lesson->getExtraDays() >= date('Y-m-d')) &&
+        //     !in_array($session->lesson->id, $arr_lessons))
+            
+        // @if (
+        //     $live_item->lesson?->chapter?->id &&
+        //         $chapter_id == $live_item->lesson->chapter->id &&
+        //         \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
+        //         !in_array($live_item->lesson->id, $arr_lessons))
+    }
+
     public function private_request_lists(Request $request){ 
         $categories = Category::all();
         $courses = Course::all();
@@ -92,7 +145,7 @@ class MyLivesController extends Controller
                 'teacher' => $item?->teacher?->nick_name,
                 'chapter' => $item?->chapter?->chapter_name,
                 'course' => $item?->chapter?->course?->course_name,
-                'day' => \Carbon\Carbon::parse($item->to)->format('l'),
+                'day' => Carbon::parse($item->to)->format('l'),
             ];
         });
 

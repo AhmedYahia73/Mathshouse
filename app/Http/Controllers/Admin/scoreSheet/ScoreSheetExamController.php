@@ -85,7 +85,8 @@ class ScoreSheetExamController extends Controller
             $exams = $exams->where('code_id', $request->exam_code_id);
         }
         $exams_ids = $exams->pluck('id');
-        $exam_history = $this->exam_history 
+        $exam_history = $this->exam_history
+        ->with('exams:id,title')
         ->where('user_id', $request->user_id)
         ->whereIn('exam_id', $exams_ids)
         ->get();
