@@ -127,17 +127,6 @@ class MyLivesController extends Controller
         return response()->json([
             'lives' => $lives,
         ]);
-        // $session->lesson?->chapter?->id &&
-        //     $chapter_id == $session->lesson->chapter->id &&
-        //     (\Carbon\Carbon::now()->subDays(7) <= $session->date ||
-        //         $session->lesson->getExtraDays() >= date('Y-m-d')) &&
-        //     !in_array($session->lesson->id, $arr_lessons))
-            
-        // @if (
-        //     $live_item->lesson?->chapter?->id &&
-        //         $chapter_id == $live_item->lesson->chapter->id &&
-        //         \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
-        //         !in_array($live_item->lesson->id, $arr_lessons))
     }
 
     public function private_request_lists(Request $request){ 

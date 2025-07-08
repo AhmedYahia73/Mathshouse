@@ -65,6 +65,7 @@ class ScoreSheetExamController extends Controller
         // user_id, year, month, exam_code_id
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
+            'course_id' => 'exists:courses,id',
             'year' => 'numeric', 
             'month' => 'numeric', 
             'exam_code_id' => 'exists:exam_codes,id', 
@@ -83,6 +84,9 @@ class ScoreSheetExamController extends Controller
         }
         if (!empty($request->exam_code_id)) {
             $exams = $exams->where('code_id', $request->exam_code_id);
+        }
+        if (!empty($request->course_id)) {
+            $exams = $exams->where('course_id', $request->course_id);
         }
         $exams_ids = $exams->pluck('id');
         $exam_history = $this->exam_history

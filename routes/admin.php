@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\Admin\Login\AdminLoginController;
 
+// Parents 
+// Students 
+// Teacher
+// Live
+// Report issues 
+// Payment 
+// Reports
+// Teacher sessions
+
 // MobileUser
 Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
 
