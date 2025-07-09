@@ -15,7 +15,7 @@ trait Image
             $allowed_extensions = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
             if (in_array($extension, $allowed_extensions)) {
                 $img_name = str_replace([' ', ':', '-'], 'X', now() . rand(1, 10000)) . '.' . $extension;
-                $path = public_path($img_path . $img_name);
+                $path = public_path($img_path . '/' . $img_name);
 
                 if (!File::exists(public_path($img_path))) {
                     File::makeDirectory(public_path($img_path), 0777, true);
@@ -31,7 +31,7 @@ trait Image
 
     public function delete_image($image_path, $image){
         try {
-            $imagePath = public_path($image_path . $image); 
+            $imagePath = public_path($image_path . '/' . $image); 
             if (File::exists($imagePath)) {
                 File::delete($imagePath);
             }
