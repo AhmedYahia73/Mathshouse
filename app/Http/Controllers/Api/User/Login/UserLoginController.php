@@ -49,11 +49,11 @@ class UserLoginController extends Controller
             where('user_id', $user->id)
             ->where('type', 'mobile')
             ->first();
-            if(!empty($user_login)){
-                return response()->json([
-                    'errors' => 'You login from another device'
-                ], 400);
-            }
+            // if(!empty($user_login)){
+            //     return response()->json([
+            //         'errors' => 'You login from another device'
+            //     ], 400);
+            // }
 
             LoginUser::create([
             'type' => 'mobile', 
