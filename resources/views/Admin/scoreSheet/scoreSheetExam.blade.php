@@ -404,7 +404,6 @@ $ch_id = [];
                     <thead>
                         <tr class="p-4 border border-t-2 border-b-2" style="border-color:#CF202F;">
                             <th class="col-1" style="border-top: none !important; color: #CF202F; font-size: 1.1rem;" scope="col">Select</th>
-                            <th class="col-1" style="border-top: none !important; color: #CF202F; font-size: 1.1rem;" scope="col">#</th>
                             <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.14rem; font-weight: 600;" scope="col">Test Name</th>
                             <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;" scope="col">Score</th>
                             <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;" scope="col">Time</th>
@@ -417,7 +416,6 @@ $ch_id = [];
                                 <td class="col-1" style="border-top: none !important;">
                                     <input type="checkbox" class="row-checkbox" data-quizze-id="{{ $item->id }}">
                                 </td>
-                                <th class="col-1" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;" scope="row">{{ $item->id }}</th>
                                 <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.14rem; font-weight: 600;">{{ $item->exams->title }}</th>
                                 <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;">{{ $item->score }}</th>
                                 <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;">{{ $item->time }}</th>
@@ -502,9 +500,6 @@ $ch_id = [];
                             <td class="col-1" style="border-top: none !important;">
                                 <input type="checkbox" class="row-checkbox" data-quizze-id="${item.id}">
                             </td>
-                            <th class="col-1" style="border-top: none !important; color: #CF202F; font-size: 1.4rem; font-weight: 600;">
-                                ${item.id}
-                            </th>
                             <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.14rem; font-weight: 600;">
                                 ${item.exams.title}
                             </th>
