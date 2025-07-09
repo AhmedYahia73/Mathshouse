@@ -111,7 +111,7 @@ class ScoreSheetExamController extends Controller
             'success'=>'data returned Successfully',
             'data'=>$paymentRequest
         ]);
-    }
+    } 
 
      public function generateExamPdf(Request $request){
         // This Function Generate PDF Of Score Sheet Exam
