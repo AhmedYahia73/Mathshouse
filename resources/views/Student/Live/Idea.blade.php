@@ -1,4 +1,4 @@
-
+{{--
 @php
     $page_name = 'Lesson';
 @endphp
@@ -622,15 +622,7 @@
                             $arr_lessons = [];
                         @endphp
                         @foreach ($sessions as $session)
-                        @if ( $session->lesson?->chapter?->id &&
-                            $chapter_id == $session->lesson->chapter->id &&
-                            ((\Carbon\Carbon::now()->subDays(7) <= $session->date
-                            or
-                            ($session->lesson->getExtraDays() >= date('Y-m-d'))
-                            &&
-                            $chapter_id == $session->lesson->chapter->id)
-                            && !in_array($session->lesson->id, $arr_lessons)
-                            ))
+                        @if ($session->lesson?->chapter?->id && $chapter_id == $session->lesson->chapter->id && ((\Carbon\Carbon::now()->subDays(7) <= $session->date or $session->lesson->getExtraDays() >= date('Y-m-d') && $chapter_id == $session->lesson->chapter->id) && !in_array($session->lesson->id, $arr_lessons)))
                             @php
                                 $arr_lessons[] = $session->lesson->id;
                             @endphp
@@ -684,11 +676,7 @@
                         @endforeach
 
                         @foreach ($lives as $live_item)
-                        @if ( $live_item->lesson?->chapter?->id &&
-                            $chapter_id == $live_item->lesson->chapter->id &&
-                            \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
-                            && !in_array($live_item->lesson->id, $arr_lessons)
-                            )
+                        @if ($live_item->lesson?->chapter?->id && $chapter_id == $live_item->lesson->chapter->id && \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at && !in_array($live_item->lesson->id, $arr_lessons))
                             @php
                                 $arr_lessons[] = $live_item->lesson_id;
                             @endphp
@@ -878,6 +866,878 @@
 
 
 </main>
+@endsection
+
+@include('Student.inc.footer') --}}
+
+
+
+
+
+
+
+
+@php
+    $page_name = 'Lesson';
+@endphp
+@section('title', 'Lessons')
+@include('Student.inc.header')
+@include('Student.inc.menu')
+@extends('Student.inc.nav')
+
+@section('page_content')
+     <style>
+        /* Main Layout Styles */
+        .main-lesson-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Lesson Section */
+        .lesson-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .lesson-header {
+            font-size: 1rem;
+            background-color: #CF202F;
+            color: #f9f9f9;
+            padding: 15px 20px;
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .lesson-header:hover {
+            background-color: #e01728;
+        }
+
+        .lesson-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .lesson-content.show {
+            padding: 20px;
+            max-height: 5000px;
+        }
+
+        /* Content Row - Ideas and Quizzes */
+        .content-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ideas-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .quizzes-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Idea Card */
+        .idea-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .idea-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .idea-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-video {
+            background-color: #CF202F;
+            color: white;
+            border: none;
+        }
+
+        .btn-pdf-view {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+        }
+
+        .btn-pdf-download {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .btn-quiz {
+            background-color: #CF202F;
+            color: white;
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-row {
+                flex-direction: column;
+            }
+
+            .lesson-header {
+                font-size: 1.3rem;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+    @include('success')
+
+    <main class="main_wrapper overflow-hidden">
+
+
+
+
+        <!-- headar section start -->
+        <header>
+            <div class="headerarea headerarea__3 header__sticky header__area">
+
+
+                <div class="mob_menu_wrapper">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <div class="mobile-logo">
+                                <a class="logo__dark" href="#"><img loading="lazy" src="img/logo/logo_1.png"
+                                        alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="header-right-wrap">
+
+                                <div class="headerarea__right">
+
+                                    <div class="header__cart">
+                                        <a href="#"> <i class="icofont-cart-alt"></i></a>
+                                        <div class="header__right__dropdown__wrapper">
+                                            <div class="header__right__dropdown__inner">
+                                                <div class="single__header__right__dropdown">
+
+                                                    <div class="header__right__dropdown__img">
+                                                        <a href="#">
+                                                            <img loading="lazy" src="img/grid/cart1.jpg" alt="photo">
+                                                        </a>
+                                                    </div>
+                                                    <div class="header__right__dropdown__content">
+
+                                                        <a href="shop-product.html">Web Directory</a>
+                                                        <p>1 x <span class="price">$ 80.00</span></p>
+
+                                                    </div>
+                                                    <div class="header__right__dropdown__close">
+                                                        <a href="#"><i class="icofont-close-line"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="single__header__right__dropdown">
+
+                                                    <div class="header__right__dropdown__img">
+                                                        <a href="#">
+                                                            <img loading="lazy" src="img/grid/cart2.jpg" alt="photo">
+                                                        </a>
+                                                    </div>
+                                                    <div class="header__right__dropdown__content">
+
+                                                        <a href="shop-product.html">Design Minois</a>
+                                                        <p>1 x <span class="price">$ 60.00</span></p>
+
+                                                    </div>
+                                                    <div class="header__right__dropdown__close">
+                                                        <a href="#"><i class="icofont-close-line"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="single__header__right__dropdown">
+
+                                                    <div class="header__right__dropdown__img">
+                                                        <a href="#">
+                                                            <img loading="lazy" src="img/grid/cart3.jpg" alt="photo">
+                                                        </a>
+                                                    </div>
+                                                    <div class="header__right__dropdown__content">
+
+                                                        <a href="shop-product.html">Crash Course</a>
+                                                        <p>1 x <span class="price">$ 70.00</span></p>
+
+                                                    </div>
+                                                    <div class="header__right__dropdown__close">
+                                                        <a href="#"><i class="icofont-close-line"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p class="dropdown__price">Total: <span>$1,100.00</span>
+                                            </p>
+                                            <div class="header__right__dropdown__button">
+                                                <a href="#" class="white__color">VIEW
+                                                    CART</a>
+                                                <a href="#" class="blue__color">CHECKOUT</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-off-canvas">
+                                    <a class="mobile-aside-button" href="#"><i
+                                            class="icofont-navigation-menu"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- header section end -->
+
+        <!-- Mobile Menu Start Here -->
+        <div class="mobile-off-canvas-active">
+            <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
+            <div class="header-mobile-aside-wrap">
+                <div class="mobile-search">
+                    <form class="search-form" action="#">
+                        <input type="text" placeholder="Search entire store…">
+                        <button class="button-search"><i class="icofont icofont-search-2"></i></button>
+                    </form>
+                </div>
+                <div class="mobile-menu-wrap headerarea">
+
+                    <div class="mobile-navigation">
+
+                        <nav>
+                            <ul class="mobile-menu">
+                                <li class="menu-item-has-children"><a href="index.html">Home</a>
+                                    <ul class="dropdown">
+                                        <li class="menu-item-has-children"><a href="index.html">Homes Light</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index.html">Home (Default)</a></li>
+                                                <li><a href="home-2.html">Elegant</a></li>
+                                                <li><a href="home-3.html">Classic</a></li>
+                                                <li><a href="home-4.html">Classic LMS</a></li>
+                                                <li><a href="home-5.html">Online Course </a></li>
+                                                <li><a href="home-6.html">Marketplace </a></li>
+                                                <li><a href="home-7.html">University</a></li>
+                                                <li><a href="home-8.html">eCommerce</a></li>
+                                                <li><a href="home-9.html">Kindergarten</a></li>
+                                                <li><a href="home-10.html">Machine Learning</a></li>
+                                                <li><a href="home-11.html">Single Course</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="index.html">Homes Dark</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index-dark.html">Home Default (Dark)</a></li>
+                                                <li><a href="home-2-dark.html">Elegant (Dark)</a></li>
+                                                <li><a href="home-3-dark.html">Classic (Dark)</a></li>
+                                                <li><a href="home-4-dark.html">Classic LMS (Dark)</a></li>
+                                                <li><a href="home-5-dark.html">Online Course (Dark)</a></li>
+                                                <li><a href="home-6-dark.html">Marketplace (Dark)</a></li>
+                                                <li><a href="home-7-dark.html">University (Dark)</a></li>
+                                                <li><a href="home-8-dark.html">eCommerce (Dark)</a></li>
+                                                <li><a href="home-9-dark.html">Kindergarten (Dark)</a></li>
+                                                <li><a href="home-10-dark.html">Kindergarten (Dark)</a></li>
+                                                <li><a href="home-11-dark.html">Single Course (Dark)</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
+                                <li class="menu-item-has-children "><a href="#">Pages</a>
+
+                                    <ul class="dropdown">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 1</a>
+
+                                            <ul class="dropdown">
+                                                <li><a href="about.html">About</a></li>
+                                                <li><a href="about-dark.html">About (Dark)<span
+                                                            class="mega__menu__label new">New</span></a></li>
+                                                <li><a href="blog.html">Blog</a></li>
+                                                <li><a href="blog-dark.html">Blog (Dark)</a></li>
+                                                <li><a href="blog-details.html">Blog Details</a></li>
+                                                <li><a href="blog-details-dark.html">Blog Details (Dark)</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 2</a>
+                                            <ul class="dropdown">
+                                                <li><a href="error.html">Error 404</a></li>
+                                                <li><a href="error-dark.html">Error (Dark)</a></li>
+                                                <li><a href="event-details.html">Event Details</a></li>
+                                                <li><a href="zoom/zoom-meetings.html">Zoom<span
+                                                            class="mega__menu__label">Online Call</span></a></li>
+                                                <li><a href="zoom/zoom-meetings-dark.html">Zoom Meeting (Dark)</a>
+                                                </li>
+                                                <li><a href="zoom/zoom-meeting-details.html">Zoom Meeting
+                                                        Details</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 3</a>
+                                            <ul class="dropdown">
+                                                <li><a href="zoom/zoom-meeting-details-dark.html">Meeting Details
+                                                        (Dark)</a>
+                                                </li>
+                                                <li><a href="login.html">Login</a></li>
+                                                <li><a href="login-dark.html">Login (Dark)</a></li>
+                                                <li><a href="maintenance.html">Maintenance</a></li>
+                                                <li><a href="maintenance-dark.html">Maintenance Dark</a></li>
+                                                <li><a href="#">Terms & Condition</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 4</a>
+                                            <ul class="dropdown">
+                                                <li><a href="#">Terms & Condition (Dark)</a></li>
+                                                <li><a href="#">Privacy Policy</a></li>
+                                                <li><a href="#">Privacy Policy (Dark)</a></li>
+                                                <li><a href="#">Success Stories</a></li>
+                                                <li><a href="#">Success Stories (Dark)</a></li>
+                                                <li><a href="#">Work Policy</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <div class="mega__menu__img">
+                                                <a href="#"><img loading="lazy" src="img/mega/mega_menu_2.png"
+                                                        alt="Mega Menu"></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+                                <li class="menu-item-has-children "><a href="course.html">Courses</a>
+
+                                    <ul class="dropdown">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 1</a>
+
+                                            <ul class="dropdown">
+                                                <li><a href="course.html">Grid <span class="mega__menu__label">All
+                                                            Courses</span></a></li>
+                                                <li><a href="course-dark.html">Course Grid (Dark)</a></li>
+                                                <li><a href="course-grid.html">Course Grid</a></li>
+                                                <li><a href="course-grid-dark.html">Course Grid (Dark)</a></li>
+                                                <li><a href="course-list.html">Course List</a></li>
+                                                <li><a href="course-list-dark.html">Course List (Dark)</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 2</a>
+                                            <ul class="dropdown">
+                                                <li><a href="course-details.html">Course Details</a></li>
+                                                <li><a href="course-details-dark.html">Course Details (Dark)</a>
+                                                </li>
+                                                <li><a href="course-details-2.html">Course Details 2</a></li>
+                                                <li><a href="course-details-2-dark.html">Details 2 (Dark)</a></li>
+                                                <li><a href="course-details-3.html">Course Details 3</a></li>
+                                                <li><a href="course-details-3.html">Details 3 (Dark)</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Get Started 3</a>
+                                            <ul class="dropdown">
+                                                <li><a href="dashboard/become-an-instructor.html">Become An
+                                                        Instructor</a>
+                                                <li><a href="dashboard/create-course.html">Create Course <span
+                                                            class="mega__menu__label">Career</span></a></li>
+                                                <li><a href="instructor.html">Instructor</a></li>
+                                                <li><a href="instructor-dark.html">Instructor (Dark)</a></li>
+                                                <li><a href="instructor-details.html">Instructor Details</a></li>
+                                                <li><a href="lesson.html">Course Lesson<span
+                                                            class="mega__menu__label new">New</span></a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <div class="mega__menu__img">
+                                                <a href="#"><img loading="lazy" src="img/mega/mega_menu_1.png"
+                                                        alt="Mega Menu"></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                                <li class="menu-item-has-children "><a href="dashboard/admin-dashboard.html">Dashboard</a>
+
+                                    <ul class="dropdown">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Admin</a>
+
+                                            <ul class="dropdown">
+                                                <li><a href="dashboard/admin-dashboard.html">Admin Dashboard</a>
+                                                </li>
+                                                <li><a href="dashboard/admin-profile.html">Admin Profile</a></li>
+                                                <li><a href="dashboard/admin-message.html">Message</a></li>
+                                                <li><a href="dashboard/admin-course.html">Courses</a></li>
+                                                <li><a href="dashboard/admin-reviews.html">Review</a></li>
+                                                <li><a href="dashboard/admin-quiz-attempts.html">Admin Quiz</a>
+                                                </li>
+
+                                                <li><a href="dashboard/admin-settings.html">Settings</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Instructor</a>
+                                            <ul class="dropdown">
+                                                <li><a href="dashboard/instructor-dashboard.html">Inst.
+                                                        Dashboard</a></li>
+                                                <li><a href="dashboard/instructor-profile.html">Inst. Profile</a>
+                                                </li>
+                                                <li><a href="dashboard/instructor-message.html">Message</a></li>
+                                                <li><a href="dashboard/instructor-wishlist.html">Wishlist</a></li>
+                                                <li><a href="dashboard/instructor-reviews.html">Review</a></li>
+                                                <li><a href="dashboard/instructor-my-quiz-attempts.html">My
+                                                        Quiz</a></li>
+                                                <li><a href="dashboard/instructor-order-history.html">Order
+                                                        History</a></li>
+                                                <li><a href="dashboard/instructor-course.html">My Courses</a></li>
+                                                <li><a href="dashboard/instructor-announcments.html">Announcements</a>
+                                                </li>
+                                                <li><a href="dashboard/instructor-quiz-attempts.html">Quiz
+                                                        Attempts</a></li>
+                                                <li><a href="dashboard/instructor-assignments.html">Assignment</a>
+                                                </li>
+                                                <li><a href="dashboard/instructor-settings.html">Settings</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Student</a>
+                                            <ul class="dropdown">
+                                                <li><a href="dashboard/student-dashboard.html">Dashboard</a></li>
+                                                <li><a href="dashboard/student-profile.html">Profile</a></li>
+                                                <li><a href="dashboard/student-message.html">Message</a></li>
+                                                <li><a href="dashboard/student-enrolled-courses.html">Enrolled
+                                                        Courses</a></li>
+                                                <li><a href="dashboard/student-wishlist.html">Wishlist</a></li>
+                                                <li><a href="dashboard/student-reviews.html">Review</a></li>
+                                                <li><a href="dashboard/student-my-quiz-attempts.html">My Quiz</a>
+                                                </li>
+                                                <li><a href="dashboard/student-assignments.html">Assignment</a>
+                                                </li>
+                                                <li><a href="dashboard/student-settings.html">Settings</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="menu-item-has-children"><a href="ecommerce/shop.html">eCommerce</a>
+                                    <ul class="dropdown">
+                                        <li><a href="ecommerce/shop.html">Shop<span class="mega__menu__label">Online
+                                                    Store</span></a></li>
+                                        <li><a href="ecommerce/product-details.html">Product Details</a></li>
+                                        <li><a href="ecommerce/cart.html">Cart</a></li>
+                                        <li><a href="ecommerce/checkout.html">Checkout</a></li>
+                                        <li><a href="ecommerce/wishlist.html">Wishlist</a></li>
+
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                </div>
+                <div class="mobile-curr-lang-wrap">
+                    <div class="single-mobile-curr-lang">
+                        <a class="mobile-language-active" href="#">Language <i class="icofont-thin-down"></i></a>
+                        <div class="lang-curr-dropdown lang-dropdown-active">
+                            <ul>
+                                <li><a href="#">English (US)</a></li>
+                                <li><a href="#">English (UK)</a></li>
+                                <li><a href="#">Spanish</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- <div class="single-mobile-curr-lang">
+                                            <a class="mobile-currency-active" href="#">Currency <i class="icofont-thin-down"></i></a>
+                                            <div class="lang-curr-dropdown curr-dropdown-active">
+                                                <ul>
+                                                    <li><a href="#">USD</a></li>
+                                                    <li><a href="#">EUR</a></li>
+                                                    <li><a href="#">Real</a></li>
+                                                    <li><a href="#">BDT</a></li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+
+                    <div class="single-mobile-curr-lang">
+                        <a class="mobile-account-active" href="#">My Account <i class="icofont-thin-down"></i></a>
+                        <div class="lang-curr-dropdown account-dropdown-active">
+                            <ul>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="login.html">/ Create Account</a></li>
+                                <li><a href="login.html">My Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-social-wrap">
+                    <a class="facebook" href="#"><i class="icofont icofont-facebook"></i></a>
+                    <a class="twitter" href="#"><i class="icofont icofont-twitter"></i></a>
+                    <a class="pinterest" href="#"><i class="icofont icofont-pinterest"></i></a>
+                    <a class="instagram" href="#"><i class="icofont icofont-instagram"></i></a>
+                    <a class="google" href="#"><i class="icofont icofont-youtube-play"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu end Here -->
+
+        <!-- theme fixed shadow -->
+        <div>
+            <div class="theme__shadow__circle"></div>
+            <div class="theme__shadow__circle shadow__right"></div>
+        </div>
+        <!-- theme fixed shadow -->
+
+
+        <!-- tution__section__start -->
+        <div class="tution sp_bottom_100 sp_top_50">
+            <div class="container-fluid full__width__padding">
+                <div class="row">
+
+
+                    <!-- Main Video at Top -->
+                    <div class="">
+                        <div class="mb-4 text-center">
+                            <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem;">
+                                {{ $idea->idea }}
+                            </h3>
+                        </div>
+
+                        <div class="" style="width: 100%; height: 400px;">
+                            <iframe scrolling="no" allowfullscreen style="width: 100%; height:100%;"
+                                src="{{ $idea->v_link }}" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Report Issue Section -->
+                    <div class="list-container p-4 rounded shadow-sm mb-4">
+                        <div class="list-header d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem;">
+                                Select an Issue:
+                            </h4>
+                            <div class="dropdown" style="width: 70%">
+                                <button class="btn dropdown-toggle text-white px-4 py-2" type="button"
+                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                    style="background-color: #CF202F; border: none; border-radius: 5px;">
+                                    Report Issue
+                                </button>
+                                <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton"
+                                    style="width: 100%; border: 1px solid #ddd;">
+                                    @foreach ($reports as $report)
+                                        <li class="dropdown-item report-item" style="cursor: pointer;">
+                                            <input type="hidden" class="report-val" value="{{ $report }}" />
+                                            <span>{{ $report->list }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <div class="main-lesson-container">
+                            @php
+                                $arr_lessons = [];
+                            @endphp
+                            @foreach ($sessions as $session)
+                                @if (
+                                    $session->lesson?->chapter?->id &&
+                                        $chapter_id == $session->lesson->chapter->id &&
+                                        ((\Carbon\Carbon::now()->subDays(7) <= $session->date or
+                                            $session->lesson->getExtraDays() >= date('Y-m-d') && $chapter_id == $session->lesson->chapter->id) &&
+                                            !in_array($session->lesson->id, $arr_lessons)))
+                                    @php
+                                        $arr_lessons[] = $session->lesson->id;
+                                    @endphp
+
+                                    <div class="lesson-section">
+                                        <div class="lesson-header" onclick="toggleLesson({{ $session->lesson->id }})">
+                                            <span><i
+                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $session->lesson->lesson_name }}</span>
+                                            <i class="fas fa-chevron-down"></i>
+                                        </div>
+                                        <div class="lesson-content" id="lessonContent{{ $session->lesson->id }}">
+                                            <!-- Recorded Live Session -->
+                                            <a href="{{ $session->material_link }}" class="btn btn-sm btn-video">
+                                                <i class="icofont-video-alt me-1"></i> Live Material
+                                            </a>
+                                            <div class="content-row">
+                                                <!-- Ideas Column -->
+                                                <div class="ideas-column">
+                                                    <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
+                                                    @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                                        <div class="idea-card">
+                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
+                                                            <div class="idea-buttons">
+                                                                <form action="{{ route('stu_live_lesson') }}"
+                                                                    method="post" class="mb-2">
+                                                                    <input type="hidden" name="idea"
+                                                                        value="{{ $idea_item->id }}">
+                                                                    @csrf
+                                                                    <button class="btn btn-sm btn-video">
+                                                                        <i class="icofont-video-alt me-1"></i> Video
+                                                                    </button>
+                                                                </form>
+                                                                @if (!empty($idea_item->pdf))
+                                                                    <a target="_blank"
+                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                        class="btn btn-sm btn-pdf-view">
+                                                                        <i class="fas fa-eye me-1"></i> View PDF
+                                                                    </a>
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                        download class="btn btn-sm btn-pdf-download">
+                                                                        <i class="fas fa-download me-1"></i> Download
+                                                                    </a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <!-- Quizzes Column -->
+                                                <div class="quizzes-column">
+                                                    <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
+                                                    @foreach ($session->lesson->quizze as $quizze)
+                                                        <div class="quiz-card">
+                                                            <div class="quiz-title">Q{{ $loop->iteration }}:
+                                                                {{ $quizze->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                                class="btn btn-sm btn-quiz">
+                                                                <i class="fa-solid fa-question me-1"></i> Take Quiz
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+
+
+                            @foreach ($lives as $live_item)
+                                @if (
+                                    $live_item->lesson?->chapter?->id &&
+                                        $chapter_id == $live_item->lesson->chapter->id &&
+                                        \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
+                                        !in_array($live_item->lesson->id, $arr_lessons))
+                                    @php
+                                        $arr_lessons[] = $live_item->lesson_id;
+                                    @endphp
+                                    <div class="lesson-section">
+                                        <div class="lesson-header" onclick="toggleLesson({{ $live_item->lesson->id }})">
+                                            <span><i
+                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $live_item->lesson->lesson_name }}</span>
+                                            <i class="fas fa-chevron-down"></i>
+                                        </div>
+                                        <div class="lesson-content" id="lessonContent{{ $live_item->lesson->id }}">
+                                            <div class="content-row">
+                                                <!-- Ideas Column -->
+                                                <div class="ideas-column">
+                                                    <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
+                                                    @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                                        <div class="idea-card">
+                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
+                                                            <div class="idea-buttons">
+                                                                {{-- <form action="{{ route('stu_live_lesson') }}"
+                                                                    method="post" class="mb-2">
+                                                                    @csrf
+                                                                    <input type="hidden" name="idea"
+                                                                        value="{{ $idea_item->id }}">
+                                                                    <button class="btn btn-sm btn-video">
+                                                                        <i class="icofont-video-alt me-1"></i> Video
+                                                                    </button>
+                                                                </form> --}}
+                                                                @if (!empty($idea_item->pdf))
+                                                                    <a target="_blank"
+                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                        class="btn btn-sm btn-pdf-view">
+                                                                        <i class="fas fa-eye me-1"></i> View PDF
+                                                                    </a>
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                        download class="btn btn-sm btn-pdf-download">
+                                                                        <i class="fas fa-download me-1"></i> Download
+                                                                    </a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <!-- Quizzes Column -->
+                                                <div class="quizzes-column">
+                                                    <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
+                                                    @foreach ($live_item->lesson->quizze as $quizze)
+                                                        <div class="quiz-card">
+                                                            <div class="quiz-title">Q{{ $loop->iteration }}:
+                                                                {{ $quizze->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                                class="btn btn-sm btn-quiz">
+                                                                <i class="fa-solid fa-question me-1"></i> Take Quiz
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <!-- tution__section__end -->
+
+
+    <script>
+        function toggleLesson(lessonId) {
+            const content = document.getElementById(`lessonContent${lessonId}`);
+            const icon = document.querySelector(`#lessonContent${lessonId}`).previousElementSibling.querySelector('i');
+
+            content.classList.toggle('show');
+
+            if (content.classList.contains('show')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        $(document).ready(function () {
+            // Initialize - show current lesson's content if it exists
+            @if(isset($L_id))
+                const currentLesson = document.getElementById('lessonContent{{ $L_id }}');
+                if (currentLesson) {
+                    currentLesson.classList.add('show');
+                    const icon = currentLesson.previousElementSibling.querySelector('i');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            @endif
+        });
+    </script>
+
+        {{-- <script>
+            $(document).ready(function() {
+                console.log("first")
+                $(".accordion-button").click(function() {
+                    console.log("ssss", $(this).closest(".accordion-item").find(".accordion-collapse")
+                        .toggleClass("collapse"))
+                })
+                $("#iconList").click(function() {
+                    console.log("ssss")
+                    $(".list_item").toggleClass("d-none")
+                })
+            })
+
+            let lesson__content__main = document.querySelector('.lesson__content__main');
+            lesson__content__main.classList.remove('d-none');
+
+            //___________________________________________________________________________________________
+            let report_item = document.querySelectorAll('.report_item');
+            let report_val = document.querySelectorAll('.report_val');
+
+            for (let i = 0, end = report_item.length; i < end; i++) {
+                report_item[i].addEventListener('click', (e) => {
+                    for (let j = 0; j < end; j++) {
+                        if (report_item[j] == e.target) {
+                            let obj = report_val[j].value;
+                            obj = JSON.parse(obj);
+                            obj = {
+                                'list_id': obj.id,
+                                'lesson_video_id': {{ $idea_num }},
+                            }
+                            $(".list_item").toggleClass("d-none")
+
+                            $.ajax("{{ route('report_video_api') }}", {
+                                type: 'GET', // http method
+                                data: {
+                                    obj: obj
+                                }, // data to submit
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                            });
+                        }
+                    }
+                })
+            }
+        </script> --}}
+
+
+    </main>
 @endsection
 
 @include('Student.inc.footer')

@@ -151,12 +151,15 @@ class TeacherController extends Controller
         $teacher = $this->user
         ->where('position', 'teacher')
         ->where('id', $id)
-        ->first(); 
+        ->first();
         $this->delete_image('images/users', $teacher->image);
-        $teacher->delete();
+        $this->user
+        ->where('position', 'teacher')
+        ->where('id', $id)
+        ->delete();
 
         return response()->json([
-            'success' => 'You delete data success'
+            'success' => $teacher
         ]);
     }
 }
