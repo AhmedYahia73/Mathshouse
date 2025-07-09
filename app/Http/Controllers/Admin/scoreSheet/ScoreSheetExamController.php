@@ -130,7 +130,7 @@ class ScoreSheetExamController extends Controller
 		$exam_history_id = explode(',', $exam_history_id);
 
         $exam_history = $this->exam_history  
-        ->whereIn('id', $request->exam_history_id)
+        ->whereIn('id', $exam_history_id)
         ->with(['mistakes.question' => function($query){
             return $query->with(['mcq', 'q_ans', 'g_ans']);
         }])
