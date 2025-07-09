@@ -117,14 +117,18 @@ class ScoreSheetExamController extends Controller
         // This Function Generate PDF Of Score Sheet Exam
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
-            'exam_history_id' => 'required|array',
-            'exam_history_id.*' => 'required|exists:exam_history,id',
+            'exam_history_id' => 'required',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
                 'errors' => $validator->errors(),
             ],400);
         }
+        $exam_history_id = is_string($request->exam_history_id) ? json_decode($request->exam_history_id): $request->exam_history_id;
+		$exam_history_id =  $exam_history_id[0];
+		$exam_history_id = str_replace(['[', ']'], '', $exam_history_id);
+		$exam_history_id = explode(',', $exam_history_id);
+
         $exam_history = $this->exam_history  
         ->whereIn('id', $request->exam_history_id)
         ->with(['mistakes.question' => function($query){
@@ -148,16 +152,20 @@ class ScoreSheetExamController extends Controller
     public function generateExamAnsPdf(Request $request) {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
-            'exam_history_id' => 'required|array',
-            'exam_history_id.*' => 'required|exists:exam_history,id',
+            'exam_history_id' => 'required',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
                 'errors' => $validator->errors(),
             ],400);
         }
+        $exam_history_id = is_string($request->exam_history_id) ? json_decode($request->exam_history_id): $request->exam_history_id;
+		$exam_history_id =  $exam_history_id[0];
+		$exam_history_id = str_replace(['[', ']'], '', $exam_history_id);
+		$exam_history_id = explode(',', $exam_history_id);
+
         $exam_history = $this->exam_history  
-        ->whereIn('id', $request->exam_history_id)
+        ->whereIn('id', $exam_history_id)
         ->with(['mistakes.question' => function($query){
             return $query->with(['mcq', 'q_ans', 'g_ans']);
         }])
