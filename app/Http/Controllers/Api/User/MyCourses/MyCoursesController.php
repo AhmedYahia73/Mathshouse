@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\PaymentRequest;
 use App\Models\IdeaLesson;
+use App\Models\quizze;
 
 class MyCoursesController extends Controller
 {
@@ -89,15 +90,26 @@ class MyCoursesController extends Controller
         ->map(function($item){
             return [
                 'id' => $item->id,
-                'idea' => $item->idea,
-                'syllabus' => $item->syllabus,
+                'idea' => $item->idea, 
                 'v_link' => $item->v_link,
                 'pdf' => url('files/lessons_pdf/' . $item->pdf),
             ];
         });
+        $quizs = quizze::
+        select('id', 'title', 'time', 'score')
+        ->where('lesson_id', $lesson_id)
+        ->where('state', 1)
+        ->with(['question' => function($query){
+            $query
+            ->select('questions.id', 'question', 'q_url', 'ans_type')
+            ->with(['mcq:id,mcq_num,mcq_ans,q_id']);
+        }])
+        ->orderByDesc('quizze_order')
+        ->get();
 
         return response()->json([
             'ideas' => $ideas,
+            'quizs' => $quizs,
         ]);
     }
 }

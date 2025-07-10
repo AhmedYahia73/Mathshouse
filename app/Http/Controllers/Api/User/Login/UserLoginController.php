@@ -23,6 +23,9 @@ class UserLoginController extends Controller
 // user/forget_password
 // keys => user
 // يكتب الايميل او التليفون
+// /user/confirm_code
+// keys
+// code, user
 // user/update_password
 // keys
 // user, code, password

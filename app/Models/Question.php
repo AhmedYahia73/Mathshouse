@@ -30,7 +30,14 @@ class Question extends Model
         'ans_type',
         'state',
     ];
+    protected $appends = ['q_image'];
 
+    public function getQImageAttribute(){
+        if($this->q_url){
+            return url('images/questions/' . $this->q_url);
+        }
+        return null;
+    }
     public function code()
     {
         return $this->belongsTo(ExamCodes::class, 'q_code');
