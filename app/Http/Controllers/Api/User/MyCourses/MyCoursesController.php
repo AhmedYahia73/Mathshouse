@@ -11,6 +11,7 @@ use App\Models\IdeaLesson;
 use App\Models\Question;
 use App\Models\Mcq_ans;
 use App\Models\StudentQuizze;
+use App\Models\StudentQuizzeMistake;
 use App\Models\quizze;
 
 class MyCoursesController extends Controller
@@ -124,7 +125,7 @@ class MyCoursesController extends Controller
             'answers.*.0' => 'required|exists:questions,id',
             'answers.*.1' => 'required',
             'timer' => 'required',
-            'quiz_id' => 'required|exists:quizzes,id"',
+            'quiz_id' => 'required|exists:quizzes,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
