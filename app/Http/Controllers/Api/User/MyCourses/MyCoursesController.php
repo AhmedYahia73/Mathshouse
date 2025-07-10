@@ -110,7 +110,12 @@ class MyCoursesController extends Controller
             ->with(['mcq:id,mcq_num,mcq_ans,q_id']);
         }])
         ->orderByDesc('quizze_order')
-        ->get();
+        ->get()
+        ->map(function($item){
+            $item->solve_quiz = empty($item->student_quizzes(auth()->user()->id))
+            ? false : true;
+            return $item;
+        });
 
         return response()->json([
             'ideas' => $ideas,
