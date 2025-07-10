@@ -33,6 +33,7 @@ Route::post('/stu_sign_up_add',[UserLoginController::class, 'api_sign_up_add'])-
 Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::get('/my_course', [MyCoursesController::class, 'my_course']);
     Route::get('/my_ideas/{lesson_id}', [MyCoursesController::class, 'my_ideas']);
+    Route::post('/quiz_score', [MyCoursesController::class, 'quiz_score']);
 
     Route::controller(MyLivesController::class)->prefix('lives')
     ->group(function(){
