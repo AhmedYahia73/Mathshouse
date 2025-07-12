@@ -307,25 +307,25 @@ class Stu_MyCourseController extends Controller
                 $question = Question::where('id', $grid_item->q_id)
                 ->first();
                 $grid_ans = @$question->g_ans[0]->grid_ans;
-                $answer = $req->q_grid_ans[$i];
-                if ( strpos($answer, '/') ) {
-                    $arr_ans = explode('/', $answer);
-                    if (floatval($arr_ans[1]) == 0) {
-                        $answer = 0;
-                    } else {
-                        $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
-                    }
+                $answer = $req->q_grid_ans[$i]; 
+                // if ( strpos($answer, '/') ) {
+                //     $arr_ans = explode('/', $answer);
+                //     if (floatval($arr_ans[1]) == 0) {
+                //         $answer = 0;
+                //     } else {
+                //         $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
+                //     }
                     
-                    if ( floatval($grid_ans) == $answer || 
-                    (floatval($grid_ans) - $answer < .06 && floatval($grid_ans) - $answer > 0 ) ||
-                    ($answer - floatval($grid_ans) < .06 && $answer - floatval($grid_ans) > 0 ) ) {
-                        $deg++;
-                    }
-                    else {
-                        $mistakes[] = $question;
-                    }
-                }
-                elseif ( floatval($grid_ans) == floatval($answer) ) {
+                //     if ( floatval($grid_ans) == $answer || 
+                //     (floatval($grid_ans) - $answer < .06 && floatval($grid_ans) - $answer > 0 ) ||
+                //     ($answer - floatval($grid_ans) < .06 && $answer - floatval($grid_ans) > 0 ) ) {
+                //         $deg++;
+                //     }
+                //     else {
+                //         $mistakes[] = $question;
+                //     }
+                // }
+                if ( floatval($grid_ans) == floatval($answer) ) {
                     $deg++;
                 } else {
                     $mistakes[] = $question;

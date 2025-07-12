@@ -8,11 +8,15 @@ use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
 
 use App\Models\User;
+use App\Models\Wallet;
 use App\Models\Category;
+use App\Models\Course;
+use App\Models\PaymentOrder;
 
 class StudentController extends Controller
 {
-    public function __construct(private User $user, private Category $categories){}
+    public function __construct(private User $user, private Category $categories,
+    private Course $courses){}
 
     protected $studentRequest = [ 
         'f_name',
@@ -43,6 +47,7 @@ class StudentController extends Controller
                 'parent_phone' => $item->parent_phone,
                 'parent_email' => $item->phone,
                 'grade' => $item->grade,
+                'payment' => !empty($item->payment_req_approve->first()) ? 'Paid' : 'Free',
                 'image' => $item->image_link,
                 'category' => $item?->category?->cate_name,
                 'category_id' => $item->category_id,
@@ -93,7 +98,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function modify(Request $request){
+    public function modify(Request $request, $id){
         
         $validator = Validator::make($request->all(), [
             'f_name'  => 'required',
@@ -139,7 +144,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request, $id){
         $student = $this->user
         ->where('position', 'student')
         ->where('id', $id)
@@ -153,5 +158,59 @@ class StudentController extends Controller
         return response()->json([
             'success' => $student
         ]);
+    }
+
+    public function payment_history(Request $request, $id){
+        $chapters = PaymentOrder::
+        whereHas('pay_req', function( $query )use($id){
+            $query->where('user_id', $id);
+        })
+        ->with('chapter')
+        ->where('state', 1)
+        ->get()
+        ?->pluck('chapter');
+
+        return response()->json([
+            'chapters' => $chapters,
+        ]);
+    }
+    
+    public function wallet_balance(Request $request, $student_id){
+        $balance = Wallet::
+        where('student_id', $student_id)
+        ->sum('wallet');
+        
+        return response()->json([
+            'balance' => $balance
+        ]);
+    }
+
+    public function charge_wallet(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'wallet'  => 'required',
+            'student_id'  => 'required|exists:users,id',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        Wallet::create([
+            'wallet' => $request->wallet,
+            'student_id' => $request->student_id,
+            'date' => now(),
+            'state' => 'Approve',
+        ]);
+
+        return response()->json([
+            'success' => 'You charge wallet success'
+        ]);
+    }
+
+    public function academic_list(Request $request){
+        $courses = $this->courses
+        ->get();
     }
 }

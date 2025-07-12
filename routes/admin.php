@@ -38,5 +38,9 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
         Route::delete('/delete/{id}', 'delete');
+
+        Route::get('/payment_history/{id}', 'payment_history');
+        Route::get('/wallet_balance/{id}', 'wallet_balance');
+        Route::post('/charge_wallet', 'charge_wallet');
     });
 });

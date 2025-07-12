@@ -86,6 +86,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_login_at' => 'datetime',
     ];
 
+    public function wallet(){
+        return $this->hasMany(Wallet::class, 'student_id');
+    }
+
     public function getProfilePhotoUrlAttribute()
     {
         if ($this->profile_photo_path) {
