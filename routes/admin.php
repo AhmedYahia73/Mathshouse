@@ -42,5 +42,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/payment_history/{id}', 'payment_history');
         Route::get('/wallet_balance/{id}', 'wallet_balance');
         Route::post('/charge_wallet', 'charge_wallet');
+
+        Route::get('/academic_list/{id}', 'academic_list');
+        Route::post('/academic_list_add', 'academic_list_add');
+        Route::post('/lives_view', 'lives_view');
+        Route::post('/live_attend', 'live_attend');
     });
 });

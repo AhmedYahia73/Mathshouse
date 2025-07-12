@@ -441,7 +441,7 @@ $page_name = 'Lesson';
         @if (is_numeric($session->lesson?->chapter?->course?->id) && $course_id == $session->lesson->chapter->course->id 
         && (\Carbon\Carbon::now()->subDays(7) <= $session->date
             or
-            $session->lesson->getExtraDays() >= date('Y-m-d'))
+            $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d'))
             && !in_array($session->lesson->chapter->id, $arr_chapters))
             @php
                 $arr_chapters[] = $session->lesson->chapter->id;
@@ -539,7 +539,7 @@ $page_name = 'Lesson';
         @if (is_numeric($live_item->lesson?->chapter?->course?->id) && $course_id == $live_item->lesson->chapter->course->id 
         && (\Carbon\Carbon::now()->subDays(7) <= $live_item->date
             or
-            $live_item->lesson->getExtraDays() >= date('Y-m-d'))
+            $live_item->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d'))
             && !in_array($live_item->lesson->chapter->id, $arr_chapters))
             @php
                 $arr_chapters[] = $live_item->lesson->chapter->id;

@@ -489,7 +489,7 @@ $page_name = 'Lesson';
 
         @if ( $session->lesson?->chapter?->course?->id && \Carbon\Carbon::now()->subDays(7) <= $session->date &&
             !in_array($session->lesson?->chapter?->course?->id ?? null,$arr) or
-            $session->lesson?->chapter?->course?->id && (!in_array($session->lesson?->chapter?->course?->id ?? null,$arr) && $session->lesson->getExtraDays() >=
+            $session->lesson?->chapter?->course?->id && (!in_array($session->lesson?->chapter?->course?->id ?? null,$arr) && $session->lesson->getUserExtraDays(auth()->user()->id) >=
             date('Y-m-d')))
             <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                 <div class="gridarea__wraper">
@@ -595,7 +595,7 @@ $page_name = 'Lesson';
                 or
                 $live_item->lesson?->chapter?->course?->id && 
                 (!in_array($live_item->lesson?->chapter?->course?->id ?? null,$arr) 
-                && $live_item->lesson->getExtraDays() >= date('Y-m-d')))
+                && $live_item->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d')))
                 
                 @php
                 $arr_sessions[] = $live_item->lesson_id

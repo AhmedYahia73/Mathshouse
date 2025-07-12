@@ -682,9 +682,9 @@ $iter = 1;
                                         <button type="button" id="incrementButton">Increment Days </button>
                                         <!-- Number Input -->
                                         <div></div>
-                                        <span>{{ $lesson->getExtraDays() ? "Extra Day :
-                                            {$lesson->extraDays->extra_days}"
-                                            :0}}</span>
+                                        <span>{{
+                                            ($lesson?->user_extraDays($user->id)?->sum('extra_days') ?? 0)
+                                            }}</span>
                                         <!-- Form to Submit -->
 
                                         <form id="counterForm" action="{{ route('extraDay',['lesson'=>$lesson->id]) }}"

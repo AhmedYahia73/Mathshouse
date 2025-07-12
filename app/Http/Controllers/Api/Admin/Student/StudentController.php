@@ -6,17 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
+use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\PaymentOrder;
+use App\Models\LiveLesson;
+use App\Models\PaymentPackageOrder;
+use App\Models\SmallPackage;
+use App\Models\Session;
+use App\Models\SessionAttendance;
 
 class StudentController extends Controller
 {
     public function __construct(private User $user, private Category $categories,
-    private Course $courses){}
+    private Course $courses, private Lesson $lessons){}
 
     protected $studentRequest = [ 
         'f_name',
@@ -209,8 +216,177 @@ class StudentController extends Controller
         ]);
     }
 
-    public function academic_list(Request $request){
+    public function academic_list(Request $request, $id){
+        $student = $this->user
+        ->where('id', $id)
+        ->first();
+        $category_id = $student?->category_id;
         $courses = $this->courses
+        ->where('category_id', $category_id)
         ->get();
+        $my_courses = $student->courses_live;
+
+        return response()->json([
+            'courses_list' => $courses,
+            'my_courses' => $my_courses,
+        ]);
+    }
+
+    public function academic_list_add(Request $request){
+        $validator = Validator::make($request->all(), [
+            'course_ids'  => 'required|array',
+            'course_ids.*'  => 'required|exists:courses,id',
+            'user_id'  => 'required|exists:users,id',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        $student = $this->user
+        ->where('id', $request->user_id)
+        ->first();
+        $student->courses_live()
+        ->sync($request->course_ids);
+
+        return response()->json([
+            'success' => 'You update data success'
+        ]);
+    }
+  
+    public function lives_view(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'course_id'  => 'required|exists:courses,id',
+            'user_id'  => 'required|exists:users,id',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $lessons = $this->lessons
+        ->whereHas('chapter', function($query) use($request){
+            $query->where('course_id', $request->course_id);
+        })
+        ->get()
+        ->map(function($item) use($request){
+            return [
+                'id' => $item?->id,
+                'lesson' => $item?->lesson_name,
+                'chapter' => $item?->chapter?->chapter_name,
+                'course' => $item?->chapter?->course?->course_name,
+                'status' => !empty($item?->live_lesson($request->user_id)?->first()) ? 'attend' : 'Waitting',
+                'extra_days' => $item?->user_extraDays($request->user_id)
+                ?->sum('extra_days') ?? 0
+            ];
+        });
+
+        return response()->json([
+            'lessons' => $lessons
+        ]);
+    }
+
+    public function live_attend(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'lesson_id'  => 'required|exists:lessons,id',
+            'user_id'  => 'required|exists:users,id',
+            'attend' => 'required|boolean'
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        $have_package = false;
+        $sessions_data = Session::where('lesson_id', $request->lesson_id)
+        ->orderByDesc('id')
+        ->get();
+        $sessions = $sessions_data->pluck('id')->toArray();
+        $course_id = Lesson::where('id', $request->lesson_id)
+        ->first()->chapter->course_id;
+        if (!$request->attend) {
+            LiveLesson::
+            where( 'user_id' , $request->user_id)
+            ->where('lesson_id', $request->lesson_id)
+            ->delete();
+            SessionAttendance::whereIn('session_id', $sessions)
+            ->where('user_id', $request->user_id)
+            ->delete(); 
+        }
+        else{
+            $package = PaymentPackageOrder::
+            where('number', '>', 0)
+            ->where('user_id', $request->user_id)
+            ->where('state', 1)
+            ->whereHas('package_live')
+            ->with('package_live')
+            ->orderByDesc('id')
+            ->get();
+            $small_package = SmallPackage::where('user_id', $request->user_id)
+            ->where('module', 'Live')
+            ->where('number', '>', 0)
+            ->first();
+            $small_package_count = SmallPackage::where('user_id', $request->user_id)
+            ->where('module', 'Live')
+            ->where('course_id', $course_id)
+            ->sum('number'); 
+            if ( !empty($small_package) && $small_package_count > 0 ) {
+                $small_package->number = $small_package->number - 1; 
+                $small_package->save();
+                $have_package = true;
+                // Make Live Attend
+                LiveLesson::create([
+                    'user_id' => $request->user_id,
+                    'lesson_id' => $request->lesson_id,
+                ]);
+                foreach ($sessions_data as $key => $item) {
+                    if ($item->session_types == 'explanation') {
+                        $mysession = SessionAttendance::create([
+                            'user_id' => $request->user_id,
+                            'session_id' => $item->id,
+                        ]);
+                        break;
+                    }
+                }
+            }
+
+        // if buy package
+            foreach ( $package as $item ) {
+                if ( $item->package_live != null ) {
+                    $newTime = Carbon::now()->subDays($item->package_live->duration); 
+                    if ( $item->date >= $newTime && $item->package_live->course_id == $course_id ) {
+                        PaymentPackageOrder::
+                        where('id', $item->id )
+                        ->update([
+                            'number' => $item->number - 1
+                        ]);
+                        $have_package = true;
+                 
+                        LiveLesson::create([
+                            'user_id' => $request->user_id,
+                            'lesson_id' => $request->lesson_id,
+                        ]);
+                        foreach ($sessions as $key => $item) {
+                            $mysession = SessionAttendance::create([
+                                'user_id' => $request->user_id,
+                                'session_id' => $item
+                            ]);
+                        }  
+                    }
+                }
+            }
+        
+        }
+
+        if(!$have_package){
+            return response()->json([
+                'errors' => 'The user does not have package'
+            ], 400);
+        }
+        return response()->json([
+            'success' => 'You update status success'
+        ]);
     }
 }

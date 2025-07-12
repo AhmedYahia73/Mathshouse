@@ -35,6 +35,11 @@ class Course extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    
+    public function user_courses()
+    {
+        return $this->belongsToMany(User::class, 'live_courses');
+    }
 
 
     public function exams()
