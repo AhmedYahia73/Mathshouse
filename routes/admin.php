@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Admin\Login\AdminLoginController;
 use App\Http\Controllers\Api\Admin\Teacher\TeacherController;
 use App\Http\Controllers\Api\Admin\Student\StudentController;
 use App\Http\Controllers\Api\Admin\Live\SessionController;
+use App\Http\Controllers\Api\Admin\Live\GroupController;
 
 // Parents 
 // Students +++++
@@ -34,6 +35,14 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(SessionController::class)->prefix('live/session')
+    ->group(function(){
+        Route::get('/', 'view');
+        Route::post('/add', 'create');
+        Route::post('/update/{id}', 'modify');
+        Route::delete('/delete/{id}', 'delete');
+    });
+
+    Route::controller(GroupController::class)->prefix('live/groups')
     ->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');

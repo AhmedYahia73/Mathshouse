@@ -134,9 +134,6 @@ class MyCoursesController extends Controller
     public function quiz_score(Request $request){
         $validator = Validator::make($request->all(), [
             'answers' => 'required|array',
-            'answers.*' => 'required|array',
-            'answers.*.0' => 'required|exists:questions,id',
-            'answers.*.1' => 'required',
             'timer' => 'required',
             'quiz_id' => 'required|exists:quizzes,id',
         ]);
@@ -148,8 +145,11 @@ class MyCoursesController extends Controller
         $score = 0;
         $total = count($request->answers);
         $mistakes = [];
+        $quiz = quizze::where('id', $request->quiz_id)
+        ->first();
+        $iter = 0;
         foreach($request->answers as $answer){
-            $question = Question::where('id', $answer[0])
+            $question = Question::where('id', $quiz->question[$iter++])
             ->first();
             if ($question->ans_type == 'MCQ') {
                 $q_answer = $question->mcq;
@@ -181,8 +181,6 @@ class MyCoursesController extends Controller
         StudentQuizze::where('student_id', $request->user()->id)
         ->where('quizze_id', $request->quizze_id)
         ->delete();
-        $quiz = quizze::where('id', $request->quiz_id)
-        ->first();
 
         $stu_quizze = StudentQuizze::create([
             'date' => now(),
