@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\Login\UserLoginController;
 use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
 use App\Http\Controllers\Api\User\UserLive\MyLivesController;
+use App\Http\Controllers\Api\User\MyPackage\MyPackageController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -41,5 +42,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('lessons_live', 'lessons_live');
         Route::get('private_request_lists', 'private_request_lists');
         Route::get('private_request', 'private_request');
+    });
+    
+    Route::controller(MyPackageController::class)->prefix('my_packages')
+    ->group(function(){
+        Route::get('/', 'my_packages'); 
+        Route::post('payment/{id}', 'payment_package'); 
     });
 });
