@@ -146,11 +146,13 @@ class MyCoursesController extends Controller
         $total = count($request->answers);
         $mistakes = [];
         $quiz = quizze::where('id', $request->quiz_id)
+        ->with(['question' => function($query){
+            $query->with(['g_ans', 'mcq']);
+        }])
         ->first();
         $iter = 0;
         foreach($request->answers as $answer){
-            $question = Question::where('id', $quiz->question[$iter++])
-            ->first();
+            $question = $quiz->question[$iter++];
             if ($question->ans_type == 'MCQ') {
                 $q_answer = $question->mcq;
                 if($q_answer->isNotEmpty() > 0 && $q_answer[0]->mcq_answers == $answer[1]){
@@ -161,8 +163,8 @@ class MyCoursesController extends Controller
                 }
             } 
             else {
-                $q_answer = $question->g_ans;
-                if($q_answer->isNotEmpty() > 0 && $q_answer->pluck('grid_ans')->contains($answer[1])){
+                $q_answer = $question->g_ans; 
+                if($q_answer->isNotEmpty() > 0 && $q_answer->pluck('grid_ans')->contains($answer)){
                     $score++;
                 }
                 else{
