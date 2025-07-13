@@ -99,8 +99,8 @@ class MyCoursesController extends Controller
                 'v_link' => $item->v_link,
                 'pdf' => url('files/lessons_pdf/' . $item->pdf),
             ];
-        });
-        $solve_quiz = false;
+        }); 
+        $solve_quiz = (object)['value' => false];
         $quizs = quizze::
         select('id', 'title', 'time', 'score')
         ->where('lesson_id', $lesson_id)
@@ -115,8 +115,8 @@ class MyCoursesController extends Controller
         ->map(function($item) use($solve_quiz){
             $solve_quiz_status = empty($item->student_success_quizzes(auth()->user()->id))
             ? false : true;
-            if (!$solve_quiz_status && !$solve_quiz) {
-                $solve_quiz = true;
+            if (!$solve_quiz_status && !$solve_quiz->value) {
+                $solve_quiz->value = true;
                 $item->solve_quiz = true;
             }
             else{ 
