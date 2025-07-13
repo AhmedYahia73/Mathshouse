@@ -56,7 +56,10 @@ class GroupController extends Controller
             'state' => ['required', 'boolean'],
             'student_ids' => ['required'],
             'student_ids.*' => ['required', 'exists:users,id'],
-            'group_days' => ['required'],
+            'group_days' => ['required', 'array'],
+            'group_days.*.day' => ['required', 'in:Sat,Sun,Mon,Tues,Wed,Thurs,Fri'],
+            'group_days.*.from' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'],
+            'group_days.*.to' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -68,7 +71,15 @@ class GroupController extends Controller
         $session_group = $this->session_group
         ->create($sessionRequest);
         $session_group->students()->attach($request->student_ids);
-        $group_day;
+        $group_days = $request->group_days;
+        foreach($group_days as $item){
+            $this->group_day
+            ->create([
+                'day' => $item['day'],
+                'from' => $item['from'],
+                'to' => $item['to'],
+            ]);
+        }
 
         return response()->json([
             'success' => 'You add session success',

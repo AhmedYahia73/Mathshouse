@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\User\Login\UserLoginController;
 use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
 use App\Http\Controllers\Api\User\UserLive\MyLivesController;
 use App\Http\Controllers\Api\User\MyPackage\MyPackageController;
+use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -48,5 +49,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/', 'my_packages'); 
         Route::post('payment/{id}', 'payment_package'); 
+    });
+
+    Route::controller(ScoreSheetController::class)->prefix('score_sheet')
+    ->group(function(){
+        Route::get('/lists', 'lists'); 
+        Route::get('/', 'scoreSheet'); 
     });
 });
