@@ -250,10 +250,10 @@
                         @endforeach
                     </td>
                     <td>
-                        {{ $item->teacher->nick_name }}
+                        {{ $item?->teacher?->nick_name }}
                     </td>
                     <td>
-                        {{ $item->teacher->nick_name }}
+                        {{ $item?->teacher?->nick_name }}
                     </td>
                     <td>
                         {{$item->state ? 'Active': 'Hidden'}}
@@ -354,8 +354,8 @@
                                             <div class="my-2">
 
                                                 <select name="teacher_id" class="form-control">
-                                                    <option value="{{ $item->teacher->id }}">
-                                                        {{ $item->teacher->nick_name }}
+                                                    <option value="{{ $item?->teacher?->id }}">
+                                                        {{ $item?->teacher?->nick_name }}
                                                     </option>
                                                     @foreach ($teachers as $teacher)
                                                         <option value="{{ $teacher->id }}">
@@ -378,7 +378,7 @@
                                                            
                                                             @foreach ($students as $student)
                                                                 <option value="{{ $student->id }}" 
-                                                                    @if(in_array($student->id, $item->students->pluck('id')->toArray())) selected @endif
+                                                                    @if(in_array($student->id, $item?->students?->pluck('id')?->toArray())) selected @endif
                                                                     data-select2-id="3_{{ $item->id }}{{ $student->id }}">
                                                                     {{ $student->nick_name }}</option>
                                                             @endforeach
