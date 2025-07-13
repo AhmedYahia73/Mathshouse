@@ -48,6 +48,11 @@ class Session extends Model
     {
         return $this->belongsTo(Lesson::class, 'lesson_id')->with('chapterMyLive');
     }
+
+    public function session_lesson()
+    {
+        return $this->belongsTo(Lesson::class, 'lesson_id');
+    }
  
     public function course()
     {
