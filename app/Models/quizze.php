@@ -51,6 +51,16 @@ class quizze extends Model
         ->first();
     }
 
+    public function student_success_quizzes( $id ){
+        return $this->hasMany(StudentQuizze::class, 'quizze_id')
+        ->where('student_id', $id) 
+        ->whereHas('quizze', function ($query) {
+            $query->whereColumn('student_quizzes.score', '>=', 'quizzes.pass_score');
+        })
+        ->orderByDesc('created_at')
+        ->first();
+    }
+
     public function student_quizs(){
         return $this->hasMany(StudentQuizze::class, 'quizze_id')
         ->orderByDesc('created_at');

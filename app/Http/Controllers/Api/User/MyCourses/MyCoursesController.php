@@ -100,6 +100,7 @@ class MyCoursesController extends Controller
                 'pdf' => url('files/lessons_pdf/' . $item->pdf),
             ];
         });
+        $solve_quiz = false;
         $quizs = quizze::
         select('id', 'title', 'time', 'score')
         ->where('lesson_id', $lesson_id)
@@ -111,9 +112,16 @@ class MyCoursesController extends Controller
         }])
         ->orderByDesc('quizze_order')
         ->get()
-        ->map(function($item){
-            $item->solve_quiz = empty($item->student_quizzes(auth()->user()->id))
+        ->map(function($item) use($solve_quiz){
+            $solve_quiz_status = empty($item->student_success_quizzes(auth()->user()->id))
             ? false : true;
+            if (!$solve_quiz_status && !$solve_quiz) {
+                $solve_quiz = true;
+                $item->solve_quiz = true;
+            }
+            else{ 
+                $item->solve_quiz = false;
+            }
             return $item;
         });
 
