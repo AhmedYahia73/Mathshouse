@@ -15,25 +15,39 @@ use App\Models\SessionGroup;
 
 class SessionController extends Controller
 {
-    public function __construct(private Session $session){}
+    public function __construct(private Session $session, 
+    private Category $category, private Course $course,
+    private Chapter $chapter, private Lesson $lesson, 
+    private User $user, private SessionGroup $session_group){}
 
-    public function view(Request $request){
-        
-        $sessions = Session::
-        orderByDesc('id')
+    public function view(Request $request){ 
+        $sessions = $this->session
+        ->orderByDesc('id')
         ->simplePaginate(10);
-        $categories = Category::all();
-        $courses = Course::all();
-        $chapters = Chapter::all();
-        $lessons = Lesson::all();
-        $teachers = User::
-        where('position', 'teacher')
+        $categories = $this->category->get();
+        $courses = $this->course->get();
+        $chapters = $this->chapter->get();
+        $lessons = $this->lesson->get();
+        $teachers = $this->user
+        ->where('position', 'teacher')
         ->get();
-        $users = User::
-        where('position', 'student')
+        $users = $this->user
+        ->where('position', 'student')
         ->get();
-        $groups = SessionGroup::get();
+        $groups = $this->session_group->get();
         $types = ['explanation','re_explanation', 'mistakes'];
+
+        return response()->json([
+            'sessions' => $sessions,
+            'categories' => $categories,
+            'courses' => $courses,
+            'chapters' => $chapters,
+            'lessons' => $lessons,
+            'teachers' => $teachers,
+            'users' => $users,
+            'groups' => $groups,
+            'types' => $types,
+        ]);
     }
 
     public function create(Request $request){
