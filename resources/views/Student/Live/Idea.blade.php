@@ -196,7 +196,7 @@
 
 
 
-    <!-- headar section start -->
+    <!-- headar section start -?->
     <header>
         <div class="headerarea headerarea__3 header__sticky header__area">
 
@@ -294,9 +294,9 @@
             </div>
         </div>
     </header>
-    <!-- header section end -->
+    <!-- header section end -?->
 
-    <!-- Mobile Menu Start Here -->
+    <!-- Mobile Menu Start Here -?->
     <div class="mobile-off-canvas-active">
         <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
         <div class="header-mobile-aside-wrap">
@@ -580,7 +580,7 @@
                                             <li><a href="#">BDT</a></li>
                                         </ul>
                                     </div>
-                                </div> -->
+                                </div> -?->
 
                 <div class="single-mobile-curr-lang">
                     <a class="mobile-account-active" href="#">My Account <i class="icofont-thin-down"></i></a>
@@ -602,17 +602,17 @@
             </div>
         </div>
     </div>
-    <!-- Mobile Menu end Here -->
+    <!-- Mobile Menu end Here -?->
 
-    <!-- theme fixed shadow -->
+    <!-- theme fixed shadow -?->
     <div>
         <div class="theme__shadow__circle"></div>
         <div class="theme__shadow__circle shadow__right"></div>
     </div>
-    <!-- theme fixed shadow -->
+    <!-- theme fixed shadow -?->
 
 
-    <!-- tution__section__start -->
+    <!-- tution__section__start -?->
     <div class="tution sp_bottom_100 sp_top_50">
         <div class="container-fluid full__width__padding">
             <div class="row">
@@ -622,37 +622,37 @@
                             $arr_lessons = [];
                         @endphp
                         @foreach ($sessions as $session)
-                        @if ($session->lesson?->chapter?->id && $chapter_id == $session->lesson->chapter->id && ((\Carbon\Carbon::now()->subDays(7) <= $session->date or $session->lesson->getExtraDays() >= date('Y-m-d') && $chapter_id == $session->lesson->chapter->id) && !in_array($session->lesson->id, $arr_lessons)))
+                        @if ($session?->lesson?->chapter?->id && $chapter_id == $session?->lesson?->chapter?->id && ((\Carbon\Carbon::now()?->subDays(7) <= $session?->date or $session?->lesson?->getExtraDays() >= date('Y-m-d') && $chapter_id == $session?->lesson?->chapter?->id) && !in_array($session?->lesson?->id, $arr_lessons)))
                             @php
-                                $arr_lessons[] = $session->lesson->id;
+                                $arr_lessons[] = $session?->lesson?->id;
                             @endphp
 
                             <div class="accordion-item mb-3">
-                                <h2 class="accordion-header" id="headingLesson{{ $session->lesson->id }}">
+                                <h2 class="accordion-header" id="headingLesson{{ $session?->lesson?->id }}">
                                     <button class="accordion-button fw-bold collapsed text-white bg-danger"
-                                            id="accordion{{ $session->lesson->id }}"
+                                            id="accordion{{ $session?->lesson?->id }}"
                                             type="button"
                                             data-bs-toggle="collapse"
-                                            data-bs-target="#collapseLesson{{ $session->lesson->id }}"
+                                            data-bs-target="#collapseLesson{{ $session?->lesson?->id }}"
                                             aria-expanded="false"
-                                            aria-controls="collapseLesson{{ $session->lesson->id }}">
+                                            aria-controls="collapseLesson{{ $session?->lesson?->id }}">
                                         <i class="fa-solid fa-book me-2"></i>
-                                        {{ $session->lesson->lesson_name }}
+                                        {{ $session?->lesson?->lesson_name }}
                                     </button>
                                 </h2>
-                                <div id="collapseLesson{{ $session->lesson->id }}"
+                                <div id="collapseLesson{{ $session?->lesson?->id }}"
                                      class="accordion-collapse collapse"
-                                     aria-labelledby="headingLesson{{ $session->lesson->id }}"
+                                     aria-labelledby="headingLesson{{ $session?->lesson?->id }}"
                                      data-bs-parent="#accordionExample">
                                     <div class="accordion-body bg-white">
                                         <h6 class="fw-bold text-danger">Ideas</h6>
-                                        @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                        @foreach ($session?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
                                         <form action="{{route('stu_live_lesson')}}" method="post">
                                             @csrf
-                                            <input type="hidden" name="idea" value="{{$idea_item->id}}">
+                                            <input type="hidden" name="idea" value="{{$idea_item?->id}}">
                                             <button class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark w-100 bg-transparent border-0 text-start">
                                                 <i class="icofont-video-alt text-danger me-2"></i>
-                                                <h5 class="m-0">{{ $idea_item->idea }}</h5>
+                                                <h5 class="m-0">{{ $idea_item?->idea }}</h5>
                                             </button>
                                         </form>
                                         @endforeach
@@ -660,12 +660,12 @@
                                         <hr />
 
                                         <h6 class="fw-bold text-danger">Quizzes</h6>
-                                        @foreach ($session->lesson->quizze as $quizze)
-                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                        @foreach ($session?->lesson?->quizze as $quizze)
+                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
                                                class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
                                                 <i class="fa-solid fa-question text-danger me-2"></i>
                                                 <h5 class="m-0">
-                                                    <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
+                                                    <span class="text-danger fw-bold">Q{{$loop?->iteration}}:</span> {{ $quizze?->title }}
                                                 </h5>
                                             </a>
                                         @endforeach
@@ -676,37 +676,37 @@
                         @endforeach
 
                         @foreach ($lives as $live_item)
-                        @if ($live_item->lesson?->chapter?->id && $chapter_id == $live_item->lesson->chapter->id && \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at && !in_array($live_item->lesson->id, $arr_lessons))
+                        @if ($live_item?->lesson?->chapter?->id && $chapter_id == $live_item?->lesson?->chapter?->id && \Carbon\Carbon::now()?->subDays(7) <= $live_item?->created_at && !in_array($live_item?->lesson?->id, $arr_lessons))
                             @php
-                                $arr_lessons[] = $live_item->lesson_id;
+                                $arr_lessons[] = $live_item?->lesson_id;
                             @endphp
 
                             <div class="accordion-item mb-3">
-                                <h2 class="accordion-header" id="headingLesson{{ $live_item->lesson->id }}">
+                                <h2 class="accordion-header" id="headingLesson{{ $live_item?->lesson?->id }}">
                                     <button class="accordion-button fw-bold collapsed text-white bg-danger"
-                                            id="accordion{{ $live_item->lesson->id }}"
+                                            id="accordion{{ $live_item?->lesson?->id }}"
                                             type="button"
                                             data-bs-toggle="collapse"
-                                            data-bs-target="#collapseLesson{{ $live_item->lesson->id }}"
+                                            data-bs-target="#collapseLesson{{ $live_item?->lesson?->id }}"
                                             aria-expanded="false"
-                                            aria-controls="collapseLesson{{ $live_item->lesson->id }}">
+                                            aria-controls="collapseLesson{{ $live_item?->lesson?->id }}">
                                         <i class="fa-solid fa-book me-2"></i>
-                                        {{ $live_item->lesson->lesson_name }}
+                                        {{ $live_item?->lesson?->lesson_name }}
                                     </button>
                                 </h2>
-                                <div id="collapseLesson{{ $live_item->lesson->id }}"
+                                <div id="collapseLesson{{ $live_item?->lesson?->id }}"
                                      class="accordion-collapse collapse"
-                                     aria-labelledby="headingLesson{{ $live_item->lesson->id }}"
+                                     aria-labelledby="headingLesson{{ $live_item?->lesson?->id }}"
                                      data-bs-parent="#accordionExample">
                                     <div class="accordion-body bg-white">
                                         <h6 class="fw-bold text-danger">Ideas</h6>
-                                        @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                        @foreach ($live_item?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
                                         <form action="{{route('stu_live_lesson')}}" method="post">
                                             @csrf
-                                            <input type="hidden" name="idea" value="{{$idea_item->id}}">
+                                            <input type="hidden" name="idea" value="{{$idea_item?->id}}">
                                             <button class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark w-100 bg-transparent border-0 text-start">
                                                 <i class="icofont-video-alt text-danger me-2"></i>
-                                                <h5 class="m-0">{{ $idea_item->idea }}</h5>
+                                                <h5 class="m-0">{{ $idea_item?->idea }}</h5>
                                             </button>
                                         </form>
                                         @endforeach
@@ -714,12 +714,12 @@
                                         <hr />
 
                                         <h6 class="fw-bold text-danger">Quizzes</h6>
-                                        @foreach ($live_item->lesson->quizze as $quizze)
-                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                        @foreach ($live_item?->lesson?->quizze as $quizze)
+                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
                                                class="d-flex align-items-center p-2 mb-2 rounded border text-decoration-none text-dark">
                                                 <i class="fa-solid fa-question text-danger me-2"></i>
                                                 <h5 class="m-0">
-                                                    <span class="text-danger fw-bold">Q{{$loop->iteration}}:</span> {{ $quizze->title }}
+                                                    <span class="text-danger fw-bold">Q{{$loop?->iteration}}:</span> {{ $quizze?->title }}
                                                 </h5>
                                             </a>
                                         @endforeach
@@ -735,13 +735,13 @@
                     <div class="lesson__content__main" style="margin-bottom: 80px;">
                         <div class="mb-4 text-center">
                             <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem; letter-spacing: 1px;">
-                                {{ $idea->idea }}
+                                {{ $idea?->idea }}
                             </h3>
                         </div>
 
                         <div class="plyr__video-embed">
                             <iframe scrolling="no" allowfullscreen style="width: 100%; margin-top: 45px;"
-                                src="{{$idea->v_link}}"
+                                src="{{$idea?->v_link}}"
                                 title="YouTube video player"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -750,7 +750,7 @@
                     </div>
 
                     <div class="list-container p-4 rounded shadow-sm" style="background-color: #fefefe; border: 1px solid #ddd;">
-                        <!-- Dropdown Trigger -->
+                        <!-- Dropdown Trigger -?->
                         <div class="list-header d-flex align-items-center justify-content-between">
                             <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem; color: #CF202F;">
                                 Select an Issue:
@@ -769,7 +769,7 @@
                                     @foreach ($reports as $report)
                                     <li class="dropdown-item report-item" style="cursor: pointer;">
                                         <input type="hidden" class="report-val" value="{{$report}}" />
-                                        <span>{{$report->list}}</span>
+                                        <span>{{$report?->list}}</span>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -777,28 +777,28 @@
                         </div>
                     </div>
 
-                    @if (!empty($idea->pdf))
+                    @if (!empty($idea?->pdf))
                         <div class="btn-group m-2 w-100">
                             <button class="btn btn-action dropdown-toggle rounded shadow-sm d-flex align-items-center w-100 text-start"
                                     type="button"
-                                    id="dropdownMenu{{$idea->id}}"
+                                    id="dropdownMenu{{$idea?->id}}"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 <i class="fas fa-file-pdf me-2"></i>
                                 <span class="lesson-name flex-grow-1 text-truncate">
-                                    {{$idea->lesson->lesson_name}}
+                                    {{$idea?->lesson?->lesson_name}}
                                 </span>
-                                <span class="ms-2">{{$idea->idea}}</span>
+                                <span class="ms-2">{{$idea?->idea}}</span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea->id}}">
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{$idea?->id}}">
                                 <li>
-                                    <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea->pdf) }}"
-                                        download="{{ asset('files\\lessons_pdf' . $idea->pdf) }}">
+                                    <a class="dropdown-item" href="{{ asset('files\\lessons_pdf\\' . $idea?->pdf) }}"
+                                        download="{{ asset('files\\lessons_pdf' . $idea?->pdf) }}">
                                         <i class="fas fa-download"></i> Download PDF
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea->pdf]) }}">
+                                    <a class="dropdown-item" target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea?->pdf]) }}">
                                         <i class="fas fa-eye"></i> View PDF
                                     </a>
                                 </li>
@@ -812,7 +812,7 @@
         </div>
     </div>
     </div>
-    <!-- tution__section__end -->
+    <!-- tution__section__end -?->
 
 
 
@@ -1038,7 +1038,7 @@
 
 
 
-        <!-- headar section start -->
+        <!-- headar section start -?->
         <header>
             <div class="headerarea headerarea__3 header__sticky header__area">
 
@@ -1136,9 +1136,9 @@
                 </div>
             </div>
         </header>
-        <!-- header section end -->
+        <!-- header section end -?->
 
-        <!-- Mobile Menu Start Here -->
+        <!-- Mobile Menu Start Here -?->
         <div class="mobile-off-canvas-active">
             <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
             <div class="header-mobile-aside-wrap">
@@ -1422,7 +1422,7 @@
                                                     <li><a href="#">BDT</a></li>
                                                 </ul>
                                             </div>
-                                        </div> -->
+                                        </div> -?->
 
                     <div class="single-mobile-curr-lang">
                         <a class="mobile-account-active" href="#">My Account <i class="icofont-thin-down"></i></a>
@@ -1444,40 +1444,40 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu end Here -->
+        <!-- Mobile Menu end Here -?->
 
-        <!-- theme fixed shadow -->
+        <!-- theme fixed shadow -?->
         <div>
             <div class="theme__shadow__circle"></div>
             <div class="theme__shadow__circle shadow__right"></div>
         </div>
-        <!-- theme fixed shadow -->
+        <!-- theme fixed shadow -?->
 
 
-        <!-- tution__section__start -->
+        <!-- tution__section__start -?->
         <div class="tution sp_bottom_100 sp_top_50">
             <div class="container-fluid full__width__padding">
                 <div class="row">
 
 
-                    <!-- Main Video at Top -->
+                    <!-- Main Video at Top -?->
                     <div class="">
                         <div class="mb-4 text-center">
                             <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem;">
-                                {{ $idea->idea }}
+                                {{ $idea?->idea }}
                             </h3>
                         </div>
 
                         <div class="" style="width: 100%; height: 400px;">
                             <iframe scrolling="no" allowfullscreen style="width: 100%; height:100%;"
-                                src="{{ $idea->v_link }}" title="YouTube video player" frameborder="0"
+                                src="{{ $idea?->v_link }}" title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowfullscreen>
                             </iframe>
                         </div>
                     </div>
 
-                    <!-- Report Issue Section -->
+                    <!-- Report Issue Section -?->
                     <div class="list-container p-4 rounded shadow-sm mb-4">
                         <div class="list-header d-flex align-items-center justify-content-between">
                             <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem;">
@@ -1494,7 +1494,7 @@
                                     @foreach ($reports as $report)
                                         <li class="dropdown-item report-item" style="cursor: pointer;">
                                             <input type="hidden" class="report-val" value="{{ $report }}" />
-                                            <span>{{ $report->list }}</span>
+                                            <span>{{ $report?->list }}</span>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -1509,50 +1509,50 @@
                             @endphp
                             @foreach ($sessions as $session)
                                 @if (
-                                    $session->lesson?->chapter?->id &&
-                                        $chapter_id == $session->lesson->chapter->id &&
-                                        ((\Carbon\Carbon::now()->subDays(7) <= $session->date or
-                                            $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d') && $chapter_id == $session->lesson->chapter->id) &&
-                                            !in_array($session->lesson->id, $arr_lessons)))
+                                    $session?->lesson?->chapter?->id &&
+                                        $chapter_id == $session?->lesson?->chapter?->id &&
+                                        ((\Carbon\Carbon::now()?->subDays(7) <= $session?->date or
+                                            $session?->lesson?->getUserExtraDays(auth()?->user()?->id) >= date('Y-m-d') && $chapter_id == $session?->lesson?->chapter?->id) &&
+                                            !in_array($session?->lesson?->id, $arr_lessons)))
                                     @php
-                                        $arr_lessons[] = $session->lesson->id;
+                                        $arr_lessons[] = $session?->lesson?->id;
                                     @endphp
 
                                     <div class="lesson-section">
-                                        <div class="lesson-header" onclick="toggleLesson({{ $session->lesson->id }})">
+                                        <div class="lesson-header" onclick="toggleLesson({{ $session?->lesson?->id }})">
                                             <span><i
-                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $session->lesson->lesson_name }}</span>
+                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $session?->lesson?->lesson_name }}</span>
                                             <i class="fas fa-chevron-down"></i>
                                         </div>
-                                        <div class="lesson-content" id="lessonContent{{ $session->lesson->id }}">
-                                            <!-- Recorded Live Session -->
-                                            <a href="{{ $session->material_link }}" class="btn btn-sm btn-video">
+                                        <div class="lesson-content" id="lessonContent{{ $session?->lesson?->id }}">
+                                            <!-- Recorded Live Session -?->
+                                            <a href="{{ $session?->material_link }}" class="btn btn-sm btn-video">
                                                 <i class="icofont-video-alt me-1"></i> Live Material
                                             </a>
                                             <div class="content-row">
-                                                <!-- Ideas Column -->
+                                                <!-- Ideas Column -?->
                                                 <div class="ideas-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
-                                                    @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                                    @foreach ($session?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
                                                         <div class="idea-card">
-                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
+                                                            <div class="idea-title">{{ $idea_item?->idea }}</div>
                                                             <div class="idea-buttons">
                                                                 <form action="{{ route('stu_live_lesson') }}"
                                                                     method="post" class="mb-2">
                                                                     <input type="hidden" name="idea"
-                                                                        value="{{ $idea_item->id }}">
+                                                                        value="{{ $idea_item?->id }}">
                                                                     @csrf
                                                                     <button class="btn btn-sm btn-video">
                                                                         <i class="icofont-video-alt me-1"></i> Video
                                                                     </button>
                                                                 </form>
-                                                                @if (!empty($idea_item->pdf))
+                                                                @if (!empty($idea_item?->pdf))
                                                                     <a target="_blank"
-                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item?->pdf]) }}"
                                                                         class="btn btn-sm btn-pdf-view">
                                                                         <i class="fas fa-eye me-1"></i> View PDF
                                                                     </a>
-                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item?->pdf) }}"
                                                                         download class="btn btn-sm btn-pdf-download">
                                                                         <i class="fas fa-download me-1"></i> Download
                                                                     </a>
@@ -1561,14 +1561,14 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Quizzes Column -->
+                                                <!-- Quizzes Column -?->
                                                 <div class="quizzes-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
-                                                    @foreach ($session->lesson->quizze as $quizze)
+                                                    @foreach ($session?->lesson?->quizze as $quizze)
                                                         <div class="quiz-card">
-                                                            <div class="quiz-title">Q{{ $loop->iteration }}:
-                                                                {{ $quizze->title }}</div>
-                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                            <div class="quiz-title">Q{{ $loop?->iteration }}:
+                                                                {{ $quizze?->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
                                                                 class="btn btn-sm btn-quiz">
                                                                 <i class="fa-solid fa-question me-1"></i> Take Quiz
                                                             </a>
@@ -1584,44 +1584,44 @@
 
                             @foreach ($lives as $live_item)
                                 @if (
-                                    $live_item->lesson?->chapter?->id &&
-                                        $chapter_id == $live_item->lesson->chapter->id &&
-                                        \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
-                                        !in_array($live_item->lesson->id, $arr_lessons))
+                                    $live_item?->lesson?->chapter?->id &&
+                                        $chapter_id == $live_item?->lesson?->chapter?->id &&
+                                        \Carbon\Carbon::now()?->subDays(7) <= $live_item?->created_at &&
+                                        !in_array($live_item?->lesson?->id, $arr_lessons))
                                     @php
-                                        $arr_lessons[] = $live_item->lesson_id;
+                                        $arr_lessons[] = $live_item?->lesson_id;
                                     @endphp
                                     <div class="lesson-section">
-                                        <div class="lesson-header" onclick="toggleLesson({{ $live_item->lesson->id }})">
+                                        <div class="lesson-header" onclick="toggleLesson({{ $live_item?->lesson?->id }})">
                                             <span><i
-                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $live_item->lesson->lesson_name }}</span>
+                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $live_item?->lesson?->lesson_name }}</span>
                                             <i class="fas fa-chevron-down"></i>
                                         </div>
-                                        <div class="lesson-content" id="lessonContent{{ $live_item->lesson->id }}">
+                                        <div class="lesson-content" id="lessonContent{{ $live_item?->lesson?->id }}">
                                             <div class="content-row">
-                                                <!-- Ideas Column -->
+                                                <!-- Ideas Column -?->
                                                 <div class="ideas-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
-                                                    @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
+                                                    @foreach ($live_item?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
                                                         <div class="idea-card">
-                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
+                                                            <div class="idea-title">{{ $idea_item?->idea }}</div>
                                                             <div class="idea-buttons">
                                                                 {{-- <form action="{{ route('stu_live_lesson') }}"
                                                                     method="post" class="mb-2">
                                                                     @csrf
                                                                     <input type="hidden" name="idea"
-                                                                        value="{{ $idea_item->id }}">
+                                                                        value="{{ $idea_item?->id }}">
                                                                     <button class="btn btn-sm btn-video">
                                                                         <i class="icofont-video-alt me-1"></i> Video
                                                                     </button>
                                                                 </form> --}}
-                                                                @if (!empty($idea_item->pdf))
+                                                                @if (!empty($idea_item?->pdf))
                                                                     <a target="_blank"
-                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item?->pdf]) }}"
                                                                         class="btn btn-sm btn-pdf-view">
                                                                         <i class="fas fa-eye me-1"></i> View PDF
                                                                     </a>
-                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item?->pdf) }}"
                                                                         download class="btn btn-sm btn-pdf-download">
                                                                         <i class="fas fa-download me-1"></i> Download
                                                                     </a>
@@ -1630,14 +1630,14 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Quizzes Column -->
+                                                <!-- Quizzes Column -?->
                                                 <div class="quizzes-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
-                                                    @foreach ($live_item->lesson->quizze as $quizze)
+                                                    @foreach ($live_item?->lesson?->quizze as $quizze)
                                                         <div class="quiz-card">
-                                                            <div class="quiz-title">Q{{ $loop->iteration }}:
-                                                                {{ $quizze->title }}</div>
-                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                            <div class="quiz-title">Q{{ $loop?->iteration }}:
+                                                                {{ $quizze?->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
                                                                 class="btn btn-sm btn-quiz">
                                                                 <i class="fa-solid fa-question me-1"></i> Take Quiz
                                                             </a>
@@ -1656,7 +1656,7 @@
             </div>
         </div>
         </div>
-        <!-- tution__section__end -->
+        <!-- tution__section__end -?->
 
 
     <script>

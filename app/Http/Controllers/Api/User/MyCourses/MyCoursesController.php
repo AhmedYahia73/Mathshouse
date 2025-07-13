@@ -161,7 +161,7 @@ class MyCoursesController extends Controller
                 else{
                     $mistakes[] = $question;
                 }
-            } 
+            }
             else {
                 $q_answer = $question->g_ans; 
                 if($q_answer->isNotEmpty() > 0 && $q_answer->pluck('grid_ans')->contains($answer)){

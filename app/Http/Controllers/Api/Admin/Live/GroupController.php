@@ -6,27 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\SessionGroup;
+use App\Models\GroupDay;
 use App\Models\User;
 
 class GroupController extends Controller
 {
     public function __construct(private SessionGroup $session_group,
-    private User $user){}
+    private User $user, private GroupDay $group_day){}
 
-    public $sessionRequest = [ 
-        'date', 
-        'name',
-        'link', 
-        'material_link',
-        'from', 
-        'to', 
-        'lesson_id', 
-        'course_id', 
+    public $groupRequest = [
+        'name', 
         'teacher_id', 
-        'group_id',
-        'type',  
-        'session_types',
-        'teacher_material',
+        'state',
     ];
 
     public function view(Request $request){ 
@@ -60,19 +51,12 @@ class GroupController extends Controller
 
     public function create(Request $request){
         $validator = Validator::make($request->all(), [
-            'date' => ['required', 'date'], 
             'name' => ['required'],
-            'link' => ['required'], 
-            'material_link' => ['required'],
-            'from' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
-            'to' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
-            'lesson_id' => ['required', 'exists:lessons,id'], 
-            'course_id' => ['exists:courses,id'], 
             'teacher_id' => ['required', 'exists:users,id'], 
-            'group_id' => ['exists:session_groups,id'],
-            'type' => ['required', 'in:group,private,session'],  
-            'session_types' => ['required', 'in:explanation,re_explanation,mistakes'],
-            'teacher_material'  => ['sometimes']
+            'state' => ['required', 'boolean'],
+            'student_ids' => ['required'],
+            'student_ids.*' => ['required', 'exists:users,id'],
+            'group_days' => ['required'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -80,9 +64,11 @@ class GroupController extends Controller
             ],400);
         }
 
-        $sessionRequest = $request->only($this->sessionRequest);
-        $this->session
+        $groupRequest = $request->only($this->groupRequest);
+        $session_group = $this->session_group
         ->create($sessionRequest);
+        $session_group->students()->attach($request->student_ids);
+        $group_day;
 
         return response()->json([
             'success' => 'You add session success',

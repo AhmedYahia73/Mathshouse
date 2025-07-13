@@ -36,23 +36,23 @@ use Carbon\Carbon;
         <tbody>
             @foreach( $sessions as $item )
 
-            @if ( $item->session && ($item->session->date > date('Y-m-d') || ($item->session->date == date('Y-m-d') && $item->session->to
+            @if ( $item?->session && ($item?->session?->date > date('Y-m-d') || ($item?->session?->date == date('Y-m-d') && $item?->session?->to
             >= date('H:i:s'))) )
             <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>{{$item->session->lesson?->lesson_name ?? 'Mistakes Course ' . $item->session?->course?->course_name ?? null}}</td> 
-                <td>{{$item->session->date}}</td>
-                <td>{{$item->session->lesson?->chapter?->course?->course_name ?? $item->session?->course?->course_name}}</td>
-                <td>{{$item->session->teacher->nick_name}}</td>
-                <td>{{$item->session->from}}</td>
-                <td>{{$item->session->to}}</td>
+                <td>{{$loop?->iteration}}</td>
+                <td>{{$item?->session?->lesson?->lesson_name ?? 'Mistakes Course ' . $item?->session?->course?->course_name ?? null}}</td> 
+                <td>{{$item?->session?->date}}</td>
+                <td>{{$item?->session?->lesson?->chapter?->course?->course_name ?? $item?->session?->course?->course_name}}</td>
+                <td>{{$item?->session?->teacher?->nick_name}}</td>
+                <td>{{$item?->session?->from}}</td>
+                <td>{{$item?->session?->to}}</td>
                 <td>
                     <button class="btn btn-primary wallet_btn">
                         Attend
                     </button>
 
-                    @if ( $item->session->date == date('Y-m-d') && ( Carbon::now()->addMinutes(10)->format('H:i:s') >=
-                    $item->session->from ) )
+                    @if ( $item?->session?->date == date('Y-m-d') && ( Carbon::now()?->addMinutes(10)?->format('H:i:s') >=
+                    $item?->session?->from ) )
 
                     <div class="modal show_wallet fade show d-none" id="modalCenter" tabindex="-1"
                         style="display: block;" aria-modal="true" role="dialog">
@@ -72,7 +72,7 @@ use Carbon\Carbon;
                                         Close
                                     </button>
                                     <a class="btn btn-success"
-                                        href="{{route('use_live', ['id' => $item->session->id])}}">
+                                        href="{{route('use_live', ['id' => $item?->session?->id])}}">
                                         Start
                                     </a>
                                 </div>
@@ -123,16 +123,16 @@ use Carbon\Carbon;
 
         <tbody>
             @foreach( $sessions as $item )
-            @if ( $item->session && ($item->session->date < date('Y-m-d') || ($item->session->date == date('Y-m-d') && $item->session->to
+            @if ( $item?->session && ($item?->session?->date < date('Y-m-d') || ($item?->session?->date == date('Y-m-d') && $item?->session?->to
                 <= date('H:i:s'))) ) <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$item->session->lesson?->lesson_name ?? "Session : Mistakes"}} {{
-                        $item->session?->course?->course_name ?? null }}</td>
-                    <td>{{$item->session->date}}</td>
-                    <td>{{$item->session->from}}</td>
-                    <td>{{$item->session->to}}</td>
+                    <td>{{$loop?->iteration}}</td>
+                    <td>{{$item?->session?->lesson?->lesson_name ?? "Session : Mistakes"}} {{
+                        $item?->session?->course?->course_name ?? null }}</td>
+                    <td>{{$item?->session?->date}}</td>
+                    <td>{{$item?->session?->from}}</td>
+                    <td>{{$item?->session?->to}}</td>
                     <td>
-                        {{count($item->session->user_attend) == 0 ? 'Missed' : 'Attend'}}</td>
+                        {{count($item?->session?->user_attend) == 0 ? 'Missed' : 'Attend'}}</td>
                     </tr>
                     @endif
                     @endforeach
