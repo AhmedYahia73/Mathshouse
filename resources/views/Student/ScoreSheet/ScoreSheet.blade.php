@@ -277,7 +277,7 @@
 
         .table td {
             font-weight: 600;
-            color: #787878 !important;
+            color: #787878;
         }
 
         .selCourse,
@@ -394,7 +394,7 @@
                 <table class="table col-12 mt-2" id="scoreTable">
                     <thead>
                         <tr>
-                            <th class="col-3" style="border-top: none !important; color: #CF202F; font-size: 1.1rem;"
+                            <th class="col-8" style="border-top: none !important; color: #CF202F; font-size: 1.1rem;"
                                 scope="col">Chapters</th>
                             <th class="col-1" style="border-top: none !important; color: #CF202F; font-size: 1.1rem;"
                                 scope="col">Q1</th>
