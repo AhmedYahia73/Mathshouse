@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
 use App\Http\Controllers\Api\User\UserLive\MyLivesController;
 use App\Http\Controllers\Api\User\MyPackage\MyPackageController;
 use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
+use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
+use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -55,5 +57,18 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/lists', 'lists'); 
         Route::get('/', 'scoreSheet'); 
+    });
+
+    Route::controller(QuizHistoryController::class)->prefix('education/quiz')
+    ->group(function(){
+        Route::get('/quiz_history', 'quiz_history');
+    });
+
+    Route::controller(QuestionFlowController::class)
+    ->group(function(){
+        Route::get('/questions_parallel/{id}', 'questions_parallel');
+        Route::get('/solve_parallel/{id}', 'solve_parallel');
+        Route::post('/grade_solve_parallel/{id}', 'grade_solve_parallel');
+        Route::get('/view_answer/{id}', 'view_answer');
     });
 });

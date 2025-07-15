@@ -121,6 +121,7 @@ class Stu_MyCourseController extends Controller
     public function quizze_ques_ans( $id ){
         $question = Question::where('id', $id)
         ->first();
+        $reports = ReportVideoList::all();
         if ( empty(auth()->user()) ) {
             if ( !Cookie::get('previous_page') ) {
                 Cookie::queue(Cookie::make('previous_page', url()->current(), 90));
@@ -128,7 +129,6 @@ class Stu_MyCourseController extends Controller
             return redirect()->route('login.index');
         }
         else{  
-            $reports = ReportVideoList::all();
             $payments = PaymentPackageOrder::
             where('state', 1)
             ->where('user_id', auth()->user()->id)
@@ -157,7 +157,19 @@ class Stu_MyCourseController extends Controller
                     ]);
                     return view('Student.Question_History.Question_Ans', compact('question', 'reports')); 
                 }
-            } 
+            }
+            
+            $small_package = SmallPackage::
+            where('user_id', auth()->user()->id)
+            ->where('course_id', $question?->lessons?->chapter?->course_id)
+            ->where('module', 'Question')
+            ->where('number', '>', 0)
+            ->first();
+            if (!empty($small_package)) {
+                $small_package->number = $small_package->number - 1;
+                $small_package->save();
+                    return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
+            }
             $package = Package::
             where('module', 'Question')
             ->where('course_id', $question->lessons->chapter->course_id)
@@ -371,7 +383,8 @@ class Stu_MyCourseController extends Controller
     {
         $question = Question::where('id', $id)
             ->first();
-        $q_parallel = Question::where('month', $question->month)
+        $q_parallel = Question::
+            where('month', $question->month)
             ->where('year', $question->year)
             ->where('section', $question->section)
             ->where('q_num', $question->q_num)

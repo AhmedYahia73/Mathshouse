@@ -15,6 +15,14 @@ class Q_ans extends Model
         'ans_video',
         'Q_id',
     ];
+    protected $appends = ['ans_pdf_link'];
+
+    public function getAnsPdfLinkAttribute(){
+        if($this->ans_pdf){
+            return url('files/q_pdf/' . $this->ans_pdf);
+        }
+        return null;
+    }
 
     public function question()
     {
