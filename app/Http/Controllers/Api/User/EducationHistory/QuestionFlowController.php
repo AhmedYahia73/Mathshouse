@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Models\Question;
+use App\Models\Package;
 use App\Models\PaymentPackageOrder;
 use App\Models\ReportQuestionList;
 use App\Models\QuestionHistory;
@@ -18,7 +19,8 @@ use App\Models\User;
 
 class QuestionFlowController extends Controller
 {
-    public function __construct(private Question $question){}
+    public function __construct(private Question $question,
+    private Package $packages){}
 
     public function check_package($id){
         $payments = PaymentPackageOrder::
@@ -163,6 +165,30 @@ class QuestionFlowController extends Controller
 
         return response()->json([
             'answers' => $answers
+        ]);
+    }
+
+    public function get_packages(Request $request, $id){ 
+         $question = $this->question
+        ->where('id', $id)
+        ->first();
+        $packages = $this->packages
+        ->where('module', 'Question')
+        ->where('course_id', $question?->lessons?->chapter?->course_id)
+        ->get();
+
+        return response()->json([
+            'packages' => $packages,
+        ]);
+    }
+
+    public function buy_package(Request $request, $id){ 
+        $packages = $this->packages
+        ->where('id', $id)
+        ->first();
+
+        return response()->json([
+            'packages' => $packages,
         ]);
     }
 }

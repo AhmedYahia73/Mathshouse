@@ -70,5 +70,6 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/solve_parallel/{id}', 'solve_parallel');
         Route::post('/grade_solve_parallel/{id}', 'grade_solve_parallel');
         Route::get('/view_answer/{id}', 'view_answer');
+        Route::get('/get_packages/{id}', 'get_packages');
     });
 });
