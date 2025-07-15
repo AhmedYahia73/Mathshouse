@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\User\MyPackage\MyPackageController;
 use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
 use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
 use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
+use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
 
 
 Route::post('login', [UserLoginController::class, 'login']);
@@ -71,5 +72,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::post('/grade_solve_parallel/{id}', 'grade_solve_parallel');
         Route::get('/view_answer/{id}', 'view_answer');
         Route::get('/get_packages/{id}', 'get_packages');
+    });
+
+    Route::controller(DiaExamHistoryController::class)->prefix('education/diagnostic')
+    ->group(function(){
+        Route::get('/', 'view_dia'); 
     });
 });
