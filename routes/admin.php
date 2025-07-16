@@ -20,7 +20,6 @@ use App\Http\Controllers\Api\Admin\Live\GroupController;
 // Payment 
 // Reports
 // Teacher sessions
-
 // MobileUser
 
 Route::post('login', [AdminLoginController::class, 'login']);

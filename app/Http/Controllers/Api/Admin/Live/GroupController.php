@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin\Live;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\SessionGroup;
 use App\Models\GroupDay;
@@ -75,6 +76,7 @@ class GroupController extends Controller
         foreach($group_days as $item){
             $this->group_day
             ->create([
+                'group_id' => $session_group->id,
                 'day' => $item['day'],
                 'from' => $item['from'],
                 'to' => $item['to'],
@@ -88,19 +90,15 @@ class GroupController extends Controller
 
     public function modify(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'date' => ['nullable', 'date'], 
             'name' => ['nullable'],
-            'link' => ['nullable'], 
-            'material_link' => ['nullable'],
-            'from' => ['nullable', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
-            'to' => ['nullable', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
-            'lesson_id' => ['nullable', 'exists:lessons,id'], 
-            'course_id' => ['exists:courses,id'], 
             'teacher_id' => ['nullable', 'exists:users,id'], 
-            'group_id' => ['exists:session_groups,id'],
-            'type' => ['nullable', 'in:group,private,session'],  
-            'session_types' => ['nullable', 'in:explanation,re_explanation,mistakes'],
-            'teacher_material'  => ['sometimes']
+            'state' => ['nullable', 'boolean'],
+            'student_ids' => ['nullable'],
+            'student_ids.*' => ['nullable', 'exists:users,id'],
+            'group_days' => ['nullable', 'array'],
+            'group_days.*.day' => ['nullable', 'in:Sat,Sun,Mon,Tues,Wed,Thurs,Fri'],
+            'group_days.*.from' => ['nullable', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'],
+            'group_days.*.to' => ['nullable', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -108,23 +106,32 @@ class GroupController extends Controller
             ],400);
         }
         
-        $session = $this->session
+        $session_group = $this->session_group
         ->where('id', $id)
         ->first();
-        $session->date = $request->date ?? $session->date;
-        $session->name = $request->name ?? $session->name;
-        $session->link = $request->link ?? $session->link;
-        $session->material_link = $request->material_link ?? $session->material_link;
-        $session->from = $request->from ?? $session->from;
-        $session->to = $request->to ?? $session->to;
-        $session->lesson_id = $request->lesson_id ?? $session->lesson_id;
-        $session->course_id = $request->course_id ?? $session->course_id;
-        $session->teacher_id = $request->teacher_id ?? $session->teacher_id;
-        $session->group_id = $request->group_id ?? $session->group_id;
-        $session->type = $request->type ?? $session->type;
-        $session->session_types = $request->session_types ?? $session->session_types;
-        $session->teacher_material = $request->teacher_material ?? $session->teacher_material;
-        $session->save();
+        $session_group->name = $request->name ?? $session_group->name;
+        $session_group->teacher_id = $request->teacher_id ?? $session_group->teacher_id;
+        $session_group->state = $request->state ?? $session_group->state;
+        $session_group->save();
+        
+        $group_days = $request->group_days;
+        if (!empty($request->student_ids)) { 
+            $session_group->students()->sync($request->student_ids);
+        }
+        if (!empty($group_days)) {
+            $this->group_day
+            ->where('group_id', $session_group->id)
+            ->delete();
+            foreach($group_days as $item){
+                $this->group_day
+                ->create([
+                    'group_id' => $session_group->id,
+                    'day' => $item['day'],
+                    'from' => $item['from'],
+                    'to' => $item['to'],
+                ]);
+            }
+        }
 
         return response()->json([
             'success' => 'You update session success'
@@ -132,7 +139,7 @@ class GroupController extends Controller
     }
 
     public function delete(Request $request, $id){ 
-        $session = $this->session
+        $session_group = $this->session_group
         ->where('id', $id)
         ->delete();
 

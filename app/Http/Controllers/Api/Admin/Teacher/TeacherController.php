@@ -57,7 +57,7 @@ class TeacherController extends Controller
         // image, nick_name, email, phone, password, 
         // course_ids[], category_ids[]
         $validator = Validator::make($request->all(), [
-            'nick_name'  => 'required',
+            'nick_name'  => 'required|unique:users,nick_name',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|unique:users,phone',
             'password' => 'required',
@@ -99,7 +99,7 @@ class TeacherController extends Controller
         // image, nick_name, email, phone, password, 
         // course_ids[], category_ids[]
         $validator = Validator::make($request->all(), [
-            'nick_name'  => 'required',
+            'nick_name'  => 'required|unique:users,nick_name,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|unique:users,email,' . $id,
             'password' => 'required',
