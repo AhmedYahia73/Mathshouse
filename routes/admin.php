@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Admin\Teacher\TeacherController;
 use App\Http\Controllers\Api\Admin\Student\StudentController;
 use App\Http\Controllers\Api\Admin\Live\SessionController;
 use App\Http\Controllers\Api\Admin\Live\GroupController;
+use App\Http\Controllers\Api\Admin\Live\AcademicController;
 
 // Parents 
 // Students +++++
@@ -62,5 +63,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/academic_list_add', 'academic_list_add');
         Route::post('/lives_view', 'lives_view');
         Route::post('/live_attend', 'live_attend');
+    });
+
+    Route::controller(AcademicController::class)->prefix('live/academic')
+    ->group(function(){
+        Route::get('/lists', 'lists');
+        Route::post('/', 'academic'); 
     });
 });

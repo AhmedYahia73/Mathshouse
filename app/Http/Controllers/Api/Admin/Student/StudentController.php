@@ -61,11 +61,15 @@ class StudentController extends Controller
             ];
         }); 
         $categories = $this->categories
-        ->get(); 
+        ->get();
+        $courses = $this->courses
+        ->select('id', 'course_name')
+        ->get();
 
         return response()->json([
             'students' => $students,
             'categories' => $categories, 
+            'courses' => $courses, 
         ]);
     }
 
