@@ -9,10 +9,14 @@ use Carbon\Carbon;
 
 use App\Models\SessionStudent;
 use App\Models\SessionAttendance;
+use App\Models\PaymentPackageOrder;
+use App\Models\SmallPackage;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\LiveLesson;
+use App\Models\IdeaLesson;
 use App\Models\Session;
+use App\Models\quizze;
 
 class MyLivesController extends Controller
 { 
@@ -160,9 +164,9 @@ class MyLivesController extends Controller
         $lives = $lives1->merge($lives2)->unique('id')
         ->where('id', $lesson_id)
         ->first();
-        if(empty($payment_request)){
+        if(empty($lives)){
             return response()->json([
-                'errors' => 'You must buy this course'
+                'errors' => 'You must attend live'
             ], 400);
         }
 
@@ -210,11 +214,12 @@ class MyLivesController extends Controller
     }
 
     public function private_request_lists(Request $request){ 
-        $categories = Category::all();
-        $courses = Course::all();
+        $courses = Course::
+        select('id', 'course_name')
+        ->where('category_id', $request->user()->category_id)
+        ->get();
 
-        return response()->json([
-            'categories' => $categories,
+        return response()->json([ 
             'courses' => $courses,
         ]);
     }
@@ -257,4 +262,42 @@ class MyLivesController extends Controller
         ]);
     }
 
+
+    public function private_req_book_api( Request $request ){
+        $sessions = SessionStudent::
+        where('user_id', auth()->user()->id) 
+        ->where('session_id', $request->id)
+        ->first(); 
+        if ( !empty($sessions) ) {  
+            return response()->json([
+                'errors' => 'You have booked session before'
+            ], 400);
+        } 
+        SessionStudent::create([
+            'session_id' => $request->id,
+            'user_id' => auth()->user()->id,
+        ]);
+        $package = PaymentPackageOrder::
+        leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+        ->where('payment_package_order.number', '>', 0)
+        ->where('user_id', auth()->user()->id)
+        ->orderByDesc('payment_package_order.id')
+        ->get(); 
+        $small_package = SmallPackage::where('user_id', auth()->user()->id)
+        ->where('module', 'Live')
+        ->where('course_id', $session->lesson?->chapter?->course_id ?? $session->course?->id)
+        ->where('number', '>', 0)
+        ->first();
+
+        if ( !empty($small_package) || count($package) != 0 ) {
+            return response()->json([
+                'success' => 'You are booking success'
+            ]);
+        }
+        else {
+            return response()->json([
+                'errors' => 'You must have live sessions in your live package to reserve any session'
+            ]);
+        }
+    }
 }
