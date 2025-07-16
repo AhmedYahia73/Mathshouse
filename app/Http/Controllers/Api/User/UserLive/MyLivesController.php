@@ -263,10 +263,18 @@ class MyLivesController extends Controller
     }
 
 
-    public function private_req_book_api( Request $request ){
+    public function private_request_booking( Request $request ){
+        $validator = Validator::make($request->all(), [
+            'session_id' => 'required|exists:sessions,id', 
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
         $sessions = SessionStudent::
         where('user_id', auth()->user()->id) 
-        ->where('session_id', $request->id)
+        ->where('session_id', $request->session_id)
         ->first(); 
         if ( !empty($sessions) ) {  
             return response()->json([
@@ -274,7 +282,7 @@ class MyLivesController extends Controller
             ], 400);
         } 
         SessionStudent::create([
-            'session_id' => $request->id,
+            'session_id' => $request->session_id,
             'user_id' => auth()->user()->id,
         ]);
         $package = PaymentPackageOrder::

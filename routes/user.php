@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('my_ideas/{lesson_id}', 'my_ideas');
         Route::get('private_request_lists', 'private_request_lists');
         Route::get('private_request', 'private_request');
+        Route::post('private_request_booking', 'private_request_booking');
     });
     
     Route::controller(MyPackageController::class)->prefix('my_packages')
