@@ -52,7 +52,7 @@ class StudentController extends Controller
                 'email' => $item->email,
                 'phone' => $item->phone,
                 'parent_phone' => $item->parent_phone,
-                'parent_email' => $item->phone,
+                'parent_email' => $item->parent_email,
                 'grade' => $item->grade,
                 'payment' => !empty($item->payment_req_approve->first()) ? 'Paid' : 'Free',
                 'image' => $item->image_link,
@@ -176,10 +176,15 @@ class StudentController extends Controller
         whereHas('pay_req', function( $query )use($id){
             $query->where('user_id', $id);
         })
-        ->with('chapter')
+        ->with('chapter.teacher', 'chapter.course')
         ->where('state', 1)
         ->get()
-        ?->pluck('chapter');
+        ?->pluck('chapter')
+        ->map(function($item){
+            $item->chapter = $item?->course?->course_name;
+            $item->teacher = $item?->teacher?->nick_name;
+            return $item;
+        });
 
         return response()->json([
             'chapters' => $chapters,

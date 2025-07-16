@@ -56,11 +56,12 @@ class AcademicController extends Controller
             'category_id'  => ['required', 'exists:categories,id'],
             'course_id'  => ['required', 'exists:courses,id'],
             'chapter_id'  => ['exists:chapters,id'],
-            'lesson_id'  => ['exists:lessons,id'],
+            'lesson_id' => ['required_with:attendance_status', 'exists:lessons,id'],
             'group_ids'  => ['array'],
             'group_ids.*'  => ['exists:session_groups,id'], 
             'students_ids'  => ['array'],
-            'students_ids.*'  => ['exists:users,id'], 
+            'students_ids.*'  => ['exists:users,id'],
+            'attendance_status' => ['nullable', 'boolean'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -108,18 +109,60 @@ class AcademicController extends Controller
         }
         $users = $this->students;
 
-        $students = $students
-        ->map(function($item) use($lessons, $users){
-            $item->lessons = clone $lessons->map(function($element) use($item, $users){
-                $element = clone $element;
-                $element->attendance = !empty($users
-                ->where('id', $item->id)
-                ->first()
-                ?->attendance($element->id)?->first());
-                return $element;
+        if (!isset($request->attendance_status) || empty($request->attendance_status)) {
+            $students = $students
+            ->map(function($item) use($lessons, $users){
+                $item->lessons = clone $lessons->map(function($element) use($item, $users){
+                    $element = clone $element;
+                    $element->attendance = !empty($users
+                    ->where('id', $item->id)
+                    ->first()
+                    ?->attendance($element->id)?->first());
+                    return $element;
+                });
+                return $item;
             });
-            return $item;
-        });
+        }
+        else{
+            if ($request->attendance_status) {
+                $students = $students
+                ->map(function($item) use($lessons, $users){
+                    $item->lessons = clone $lessons->map(function($element) use($item, $users){
+                        $element = clone $element;
+                        $element->attendance = !empty($users
+                        ->where('id', $item->id)
+                        ->first()
+                        ?->attendance($element->id)?->first());
+                        return $element;
+                    });
+                    if(@$item->lessons[0]->attendance){
+                        return $item;
+                    }
+                    else{
+                        return null;
+                    }
+                });
+            }
+            else{
+                $students = $students
+                ->map(function($item) use($lessons, $users){
+                    $item->lessons = clone $lessons->map(function($element) use($item, $users){
+                        $element = clone $element;
+                        $element->attendance = !empty($users
+                        ->where('id', $item->id)
+                        ->first()
+                        ?->attendance($element->id)?->first());
+                        return $element;
+                    });
+                    if(@$item->lessons[0]->attendance){
+                        return null;
+                    }
+                    else{
+                        return $item;
+                    }
+                });
+            }
+        }
 
         return response()->json([
             'lessons' => $lessons,

@@ -128,6 +128,86 @@ class MyLivesController extends Controller
             'lives' => $lives,
         ]);
     }
+    
+    public function my_ideas(Request $request, $lesson_id){
+        
+        $new_date = Carbon::now()->subDays(7);
+        $lives1 = SessionAttendance::
+        where('user_id', auth()->user()->id)
+        ->whereHas('session', function($query) use($new_date){
+            $query->where('date', '>=', $new_date)
+            ->orWhereHas('lesson.extraDays', function($query1){
+                $query1->where('user_id', auth()->user()->id)
+                ->where('end_date','>=',date('Y-m-d'));
+            });
+        })
+        ->get()
+        ?->pluck('session')
+        ?->pluck('lesson')
+        ->unique('id');
+        $lives2 = LiveLesson::
+        where('user_id', auth()->user()->id)
+        ->where('created_at', '>=', $new_date)
+        ->orWhereHas('lesson.extraDays', function($query){
+            $query->where('end_date', '>=', date('Y-m-d'));
+        })
+        ->where('user_id', auth()->user()->id)
+        ->with(['lesson' => function($query){
+            $query->with(['chapter.course', 'sessions']);
+        }])
+        ->get()
+        ?->pluck('lesson');
+        $lives = $lives1->merge($lives2)->unique('id')
+        ->where('id', $lesson_id)
+        ->first();
+        if(empty($payment_request)){
+            return response()->json([
+                'errors' => 'You must buy this course'
+            ], 400);
+        }
+
+        $ideas = IdeaLesson:: 
+        where('lesson_id', $lesson_id)
+        ->orderBy('idea_order')
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'idea' => $item->idea, 
+                'v_link' => $item->v_link,
+                'pdf' => url('files/lessons_pdf/' . $item->pdf),
+            ];
+        }); 
+        $solve_quiz = (object)['value' => false];
+        $quizs = quizze::
+        select('id', 'title', 'time', 'score')
+        ->where('lesson_id', $lesson_id)
+        ->where('state', 1)
+        ->with(['question' => function($query){
+            $query
+            ->select('questions.id', 'question', 'q_url', 'ans_type')
+            ->with(['mcq:id,mcq_num,mcq_ans,q_id']);
+        }])
+        ->orderByDesc('quizze_order')
+        ->get()
+        ->map(function($item) use($solve_quiz){
+            $solve_quiz_status = empty($item->student_success_quizzes(auth()->user()->id))
+            ? false : true;
+            if (!$solve_quiz_status && !$solve_quiz->value) {
+                $solve_quiz->value = true;
+                $item->solve_quiz = true;
+            }
+            else{ 
+                $item->solve_quiz = false;
+            }
+            return $item;
+        });
+
+        return response()->json([
+            'ideas' => $ideas,
+            'quizs' => $quizs,
+        ]);
+    }
 
     public function private_request_lists(Request $request){ 
         $categories = Category::all();
@@ -176,4 +256,5 @@ class MyLivesController extends Controller
             'private_requests' => $private_req
         ]);
     }
+
 }
