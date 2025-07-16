@@ -70,7 +70,7 @@ class GroupController extends Controller
 
         $groupRequest = $request->only($this->groupRequest);
         $session_group = $this->session_group
-        ->create($sessionRequest);
+        ->create($groupRequest);
         $session_group->students()->attach($request->student_ids);
         $group_days = $request->group_days;
         foreach($group_days as $item){
