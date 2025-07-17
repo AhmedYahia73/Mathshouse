@@ -79,5 +79,6 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(DiaExamHistoryController::class)->prefix('education/diagnostic')
     ->group(function(){
         Route::get('/', 'view_dia'); 
+        Route::get('/pdf/{id}', 'dia_pdf'); 
     });
 });

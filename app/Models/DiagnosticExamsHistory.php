@@ -35,4 +35,8 @@ class DiagnosticExamsHistory extends Model
     public function mistakes(){
         return $this->hasMany(DaiExamMistake::class, 'student_exam_id');
     }
+
+    public function student(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
