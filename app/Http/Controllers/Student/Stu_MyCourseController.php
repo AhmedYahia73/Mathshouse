@@ -200,16 +200,17 @@ class Stu_MyCourseController extends Controller
             // Return Exam
             $quizze = quizze::where('id', $quizze_id)
             ->first();
-            if ( empty($quizze->pass_score) ) {
-                $quizze->pass_score = 0;
+            $pass_score = $quizze?->pass_score ?? 0;
+            if ( empty($pass_score) ) {
+                $pass_score = 0;
             }
             $stu_quizze = StudentQuizze::where('student_id', auth()->user()->id)
-            ->where('score', '>=', $quizze->pass_score)
+            ->where('score', '>=', $pass_score)
             ->with('quizze')
             ->get();
 
             $solve_quizze = StudentQuizze::where('student_id', auth()->user()->id)
-            ->where('score', '>=', $quizze->pass_score)
+            ->where('score', '>=', $pass_score)
             ->where('quizze_id', $quizze->id)
             ->first();
 
@@ -226,7 +227,7 @@ class Stu_MyCourseController extends Controller
             foreach ($stu_quizze as $item) {
                 if ($item?->quizze?->quizze_order > $quiz_item && 
                 $item->quizze->lesson_id == $quizze->lesson_id &&
-                $item->score >= $quizze->pass_score ) {
+                $item->score >= $pass_score ) {
                     $quiz_item = $item->quizze->quizze_order;
                 }
             }
