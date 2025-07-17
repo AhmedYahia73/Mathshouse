@@ -272,11 +272,11 @@ class MyLivesController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-        $sessions = SessionStudent::
+        $session = SessionStudent::
         where('user_id', auth()->user()->id) 
         ->where('session_id', $request->session_id)
         ->first(); 
-        if ( !empty($sessions) ) {  
+        if ( !empty($session) ) {  
             return response()->json([
                 'errors' => 'You have booked session before'
             ], 400);
