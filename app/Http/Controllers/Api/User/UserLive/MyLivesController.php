@@ -129,7 +129,7 @@ class MyLivesController extends Controller
             ->values();
 
         return response()->json([
-            'lives' => $lives,
+            'courses' => $lives,
         ]);
     }
     
