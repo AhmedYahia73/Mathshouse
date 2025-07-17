@@ -293,7 +293,7 @@ class MyLivesController extends Controller
         ->get(); 
         $small_package = SmallPackage::where('user_id', auth()->user()->id)
         ->where('module', 'Live')
-        ->where('course_id', $session->lesson?->chapter?->course_id ?? $session->course?->id)
+        ->where('course_id', $session?->lesson?->chapter?->course_id ?? $session?->course?->id)
         ->where('number', '>', 0)
         ->first();
 
