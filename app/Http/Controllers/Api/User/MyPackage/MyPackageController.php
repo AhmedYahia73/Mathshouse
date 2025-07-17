@@ -22,6 +22,7 @@ use App\Models\Commission;
 use App\Models\PromoPackage;
 use App\Models\UsagePromo;
 use App\Models\PromoCode;
+use App\Models\Course;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Cookie;
@@ -77,10 +78,15 @@ class MyPackageController extends Controller
         ->where('payment_package_order.user_id', auth()->user()->id)
         ->sum('payment_package_order.number') + $s_live;
         
+        $courses = Course::
+        select('course_name', 'id')
+        ->with('packages:id,name,course_id,price,number,duration,module')
+        ->get();
         return response()->json([
             'exams' => $exam,
             'questions' => $questions,
             'lives' => $live,
+            'courses' => $courses,
         ]);
     }
 
