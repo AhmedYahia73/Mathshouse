@@ -272,7 +272,6 @@ class MyLivesController extends Controller
         ]);
     }
 
-
     public function private_request_booking( Request $request ){
         $validator = Validator::make($request->all(), [
             'session_id' => 'required|exists:sessions,id', 

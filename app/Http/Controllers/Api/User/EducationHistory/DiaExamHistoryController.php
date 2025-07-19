@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\DiagnosticExamsHistory;
+use App\Models\DiagnosticExam;
 use App\Models\DaiExamMistake; 
 use App\Models\Chapter;
 
