@@ -872,13 +872,9 @@
 
 
 
-
-
-
-
-
 @php
     $page_name = 'Lesson';
+    $arr_lessons = [];
 @endphp
 @section('title', 'Lessons')
 @include('Student.inc.header')
@@ -886,7 +882,7 @@
 @extends('Student.inc.nav')
 
 @section('page_content')
-     <style>
+    <style>
         /* Main Layout Styles */
         .main-lesson-container {
             display: flex;
@@ -894,12 +890,27 @@
             gap: 30px;
         }
 
-        /* Video Container */
-        .video-container {
+        /* Video Container (Adapted from First Design) */
+        .lesson__content__main {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             border-radius: 10px;
             overflow: hidden;
+        }
+
+        .plyr__video-embed {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .plyr__video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Lesson Section */
@@ -1029,106 +1040,80 @@
                 font-size: 1.3rem;
                 padding: 12px 15px;
             }
+
+            .lesson__content__main {
+                margin-bottom: 20px;
+            }
         }
     </style>
     @include('success')
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 
     <main class="main_wrapper overflow-hidden">
-
-
-
-
-        <!-- headar section start -?->
+        <!-- Header Section Start -->
         <header>
             <div class="headerarea headerarea__3 header__sticky header__area">
-
-
                 <div class="mob_menu_wrapper">
                     <div class="row align-items-center">
                         <div class="col-6">
                             <div class="mobile-logo">
-                                <a class="logo__dark" href="#"><img loading="lazy" src="img/logo/logo_1.png"
-                                        alt="logo"></a>
+                                <a class="logo__dark" href="#"><img loading="lazy" src="img/logo/logo_1.png" alt="logo"></a>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="header-right-wrap">
-
                                 <div class="headerarea__right">
-
                                     <div class="header__cart">
                                         <a href="#"> <i class="icofont-cart-alt"></i></a>
                                         <div class="header__right__dropdown__wrapper">
                                             <div class="header__right__dropdown__inner">
                                                 <div class="single__header__right__dropdown">
-
                                                     <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy" src="img/grid/cart1.jpg" alt="photo">
-                                                        </a>
+                                                        <a href="#"><img loading="lazy" src="img/grid/cart1.jpg" alt="photo"></a>
                                                     </div>
                                                     <div class="header__right__dropdown__content">
-
                                                         <a href="shop-product.html">Web Directory</a>
                                                         <p>1 x <span class="price">$ 80.00</span></p>
-
                                                     </div>
                                                     <div class="header__right__dropdown__close">
                                                         <a href="#"><i class="icofont-close-line"></i></a>
                                                     </div>
                                                 </div>
-
                                                 <div class="single__header__right__dropdown">
-
                                                     <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy" src="img/grid/cart2.jpg" alt="photo">
-                                                        </a>
+                                                        <a href="#"><img loading="lazy" src="img/grid/cart2.jpg" alt="photo"></a>
                                                     </div>
                                                     <div class="header__right__dropdown__content">
-
                                                         <a href="shop-product.html">Design Minois</a>
                                                         <p>1 x <span class="price">$ 60.00</span></p>
-
                                                     </div>
                                                     <div class="header__right__dropdown__close">
                                                         <a href="#"><i class="icofont-close-line"></i></a>
                                                     </div>
                                                 </div>
-
                                                 <div class="single__header__right__dropdown">
-
                                                     <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy" src="img/grid/cart3.jpg" alt="photo">
-                                                        </a>
+                                                        <a href="#"><img loading="lazy" src="img/grid/cart3.jpg" alt="photo"></a>
                                                     </div>
                                                     <div class="header__right__dropdown__content">
-
                                                         <a href="shop-product.html">Crash Course</a>
                                                         <p>1 x <span class="price">$ 70.00</span></p>
-
                                                     </div>
                                                     <div class="header__right__dropdown__close">
                                                         <a href="#"><i class="icofont-close-line"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <p class="dropdown__price">Total: <span>$1,100.00</span>
-                                            </p>
+                                            <p class="dropdown__price">Total: <span>$1,100.00</span></p>
                                             <div class="header__right__dropdown__button">
-                                                <a href="#" class="white__color">VIEW
-                                                    CART</a>
+                                                <a href="#" class="white__color">VIEW CART</a>
                                                 <a href="#" class="blue__color">CHECKOUT</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="mobile-off-canvas">
-                                    <a class="mobile-aside-button" href="#"><i
-                                            class="icofont-navigation-menu"></i></a>
+                                    <a class="mobile-aside-button" href="#"><i class="icofont-navigation-menu"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1136,11 +1121,11 @@
                 </div>
             </div>
         </header>
-        <!-- header section end -?->
+        <!-- Header Section End -->
 
-        <!-- Mobile Menu Start Here -?->
+        <!-- Mobile Menu Start -->
         <div class="mobile-off-canvas-active">
-            <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
+            <a class="mobile-aside-close"><i class="icofont icofont-close-line"></i></a>
             <div class="header-mobile-aside-wrap">
                 <div class="mobile-search">
                     <form class="search-form" action="#">
@@ -1149,9 +1134,7 @@
                     </form>
                 </div>
                 <div class="mobile-menu-wrap headerarea">
-
                     <div class="mobile-navigation">
-
                         <nav>
                             <ul class="mobile-menu">
                                 <li class="menu-item-has-children"><a href="index.html">Home</a>
@@ -1171,9 +1154,7 @@
                                                 <li><a href="home-11.html">Single Course</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="index.html">Homes Dark</a>
+                                        <li class="menu-item-has-children"><a href="index.html">Homes Dark</a>
                                             <ul class="dropdown">
                                                 <li><a href="index-dark.html">Home Default (Dark)</a></li>
                                                 <li><a href="home-2-dark.html">Elegant (Dark)</a></li>
@@ -1188,49 +1169,33 @@
                                                 <li><a href="home-11-dark.html">Single Course (Dark)</a></li>
                                             </ul>
                                         </li>
-
                                     </ul>
                                 </li>
-
-
-                                <li class="menu-item-has-children "><a href="#">Pages</a>
-
+                                <li class="menu-item-has-children"><a href="#">Pages</a>
                                     <ul class="dropdown">
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 1</a>
-
+                                        <li class="menu-item-has-children"><a href="#">Get Started 1</a>
                                             <ul class="dropdown">
                                                 <li><a href="about.html">About</a></li>
-                                                <li><a href="about-dark.html">About (Dark)<span
-                                                            class="mega__menu__label new">New</span></a></li>
+                                                <li><a href="about-dark.html">About (Dark)<span class="mega__menu__label new">New</span></a></li>
                                                 <li><a href="blog.html">Blog</a></li>
                                                 <li><a href="blog-dark.html">Blog (Dark)</a></li>
                                                 <li><a href="blog-details.html">Blog Details</a></li>
                                                 <li><a href="blog-details-dark.html">Blog Details (Dark)</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 2</a>
+                                        <li class="menu-item-has-children"><a href="#">Get Started 2</a>
                                             <ul class="dropdown">
                                                 <li><a href="error.html">Error 404</a></li>
                                                 <li><a href="error-dark.html">Error (Dark)</a></li>
                                                 <li><a href="event-details.html">Event Details</a></li>
-                                                <li><a href="zoom/zoom-meetings.html">Zoom<span
-                                                            class="mega__menu__label">Online Call</span></a></li>
-                                                <li><a href="zoom/zoom-meetings-dark.html">Zoom Meeting (Dark)</a>
-                                                </li>
-                                                <li><a href="zoom/zoom-meeting-details.html">Zoom Meeting
-                                                        Details</a></li>
+                                                <li><a href="zoom/zoom-meetings.html">Zoom<span class="mega__menu__label">Online Call</span></a></li>
+                                                <li><a href="zoom/zoom-meetings-dark.html">Zoom Meeting (Dark)</a></li>
+                                                <li><a href="zoom/zoom-meeting-details.html">Zoom Meeting Details</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 3</a>
+                                        <li class="menu-item-has-children"><a href="#">Get Started 3</a>
                                             <ul class="dropdown">
-                                                <li><a href="zoom/zoom-meeting-details-dark.html">Meeting Details
-                                                        (Dark)</a>
-                                                </li>
+                                                <li><a href="zoom/zoom-meeting-details-dark.html">Meeting Details (Dark)</a></li>
                                                 <li><a href="login.html">Login</a></li>
                                                 <li><a href="login-dark.html">Login (Dark)</a></li>
                                                 <li><a href="maintenance.html">Maintenance</a></li>
@@ -1238,9 +1203,7 @@
                                                 <li><a href="#">Terms & Condition</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 4</a>
+                                        <li class="menu-item-has-children"><a href="#">Get Started 4</a>
                                             <ul class="dropdown">
                                                 <li><a href="#">Terms & Condition (Dark)</a></li>
                                                 <li><a href="#">Privacy Policy</a></li>
@@ -1250,27 +1213,14 @@
                                                 <li><a href="#">Work Policy</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <div class="mega__menu__img">
-                                                <a href="#"><img loading="lazy" src="img/mega/mega_menu_2.png"
-                                                        alt="Mega Menu"></a>
-                                            </div>
-                                        </li>
+                                        <li class="menu-item-has-children"><div class="mega__menu__img"><a href="#"><img loading="lazy" src="img/mega/mega_menu_2.png" alt="Mega Menu"></a></div></li>
                                     </ul>
                                 </li>
-
-
-
-                                <li class="menu-item-has-children "><a href="course.html">Courses</a>
-
+                                <li class="menu-item-has-children"><a href="course.html">Courses</a>
                                     <ul class="dropdown">
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 1</a>
-
+                                        <li class="menu-item-has-children"><a href="#">Get Started 1</a>
                                             <ul class="dropdown">
-                                                <li><a href="course.html">Grid <span class="mega__menu__label">All
-                                                            Courses</span></a></li>
+                                                <li><a href="course.html">Grid <span class="mega__menu__label">All Courses</span></a></li>
                                                 <li><a href="course-dark.html">Course Grid (Dark)</a></li>
                                                 <li><a href="course-grid.html">Course Grid</a></li>
                                                 <li><a href="course-grid-dark.html">Course Grid (Dark)</a></li>
@@ -1278,127 +1228,85 @@
                                                 <li><a href="course-list-dark.html">Course List (Dark)</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 2</a>
+                                        <li class="menu-item-has-children"><a href="#">Get Started 2</a>
                                             <ul class="dropdown">
                                                 <li><a href="course-details.html">Course Details</a></li>
-                                                <li><a href="course-details-dark.html">Course Details (Dark)</a>
-                                                </li>
+                                                <li><a href="course-details-dark.html">Course Details (Dark)</a></li>
                                                 <li><a href="course-details-2.html">Course Details 2</a></li>
                                                 <li><a href="course-details-2-dark.html">Details 2 (Dark)</a></li>
                                                 <li><a href="course-details-3.html">Course Details 3</a></li>
                                                 <li><a href="course-details-3.html">Details 3 (Dark)</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Get Started 3</a>
+                                        <li class="menu-item-has-children"><a href="#">Get Started 3</a>
                                             <ul class="dropdown">
-                                                <li><a href="dashboard/become-an-instructor.html">Become An
-                                                        Instructor</a>
-                                                <li><a href="dashboard/create-course.html">Create Course <span
-                                                            class="mega__menu__label">Career</span></a></li>
+                                                <li><a href="dashboard/become-an-instructor.html">Become An Instructor</a></li>
+                                                <li><a href="dashboard/create-course.html">Create Course <span class="mega__menu__label">Career</span></a></li>
                                                 <li><a href="instructor.html">Instructor</a></li>
                                                 <li><a href="instructor-dark.html">Instructor (Dark)</a></li>
                                                 <li><a href="instructor-details.html">Instructor Details</a></li>
-                                                <li><a href="lesson.html">Course Lesson<span
-                                                            class="mega__menu__label new">New</span></a></li>
+                                                <li><a href="lesson.html">Course Lesson<span class="mega__menu__label new">New</span></a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <div class="mega__menu__img">
-                                                <a href="#"><img loading="lazy" src="img/mega/mega_menu_1.png"
-                                                        alt="Mega Menu"></a>
-                                            </div>
-                                        </li>
+                                        <li class="menu-item-has-children"><div class="mega__menu__img"><a href="#"><img loading="lazy" src="img/mega/mega_menu_1.png" alt="Mega Menu"></a></div></li>
                                     </ul>
                                 </li>
-
-
-                                <li class="menu-item-has-children "><a href="dashboard/admin-dashboard.html">Dashboard</a>
-
+                                <li class="menu-item-has-children"><a href="dashboard/admin-dashboard.html">Dashboard</a>
                                     <ul class="dropdown">
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Admin</a>
-
+                                        <li class="menu-item-has-children"><a href="#">Admin</a>
                                             <ul class="dropdown">
-                                                <li><a href="dashboard/admin-dashboard.html">Admin Dashboard</a>
-                                                </li>
+                                                <li><a href="dashboard/admin-dashboard.html">Admin Dashboard</a></li>
                                                 <li><a href="dashboard/admin-profile.html">Admin Profile</a></li>
                                                 <li><a href="dashboard/admin-message.html">Message</a></li>
                                                 <li><a href="dashboard/admin-course.html">Courses</a></li>
                                                 <li><a href="dashboard/admin-reviews.html">Review</a></li>
-                                                <li><a href="dashboard/admin-quiz-attempts.html">Admin Quiz</a>
-                                                </li>
-
+                                                <li><a href="dashboard/admin-quiz-attempts.html">Admin Quiz</a></li>
                                                 <li><a href="dashboard/admin-settings.html">Settings</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Instructor</a>
+                                        <li class="menu-item-has-children"><a href="#">Instructor</a>
                                             <ul class="dropdown">
-                                                <li><a href="dashboard/instructor-dashboard.html">Inst.
-                                                        Dashboard</a></li>
-                                                <li><a href="dashboard/instructor-profile.html">Inst. Profile</a>
-                                                </li>
+                                                <li><a href="dashboard/instructor-dashboard.html">Inst. Dashboard</a></li>
+                                                <li><a href="dashboard/instructor-profile.html">Inst. Profile</a></li>
                                                 <li><a href="dashboard/instructor-message.html">Message</a></li>
                                                 <li><a href="dashboard/instructor-wishlist.html">Wishlist</a></li>
                                                 <li><a href="dashboard/instructor-reviews.html">Review</a></li>
-                                                <li><a href="dashboard/instructor-my-quiz-attempts.html">My
-                                                        Quiz</a></li>
-                                                <li><a href="dashboard/instructor-order-history.html">Order
-                                                        History</a></li>
+                                                <li><a href="dashboard/instructor-my-quiz-attempts.html">My Quiz</a></li>
+                                                <li><a href="dashboard/instructor-order-history.html">Order History</a></li>
                                                 <li><a href="dashboard/instructor-course.html">My Courses</a></li>
-                                                <li><a href="dashboard/instructor-announcments.html">Announcements</a>
-                                                </li>
-                                                <li><a href="dashboard/instructor-quiz-attempts.html">Quiz
-                                                        Attempts</a></li>
-                                                <li><a href="dashboard/instructor-assignments.html">Assignment</a>
-                                                </li>
+                                                <li><a href="dashboard/instructor-announcments.html">Announcements</a></li>
+                                                <li><a href="dashboard/instructor-quiz-attempts.html">Quiz Attempts</a></li>
+                                                <li><a href="dashboard/instructor-assignments.html">Assignment</a></li>
                                                 <li><a href="dashboard/instructor-settings.html">Settings</a></li>
                                             </ul>
                                         </li>
-
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Student</a>
+                                        <li class="menu-item-has-children"><a href="#">Student</a>
                                             <ul class="dropdown">
                                                 <li><a href="dashboard/student-dashboard.html">Dashboard</a></li>
                                                 <li><a href="dashboard/student-profile.html">Profile</a></li>
                                                 <li><a href="dashboard/student-message.html">Message</a></li>
-                                                <li><a href="dashboard/student-enrolled-courses.html">Enrolled
-                                                        Courses</a></li>
+                                                <li><a href="dashboard/student-enrolled-courses.html">Enrolled Courses</a></li>
                                                 <li><a href="dashboard/student-wishlist.html">Wishlist</a></li>
                                                 <li><a href="dashboard/student-reviews.html">Review</a></li>
-                                                <li><a href="dashboard/student-my-quiz-attempts.html">My Quiz</a>
-                                                </li>
-                                                <li><a href="dashboard/student-assignments.html">Assignment</a>
-                                                </li>
+                                                <li><a href="dashboard/student-my-quiz-attempts.html">My Quiz</a></li>
+                                                <li><a href="dashboard/student-assignments.html">Assignment</a></li>
                                                 <li><a href="dashboard/student-settings.html">Settings</a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
-
                                 <li class="menu-item-has-children"><a href="ecommerce/shop.html">eCommerce</a>
                                     <ul class="dropdown">
-                                        <li><a href="ecommerce/shop.html">Shop<span class="mega__menu__label">Online
-                                                    Store</span></a></li>
+                                        <li><a href="ecommerce/shop.html">Shop<span class="mega__menu__label">Online Store</span></a></li>
                                         <li><a href="ecommerce/product-details.html">Product Details</a></li>
                                         <li><a href="ecommerce/cart.html">Cart</a></li>
                                         <li><a href="ecommerce/checkout.html">Checkout</a></li>
                                         <li><a href="ecommerce/wishlist.html">Wishlist</a></li>
-
                                     </ul>
                                 </li>
-
                             </ul>
                         </nav>
-
                     </div>
-
                 </div>
                 <div class="mobile-curr-lang-wrap">
                     <div class="single-mobile-curr-lang">
@@ -1411,19 +1319,6 @@
                             </ul>
                         </div>
                     </div>
-
-                    <!-- <div class="single-mobile-curr-lang">
-                                            <a class="mobile-currency-active" href="#">Currency <i class="icofont-thin-down"></i></a>
-                                            <div class="lang-curr-dropdown curr-dropdown-active">
-                                                <ul>
-                                                    <li><a href="#">USD</a></li>
-                                                    <li><a href="#">EUR</a></li>
-                                                    <li><a href="#">Real</a></li>
-                                                    <li><a href="#">BDT</a></li>
-                                                </ul>
-                                            </div>
-                                        </div> -?->
-
                     <div class="single-mobile-curr-lang">
                         <a class="mobile-account-active" href="#">My Account <i class="icofont-thin-down"></i></a>
                         <div class="lang-curr-dropdown account-dropdown-active">
@@ -1444,116 +1339,84 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu end Here -?->
+        <!-- Mobile Menu End -->
 
-        <!-- theme fixed shadow -?->
+        <!-- Theme Fixed Shadow -->
         <div>
             <div class="theme__shadow__circle"></div>
             <div class="theme__shadow__circle shadow__right"></div>
         </div>
-        <!-- theme fixed shadow -?->
+        <!-- Theme Fixed Shadow End -->
 
-
-        <!-- tution__section__start -?->
+        <!-- Tuition Section Start -->
         <div class="tution sp_bottom_100 sp_top_50">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-
-
-                    <!-- Main Video at Top -?->
-                    <div class="">
-                        <div class="mb-4 text-center">
-                            <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem;">
-                                {{ $idea?->idea }}
-                            </h3>
-                        </div>
-
-                        <div class="" style="width: 100%; height: 400px;">
-                            <iframe scrolling="no" allowfullscreen style="width: 100%; height:100%;"
-                                src="{{ $idea?->v_link }}" title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-
-                    <!-- Report Issue Section -?->
-                    <div class="list-container p-4 rounded shadow-sm mb-4">
-                        <div class="list-header d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem;">
-                                Select an Issue:
-                            </h4>
-                            <div class="dropdown" style="width: 70%">
-                                <button class="btn dropdown-toggle text-white px-4 py-2" type="button"
-                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
-                                    style="background-color: #CF202F; border: none; border-radius: 5px;">
-                                    Report Issue
-                                </button>
-                                <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton"
-                                    style="width: 100%; border: 1px solid #ddd;">
-                                    @foreach ($reports as $report)
-                                        <li class="dropdown-item report-item" style="cursor: pointer;">
-                                            <input type="hidden" class="report-val" value="{{ $report }}" />
-                                            <span>{{ $report?->list }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                    <!-- Main Content Area -->
+                    <div class="col-12" data-aos="fade-up">
+                        <!-- Video Player Section (from First Design) -->
+                        <div class="lesson__content__main">
+                            <div class="mb-4 text-center">
+                                <h3 class="fw-bold" style="color: #CF202F; font-size: 1.8rem; letter-spacing: 1px;">
+                                    {{ $idea?->idea ?? 'Lesson Video' }}
+                                </h3>
+                            </div>
+                            <div class="plyr__video-embed">
+                                <iframe scrolling="no" allowfullscreen
+                                        src="{{ $idea?->v_link ?? 'https://www.youtube.com/embed/placeholder' }}"
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
                             </div>
                         </div>
-                    </div>
 
-
+                        <!-- Lessons List -->
                         <div class="main-lesson-container">
-                            @php
-                                $arr_lessons = [];
-                            @endphp
-                            @foreach ($sessions as $session)
+                            @foreach ($sessions->sortBy('lesson_id') as $session)
                                 @if (
-                                    $session?->lesson?->chapter?->id &&
-                                        $chapter_id == $session?->lesson?->chapter?->id &&
-                                        ((\Carbon\Carbon::now()?->subDays(7) <= $session?->date or
-                                            $session?->lesson?->getUserExtraDays(auth()?->user()?->id) >= date('Y-m-d') && $chapter_id == $session?->lesson?->chapter?->id) &&
-                                            !in_array($session?->lesson?->id, $arr_lessons)))
+                                    $session->lesson?->chapter?->id &&
+                                    $chapter_id == $session->lesson->chapter->id &&
+                                    (\Carbon\Carbon::now()->subDays(7) <= $session->date ||
+                                        $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d')) &&
+                                    !in_array($session->lesson->id, $arr_lessons))
                                     @php
-                                        $arr_lessons[] = $session?->lesson?->id;
+                                        $arr_lessons[] = $session->lesson->id;
                                     @endphp
-
                                     <div class="lesson-section">
-                                        <div class="lesson-header" onclick="toggleLesson({{ $session?->lesson?->id }})">
-                                            <span><i
-                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $session?->lesson?->lesson_name }}</span>
+                                        <div class="lesson-header" onclick="toggleLesson({{ $session->lesson->id }})">
+                                            <span><i class="fa-solid fa-book me-2 fs-6"></i>{{ $session->lesson->lesson_name }}</span>
                                             <i class="fas fa-chevron-down"></i>
                                         </div>
-                                        <div class="lesson-content" id="lessonContent{{ $session?->lesson?->id }}">
-                                            <!-- Recorded Live Session -?->
-                                            <a href="{{ $session?->material_link }}" class="btn btn-sm btn-video">
-                                                <i class="icofont-video-alt me-1"></i> Live Material
-                                            </a>
+                                        <div class="lesson-content" id="lessonContent{{ $session->lesson->id }}">
+                                            <!-- Recorded Live Session -->
+                                            @if ($session->material_link)
+                                                <a href="{{ $session->material_link }}" class="btn btn-sm btn-video">
+                                                    <i class="icofont-video-alt me-1"></i> Live Material
+                                                </a>
+                                            @endif
                                             <div class="content-row">
-                                                <!-- Ideas Column -?->
+                                                <!-- Ideas Column -->
                                                 <div class="ideas-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
-                                                    @foreach ($session?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
+                                                    @foreach ($session->lesson->ideas->sortBy('idea_order') as $idea_item)
                                                         <div class="idea-card">
-                                                            <div class="idea-title">{{ $idea_item?->idea }}</div>
+                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
                                                             <div class="idea-buttons">
-                                                                <form action="{{ route('stu_live_lesson') }}"
-                                                                    method="post" class="mb-2">
-                                                                    <input type="hidden" name="idea"
-                                                                        value="{{ $idea_item?->id }}">
+                                                                <form action="{{ route('stu_live_lesson') }}" method="post" class="mb-2">
                                                                     @csrf
+                                                                    <input type="hidden" name="idea" value="{{ $idea_item->id }}">
                                                                     <button class="btn btn-sm btn-video">
                                                                         <i class="icofont-video-alt me-1"></i> Video
                                                                     </button>
                                                                 </form>
-                                                                @if (!empty($idea_item?->pdf))
-                                                                    <a target="_blank"
-                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item?->pdf]) }}"
-                                                                        class="btn btn-sm btn-pdf-view">
+                                                                @if (!empty($idea_item->pdf))
+                                                                    <a target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                       class="btn btn-sm btn-pdf-view">
                                                                         <i class="fas fa-eye me-1"></i> View PDF
                                                                     </a>
-                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item?->pdf) }}"
-                                                                        download class="btn btn-sm btn-pdf-download">
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                       download class="btn btn-sm btn-pdf-download">
                                                                         <i class="fas fa-download me-1"></i> Download
                                                                     </a>
                                                                 @endif
@@ -1561,15 +1424,14 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Quizzes Column -?->
+                                                <!-- Quizzes Column -->
                                                 <div class="quizzes-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
-                                                    @foreach ($session?->lesson?->quizze as $quizze)
+                                                    @foreach ($session->lesson->quizze as $quizze)
                                                         <div class="quiz-card">
-                                                            <div class="quiz-title">Q{{ $loop?->iteration }}:
-                                                                {{ $quizze?->title }}</div>
-                                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
-                                                                class="btn btn-sm btn-quiz">
+                                                            <div class="quiz-title">Q{{ $loop->iteration }}: {{ $quizze->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                               class="btn btn-sm btn-quiz">
                                                                 <i class="fa-solid fa-question me-1"></i> Take Quiz
                                                             </a>
                                                         </div>
@@ -1580,65 +1442,70 @@
                                     </div>
                                 @endif
                             @endforeach
-
 
                             @foreach ($lives as $live_item)
                                 @if (
-                                    $live_item?->lesson?->chapter?->id &&
-                                        $chapter_id == $live_item?->lesson?->chapter?->id &&
-                                        \Carbon\Carbon::now()?->subDays(7) <= $live_item?->created_at &&
-                                        !in_array($live_item?->lesson?->id, $arr_lessons))
+                                    $live_item->lesson?->chapter?->id &&
+                                    $chapter_id == $live_item->lesson->chapter->id &&
+                                    \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
+                                    !in_array($live_item->lesson->id, $arr_lessons))
                                     @php
-                                        $arr_lessons[] = $live_item?->lesson_id;
+                                        $arr_lessons[] = $live_item->lesson_id;
                                     @endphp
                                     <div class="lesson-section">
-                                        <div class="lesson-header" onclick="toggleLesson({{ $live_item?->lesson?->id }})">
-                                            <span><i
-                                                    class="fa-solid fa-book me-2 fs-6"></i>{{ $live_item?->lesson?->lesson_name }}</span>
+                                        <div class="lesson-header" onclick="toggleLesson({{ $live_item->lesson->id }})">
+                                            <span><i class="fa-solid fa-book me-2 fs-6"></i>{{ $live_item->lesson->lesson_name }}</span>
                                             <i class="fas fa-chevron-down"></i>
                                         </div>
-                                        <div class="lesson-content" id="lessonContent{{ $live_item?->lesson?->id }}">
+                                        <div class="lesson-content" id="lessonContent{{ $live_item->lesson->id }}">
+                                            <!-- Recorded Live Session -->
+                                            @if ($live_item->material_link)
+                                                <a href="{{ $live_item->material_link }}" class="btn btn-sm btn-video">
+                                                    <i class="icofont-video-alt me-1"></i> Recorded Live
+                                                </a>
+                                            @endif
                                             <div class="content-row">
-                                                <!-- Ideas Column -?->
+                                                <!-- Ideas Column -->
                                                 <div class="ideas-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Ideas</h4>
-                                                    @foreach ($live_item?->lesson?->ideas?->sortBy('idea_order') as $idea_item)
+                                                    @foreach ($live_item->lesson->ideas->sortBy('idea_order') as $idea_item)
                                                         <div class="idea-card">
-                                                            <div class="idea-title">{{ $idea_item?->idea }}</div>
+                                                            <div class="idea-title">{{ $idea_item->idea }}</div>
                                                             <div class="idea-buttons">
-                                                                {{-- <form action="{{ route('stu_live_lesson') }}"
-                                                                    method="post" class="mb-2">
+                                                                <form action="{{ route('stu_live_lesson') }}" method="post" class="mb-2">
                                                                     @csrf
-                                                                    <input type="hidden" name="idea"
-                                                                        value="{{ $idea_item?->id }}">
+                                                                    <input type="hidden" name="idea" value="{{ $idea_item->id }}">
                                                                     <button class="btn btn-sm btn-video">
                                                                         <i class="icofont-video-alt me-1"></i> Video
                                                                     </button>
-                                                                </form> --}}
-                                                                @if (!empty($idea_item?->pdf))
-                                                                    <a target="_blank"
-                                                                        href="{{ route('stu_live_pdf', ['file_name' => $idea_item?->pdf]) }}"
-                                                                        class="btn btn-sm btn-pdf-view">
+                                                                </form>
+                                                                @if (!empty($idea_item->pdf))
+                                                                    <a target="_blank" href="{{ route('stu_live_pdf', ['file_name' => $idea_item->pdf]) }}"
+                                                                       class="btn btn-sm btn-pdf-view">
                                                                         <i class="fas fa-eye me-1"></i> View PDF
                                                                     </a>
-                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item?->pdf) }}"
-                                                                        download class="btn btn-sm btn-pdf-download">
+                                                                    <a href="{{ asset('files/lessons_pdf/' . $idea_item->pdf) }}"
+                                                                       download class="btn btn-sm btn-pdf-download">
                                                                         <i class="fas fa-download me-1"></i> Download
+                                                                    </a>
+                                                                @endif
+                                                                @if ($live_item->material_link)
+                                                                    <a href="{{ $live_item->material_link }}" class="btn btn-sm btn-video">
+                                                                        <i class="icofont-video-alt me-1"></i> Recorded Live
                                                                     </a>
                                                                 @endif
                                                             </div>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Quizzes Column -?->
+                                                <!-- Quizzes Column -->
                                                 <div class="quizzes-column">
                                                     <h4 class="mb-3" style="color: #CF202F;">Quizzes</h4>
-                                                    @foreach ($live_item?->lesson?->quizze as $quizze)
+                                                    @foreach ($live_item->lesson->quizze as $quizze)
                                                         <div class="quiz-card">
-                                                            <div class="quiz-title">Q{{ $loop?->iteration }}:
-                                                                {{ $quizze?->title }}</div>
-                                                            <a href="{{ route('stu_quizze', ['id' => $quizze?->id]) }}"
-                                                                class="btn btn-sm btn-quiz">
+                                                            <div class="quiz-title">Q{{ $loop->iteration }}: {{ $quizze->title }}</div>
+                                                            <a href="{{ route('stu_quizze', ['id' => $quizze->id]) }}"
+                                                               class="btn btn-sm btn-quiz">
                                                                 <i class="fa-solid fa-question me-1"></i> Take Quiz
                                                             </a>
                                                         </div>
@@ -1649,15 +1516,13 @@
                                     </div>
                                 @endif
                             @endforeach
+                        </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-        </div>
-        <!-- tution__section__end -?->
-
+        <!-- Tuition Section End -->
+    </main>
 
     <script>
         function toggleLesson(lessonId) {
@@ -1688,56 +1553,6 @@
             @endif
         });
     </script>
-
-        {{-- <script>
-            $(document).ready(function() {
-                console.log("first")
-                $(".accordion-button").click(function() {
-                    console.log("ssss", $(this).closest(".accordion-item").find(".accordion-collapse")
-                        .toggleClass("collapse"))
-                })
-                $("#iconList").click(function() {
-                    console.log("ssss")
-                    $(".list_item").toggleClass("d-none")
-                })
-            })
-
-            let lesson__content__main = document.querySelector('.lesson__content__main');
-            lesson__content__main.classList.remove('d-none');
-
-            //___________________________________________________________________________________________
-            let report_item = document.querySelectorAll('.report_item');
-            let report_val = document.querySelectorAll('.report_val');
-
-            for (let i = 0, end = report_item.length; i < end; i++) {
-                report_item[i].addEventListener('click', (e) => {
-                    for (let j = 0; j < end; j++) {
-                        if (report_item[j] == e.target) {
-                            let obj = report_val[j].value;
-                            obj = JSON.parse(obj);
-                            obj = {
-                                'list_id': obj.id,
-                                'lesson_video_id': {{ $idea_num }},
-                            }
-                            $(".list_item").toggleClass("d-none")
-
-                            $.ajax("{{ route('report_video_api') }}", {
-                                type: 'GET', // http method
-                                data: {
-                                    obj: obj
-                                }, // data to submit
-                                success: function(data) {
-                                    console.log(data);
-                                },
-                            });
-                        }
-                    }
-                })
-            }
-        </script> --}}
-
-
-    </main>
 @endsection
 
 @include('Student.inc.footer')
