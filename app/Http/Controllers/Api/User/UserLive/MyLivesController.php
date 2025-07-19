@@ -147,8 +147,16 @@ class MyLivesController extends Controller
         })
         ->get()
         ?->pluck('session')
-        ?->pluck('lesson')
-        ->unique('id');
+        ?->where('lesson_id', $lesson_id)
+        ?->values();
+        $material_link = null;
+        $ans_teacher_material = null;
+        if ($lives1->count() > 0) {
+            $material_link = $lives1[0]['material_link'];
+            $ans_teacher_material = url('storage/' . $lives1[0]['ans_teacher_material']);
+        }
+        $lives1 = $lives1?->pluck('lesson')
+        ?->unique('id')?->values(); 
         $lives2 = LiveLesson::
         where('user_id', auth()->user()->id)
         ->where('created_at', '>=', $new_date)
@@ -210,6 +218,8 @@ class MyLivesController extends Controller
         return response()->json([
             'ideas' => $ideas,
             'quizs' => $quizs,
+            'material_link' => $material_link,
+            'ans_teacher_material' => $ans_teacher_material,
         ]);
     }
 

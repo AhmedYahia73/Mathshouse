@@ -70,8 +70,7 @@
                             <input class="form-control" name="ans_teacher_material" type="file" placeholder="My Material" />
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" onclick="toggleForm({{ $item->id }})">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button> 
                         </div>
                     </form>
                 </div>
