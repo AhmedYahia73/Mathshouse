@@ -39,4 +39,15 @@ trait Image
             //throw $th;
         }
     }
+
+    public function delete_image_path($image){
+        try {
+            $imagePath = public_path($image); 
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }

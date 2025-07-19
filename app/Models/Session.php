@@ -35,6 +35,7 @@ class Session extends Model
         'repeat',
         'session_types',
         'teacher_material',
+        'ans_teacher_material',
     ];
     protected $appends = ['day'];
  

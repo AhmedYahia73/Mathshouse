@@ -28,13 +28,16 @@
         <th>Day</th>
         <th>From</th> 
         <th>To</th>
+        <th>Teacher Material</th>
         <th>Material</th>
+        <th>My Material</th>
         <th>Link</th>
     </thead>
 
     <tbody>
         @foreach( $sessions as $item )
-        @if ( $item->date . ' ' . $item->from >= now() )
+            @if ( ($item?->date > date('Y-m-d') || ($item?->date == date('Y-m-d') && $item?->to
+            >= date('H:i:s'))) )
         <tr>
             <td>{{$loop->iteration}}</td>
             <td>{{$item->name}}</td>
@@ -44,8 +47,35 @@
             <td>{{$item->to}}</td>
             <td>
                 <a href="{{ $item->teacher_material }}" class="btn btn-info">
+                    Teacher Material 
+                </a>
+            </td>
+            <td>
+                <a href="{{ $item->material_link }}" class="btn btn-info">
                     Material 
                 </a>
+            </td>
+            <td>
+                <button type="button" onclick="toggleForm({{ $item->id }})" class="btn btn-primary btn-edit btn-sm">
+                    my Material
+                </button>
+
+                <!-- Hidden form -->
+                <div id="form-section-{{ $item->id }}" style="display: none;">
+                    <form method="POST" action="{{ route('update_teacher_material_session') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" value="{{ $item->id }}" name="session_id" />
+                        <div class="my-3">
+                            <label>My material</label>
+                            <input class="form-control" name="ans_teacher_material" type="file" placeholder="My Material" />
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleForm({{ $item->id }})">Close</button>
+                        </div>
+                    </form>
+                </div>
+
             </td>
             <td>
                 <button class="btn btn-primary wallet_btn">
@@ -180,6 +210,13 @@
         upcoming_tbl.classList.add('d-none');
     });
 </script>
+<script>
+    function toggleForm(id) {
+        const formDiv = document.getElementById(`form-section-${id}`);
+        formDiv.style.display = formDiv.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+
 @endsection
 
 @include('Teacher.inc.footer')

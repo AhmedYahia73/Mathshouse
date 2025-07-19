@@ -628,6 +628,7 @@ Route::middleware(['auth','auth.teacher'])->prefix('Teacher')->group(function(){
 
     Route::controller(TLiveController::class)->prefix('Live')->group(function(){
         Route::get('/', 'index')->name('t_live');
+        Route::post('/upload_teacher_material', 'upload_teacher_material')->name('update_teacher_material_session');
     });
 });
 
