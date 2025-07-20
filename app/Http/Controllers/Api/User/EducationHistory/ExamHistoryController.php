@@ -9,7 +9,6 @@ use App\Models\ExamHistory;
 
 class ExamHistoryController extends Controller
 {
-
     public function view_dia(Request $request){
         $chapters = $this->chapters;
         $dia_history = ExamHistory::
@@ -39,7 +38,7 @@ class ExamHistoryController extends Controller
                 ->select('id', 'q_image', 'question', 'ans_type', 'mcq', 'g_ans'),
             ];
         });
-        			
+
         return response()->json([
             'dia_history' => $dia_history,
         ]);

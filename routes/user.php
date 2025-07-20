@@ -52,7 +52,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     
     Route::controller(MyPackageController::class)->prefix('my_packages')
     ->group(function(){
-        Route::get('/', 'my_packages'); 
+        Route::get('/lists', 'lists');
+        Route::get('/', 'my_packages');
         Route::post('payment/{id}', 'payment_package'); 
     });
 

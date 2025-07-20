@@ -90,6 +90,15 @@ class MyPackageController extends Controller
         ]);
     }
 
+    public function lists(){
+        $payment_methods = PaymentMethod::where('statue', 1)
+        ->get();
+
+        return response()->json([
+            'payment_methods' => $payment_methods
+        ]);
+    }
+
     public function payment_package( $id, Request $request){
         $validator = Validator::make($request->all(), [
             'payment_method_id' => 'required',
