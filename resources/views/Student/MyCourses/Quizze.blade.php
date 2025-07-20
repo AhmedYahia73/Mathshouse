@@ -440,7 +440,7 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
-                width: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -668,7 +668,7 @@
         box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
     }
 
-    .enterBtn{
+    .enterBtn {
         background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         color: white;
         border: none;
@@ -838,8 +838,7 @@
                                         </div>
                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
                                             class="addSl">/</button>
-                                        <button type="button"
-                                            class="enterBtn">Enter</button>
+                                        <button type="button" class="enterBtn">Enter</button>
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
@@ -903,41 +902,28 @@
             console.error('jQuery is not loaded!');
         }
 
-        // Handle form submission
+
+        // Modify your form submission handler
         $('#quizForm').on('submit', function(e) {
-            console.log('Form submit triggered');
+            // Get the displayed timer values
+            const hours = parseInt($('#hour').text());
+            const minutes = parseInt($('#minutes').text());
+            const seconds = parseInt($('#seconds').text());
 
-            // Get start time
-            const startTimeVal = $('#start_time').val();
-            console.log('Start time:', startTimeVal);
+            // Calculate total seconds
+            const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
-            if (!startTimeVal) {
-                console.error('Start time is missing or empty!');
-                return; // Prevent submission if start_time is missing
-            }
-
-            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
-            const endTime = Date.now();
-            const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
-
-            // Convert to HH:MM:SS
-            const hours = Math.floor(timeDiffSeconds / 3600);
-            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
-            const seconds = timeDiffSeconds % 60;
+            // Format as HH:MM:SS
             const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 
-            // Set time difference
-            console.log('Formatted time:', formattedTime);
+            // Set the time difference value
             $('#time_diff').val(formattedTime);
-            console.log('Time diff set:', $('#time_diff').val());
 
             // Allow form submission to proceed
+            return true;
         });
 
-        // Timer for display (unchanged)
-        var hoursLabel = $("#hour");
-        var minutesLabel = $("#minutes");
-        var secondsLabel = $("#seconds");
+        // Keep your existing timer display code
         var totalHours = 0;
         var totalMinutes = 0;
         var totalSeconds = 0;
@@ -952,7 +938,7 @@
                 secondsLabel.html(pad(0));
                 totalSeconds = 0;
                 totalMinutes++;
-                minutesLabel.html(pad(totalMinutes));
+                minutesLabel.html(pad(totalMinutes % 60));
 
                 if (totalMinutes >= 60) {
                     minutesLabel.html(pad(0));
@@ -968,6 +954,79 @@
             return valString.length < 2 ? "0" + valString : valString;
         }
 
+        // Handle form submission
+        // $('#quizForm').on('submit', function(e) {
+        //     console.log('Form submit triggered');
+
+        //     // Get start time
+        //     const startTimeVal = $('#start_time').val();
+        //     console.log('Start time:', startTimeVal);
+
+        //     if (!startTimeVal) {
+        //         console.error('Start time is missing or empty!');
+        //         return; // Prevent submission if start_time is missing
+        //     }
+
+        //     const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
+        //     const endTime = Date.now();
+        //     const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
+
+        //     // Convert to HH:MM:SS
+        //     const hours = Math.floor(timeDiffSeconds / 3600);
+        //     const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
+        //     const seconds = timeDiffSeconds % 60;
+        //     const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+        //     // Set time difference
+        //     console.log('Formatted time:', formattedTime);
+        //     $('#time_diff').val(formattedTime);
+        //     console.log('Time diff set:', $('#time_diff').val());
+
+        //     // Allow form submission to proceed
+        // });
+
+        // // Timer for display (unchanged)
+        // var hoursLabel = $("#hour");
+        // var minutesLabel = $("#minutes");
+        // var secondsLabel = $("#seconds");
+        // var totalHours = 0;
+        // var totalMinutes = 0;
+        // var totalSeconds = 0;
+
+        // setInterval(setTime, 1000);
+
+        // function setTime() {
+        //     ++totalSeconds;
+        //     secondsLabel.html(pad(totalSeconds % 60));
+
+        //     if (totalSeconds >= 60) {
+        //         secondsLabel.html(pad(0));
+        //         totalSeconds = 0;
+        //         totalMinutes++;
+        //         minutesLabel.html(pad(totalMinutes));
+
+        //         if (totalMinutes >= 60) {
+        //             minutesLabel.html(pad(0));
+        //             totalMinutes = 0;
+        //             totalHours++;
+        //             hoursLabel.html(pad(totalHours));
+        //         }
+        //     }
+        // }
+
+        // function pad(val) {
+        //     var valString = val + "";
+        //     return valString.length < 2 ? "0" + valString : valString;
+        // }
+
+
+
+
+
+
+
+
+        
 
         /* Send Timer */
         // $(".btn-sendQuizz").click(function() {
