@@ -92,7 +92,14 @@ class MyPackageController extends Controller
 
     public function lists(){
         $payment_methods = PaymentMethod::where('statue', 1)
-        ->get();
+        ->get()
+        ->map(function($item){
+            return [
+                'payment' => $item->payment,
+                'description' => $item->description,
+                'logo' => url('images/payment/' . $item->logo),
+            ];
+        });
 
         return response()->json([
             'payment_methods' => $payment_methods
