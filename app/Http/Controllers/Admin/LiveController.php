@@ -463,7 +463,14 @@ class LiveController extends Controller
         return view('Admin.Live.PrivateRequest', compact('users'));
     }
 
-    public function student_private_request( ){
+    public function student_private_request( ){      PrivateRequest::
+        $private_requests = PrivateRequest::
+        where('status', 'Pendding')
+        ->get();
+
+        return response()->json([
+            'private_requests' => $private_requests,
+        ]);
     }
 
     public function private_session_approve( $id ){

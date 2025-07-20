@@ -90,6 +90,34 @@ class MyPackageController extends Controller
         ]);
     }
 
+    public function lists(){
+        $payment_methods = PaymentMethod::where('statue', 1)
+        ->get()
+        ->map(function($item){
+            $payment_type = 'text';
+            if ($item->payment == 'vodafone cash') {
+                $payment_type = 'phone';
+            }
+            elseif ($item->payment == 'Instapay') {
+                $payment_type = 'link';
+            }
+            elseif ($item->payment == 'Paymob') {
+                $payment_type = 'integration';
+            }
+            return [ 
+                'id' => $item->id,
+                'payment' => $item->payment,
+                'payment_type' => $payment_type,
+                'description' => $item->description,
+                'logo' => url('images/payment/' . $item->logo),
+            ];
+        });
+
+        return response()->json([
+            'payment_methods' => $payment_methods
+        ]);
+    }
+
     public function payment_package( $id, Request $request){
         $validator = Validator::make($request->all(), [
             'payment_method_id' => 'required',

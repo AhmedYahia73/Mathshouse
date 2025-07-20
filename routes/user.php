@@ -52,7 +52,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     
     Route::controller(MyPackageController::class)->prefix('my_packages')
     ->group(function(){
-        Route::get('/', 'my_packages'); 
+        Route::get('/lists', 'lists');
+        Route::get('/', 'my_packages');
         Route::post('payment/{id}', 'payment_package'); 
     });
 
@@ -79,6 +80,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(DiaExamHistoryController::class)->prefix('education/diagnostic')
     ->group(function(){
         Route::get('/', 'view_dia'); 
-        Route::get('/pdf/{id}', 'dia_pdf'); 
+        Route::get('/pdf/{id}', 'dia_pdf');
+        Route::get('/dia_report/{id}', 'dia_report');
     });
 });
