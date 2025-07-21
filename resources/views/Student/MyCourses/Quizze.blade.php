@@ -1,9 +1,6 @@
+
 @php
     $page_name = 'Quizze';
-    // $quizze->question;
-    // "Mcq" => $item->mcq
-    // "Grid" => $item->g_ans
-    // api_quizze
 @endphp
 @section('title', 'Quizze')
 @include('success')
@@ -28,13 +25,11 @@
         justify-content: space-between;
         border-bottom: 3px solid #c9c9c9;
         padding-bottom: 10px;
-        /* background: #000; */
     }
 
     .quizzes-page .type-quizzes {
         position: relative;
         width: calc(100% / 3);
-        /* background: orange; */
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -78,7 +73,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* row-gap: 10px */
     }
 
     .quizzes-page .timer-quizzes div:nth-child(1) {
@@ -103,17 +97,10 @@
         color: #fff;
     }
 
-
     .quizzes-page .options {
         position: relative;
         width: 100%;
-        /* display: flex; */
-        /* align-items: center; */
-        /* justify-content: flex-end; */
-        /* margin-right: 100px; */
     }
-
-    /* style drop down */
 
     .btn-dropdown {
         position: relative;
@@ -124,13 +111,11 @@
         cursor: pointer;
         background: none;
         border: none;
-        /* margin-right: 100px; */
     }
 
     .options-list {
         position: absolute;
         top: 60%;
-        /* left: 22%; */
         width: 100%;
         margin: 0;
         padding: 1px;
@@ -164,7 +149,6 @@
         border-radius: 1.1rem;
     }
 
-    /* Main */
     main {
         width: 100%;
         min-height: 80vh;
@@ -201,16 +185,13 @@
         padding: 10px;
     }
 
-    /* Media query for small screens (e.g., max-width: 768px) */
     @media (max-width: 768px) {
         main .main-wrapper .question {
             flex-direction: column;
             row-gap: 10px;
-            /* Optional: Add spacing between stacked items */
         }
     }
 
-    /* Question Side */
     main .main-wrapper .question .question-side {
         width: 100%;
         display: flex;
@@ -218,19 +199,16 @@
         align-items: center;
     }
 
-    /* width */
     main .main-wrapper .question .question-side::-webkit-scrollbar {
         width: 8px;
         border-radius: 10px;
     }
 
-    /* Track */
     main .main-wrapper .question .question-side::-webkit-scrollbar-track {
         background: grey;
         border-radius: 10px;
     }
 
-    /* Handle */
     main .main-wrapper .question .question-side::-webkit-scrollbar-thumb {
         background: rgb(226, 226, 226);
         border-radius: 10px;
@@ -275,14 +253,11 @@
         border-radius: 10px;
     }
 
-    /* Answer Side */
     main .main-wrapper .question .answer-side {
         width: 7%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* background: #20e690; */
-        /* overflow-y: scroll */
         justify-content: center;
     }
 
@@ -291,24 +266,6 @@
             width: 100%;
         }
     }
-
-    /* width */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar {
-        width: 8px;
-        border-radius: 10px;
-    } */
-
-    /* Track */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar-track {
-        background: grey;
-        border-radius: 10px;
-    } */
-
-    /* Handle */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar-thumb {
-        background: rgb(226, 226, 226);
-        border-radius: 10px;
-    } */
 
     main .main-wrapper .question .answer-side .sup-question {
         display: flex;
@@ -336,7 +293,6 @@
         text-align: start;
     }
 
-
     main .main-wrapper .question .answer-side .answer-chosen {
         width: 100%;
         margin-top: 30px;
@@ -346,7 +302,6 @@
         align-items: center;
         padding: 5px;
     }
-
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen {
         width: 80%;
@@ -358,12 +313,10 @@
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
         border-right: 0;
-        /* border-radius: 20px; */
         column-gap: 20px;
         padding: 3px 8px;
         cursor: pointer;
         transition: border 0.3s ease-in;
-        /* box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%); */
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen:hover {
@@ -394,7 +347,6 @@
         cursor: pointer;
     }
 
-
     main .main-wrapper .question .answer-side .answer-setValue {
         width: 100%;
         display: flex;
@@ -402,8 +354,6 @@
         align-items: flex-start;
         row-gap: 10px;
         margin-top: 40px;
-        /* background: red; */
-
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue {
@@ -424,10 +374,7 @@
     main .main-wrapper .question .answer-side .answer-setValue .input_val {
         width: 100%;
         padding: 1px;
-        /* border-radius: 10px; */
-        /* border: 2px solid #cdcdcd; */
         border-radius: 20px;
-        /* padding-bottom: 15px; */
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val>input {
@@ -440,7 +387,7 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
-                width: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -457,14 +404,12 @@
     main .main-wrapper .question .answer-side .answer-setValue .section-value input {
         width: 100%;
         border: none;
-        /* padding: 10px; */
         background: none;
         font-size: 1rem;
         text-align: center;
         border-radius: 20px;
     }
 
-    /* Section Pagination  */
     main .paginationn {
         position: relative;
         display: flex;
@@ -519,50 +464,8 @@
         cursor: pointer;
     }
 
-    /* .activee {
-        background: #0ab1ce;
-    } */
-
-    .disablee {
-        background: #ccc;
-    }
-
-    /* .btn-sendQuizz {
-        position: absolute;
-        right: -45%;
-        top: 9%;
-        border: none;
-        cursor: pointer;
-        font-weight: 500;
-        padding: 5px 30px;
-        font-size: 1.2rem;
-        border-radius: 45px;
-        transition: 0.3s ease;
-        background: #0ab1ce;
-        color: #fff !important;
-        transition: all 0.3s ease;
-    }
-
-    .btn-sendQuizz:hover {
-        background: cadetblue;
-    } */
-
-    /* .addSl {
-        font-size: 2rem;
-        border: none;
-        background: transparent;
-        margin-left: 100px;
-        font-weight: 500;
-        border: 2px solid #2222;
-        padding: 1px 20px;
-        border-radius: 15px;
-    } */
-
-    /* ///Section Pagination  */
-
     .answer-setValue {
         margin: 20px 0;
-        /* padding: 15px; */
         border: 1px solid #ddd;
         border-radius: 5px;
     }
@@ -583,8 +486,6 @@
         padding: 8px 12px;
         margin-left: 5px;
         background: #e53e3e;
-        /* color: white;
-    border: none; */
         border-radius: 4px;
         cursor: pointer;
     }
@@ -593,8 +494,6 @@
         background: #f5f5f5;
         font-weight: bold;
     }
-
-    /* ///Section Pagination  */
 
     .pagination-container {
         display: flex;
@@ -668,7 +567,7 @@
         box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
     }
 
-    .enterBtn{
+    .enterBtn {
         background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         color: white;
         border: none;
@@ -689,7 +588,6 @@
         display: none;
     }
 
-    /* Animation for page transitions */
     .question {
         transition: opacity 0.3s ease;
     }
@@ -709,10 +607,8 @@
 </style>
 @include('Student.inc.header')
 
-
 <div class="quizzes-page">
     <header>
-        {{-- Type section --}}
         <div class="type-quizzes">
             <span>Math</span>
             <span>Directions<i class="fa-solid fa-angle-up angle-show-disc rotateEle"></i></span>
@@ -722,11 +618,9 @@
                 nesciunt.
             </p>
         </div>
-        {{-- Timer section --}}
         <div class="timer-quizzes">
-            {{-- show section --}}
             <div class="show-timer">
-                <div class="timer">
+                <div class="time">
                     <span class="hr" id="hour">00</span>
                     <span>:</span>
                     <span class="min" id="minutes">00</span>
@@ -735,28 +629,12 @@
                 </div>
                 <button class="hide-btn">Hide</button>
             </div>
-            {{-- hide section --}}
             <div class="hide-timer d-none">
                 <div class="icon-timer"><i class="fa-regular fa-clock" style="padding-bottom: 5px;margin-top: 5px;"></i>
                 </div>
                 <button class="show-btn">Show</button>
             </div>
         </div>
-        {{-- Options section --}}
-        {{-- <div class="options">
-            <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
-            <div class="options-list d-none">
-                <ul class="options-tx">
-                    @foreach ($reports as $report)
-                        <li>
-                            <div class="report_item">
-                                {{ $report->list }}
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div> --}}
     </header>
     <main>
         <form action="{{ route('quizze_ans') }}" method="POST" style="width: 100%;" id="quizForm">
@@ -764,7 +642,7 @@
             <!-- Hidden input for start time (Unix timestamp) -->
             <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
             <!-- Hidden input for time difference in HH:MM:SS -->
-            <input type="hidden" name="time" id="time_diff">
+            <input type="hidden" name="time" id="time">
             <div class="main-wrapper">
                 @foreach ($quizze->question as $question)
                     <div class="question">
@@ -800,14 +678,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            {{-- Supp Question --}}
-
-                            {{-- Input to set and send value about answer question to array --}}
-                            {{-- <input type="hidden" id="timer_val" name="timer_val" /> --}}
                             <input type="hidden" name="quizze" value="{{ $quizze }}">
-
-                            {{-- Answer chosen --}}
-
                             @php
                                 $arr = ['A', 'B', 'C', 'D'];
                                 $iter = $loop->iteration;
@@ -828,7 +699,6 @@
                             @else
                                 <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
                                     value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                {{-- Answer Set Value --}}
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
@@ -838,22 +708,19 @@
                                         </div>
                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
                                             class="addSl">/</button>
-                                        <button type="button"
-                                            class="enterBtn">Enter</button>
+                                        <button type="button" class="enterBtn">Enter</button>
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
                                         <input type="number" id="preview_value" readonly name="q_grid_ans[]"
-                                            value="00000"> <!-- This will show the preview -->
+                                            value="00000">
                                     </div>
                                 </div>
                             @endif
-
                         </div>
                     </div>
                 @endforeach
             </div>
-            {{-- end Section Question --}}
             <div class="pagination-container">
                 <ul class="pagination">
                     <button class="btn-sendQuizz d-none" type="submit">Submit Quiz</button>
@@ -862,8 +729,6 @@
         </form>
     </main>
 </div>
-
-
 
 @include('Student.inc.footer')
 
@@ -895,99 +760,107 @@
 </script>
 <script>
     $(document).ready(function() {
-        /* Timer question */
-        //edit here for time
-        // Handle form submission
-        // Ensure jQuery is loaded
-        if (typeof $ === 'undefined') {
-            console.error('jQuery is not loaded!');
+        // Validate and set start_time
+        const startTimeVal = $('#start_time').val();
+        const currentTimeSeconds = Math.floor(Date.now() / 1000);
+        if (!startTimeVal || parseInt(startTimeVal) > currentTimeSeconds) {
+            console.warn('Invalid or future start_time, setting to current time');
+            $('#start_time').val(currentTimeSeconds);
         }
 
-        // Handle form submission
-        $('#quizForm').on('submit', function(e) {
-            console.log('Form submit triggered');
-
-            // Get start time
-            const startTimeVal = $('#start_time').val();
-            console.log('Start time:', startTimeVal);
-
-            if (!startTimeVal) {
-                console.error('Start time is missing or empty!');
-                return; // Prevent submission if start_time is missing
-            }
-
-            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
-            const endTime = Date.now();
-            const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
-
-            // Convert to HH:MM:SS
-            const hours = Math.floor(timeDiffSeconds / 3600);
-            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
-            const seconds = timeDiffSeconds % 60;
-            const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-
-            // Set time difference
-            console.log('Formatted time:', formattedTime);
-            $('#time_diff').val(formattedTime);
-            console.log('Time diff set:', $('#time_diff').val());
-
-            // Allow form submission to proceed
-        });
-
-        // Timer for display (unchanged)
+        // Display timer
         var hoursLabel = $("#hour");
         var minutesLabel = $("#minutes");
         var secondsLabel = $("#seconds");
-        var totalHours = 0;
-        var totalMinutes = 0;
-        var totalSeconds = 0;
-
-        setInterval(setTime, 1000);
+        var startTime = parseInt($('#start_time').val()) * 1000;
 
         function setTime() {
-            ++totalSeconds;
-            secondsLabel.html(pad(totalSeconds % 60));
+            const currentTime = Date.now();
+            let totalSeconds = Math.floor((currentTime - startTime) / 1000);
 
-            if (totalSeconds >= 60) {
-                secondsLabel.html(pad(0));
+            if (totalSeconds < 0) {
                 totalSeconds = 0;
-                totalMinutes++;
-                minutesLabel.html(pad(totalMinutes));
-
-                if (totalMinutes >= 60) {
-                    minutesLabel.html(pad(0));
-                    totalMinutes = 0;
-                    totalHours++;
-                    hoursLabel.html(pad(totalHours));
-                }
             }
+
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            hoursLabel.html(pad(hours));
+            minutesLabel.html(pad(minutes));
+            secondsLabel.html(pad(seconds));
         }
+
+        setInterval(setTime, 1000);
 
         function pad(val) {
             var valString = val + "";
             return valString.length < 2 ? "0" + valString : valString;
         }
 
+        // Form submission
+        $('#quizForm').on('submit', function(e) {
+            console.log('Form submit triggered');
 
-        /* Send Timer */
-        // $(".btn-sendQuizz").click(function() {
-        //     var timer_val = $("#timer_val").val();
-        //     $.ajax({
-        //         url: "{{ route('api_timer') }}",
-        //         type: "GET",
-        //         data: {
-        //             timer_val,
-        //         },
-        //         success: function(data) {
-        //             console.log("data", data)
-        //         }
-        //     })
-        // })
+            const startTimeVal = $('#start_time').val();
+            console.log('Start time:', startTimeVal);
 
-        /* Send Report about the question */
+            if (!startTimeVal || isNaN(startTimeVal)) {
+                console.error('Invalid start time');
+                $('#time').val('00:00:00');
+                return;
+            }
+
+            const startTime = parseInt(startTimeVal) * 1000;
+            const endTime = Date.now();
+            let timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
+
+            console.log('Start time (ms):', startTime);
+            console.log('End time (ms):', endTime);
+            console.log('Time difference (s):', timeDiffSeconds);
+
+            if (timeDiffSeconds < 0) {
+                console.warn('Negative time difference detected, setting to 0');
+                timeDiffSeconds = 0;
+            }
+
+            const hours = Math.floor(timeDiffSeconds / 3600);
+            const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
+            const seconds = timeDiffSeconds % 60;
+            const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            console.log('Formatted time:', formattedTime);
+            $('#time').val(formattedTime);
+        });
+
+        // MCQ selection
+        let q_answers = document.querySelectorAll('.q_answers');
+        let mcq_id = document.querySelectorAll('.mcq_id');
+        let chose_mcq = document.querySelectorAll('.chose_mcq');
+        let ans_btn = document.querySelectorAll('.ans_btn');
+
+        for (let i = 0, end = chose_mcq.length; i < end; i++) {
+            chose_mcq[i].addEventListener('click', (e) => {
+                for (let j = 0; j < end; j++) {
+                    if (chose_mcq[j] == e.target || chose_mcq[j] == e.target.parentElement) {
+                        let question_ans = chose_mcq[j].parentElement.children[0];
+                        let question_id = question_ans.value;
+                        question_id = JSON.parse(question_id);
+                        question_id = question_id.q_id;
+                        let mcq_id = chose_mcq[j].children[0].value;
+                        let answer = ans_btn[j].innerText;
+                        question_ans.value = JSON.stringify({
+                            'q_id': question_id,
+                            'mcq_id': mcq_id,
+                            'answer': answer
+                        });
+                    }
+                }
+            });
+        }
+
+        // Report question
         $(".report_item").on("click", function() {
-            console.log("Report id", $(this).find(".reportID").val())
-            console.log("ques id", $(this).closest(".question").find(".questionID").val())
             $.ajax({
                 url: "{{ route('api_report_question') }}",
                 type: "GET",
@@ -996,147 +869,103 @@
                     list_id: $(this).find(".reportID").val(),
                 },
                 success: function(data) {
-                    console.log(data)
+                    console.log(data);
                 }
-            })
-        })
+            });
+        });
 
-        /* Show Discraption */
+        // Show/hide description
         $(".angle-show-disc").click(function() {
             $('.disc-ruels-quizzes').toggleClass("d-none");
             $('.angle-show-disc').toggleClass("rotateEle");
         });
-        /* Hide Timer */
+
+        // Hide/show timer
         $(".hide-btn").click(function() {
             $(".show-timer").addClass("d-none");
             $(".hide-timer").removeClass("d-none");
         });
-        /* Show Timer */
+
         $(".show-btn").click(function() {
             $(".hide-timer").addClass("d-none");
             $(".show-timer").removeClass("d-none");
         });
-        /* Show dropDown */
+
+        // Show/hide dropdown
         $(".btn-dropdown").click(function() {
             $('.options-list').toggleClass("d-none");
         });
-        /* Hide dropDown */
+
         $(".options-list li").click(function() {
             $(".options-list").toggleClass("d-none");
         });
 
-        /* /////////////// */
-        /* Rewrite value in inpit */
-        /* /////////////// */
-        $("#input_val30").keyup(() => {
-            var answerValue = $("#input_val30").val()
-            $("#section-value30").val(answerValue)
-        })
-        // Event listener for the '/' button
-        // Add slash button - using event delegation in case elements are dynamic
-        $(document).ready(function() {
-            // Event handlers for fraction input
-            $(document).on('click', '.addSl', function() {
-                // Find the closest answer-setValue container first
-                let container = $(this).closest('.answer-setValue');
-                // Then find the gridVal input within that container
-                let input = container.find('.gridVal');
-                let currentVal = input.val();
+        // Fraction input handling
+        $(document).on('click', '.addSl', function() {
+            let container = $(this).closest('.answer-setValue');
+            let input = container.find('.gridVal');
+            let currentVal = input.val();
 
-                // Only add slash if not already present and input isn't empty
-                if (currentVal && !currentVal.includes('/')) {
-                    input.val(currentVal + '/');
-                }
-            });
-
-            $(document).on('click', '.enterBtn', calculateFraction);
-            $(document).on('keypress', '.gridVal', function(e) {
-                if (e.which === 13) calculateFraction();
-            });
-
-            function calculateFraction() {
-                // Get the container based on which button was clicked
-                const container = $(this).closest('.answer-setValue');
-                const input = container.find('.gridVal').val().trim();
-                const preview = container.find('#preview_value');
-
-                if (!input) {
-                    preview.val("0");
-                    return;
-                }
-
-                if (input.includes('/')) {
-                    const parts = input.split('/');
-                    if (parts.length === 2) {
-                        const numerator = parseFloat(parts[0]);
-                        const denominator = parseFloat(parts[1]);
-
-                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-                            const result = numerator / denominator;
-                            preview.val(formatResult(result));
-                            return;
-                        }
-                    }
-                    preview.val("Invalid fraction");
-                    return;
-                }
-
-                const num = parseFloat(input);
-                preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
-            }
-
-            // Modify the event handlers to pass the context
-            $(document).on('click', '.enterBtn', function() {
-                calculateFraction.call(this); // Pass the clicked element as context
-            });
-
-            $(document).on('keypress', '.gridVal', function(e) {
-                if (e.which === 13) {
-                    calculateFraction.call(this); // Pass the input element as context
-                }
-            });
-
-            function formatResult(value) {
-                // Round to 2 decimal places first
-                const rounded = Math.round(value * 100) / 100;
-
-                // Check if it's a whole number after rounding
-                if (rounded % 1 === 0) {
-                    return rounded.toString(); // Return as integer string
-                }
-                return rounded.toFixed(2); // Return with 2 decimal places
+            if (currentVal && !currentVal.includes('/')) {
+                input.val(currentVal + '/');
             }
         });
 
-        /* /////////////// */
-        /* But border out side the answer  */
-        /* /////////////// */
+        $(document).on('click', '.enterBtn', calculateFraction);
+        $(document).on('keypress', '.gridVal', function(e) {
+            if (e.which === 13) calculateFraction.call(this);
+        });
 
+        function calculateFraction() {
+            const container = $(this).closest('.answer-setValue');
+            const input = container.find('.gridVal').val().trim();
+            const preview = container.find('#preview_value');
+
+            if (!input) {
+                preview.val("0");
+                return;
+            }
+
+            if (input.includes('/')) {
+                const parts = input.split('/');
+                if (parts.length === 2) {
+                    const numerator = parseFloat(parts[0]);
+                    const denominator = parseFloat(parts[1]);
+
+                    if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                        const result = numerator / denominator;
+                        preview.val(formatResult(result));
+                        return;
+                    }
+                }
+                preview.val("Invalid fraction");
+        return;
+            }
+
+            const num = parseFloat(input);
+            preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
+        }
+
+        function formatResult(value) {
+            const rounded = Math.round(value * 100) / 100;
+            return rounded % 1 === 0 ? rounded.toString() : rounded.toFixed(2);
+        }
+
+        // Answer selection border
         $(".chosen").each((elePar, valPar) => {
-
             var staPar = elePar + 1;
-            console.log("elePar", elePar)
-            console.log("staPar", staPar)
-            console.log("valPar", valPar)
             var elementPar = `.${$(valPar).attr("class").slice(0, 6) + staPar}`;
 
-            console.log(elementPar)
-
             $(elementPar).each((ele, val) => {
-                console.log("ele", ele)
-                console.log("val", val)
                 var element = `#${$(val).attr("id")}`;
-                console.log(element)
                 $(element).click(() => {
                     $(elementPar).removeClass("selectedd");
                     $(element).addClass("selectedd");
-                })
-            })
-        })
+                });
+            });
+        });
 
-        /* /////////////// */
-        /* Handel pagination question */
-        /* /////////////// */
+        // Pagination
         function getPageList(totalPages, currentPage, paginationSize) {
             if (totalPages < 1) return [];
             if (currentPage < 1) currentPage = 1;
@@ -1148,8 +977,8 @@
 
             if (totalPages <= paginationSize) {
                 for (let i = 1; i <= totalPages; i++) {
-                    pages.push(i);
-                }
+                pages.push(i);
+            }
                 return pages;
             }
 
@@ -1182,103 +1011,88 @@
             return pages;
         }
 
-        $(function() {
-            var numberOfItems = $(".question").length;
-            var limitPerPage = 1;
-            var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = Math.ceil(numberOfItems / 3);
-            var currentPage;
+        var numberOfItems = $(".question").length;
+        var limitPerPage = 1;
+        var totalPages = Math.ceil(numberOfItems / limitPerPage);
+        var paginationSize = Math.ceil(numberOfItems / 3);
+        var currentPage;
 
-            function showPage(whichPage) {
-                if (whichPage < 1 || whichPage > totalPages) return false;
+        function showPage(whichPage) {
+            if (whichPage < 1 || whichPage > totalPages) return false;
 
-                // Hide current question with animation
-                $(".question.active").removeClass("active");
+            $(".question.active").removeClass("active");
 
-                if (whichPage == totalPages) {
-                    $(".btn-sendQuizz").removeClass("d-none");
-                } else {
-                    $(".btn-sendQuizz").addClass("d-none");
-                }
-
-                currentPage = whichPage;
-
-                // Show new question with animation
-                $(".question").hide().slice((currentPage - 1) * limitPerPage,
-                    currentPage * limitPerPage).addClass("active").show();
-
-                $(".pagination li").slice(1, -1).remove();
-
-                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                    $("<li>").addClass("page-item").addClass("current-page")
-                        .toggleClass("activee", item === currentPage).append($("<a>")
-                            .addClass("page-link").attr({
-                                href: "javascript:void(0)",
-                                "aria-label": item ? `Page ${item}` : "More pages"
-                            }).text(item || "...")).insertBefore(".next-page");
-                });
-
-                $(".previous-page").toggleClass("disabled", currentPage === 1);
-                $(".next-page").toggleClass("disabled", currentPage === totalPages);
-                return true;
+            if (whichPage == totalPages) {
+                $(".btn-sendQuizz").removeClass("d-none");
+            } else {
+                $(".btn-sendQuizz").addClass("d-none");
             }
 
-            // Initialize pagination
-            $(".pagination").append(
-                $("<li>").addClass("page-item").addClass("previous-page").append(
-                    $("<a>").addClass("page-link").attr({
-                        href: "javascript:void(0)",
-                        "aria-label": "Previous"
-                    }).html(
-                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
-                    )
-                ),
-                $("<li>").addClass("page-item").addClass("next-page").append(
-                    $("<a>").addClass("page-link").attr({
-                        href: "javascript:void(0)",
-                        "aria-label": "Next"
-                    }).html(
-                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
-                    )
+            currentPage = whichPage;
+
+            $(".question").hide().slice((currentPage - 1) * limitPerPage,
+                currentPage * limitPerPage).addClass("active").show();
+
+            $(".pagination li").slice(1, -1).remove();
+
+            getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                $("<li>").addClass("page-item").addClass("current-page")
+                    .toggleClass("activee", item === currentPage).append($("<a>")
+                        .addClass("page-link").attr({
+                            href: "javascript:void(0)",
+                            "aria-label": item ? `Page ${item}` : "More pages"
+                        }).text(item || "...")).insertBefore(".next-page");
+            });
+
+            $(".previous-page").toggleClass("disabled", currentPage === 1);
+            $(".next-page").toggleClass("disabled", currentPage === totalPages);
+            return true;
+        }
+
+        // Initialize pagination
+        $(".pagination").append(
+            $("<li>").addClass("page-item").addClass("previous-page").append(
+                $("<a>").addClass("page-link").attr({
+                    href: "javascript:void(0)",
+                    "aria-label": "Previous"
+                }).html(
+                    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
                 )
-            );
+            ),
+            $("<li>").addClass("page-item").addClass("next-page").append(
+                $("<a>").addClass("page-link").attr({
+                    href: "javascript:void(0)",
+                    "aria-label": "Next"
+                }).html(
+                    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                )
+            )
+        );
 
-            $(".main-wrapper").show();
-            showPage(1);
+        $(".main-wrapper").show();
+        showPage(1);
 
-            // Event handlers
-            // Inside your $(function() { ... }); block, modify the click handler for pagination items:
-
-            $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
-                const pageText = $(this).text();
-                if (pageText === '...') {
-                    // Get the current page list
-                    const pages = getPageList(totalPages, currentPage, paginationSize);
-                    // Find the index of the clicked dots
-                    const dotsIndex = pages.indexOf('...');
-
-                    // Determine if it's the left or right dots
-                    if (dotsIndex === 1) { // Left dots (before first page)
-                        // Show pages around the first page
-                        return showPage(Math.floor(currentPage / 2));
-                    } else { // Right dots (before last page)
-                        // Show pages around the last page
-                        return showPage(Math.floor((currentPage + totalPages) / 2));
-                    }
+        $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
+            const pageText = $(this).text();
+            if (pageText === '...') {
+                const pages = getPageList(totalPages, currentPage, paginationSize);
+                const dotsIndex = pages.indexOf('...');
+                if (dotsIndex === 1) {
+                    return showPage(Math.floor(currentPage / 2));
                 } else {
-                    return showPage(+pageText);
+                    return showPage(Math.floor((currentPage + totalPages) / 2));
                 }
-            });
+            } else {
+                return showPage(+pageText);
+            }
+        });
 
-            $(".next-page").on("click", function() {
-                return showPage(currentPage + 1);
-            });
+        $(".next-page").on("click", function() {
+            return showPage(currentPage + 1);
+        });
 
-            $(".previous-page").on("click", function() {
-                return showPage(currentPage - 1);
-            });
-
-
+        $(".previous-page").on("click", function() {
+            return showPage(currentPage - 1);
         });
     });
 </script>
