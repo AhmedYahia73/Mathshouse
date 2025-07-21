@@ -252,8 +252,7 @@ class Stu_MyCourseController extends Controller
         $quizze_id = json_decode($req->quizze)->id;
         $quizze = quizze::where('id', $quizze_id)
         ->first();
-        
-        
+
         // Parse quiz time
         $exam_time_parts = explode(':', empty($quizze->time) || $quizze->time == null? '00:00:00' : $quizze->time);
         $e_hours = isset($exam_time_parts[0]) ? intval($exam_time_parts[0]) : 0;

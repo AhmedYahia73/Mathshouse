@@ -75,5 +75,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(PrivateSession::class)->prefix('live/private')
     ->group(function(){
         Route::get('/', 'view');
+        Route::get('/requests', 'private_requests');
+        Route::put('/request_status/{id}', 'private_request_status');
     });
 });
