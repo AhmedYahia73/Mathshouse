@@ -83,6 +83,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
 
     Route::controller(CancelationController::class)->prefix('live/cancelation')
     ->group(function(){
-        Route::get('/', 'cancelation'); 
+        Route::get('/', 'cancelation');
+        Route::post('/cancelation_filter', 'cancelation_filter');
+        Route::put('/cancelation_status/{id}', 'cancelation_status');
     });
 });
