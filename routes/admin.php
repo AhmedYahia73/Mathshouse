@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\Login\AdminLoginController;
 use App\Http\Controllers\Api\Admin\Teacher\TeacherController;
 use App\Http\Controllers\Api\Admin\Student\StudentController;
+
 use App\Http\Controllers\Api\Admin\Live\SessionController;
 use App\Http\Controllers\Api\Admin\Live\GroupController;
 use App\Http\Controllers\Api\Admin\Live\AcademicController;
 use App\Http\Controllers\Api\Admin\Live\PrivateSession;
+use App\Http\Controllers\Api\Admin\Live\CancelationController;
 
 // Parents 
 // Students +++++
@@ -77,5 +79,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/', 'view');
         Route::get('/requests', 'private_requests');
         Route::put('/request_status/{id}', 'private_request_status');
+    });
+
+    Route::controller(CancelationController::class)->prefix('live/cancelation')
+    ->group(function(){
+        Route::get('/', 'cancelation'); 
     });
 });

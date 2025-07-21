@@ -96,10 +96,10 @@
             {{$item->time}}
           </td>
           <td>
-            {{$item->session->lesson->chapter->course->category->cate_name}}
+            {{$item?->session?->lesson?->chapter?->course?->category?->cate_name ?? $item?->session?->course?->category?->cate_name}}
           </td>
           <td>
-            {{$item->session->lesson->chapter->course->course_name}}
+            {{$item?->session?->lesson?->chapter?->course?->course_name ?? $item?->session?->course?->course_name}}
           </td>
           <td>
             {{$item->session->type}}
