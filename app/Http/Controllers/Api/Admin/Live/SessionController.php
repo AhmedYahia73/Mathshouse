@@ -83,7 +83,8 @@ class SessionController extends Controller
         ->where('position', 'student')
         ->get();
         $groups = $this->session_group->get();
-        $types = ['explanation','re_explanation', 'mistakes'];
+        $session_types = ['explanation','re_explanation', 'mistakes'];
+        $types = ['group','private', 'session'];
 
         return response()->json([ 
             'categories' => $categories,
