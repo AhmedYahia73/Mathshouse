@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(SessionController::class)->prefix('live/session')
     ->group(function(){
         Route::get('/', 'view');
+        Route::get('/lists', 'lists');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
         Route::delete('/delete/{id}', 'delete');

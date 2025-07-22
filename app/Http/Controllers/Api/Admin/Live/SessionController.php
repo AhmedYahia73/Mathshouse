@@ -64,7 +64,14 @@ class SessionController extends Controller
                 'group' => $item?->group?->name,
                 'users' => $item?->users?->select('id', 'nick_name')
             ];
-        });
+        }); 
+
+        return response()->json([
+            'sessions' => $sessions, 
+        ]);
+    }
+
+    public function lists(Request $request){  
         $categories = $this->category->get();
         $courses = $this->course->get();
         $chapters = $this->chapter->get();
@@ -78,8 +85,7 @@ class SessionController extends Controller
         $groups = $this->session_group->get();
         $types = ['explanation','re_explanation', 'mistakes'];
 
-        return response()->json([
-            'sessions' => $sessions,
+        return response()->json([ 
             'categories' => $categories,
             'courses' => $courses,
             'chapters' => $chapters,
