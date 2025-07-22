@@ -65,60 +65,13 @@ class SessionController extends Controller
                 'users' => $item?->users?->select('id', 'nick_name')
             ];
         });
-        $categories = $this->category->get();
-        $courses = $this->course->get();
-        $chapters = $this->chapter->get();
-        $lessons = $this->lesson->get();
-        $teachers = $this->user
-        ->where('position', 'teacher')
-        ->get();
-        $users = $this->user
-        ->where('position', 'student')
-        ->get();
-        $groups = $this->session_group->get();
-        $types = ['explanation','re_explanation', 'mistakes'];
 
         return response()->json([
             'sessions' => $sessions,
-            'categories' => $categories,
-            'courses' => $courses,
-            'chapters' => $chapters,
-            'lessons' => $lessons,
-            'teachers' => $teachers,
-            'users' => $users,
-            'groups' => $groups,
-            'types' => $types,
         ]);
     }
 
-    public function lists(Request $request){ 
-        $sessions = $this->session
-        ->orderByDesc('id')
-        ->get()
-        ->map(function($item){ 
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'date' => $item->date,
-                'link' => $item->link,
-                'material_link' => $item->material_link,
-                'from' => $item->from,
-                'to' => $item->to, 
-                'type' => $item->type, 
-                'access_dayes' => $item->access_dayes,
-                'repeat' => $item->repeat,
-                'session_types' => $item->session_types,
-                'lesson_id' => $item->lesson_id,
-                'teacher_id' => $item->teacher_id,
-                'group_id' => $item->group_id,
-                'course_id' => $item->course_id, 
-                'course' => $item?->course?->course_name,
-                'lesson' => $item?->session_lesson?->lesson_name,
-                'teacher' => $item?->teacher?->nick_name,
-                'group' => $item?->group?->name,
-                'users' => $item?->users?->select('id', 'nick_name')
-            ];
-        });
+    public function lists(Request $request){  
         $categories = $this->category->get();
         $courses = $this->course->get();
         $chapters = $this->chapter->get();
@@ -132,8 +85,7 @@ class SessionController extends Controller
         $groups = $this->session_group->get();
         $types = ['explanation','re_explanation', 'mistakes'];
 
-        return response()->json([
-            'sessions' => $sessions,
+        return response()->json([ 
             'categories' => $categories,
             'courses' => $courses,
             'chapters' => $chapters,
