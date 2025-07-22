@@ -85,7 +85,7 @@
 
         <tbody>
             @foreach( $sessions as $item )
-            @if ( $item->date >= now() )
+            @if ( Carbon\Carbon::parse($item->date . ' ' . $item->to) >= now() )
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$item->teacher->nick_name}}</td>
@@ -170,7 +170,7 @@
 
         <tbody>
             @foreach( $sessions as $item )
-            @if ( $item->date <= now() )
+            @if ( Carbon\Carbon::parse($item->date . ' ' . $item->to) <= now() )
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$item?->teacher?->nick_name}}</td>
