@@ -61,7 +61,8 @@ class SessionController extends Controller
                 'course' => $item?->course?->course_name,
                 'lesson' => $item?->session_lesson?->lesson_name,
                 'teacher' => $item?->teacher?->nick_name,
-                'group' => $item?->group?->name, 
+                'group' => $item?->group?->name,
+                'users' => $item?->users?->select('id', 'nick_name')
             ];
         });
         $categories = $this->category->get();
@@ -98,13 +99,15 @@ class SessionController extends Controller
             'material_link' => ['required'],
             'from' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
             'to' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/'], 
-            'lesson_id' => ['required', 'exists:lessons,id'], 
+            'lesson_id' => ['exists:lessons,id'], 
             'course_id' => ['exists:courses,id'], 
             'teacher_id' => ['required', 'exists:users,id'], 
             'group_id' => ['exists:session_groups,id'],
             'type' => ['required', 'in:group,private,session'],  
             'session_types' => ['required', 'in:explanation,re_explanation,mistakes'],
-            'teacher_material'  => ['sometimes']
+            'teacher_material'  => ['sometimes'],
+            'users' => ['array'],
+            'users.*' => ['exists:users,id'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -113,8 +116,11 @@ class SessionController extends Controller
         }
 
         $sessionRequest = $request->only($this->sessionRequest);
-        $this->session
+        $session = $this->session
         ->create($sessionRequest);
+        if($request->users){
+            $session->users()->attach($request->users);
+        }
 
         return response()->json([
             'success' => 'You add session success',
@@ -160,6 +166,9 @@ class SessionController extends Controller
         $session->session_types = $request->session_types ?? $session->session_types;
         $session->teacher_material = $request->teacher_material ?? $session->teacher_material;
         $session->save();
+        if($request->users){
+            $session->users()->sync($request->users);
+        }
 
         return response()->json([
             'success' => 'You update session success'
