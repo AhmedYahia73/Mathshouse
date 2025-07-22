@@ -40,6 +40,7 @@ class SessionController extends Controller
     public function view(Request $request){ 
         $sessions = $this->session
         ->orderByDesc('id')
+        ->limit(1000)
         ->get()
         ->map(function($item){ 
             return [
