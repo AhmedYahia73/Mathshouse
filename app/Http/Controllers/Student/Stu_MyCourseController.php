@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Marketing;
 use App\Models\PaymentRequest;
+use App\Models\ExamMistake;
 use App\Models\PaymentOrder;
 use App\Models\quizze;
 use App\Models\QuizzeStuAns;
@@ -118,12 +119,17 @@ class Stu_MyCourseController extends Controller
 
     }
 
-    public function quizze_ques_ans( $id ){
-        $question = Question::where('id', $id)
+    public function quizze_ques_ans(Request $request, $id ){
+        $mistake = ExamMistake::where('question_id', $id)
+        ->where('id', $request->mistake_id)
         ->first();
-        $reports = ReportVideoList::all();
+        if(!empty($mistake)){
+            $question = Question::where('id', $id)
+            ->first();
+            $reports = ReportVideoList::all();
 
-        return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
+            return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
+        }
     }
 
     public function stu_quizze($quizze_id)

@@ -172,7 +172,7 @@
                                     data-bs-dismiss="modal">
                                     Close
                                 </button>
-                                <a href="{{ route('quizze_ques_ans', ['id' => $item->question->id]) }}"
+                                <a href="{{ route('quizze_ques_ans', ['id' => $item->question->id, 'mistake_id' => $item->id]) }}"
                                     class="btn btn-primary">OK</a>
                             </div>
                         </div>
