@@ -122,67 +122,8 @@ class Stu_MyCourseController extends Controller
         $question = Question::where('id', $id)
         ->first();
         $reports = ReportVideoList::all();
-        if ( empty(auth()->user()) ) {
-            if ( !Cookie::get('previous_page') ) {
-                Cookie::queue(Cookie::make('previous_page', url()->current(), 90));
-            }
-            return redirect()->route('login.index');
-        }
-        else{  
-            $payments = PaymentPackageOrder::
-            where('state', 1)
-            ->where('user_id', auth()->user()->id)
-            ->with('pay_req')
-            ->with('package')
-            ->orderByDesc('id')
-            ->get();
-            $user = User::where('id', auth()->user()->id)
-            ->first();
 
-            foreach ( $payments as $item ) { 
-                $newTime = Carbon::now()->subDays($item->package->duration);
-                $question = Question::where('id', $id)
-                ->first();
-
-                if ( $item->package->module == 'Question' && 
-                $item->pay_req->user_id == auth()->user()->id &&
-                $item->date >= $newTime &&
-                $item->number > 0
-                 ) 
-                 {  
-
-                    PaymentPackageOrder::where('id', $item->id)
-                    ->update([
-                        'number' => $item->number - 1
-                    ]);
-                    return view('Student.Question_History.Question_Ans', compact('question', 'reports')); 
-                }
-            }
-            
-            $small_package = SmallPackage::
-            where('user_id', auth()->user()->id)
-            ->where('course_id', $question?->lessons?->chapter?->course_id)
-            ->where('module', 'Question')
-            ->where('number', '>', 0)
-            ->first();
-            if (!empty($small_package)) {
-                $small_package->number = $small_package->number - 1;
-                $small_package->save();
-                    return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
-            }
-            $package = Package::
-            where('module', 'Question')
-            ->where('course_id', $question->lessons->chapter->course_id)
-            ->get();
-            $categories = Category::get();
-            $courses = Course::get();
-            $module = 'Question';
-            $currency = Currancy::all();
- 
-            Cookie::queue(Cookie::make('q_ans_id', $id, 90));
-            return view('Student.Exam.Exam_Package', 
-            compact('package', 'categories', 'courses', 'module', 'currency')); 
-        }
+        return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
     }
 
     public function stu_quizze($quizze_id)
