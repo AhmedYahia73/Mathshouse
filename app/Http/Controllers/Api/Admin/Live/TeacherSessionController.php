@@ -107,6 +107,19 @@ class TeacherSessionController extends Controller
         if ( empty($request->course_id) && empty($request->category_id) ) {
             $sessions = $sessions->get();
         }
+        $sessions = $sessions
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'teacher' => $item?->teacher?->nick_name,
+                'name' => $item->name,
+                'date' => $item->date,
+                'from' => $item->from,
+                'to' => $item->to,
+                'type' => $item->type,
+                'session_types' => $item->session_types,
+            ];
+        });
         
         return response()->json([
             'sessions' => $sessions,
