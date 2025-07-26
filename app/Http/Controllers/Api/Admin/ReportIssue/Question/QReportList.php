@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin\ReportIssue\Question;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\ReportQuestionList;
 
@@ -22,6 +23,14 @@ class QReportList extends Controller
     }
 
     public function create(Request $request){
+        $validator = Validator::make($request->all(), [
+            'list' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
         $this->report_question
         ->create([
             'list' => $request->list
@@ -33,6 +42,14 @@ class QReportList extends Controller
     }
 
     public function modify(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'list' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
         $this->report_question
         ->where('id', $id)
         ->update([
