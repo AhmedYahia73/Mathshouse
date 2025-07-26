@@ -43,7 +43,9 @@ class ReportIssuesController extends Controller
     }
 
     public function admin_question_action_report(){
-        $report = ReportQuestion::simplePaginate(10);
+        $report = ReportQuestion::
+        orderByDesc('id')
+        ->simplePaginate(10);
 
         return view('Admin.ReportIssues.Question.Report', compact('report'));
     }

@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Admin\Live\CancelationController;
 use App\Http\Controllers\Api\Admin\Live\TeacherSessionController;
 
 use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportList;
+use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportAction;
 
 
 // Parents 
@@ -106,5 +107,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
         Route::delete('/delete/{id}', 'delete');
+    });
+
+    Route::controller(QReportAction::class)->prefix('report_issue/q_report_action')
+    ->group(function(){
+        Route::get('/', 'view'); 
+        Route::put('/status/{id}', 'status'); 
     });
 });
