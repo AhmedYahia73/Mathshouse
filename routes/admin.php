@@ -17,10 +17,13 @@ use App\Http\Controllers\Api\Admin\Live\PrivateSession;
 use App\Http\Controllers\Api\Admin\Live\CancelationController;
 use App\Http\Controllers\Api\Admin\Live\TeacherSessionController;
 
+use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportList;
+
+
 // Parents 
 // Students +++++
 // Teacher ++++
-// Live
+// Live ++++
 // Report issues 
 // Payment 
 // Reports
@@ -95,5 +98,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/', 'view');
         Route::get('/lists', 'lists');
         Route::post('/filter_teacher_session', 'filter_teacher_session');
+    });
+
+    Route::controller(QReportList::class)->prefix('report_issue/q_reportlist')
+    ->group(function(){
+        Route::get('/', 'view');
+        Route::post('/add', 'create');
+        Route::post('/update/{id}', 'modify');
+        Route::delete('/delete/{id}', 'delete');
     });
 });
