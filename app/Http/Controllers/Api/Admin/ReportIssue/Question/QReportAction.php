@@ -17,7 +17,7 @@ class QReportAction extends Controller
         ->orderByDesc('id')
         ->get();
 
-        return reponse()->json([
+        return response()->json([
             'report_questions' => $report_questions
         ]);
     }
