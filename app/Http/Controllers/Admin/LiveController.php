@@ -525,15 +525,27 @@ class LiveController extends Controller
         }
         if ( !empty($req->course_id) ) {
             $course_id = $req->course_id;
-            $sessions = $sessions->whereHas('lesson.chapter', function($query) use($course_id){
-                $query->where('course_id', $course_id);
-            })->get();
+            $sessions = $sessions
+            ->where(function($query) use($course_id){
+                $query->whereHas('lesson.chapter', function($query) use($course_id){
+                    $query->where('course_id', $course_id);
+                })
+                ->orWhere('course_id', $course_id);
+            })
+            ->get();
         }
         elseif ( !empty($req->category_id) ) {
             $category_id = $req->category_id;
-            $sessions = $sessions->whereHas('lesson.chapter.course', function($query) use($category_id){
-                $query->where('category_id', $category_id);
-            })->get();
+            $sessions = $sessions
+            ->where(function($query) use($category_id){
+                $query->whereHas('lesson.chapter.course', function($query) use($category_id){
+                    $query->where('category_id', $category_id);
+                })
+                ->orWhereHas('course', function($query) use($category_id){
+                    $query->where('category_id', $category_id);
+                });
+            })
+            ->get();
         }
         if ( empty($req->course_id) && empty($req->category_id) ) {
             $sessions = $sessions->get();

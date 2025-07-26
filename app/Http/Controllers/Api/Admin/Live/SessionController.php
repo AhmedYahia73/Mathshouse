@@ -96,6 +96,7 @@ class SessionController extends Controller
             'users' => $users,
             'groups' => $groups,
             'types' => $types,
+            'session_types' => $session_types
         ]);
     }
 

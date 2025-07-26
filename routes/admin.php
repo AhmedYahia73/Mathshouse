@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Admin\Live\GroupController;
 use App\Http\Controllers\Api\Admin\Live\AcademicController;
 use App\Http\Controllers\Api\Admin\Live\PrivateSession;
 use App\Http\Controllers\Api\Admin\Live\CancelationController;
+use App\Http\Controllers\Api\Admin\Live\TeacherSessionController;
 
 // Parents 
 // Students +++++
@@ -87,5 +88,12 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/', 'cancelation');
         Route::post('/cancelation_filter', 'cancelation_filter');
         Route::put('/cancelation_status/{id}', 'cancelation_status');
+    });
+
+    Route::controller(TeacherSessionController::class)->prefix('live/teacher_session')
+    ->group(function(){
+        Route::get('/', 'view');
+        Route::get('/lists', 'lists');
+        Route::post('/filter_teacher_session', 'filter_teacher_session');
     });
 });
