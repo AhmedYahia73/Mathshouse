@@ -14,7 +14,7 @@ class QReportList extends Controller
 
     public function view(){
         $report_question = $this->report_question
-        ->select('list')
+        ->select('list', 'id')
         ->get();
 
         return response()->json([
