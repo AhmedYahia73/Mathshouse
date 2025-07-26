@@ -31,4 +31,9 @@ class ReportQuestion extends Model
         return $this->belongsTo(Question::class, 'question_id');
     }
 
+    public function list()
+    {
+        return $this->belongsTo(ReportQuestionList::class, 'list_id');
+    }
+
 }

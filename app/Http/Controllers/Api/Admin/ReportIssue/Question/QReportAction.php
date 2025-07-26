@@ -15,7 +15,17 @@ class QReportAction extends Controller
     public function view(){
         $report_questions = $this->report_question
         ->orderByDesc('id')
-        ->get();
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'date' => $item->date,
+                'statues' => $item->statues,
+                'student' => $item?->student?->nick_name,
+                'question' => $item?->question,
+                'error' => $item?->list?->list,
+            ];
+        });
 
         return response()->json([
             'report_questions' => $report_questions
