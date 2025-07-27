@@ -3,6 +3,7 @@
     {
         return 'admin';
     }
+ini_set('memory_limit', '256M');
 @endphp
 <x-default-layout>
     @section('title', 'Quiz')
