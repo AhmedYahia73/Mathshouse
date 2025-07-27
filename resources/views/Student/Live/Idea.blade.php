@@ -1554,5 +1554,5 @@
         });
     </script>
 @endsection
-
+ 
 @include('Student.inc.footer')

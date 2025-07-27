@@ -1139,8 +1139,9 @@
             </div>
         </div>
         <!-- Tuition Section End -->
+        <a href="{{ $material_link }}" class="btn btn-danger">Material Link</a>
+        <a href="{{ $teacher_link }}" class="btn btn-danger">Teacher Link</a>
     </main>
-
     <script>
         function toggleLesson(lessonId) {
             const content = document.getElementById(`lessonContent${lessonId}`);

@@ -206,8 +206,11 @@ class Stu_LiveController extends Controller
         $sessions = $user->session_attendance;
         $chapter_id  = $chapter_id;
         $lives = $user->lessons;
+        $material_link = @$sessions[0]->material_link;
+        $teacher_link = @$sessions[0]->ans_teacher_material;
 
-        return view('Student.Live.MyLiveLessons', compact('sessions', 'chapter_id', 'lives'));
+        return view('Student.Live.MyLiveLessons', compact('sessions', 'chapter_id', 'lives',
+        'material_link', 'teacher_link'));
     }
 
     public function stu_live_lesson( Request $request ){
