@@ -16,9 +16,16 @@ use App\Models\ExamCodes;
 class QuizzeController extends Controller
 {
     public function quizze(){ 
-        $questions = Question::all();
+        $questions = Question::
+        with('code', 'lessons.chapter')
+        ->get();
         $quizzes = quizze::
-        orderByDesc('id')
+        with(['question.code' => function($query){
+            $query->with([
+                'code', 'lessons.chapter'
+            ]);
+        }])
+        ->orderByDesc('id')
         ->simplePaginate(10);
         $categories = Category::all();
         $courses = Course::all();
