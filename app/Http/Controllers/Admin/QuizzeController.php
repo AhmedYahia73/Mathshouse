@@ -20,7 +20,7 @@ class QuizzeController extends Controller
         with('code', 'lessons.chapter')
         ->get();
         $quizzes = quizze::
-        with(['question.code' => function($query){
+        with(['question' => function($query){
             $query->with([
                 'code', 'lessons.chapter'
             ]);
