@@ -704,7 +704,7 @@
                                         <span>Answer:</span>
                                         <div class="input_val">
                                             <input type="text" step="0.001" value="0" class="gridVal"
-                                                id="input_val">
+                                            name='q_grid_ans[]'  id="input_val">
                                         </div>
                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
                                             class="addSl">/</button>
