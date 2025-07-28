@@ -37,4 +37,9 @@ class ReportVideo extends Model
     {
         return $this->belongsTo(Q_ans::class, 'q_video_id');
     }
+
+    public function list()
+    {
+        return $this->belongsTo(ReportVideoList::class, 'list_id');
+    }
 }
