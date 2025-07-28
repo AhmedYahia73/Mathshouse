@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
 use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
 use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
 
+use App\Http\Controllers\Api\User\Exam\QuestionController;
 
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
@@ -82,5 +83,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/', 'view_dia'); 
         Route::get('/pdf/{id}', 'dia_pdf');
         Route::get('/dia_report/{id}', 'dia_report');
+    });
+
+    Route::controller(QuestionController::class)->prefix('question')
+    ->group(function(){
+        Route::get('/lists', 'lists');
+        Route::post('/filter', 'question_filter');
     });
 });

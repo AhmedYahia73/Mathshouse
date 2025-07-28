@@ -882,9 +882,7 @@
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 
     <main class="main_wrapper overflow-hidden">
-        <!-- Header Section Start -->
-        <!-- Header Section End -->
-
+        <!-- Header Section Start --> 
         <!-- Mobile Menu Start -->
         <div class="mobile-off-canvas-active">
             <a class="mobile-aside-close"><i class="icofont icofont-close-line"></i></a>
@@ -983,7 +981,12 @@
         <!-- Tuition Section Start -->
         <div class="tution sp_bottom_100 sp_top_50">
             <div class="container-fluid full__width__padding">
+                <div class="py-3">
+                    <a href="{{ $material_link }}" class="btn btn-danger">Material Link</a>
+                    <a href="{{ $teacher_link }}" class="btn btn-danger">Teacher Link</a>
+                </div>
                 <div class="row">
+                    
                     <!-- Main Content Area -->
                     <div class="col-12" data-aos="fade-up">
                         <div class="main-lesson-container">
@@ -1139,8 +1142,6 @@
             </div>
         </div>
         <!-- Tuition Section End -->
-        <a href="{{ $material_link }}" class="btn btn-danger">Material Link</a>
-        <a href="{{ $teacher_link }}" class="btn btn-danger">Teacher Link</a>
     </main>
     <script>
         function toggleLesson(lessonId) {

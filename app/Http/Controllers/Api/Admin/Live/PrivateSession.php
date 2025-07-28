@@ -51,6 +51,7 @@ class PrivateSession extends Controller
                 'from' => $item->from,
                 'to' => $item->to,
                 'teacher' => $item?->teacher?->nick_name,
+                'status' => $item->status,
             ];
         });
 
