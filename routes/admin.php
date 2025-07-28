@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\Admin\Live\TeacherSessionController;
 
 use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportList;
 use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportAction;
+use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportList;
+use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportAction;
 
 
 // Parents 
@@ -110,6 +112,20 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(QReportAction::class)->prefix('report_issue/q_report_action')
+    ->group(function(){
+        Route::get('/', 'view'); 
+        Route::put('/status/{id}', 'status'); 
+    });
+
+    Route::controller(VReportList::class)->prefix('report_issue/v_reportlist')
+    ->group(function(){
+        Route::get('/', 'view');
+        Route::post('/add', 'create');
+        Route::post('/update/{id}', 'modify');
+        Route::delete('/delete/{id}', 'delete');
+    });
+
+    Route::controller(VReportAction::class)->prefix('report_issue/v_report_action')
     ->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
