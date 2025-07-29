@@ -52,6 +52,7 @@ class V_QuestionController extends Controller
         ->leftJoin('chapters', 'lessons.chapter_id', '=', 'chapters.id')
         ->where('chapters.course_id', $req->course_id)
         ->where('q_type', '!=', 'Parallel')
+        ->orderByDesc('id')
         ->get();
 
         $q_items = $question;

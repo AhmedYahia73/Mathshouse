@@ -47,7 +47,9 @@ class V_ExamController extends Controller
 
     public function filter_exam( Request $req ){
         // "year":"2024","month":"1","code_id":"1","course_id":"2"
-        $exams = Exam::all();
+        $exams = Exam::
+        orderByDesc('id')
+        ->get();
         $exam_items = $exams;
         if ( !empty($req->year) ) {
             $exam_items = [];
