@@ -20,6 +20,7 @@ class TLiveController extends Controller
     }
 
     public function upload_teacher_material(Request $request){
+        $img_name = null;
         extract($_FILES['ans_teacher_material']);
         if( !empty($name) ){
             $extension_arr = ['png', 'jpg', 'jpeg', 'svg', 'webp'];

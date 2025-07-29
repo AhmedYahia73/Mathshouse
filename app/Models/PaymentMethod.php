@@ -17,21 +17,28 @@ class PaymentMethod extends Model
         'logo',
         'statue',
     ];
+    protected $appends = ['logo_link'];
+
+    public function getLogoLinkAttribute(){
+        if($this->logo){
+            return url('images/payment/' . $this->logo);
+        } 
+        return null;
+    }
+
+    public function getCreatedAtAttribute($date){
+        return date('d-m-Y',strtotime($date));
+    }
+
+    public function getUpdatedAtAttribute($date){
+        return date('d-m-Y',strtotime($date));
+    }
 
 
-     public function getCreatedAtAttribute($date){
-     return date('d-m-Y',strtotime($date));
-     }
-
-       public function getUpdatedAtAttribute($date){
-       return date('d-m-Y',strtotime($date));
-       }
-
-
-       public function payment_currancies(){
+    public function payment_currancies(){
         return $this->belongsToMany(Currancy::class,'payment_currancies');
-       }
-       public function currency(){
+    }
+    public function currency(){
         return $this->belongsToMany(Currancy::class,'payment_currancies','currancy_id');
-       }
+    }
 }
