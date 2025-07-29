@@ -983,7 +983,7 @@
             <div class="container-fluid full__width__padding">
                 <div class="py-3">
                     <a href="{{ $material_link }}" class="btn btn-danger">Material Link</a>
-                    <a href="{{ $teacher_link }}" class="btn btn-danger">Teacher Link</a>
+                    <a href="{{ asset($teacher_link)}}" class="btn btn-danger">Teacher Link</a>
                 </div>
                 <div class="row">
                     
