@@ -102,6 +102,14 @@ class QuestionController extends Controller
         where('id', $id)
         ->with('mcq:id,mcq_num')
         ->first();
+         
+        $questio_data = [
+            'id' => $question->id,
+            'ans_type' => $question->ans_type,
+            'question' => $question->question,
+            'q_image' => $question->q_image,
+            'mcq' => $question->mcq,
+        ];
  
         $payments = PaymentPackageOrder::
         where('state', 1)
