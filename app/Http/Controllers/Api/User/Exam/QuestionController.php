@@ -120,7 +120,7 @@ class QuestionController extends Controller
             $small_package->save();
             
             return response()->json([
-                'question' => $question->select('id', 'ans_type', 'question', 'q_image', 'mcq'),
+                'question' => $question,
                 'reports' => $reports,
             ]);
         }
@@ -141,7 +141,7 @@ class QuestionController extends Controller
                     'number' => $item->number - 1
                 ]);
                 return response()->json([
-                    'question' => $question->select('id', 'ans_type', 'question', 'q_image', 'mcq'),
+                    'question' => $question,
                     'reports' => $reports,
                 ]);
             }
