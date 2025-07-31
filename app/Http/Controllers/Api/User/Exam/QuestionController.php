@@ -126,7 +126,7 @@ class QuestionController extends Controller
         }
 
         foreach ( $payments as $item ) { 
-
+            $newTime = Carbon::now()->subDays($item->package->number);
             if ( $item->package->module == 'Question' && 
             $item->pay_req->user_id == auth()->user()->id &&
             $item->date > $newTime &&
