@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\User\MyCourses\MyCoursesController;
 use App\Http\Controllers\Api\User\UserLive\MyLivesController;
 use App\Http\Controllers\Api\User\MyPackage\MyPackageController;
 use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
+
 use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
 use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
 use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
@@ -89,5 +90,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/lists', 'lists');
         Route::post('/filter', 'question_filter');
+        Route::get('/solve_question/{id}', 'solve_question');
+        Route::post('/grade_question', 'grade_question');
     });
 });
