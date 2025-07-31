@@ -100,7 +100,7 @@ class QuestionController extends Controller
         $reports = ReportQuestionList::all();
         $question = Question::
         where('id', $id)
-        ->with('mcq:id,mcq_num')
+        ->with('mcq:id,mcq_num,q_id')
         ->first();
          
         $questio_data = [
