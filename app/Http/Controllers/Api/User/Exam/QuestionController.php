@@ -189,6 +189,7 @@ class QuestionController extends Controller
         $arr['user_id'] = auth()->user()->id;
         $arr['answer'] = $grade;
         $arr['time'] = $timer_val;
+        $arr['question_id'] = $request->question_id;
         QuestionHistory::create($arr);
 
         return response()->json([
