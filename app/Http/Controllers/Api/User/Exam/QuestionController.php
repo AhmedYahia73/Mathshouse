@@ -180,7 +180,7 @@ class QuestionController extends Controller
         $question = Question::where('id', $request->question_id)
         ->first();
         if ($question->ans_type == 'MCQ') {
-            $grade = $question?->mcq?->mcq_answers == $request->answer;
+            $grade = @$question?->mcq[0]?->mcq_answers == $request->answer;
         }
         else{
             $grade = $question?->g_ans?->pluck('grid_ans')->contains($request->answer);
