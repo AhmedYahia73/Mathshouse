@@ -98,8 +98,11 @@ class QuestionController extends Controller
     public function solve_question(Request $request, $id){
         
         $reports = ReportQuestionList::all();
-        $question = Question::where('id', $id)
-        ->first();
+        $question = Question::
+        where('id', $id)
+        ->with('mcq:id,mcq_num')
+        ->first()
+        ->select('id', 'ans_type', 'question', 'q_image', 'mcq');
  
         $newTime = Carbon::now()->subDays($item->package->number);
         $payments = PaymentPackageOrder::
@@ -180,6 +183,9 @@ class QuestionController extends Controller
         $arr['time'] = $timer_val;
         QuestionHistory::create($arr);
 
-        return response()->json();
+        return response()->json([
+            'grade' => $grade,
+            'time' => $timer_val,
+        ]);
     }
 }

@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\Admin\ReportIssue\Question\QReportAction;
 use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportList;
 use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportAction;
 
+use App\Http\Controllers\Api\Admin\Payment\PaymentMethodController;
+
 
 // Parents 
 // Students +++++
@@ -129,5 +131,14 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     ->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
+    });
+
+    Route::controller(PaymentMethodController::class)->prefix('payment_method')
+    ->group(function(){
+        Route::get('/', 'view'); 
+        Route::put('/status/{id}', 'status'); 
+        Route::post('/add', 'create'); 
+        Route::post('/update/{id}', 'modify'); 
+        Route::delete('/delete/{id}', 'delete'); 
     });
 });
