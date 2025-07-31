@@ -128,7 +128,7 @@ class QuestionController extends Controller
             $small_package->save();
             
             return response()->json([
-                'question' => $question,
+                'question' => $questio_data,
                 'reports' => $reports,
             ]);
         }
@@ -149,7 +149,7 @@ class QuestionController extends Controller
                     'number' => $item->number - 1
                 ]);
                 return response()->json([
-                    'question' => $question,
+                    'question' => $questio_data,
                     'reports' => $reports,
                 ]);
             }
