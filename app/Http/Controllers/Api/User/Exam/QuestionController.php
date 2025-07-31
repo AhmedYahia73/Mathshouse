@@ -104,7 +104,6 @@ class QuestionController extends Controller
         ->first()
         ->select('id', 'ans_type', 'question', 'q_image', 'mcq');
  
-        $newTime = Carbon::now()->subDays($item->package->number);
         $payments = PaymentPackageOrder::
         where('state', 1)
         ->with('pay_req', 'package')
@@ -136,6 +135,7 @@ class QuestionController extends Controller
             && $item->package->course_id == $question->lessons->chapter->course_id 
                 ) 
                 {  
+                $newTime = Carbon::now()->subDays($item->package->number);
 
                 PaymentPackageOrder::where('id', $item->id)
                 ->update([
