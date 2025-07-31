@@ -12,6 +12,7 @@ use App\Models\ExamCodes;
 use App\Models\ReportQuestionList;
 use App\Models\PaymentPackageOrder;
 use App\Models\SmallPackage;
+use App\Models\QuestionHistory;
 use App\Models\Course;
 
 class QuestionController extends Controller
