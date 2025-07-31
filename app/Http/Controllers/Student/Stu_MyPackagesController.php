@@ -153,8 +153,8 @@ class Stu_MyPackagesController extends Controller
                 'course' => $course?->course_name,
             ];
         });
-        $live_details = $live_details1->merge(collect($live_details2));
-        $question_details = $question_details1->merge(collect($question_details2));
+        $live_details = collect($live_details1)->merge(collect($live_details2));
+        $question_details = collect($question_details1)->merge(collect($question_details2));
         $exam_details = collect($exam_details1)->merge(collect($exam_details2));
 
         return view('Student.Package.Package', compact('exam', 'questions', 'live', 
