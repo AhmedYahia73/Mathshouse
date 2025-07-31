@@ -101,8 +101,7 @@ class QuestionController extends Controller
         $question = Question::
         where('id', $id)
         ->with('mcq:id,mcq_num')
-        ->first()
-        ->select('id', 'ans_type', 'question', 'q_image', 'mcq');
+        ->first();
  
         $payments = PaymentPackageOrder::
         where('state', 1)
@@ -121,7 +120,7 @@ class QuestionController extends Controller
             $small_package->save();
             
             return response()->json([
-                'question' => $question,
+                'question' => $question->select('id', 'ans_type', 'question', 'q_image', 'mcq'),
                 'reports' => $reports,
             ]);
         }
@@ -142,7 +141,7 @@ class QuestionController extends Controller
                     'number' => $item->number - 1
                 ]);
                 return response()->json([
-                    'question' => $question,
+                    'question' => $question->select('id', 'ans_type', 'question', 'q_image', 'mcq'),
                     'reports' => $reports,
                 ]);
             }
