@@ -19,7 +19,7 @@ class PaymentController extends Controller
         ->map(function($item){
             return [
                 'id' => $item->id,
-                'payment_method' => $item->payment_method->payment,
+                'payment_method' => $item?->payment_method?->payment,
                 'service' => $item->module,
                 'price' => $item->price,
                 'receipt' => $item->image_link,
