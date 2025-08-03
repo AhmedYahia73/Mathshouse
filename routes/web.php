@@ -53,6 +53,7 @@ use App\Http\Controllers\Visitor\CoursesController as V_CoursesController;
 use App\Http\Controllers\Teacher\TDashboardController;
 use App\Http\Controllers\Teacher\TProfileController;
 use App\Http\Controllers\Teacher\TLiveController;
+use App\Http\Controllers\Teacher\TScheduleController;
 
 use App\Http\Controllers\Affilate\Aff_DashboardController;
 use App\Http\Controllers\Affilate\Aff_PayoutController;
@@ -630,6 +631,11 @@ Route::middleware(['auth','auth.teacher'])->prefix('Teacher')->group(function(){
         Route::get('/', 'index')->name('t_live');
         Route::post('/upload_teacher_material', 'upload_teacher_material')->name('update_teacher_material_session');
     });
+
+    Route::controller(TScheduleController::class)->prefix('schedule')->group(function(){
+        Route::get('/', 'view')->name('t_schedule'); 
+    });
+    
 });
 
 Route::get('/logout',  [LoginController::class, 'destroy'])->name('logout');
