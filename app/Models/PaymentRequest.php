@@ -28,10 +28,10 @@ class PaymentRequest extends Model
     protected $appends = ['image_link'];
 
     public function getImageLinkAttribute(){
-        if(!empty($this->image_link)){
-            return url('/images/payment/' . $this->image_link);
+        if(!empty($this->attributes['image_link'])){
+            return url('/images/payment/' . $this->attributes['image_link']);
         }
-        return $this->image_link;
+        return $this->attributes['image_link'];
     }
 
     public function package_order(){
