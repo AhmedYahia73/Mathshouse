@@ -31,7 +31,7 @@ class PaymentRequest extends Model
         if(!empty($this->attributes['image_link'])){
             return url('/images/payment/' . $this->attributes['image_link']);
         }
-        return $this->attributes['image_link'];
+        return $this->attributes['image'];
     }
 
     public function package_order(){
