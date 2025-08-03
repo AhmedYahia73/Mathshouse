@@ -247,22 +247,22 @@ class V_QuestionController extends Controller
             $solve = $question->g_ans;
 
             foreach ($solve as $item) {
-                if ( strpos($req->q_grid_ans[0], '/') ) {
-                    $arr_ans = explode('/', $req->q_grid_ans[0]);
-                    try {
-                        $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
-                    } catch (\Throwable $th) {
-                        $answer = 0;
-                    }
-                    if ( floatval($item->grid_ans) == $answer || 
-                    (floatval($item->grid_ans) - $answer < .06 && floatval($item->grid_ans) - $answer > 0 ) ||
-                    ($answer - floatval($item->grid_ans) < .06 && $answer - floatval($item->grid_ans) > 0 ) ) {
-                        $ans = true;
-                    }
-                    else {
-                        $mistakes[] = $question;
-                    }
-                }
+                // if ( strpos($req->q_grid_ans[0], '/') ) {
+                //     $arr_ans = explode('/', $req->q_grid_ans[0]);
+                //     try {
+                //         $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
+                //     } catch (\Throwable $th) {
+                //         $answer = 0;
+                //     }
+                //     if ( floatval($item->grid_ans) == $answer || 
+                //     (floatval($item->grid_ans) - $answer < .06 && floatval($item->grid_ans) - $answer > 0 ) ||
+                //     ($answer - floatval($item->grid_ans) < .06 && $answer - floatval($item->grid_ans) > 0 ) ) {
+                //         $ans = true;
+                //     }
+                //     else {
+                //         $mistakes[] = $question;
+                //     }
+                // }
                 if ( $item->grid_ans == $req->q_grid_ans[0] ) {
                     $ans = true;
                 }

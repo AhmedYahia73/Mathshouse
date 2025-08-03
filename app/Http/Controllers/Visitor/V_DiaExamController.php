@@ -114,25 +114,25 @@ class V_DiaExamController extends Controller
                 $grid_item = json_decode($req->q_grid_answers[$i]);
                 $question = Question::where('id', $grid_item->q_id)
                 ->first();
-                $grid_ans = @$question->g_ans[0]->grid_ans;
-                $answer = $req->q_grid_ans[$i];
-                if ( strpos($answer, '/') ) {
-                    $arr_ans = explode('/', $answer);
-                    try {
-                        $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
-                    } catch (\Throwable $th) {
-                        $answer = 0;
-                    }
-                    if ( floatval($grid_ans) == $answer || 
-                    (floatval($grid_ans) - $answer < .06 && floatval($grid_ans) - $answer > 0 ) ||
-                    ($answer - floatval($grid_ans) < .06 && $answer - floatval($grid_ans) > 0 ) ) {
-                        $deg++;
-                    }
-                    else {
-                        $mistakes[] = $question;
-                    }
-                }
-                elseif ( floatval($grid_ans) == floatval($answer) ) {
+                $answer = floatval($req->q_grid_ans[$i]); 
+                $grid_ans = @$question->g_ans->pluck('grid_ans')->contains($answer);
+                // if ( strpos($answer, '/') ) {
+                //     $arr_ans = explode('/', $answer);
+                //     try {
+                //         $answer = floatval($arr_ans[0]) / floatval($arr_ans[1]);
+                //     } catch (\Throwable $th) {
+                //         $answer = 0;
+                //     }
+                //     if ( floatval($grid_ans) == $answer || 
+                //     (floatval($grid_ans) - $answer < .06 && floatval($grid_ans) - $answer > 0 ) ||
+                //     ($answer - floatval($grid_ans) < .06 && $answer - floatval($grid_ans) > 0 ) ) {
+                //         $deg++;
+                //     }
+                //     else {
+                //         $mistakes[] = $question;
+                //     }
+                // }
+                if ( $grid_ans) {
                     $deg++;
                 } else {
                     $mistakes[] = $question;

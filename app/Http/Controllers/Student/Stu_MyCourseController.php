@@ -256,8 +256,7 @@ class Stu_MyCourseController extends Controller
                     $mistakes[] = $question;
                 }
             }
-        }
-
+        } 
        // "":["{\"q_id\":20}","{\"q_id\":1}"],"q_grid_ans":["1","1"]}
         if ( isset($req->q_grid_answers) ) {
             for ( $i = 0, $end = count($req->q_grid_answers); $i < $end; $i++ ) {
@@ -265,8 +264,8 @@ class Stu_MyCourseController extends Controller
                 $grid_item = json_decode($req->q_grid_answers[$i]);
                 $question = Question::where('id', $grid_item->q_id)
                 ->first();
-                $grid_ans = @$question->g_ans[0]->grid_ans;
-                $answer = $req->q_grid_ans[$i]; 
+                $answer = floatval($req->q_grid_ans[$i]); 
+                $grid_ans = @$question->g_ans->pluck('grid_ans')->contains($answer); 
                 // if ( strpos($answer, '/') ) {
                 //     $arr_ans = explode('/', $answer);
                 //     if (floatval($arr_ans[1]) == 0) {
@@ -284,7 +283,7 @@ class Stu_MyCourseController extends Controller
                 //         $mistakes[] = $question;
                 //     }
                 // }
-                if ( floatval($grid_ans) == floatval($answer) ) {
+                if ( $grid_ans ) {
                     $deg++;
                 } else {
                     $mistakes[] = $question;
