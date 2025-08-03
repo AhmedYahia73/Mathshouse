@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportList;
 use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportAction;
 
 use App\Http\Controllers\Api\Admin\Payment\PaymentMethodController;
+use App\Http\Controllers\Api\Admin\Payment\PaymentController;
 
 
 // Parents 
@@ -142,12 +143,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::delete('/delete/{id}', 'delete'); 
     });
 
-    Route::controller(PaymentMethodController::class)->prefix('payment_method')
+    Route::controller(PaymentController::class)->prefix('payment_request')
     ->group(function(){
-        Route::get('/', 'view'); 
-        Route::put('/status/{id}', 'status'); 
-        Route::post('/add', 'create'); 
-        Route::post('/update/{id}', 'modify'); 
-        Route::delete('/delete/{id}', 'delete'); 
+        Route::get('/', 'payment_request'); 
     });
 });
