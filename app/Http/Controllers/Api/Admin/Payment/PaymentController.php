@@ -10,6 +10,6 @@ class PaymentController extends Controller
     public function __construct(){}
 
     public function view(Request $request){
-        
+          
     }
 }

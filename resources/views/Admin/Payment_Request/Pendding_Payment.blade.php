@@ -57,10 +57,10 @@
                 {{$loop->iteration}}
             </td>
             <td>
-                {{$item->method->payment}}
+                {{$item?->method?->payment}}
             </td>
             <td>
-                {{$item->user->f_name . ' ' . $item->user->l_name . ' (' . $item->user->nick_name . ')'}}
+                {{$item->user->f_name . ' ' . $item->user->l_name . ' (' . $item?->user?->nick_name . ')'}}
             </td>
             <td>
               <a href="{{route('payment_material', ['id' => $item->id])}}" class="btn btn-primary">
