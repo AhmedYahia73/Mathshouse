@@ -146,5 +146,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(PaymentController::class)->prefix('payment_request')
     ->group(function(){
         Route::get('/', 'payment_request'); 
+        Route::put('/reject_request/{id}', 'reject_request'); 
+        Route::put('/approve_request/{id}', 'approve_request'); 
     });
 });
