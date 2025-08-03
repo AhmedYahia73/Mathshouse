@@ -39,6 +39,7 @@ class PaymentController extends Controller
                 'price' => $item->price,
                 'receipt' => $item->image_link,
                 'date' => $item->created_at->format('Y-m-d'),
+                'rejected_reason' => $item->rejected_reason,
             ];
         });
 
