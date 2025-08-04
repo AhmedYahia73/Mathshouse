@@ -54,7 +54,7 @@ class ExamController extends Controller
             ],400);
         }
         $exams = $this->exam
-        ->select('id', 'title', 'year', 'month', 'type')
+        ->select('id', 'title', 'year', 'month', 'type', 'code_id')
         ->with('code:id,exam_code');
         if($request->course_id){
             $exams = $exams
