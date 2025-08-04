@@ -5,209 +5,186 @@
 @extends('Teacher.inc.nav')
 @section('title','Profile')
 
-
 @section('page_content')
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <title>Courses Viewer</title>
-    <style>
-        body {
-        font-family: Arial, sans-serif;
-        margin: 30px;
-        background-color: #f7f7f7;
-        }
-
-        .section {
-        margin-bottom: 20px;
-        }
-
-        .item {
+<style>
+    .item {
         padding: 10px;
         background-color: white;
         border: 1px solid #ccc;
         margin: 5px 0;
         cursor: pointer;
         border-radius: 5px;
-        transition: 0.3s;
-        }
+    }
+    .nested {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+    .hidden { display: none; }
 
-        .item:hover {
-        background-color: #e0f7fa;
-        }
-
-        table {
-        width: 100%;
+    table {
+        width: 95%;
+        margin: 10px;
         border-collapse: collapse;
-        margin-top: 15px;
-        background-color: white;
-        }
+    }
 
-        th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: left;
+    }
 
-        th {
+    th {
         background-color: #00bcd4;
         color: white;
-        }
+    }
 
-        .hidden {
-        display: none;
-        }
-    </style>
-    </head>
-    <body>
+    button {
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
 
-    <h1>Courses</h1>
+    button:hover {
+        background-color: #0b7dda;
+    }
 
-    <div id="courses" class="section"></div>
-    <div id="chapters" class="section hidden">
-        <h2>Chapters</h2>
-        <div id="chapters-list"></div>
-    </div>
-    <div id="lessons" class="section hidden">
-        <h2>Lessons</h2>
-        <div id="lessons-list"></div>
-    </div>
-    <div id="sessions" class="section hidden">
-        <h2>Sessions</h2>
-        <table>
-        <thead>
-            <tr>
-            <th>Title</th>
-            <th>Duration</th>
-            <th>Date</th>
-            </tr>
-        </thead>
-        <tbody id="sessions-table"></tbody>
-        </table>
-    </div>
+    .students-list {
+        background-color: #f1f1f1;
+        margin-left: 40px;
+        padding: 8px;
+        border-left: 2px solid #00bcd4;
+    }
+</style>
 
-    <script>
-        const data = {
-        courses: [
-            {
-            id: 1,
-            title: "Web Development",
-            chapters: [
-                {
-                id: 1,
-                title: "HTML Basics",
-                lessons: [
-                    {
-                    id: 1,
-                    title: "Intro to HTML",
-                    sessions: [
-                        { title: "Session 1", duration: "30 mins", date: "2025-08-01" },
-                        { title: "Session 2", duration: "25 mins", date: "2025-08-02" }
-                    ]
-                    }
-                ]
-                }
-            ]
-            },
-            {
-            id: 2,
-            title: "JavaScript Mastery",
-            chapters: [
-                {
-                id: 1,
-                title: "Fundamentals",
-                lessons: [
-                    {
-                    id: 1,
-                    title: "Variables",
-                    sessions: [
-                        { title: "Session A", duration: "40 mins", date: "2025-08-01" },
-                        { title: "Session B", duration: "35 mins", date: "2025-08-03" }
-                    ]
-                    }
-                ]
-                }
-            ]
-            }
-        ]
-        };
+<h2>Courses</h2>
+<div id="courses-container"></div>
 
-        const coursesDiv = document.getElementById("courses");
-        const chaptersDiv = document.getElementById("chapters");
-        const chaptersList = document.getElementById("chapters-list");
-        const lessonsDiv = document.getElementById("lessons");
-        const lessonsList = document.getElementById("lessons-list");
-        const sessionsDiv = document.getElementById("sessions");
-        const sessionsTable = document.getElementById("sessions-table");
+<script>
+    const data = {};
+    let courses = @json($courses);  
+    console.log(courses); 
+    courses = courses.map(course => ({
+        id: course.id,
+        title: course.course_name,
+        chapters: (course.chapter || []).map(ch => ({
+            id: ch.id,
+            title: ch.chapter_name,
+            lessons: (ch.lessons || []).map(lesson => ({
+                id: lesson.id,
+                title: lesson.lesson_name,
+                sessions: (lesson.sessions || []).map(sess => ({
+                    name: sess.name,
+                    date: sess.date,
+                    from: sess.from,
+                    to: sess.to,
+                    students: (sess.users || []).map(u => ({
+                        id: u.id,
+                        name: u.nick_name,
+                    })),
+                }))
+            }))
+        }))
+    }));
 
-        let selectedCourse = null;
-        let selectedChapter = null;
+    data.courses = courses;
 
-        function renderCourses() {
-        coursesDiv.innerHTML = '';
+    const container = document.getElementById('courses-container');
+
+    function createItem(title, onClick) {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.textContent = title;
+        div.onclick = onClick;
+        return div;
+    }
+
+    function renderCourses() {
         data.courses.forEach(course => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = course.title;
-            div.onclick = () => {
-            selectedCourse = course;
-            renderChapters(course.chapters);
-            };
-            coursesDiv.appendChild(div);
+            const courseDiv = createItem(course.title, () => {
+                if (chaptersDiv.classList.contains('hidden')) {
+                    chaptersDiv.classList.remove('hidden');
+                } else {
+                    chaptersDiv.classList.add('hidden');
+                }
+            });
+            const chaptersDiv = document.createElement('div');
+            chaptersDiv.className = 'nested hidden';
+
+            course.chapters.forEach(ch => {
+                const chapterDiv = createItem(ch.title, () => {
+                    if (lessonsDiv.classList.contains('hidden')) {
+                        lessonsDiv.classList.remove('hidden');
+                    } else {
+                        lessonsDiv.classList.add('hidden');
+                    }
+                });
+                const lessonsDiv = document.createElement('div');
+                lessonsDiv.className = 'nested hidden';
+
+                ch.lessons.forEach(lesson => {
+                    const lessonDiv = createItem(lesson.title, () => {
+                        if (sessionDiv.classList.contains('hidden')) {
+                            sessionDiv.classList.remove('hidden');
+                        } else {
+                            sessionDiv.classList.add('hidden');
+                        }
+                    });
+
+                    const sessionDiv = document.createElement('div');
+                    sessionDiv.className = 'nested hidden';
+
+                    const table = document.createElement('table');
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        ${lesson.sessions.map(session => `
+                            <tr>
+                                <td>${session.name}</td>
+                                <td>${session.date}</td>
+                                <td>${session.from}</td>
+                                <td>${session.to}</td>
+                                <td>
+                                    <button onclick="toggleStudents(this)">View Students</button>
+                                    <div class="students-list hidden">
+                                        ${session.students.map(st => `<div>• ${st.name}</div>`).join('')}
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                        </tbody>
+                    `;
+                    sessionDiv.appendChild(table);
+                    lessonsDiv.appendChild(lessonDiv);
+                    lessonsDiv.appendChild(sessionDiv);
+                });
+
+                chaptersDiv.appendChild(chapterDiv);
+                chaptersDiv.appendChild(lessonsDiv);
+            });
+
+            container.appendChild(courseDiv);
+            container.appendChild(chaptersDiv);
         });
-        }
+    }
 
-        function renderChapters(chapters) {
-        chaptersDiv.classList.remove('hidden');
-        lessonsDiv.classList.add('hidden');
-        sessionsDiv.classList.add('hidden');
-        chaptersList.innerHTML = '';
-        chapters.forEach(ch => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = ch.title;
-            div.onclick = () => {
-            selectedChapter = ch;
-            renderLessons(ch.lessons);
-            };
-            chaptersList.appendChild(div);
-        });
-        }
+    function toggleStudents(button) {
+        const studentDiv = button.nextElementSibling;
+        studentDiv.classList.toggle('hidden');
+    }
 
-        function renderLessons(lessons) {
-        lessonsDiv.classList.remove('hidden');
-        sessionsDiv.classList.add('hidden');
-        lessonsList.innerHTML = '';
-        lessons.forEach(lesson => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = lesson.title;
-            div.onclick = () => {
-            renderSessions(lesson.sessions);
-            };
-            lessonsList.appendChild(div);
-        });
-        }
-
-        function renderSessions(sessions) {
-        sessionsDiv.classList.remove('hidden');
-        sessionsTable.innerHTML = '';
-        sessions.forEach(session => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-            <td>${session.title}</td>
-            <td>${session.duration}</td>
-            <td>${session.date}</td>
-            `;
-            sessionsTable.appendChild(row);
-        });
-        }
-
-        // Start rendering
-        renderCourses();
-    </script>
-    </body>
-    </html>
-
+    renderCourses();
+</script>
 @endsection
+
 @include('Teacher.inc.footer')
