@@ -95,7 +95,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::post('/grade_question', 'grade_question');
     });
 
-    Route::controller(ExamController::class)->prefix('question')
+    Route::controller(ExamController::class)->prefix('exam')
     ->group(function(){
         Route::get('/lists', 'lists');
         Route::post('/filter', 'filter');
