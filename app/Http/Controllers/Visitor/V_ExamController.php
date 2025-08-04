@@ -281,7 +281,7 @@ class V_ExamController extends Controller
             $stu_exam = ExamHistory::create([
                 'date' => now(),
                 'user_id' => auth()->user()->id,
-                'diagnostic_exams_id' => $exam->id,
+                'exam_id' => $exam->id,
                 'score' => $score,
                 'time' => $timer_val, 
                 'r_questions' => $right_question,
