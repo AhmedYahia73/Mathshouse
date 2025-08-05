@@ -138,7 +138,6 @@ class PaymentController extends Controller
 
     public function wallet(Request $request){
         $wallet = $this->wallet
-        ->where('state', 'Pendding')
         ->where('wallet', '>', '0')
         ->orderByDesc('id')
         ->get()
