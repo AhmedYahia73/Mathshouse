@@ -7,10 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\PaymentRequest;
+use App\Models\AffilateRequest;
+use App\Models\AffilateService;
+use App\Models\Affilate;
+use App\Models\Wallet;
+use App\Models\PaymentOrder;
+use App\Models\PaymentPackageOrder;
 
 class PaymentController extends Controller
 {
-    public function __construct(private PaymentRequest $payment_request){}
+    public function __construct(private PaymentRequest $payment_request,
+    private Wallet $wallet, private AffilateRequest $affilate_request,
+    private AffilateService $affilate_service, private Affilate $affilate,
+    private PaymentOrder $payment_order, private PaymentPackageOrder $payment_package_order){}
 
     public function payment_request(Request $request){
         $pending_payment_request = $this->payment_request
@@ -77,8 +86,83 @@ class PaymentController extends Controller
             'state' => 'Approve',
         ]);
 
+        $aff_req = $this->affilate_request
+        ->where('payment_req_id', $id)
+        ->first();
+
+        if ( !empty($aff_req) ) {
+            $this->affilate_service
+            ->create([
+                'affilate_id' => $aff_req->affilate_id,
+                'service' => $aff_req->service,
+                'earned' => $aff_req->earned,
+            ]);
+
+            $aff_wallet = $this->affilate
+            ->where('id', $aff_req->affilate_id)->first()->wallet;
+            $this->affilatee
+            ->where('id', $aff_req->affilate_id)
+            ->update(['wallet' => $aff_wallet + $aff_req->earned]);
+        }
+
+        $payment = $this->payment_request
+        ->where('id', $id)
+        ->first();
+        if ( $payment->module == 'Chapters' ) {
+            $this->payment_order
+            ->where('payment_request_id', $id)
+            ->update([
+                'state' => 1,
+                'date' => now(),
+            ]);
+        } else {
+            $this->payment_package_order
+            ->where('payment_request_id', $id)
+            ->update([
+                'state' => 1,
+                'date' => now(),
+            ]);
+            
+            $payment_package_order = $this->payment_package_order
+            ->where('payment_request_id', $id)
+            ->with('package')
+            ->first();
+            
+            $number = $payment_package_order->package->number;
+        }
+
         return response()->json([
             'success' => 'You update status success'
+        ]);
+    }
+
+    public function wallet(Request $request){
+        $wallet = $this->wallet
+        ->where('state', 'Pendding')
+        ->where('wallet', '>', '0')
+        ->orderByDesc('id')
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'rejected_reason' => $item->rejected_reason,
+                'wallet' => $item->wallet,
+                'date' => $item->date,
+                'payment_method_id' => $item?->method?->payment,
+                'image' => $item->image_link,
+                'currency' => $item->currency,
+                'student' => $item?->student?->nick_name,
+                'state' => $item->state,
+            ];
+        });
+        $pending_wallet = $wallet->where('state', 'Pendding')
+        ->values();
+        $history_wallet = $wallet->where('state', '!=' ,'Pendding')
+        ->values();
+
+        return reponse()->json([
+            'pending_wallet' => $pending_wallet,
+            'history_wallet' => $history_wallet,
         ]);
     }
 }

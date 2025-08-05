@@ -147,6 +147,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     ->group(function(){
         Route::get('/', 'payment_request'); 
         Route::put('/reject_request/{id}', 'reject_request'); 
-        Route::put('/approve_request/{id}', 'approve_request'); 
+        Route::put('/approve_request/{id}', 'approve_request');
+        Route::get('/wallet', 'wallet');
     });
 });
