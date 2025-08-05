@@ -164,4 +164,25 @@ class PaymentController extends Controller
             'history_wallet' => $history_wallet,
         ]);
     }
+
+    public function approve_wallet(Request $request){
+        Wallet::
+        where('id', $id)
+        ->update(['state' => 'Approve']);
+
+        return response()->json([
+            'success' => 'You approve wallet success'
+        ]);
+    }
+
+    public function rejected_wallet( $id, Request $request ){
+        Wallet::
+        where('id', $id)
+        ->update(['state' => 'Rejected',
+        'rejected_reason' => $request->rejected_reason ]);
+
+        return response()->json([
+            'success' => 'You reject wallet success'
+        ]);
+    }
 }
