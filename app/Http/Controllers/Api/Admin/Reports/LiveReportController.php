@@ -10,7 +10,7 @@ use App\Models\User;
 
 class LiveReportController extends Controller
 {
-    public function __construct(){}
+    public function __construct(private User $user){}
 
     public function view(Request $request){
         $users = $this->user
