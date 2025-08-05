@@ -160,7 +160,7 @@ class PaymentController extends Controller
         $history_wallet = $wallet->where('state', '!=' ,'Pendding')
         ->values();
 
-        return reponse()->json([
+        return response()->json([
             'pending_wallet' => $pending_wallet,
             'history_wallet' => $history_wallet,
         ]);
