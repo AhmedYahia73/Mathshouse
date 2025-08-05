@@ -135,6 +135,7 @@ class DiaExamController extends Controller
             $query->select('chapter_name', 'id');
         }])
         ->get()
+        ->unique('chapter_id')
         ?->pluck('chapter');
 
         return response()->json([
