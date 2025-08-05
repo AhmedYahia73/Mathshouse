@@ -165,7 +165,7 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function approve_wallet(Request $request){
+    public function approve_wallet(Request $request, $id){
         Wallet::
         where('id', $id)
         ->update(['state' => 'Approve']);
