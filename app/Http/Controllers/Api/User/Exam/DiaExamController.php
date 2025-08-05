@@ -38,7 +38,7 @@ class DiaExamController extends Controller
         $exam = $this->exam
         ->where('course_id', $course_id)
         ->with(['question' => function($query){
-            $query->select('questions.id', 'question', 'ans_type', 'q_url')
+            $query->select('questions.id', 'questions.question', 'ans_type', 'q_url')
             ->with(['mcq:id,mcq_num,q_id']);
         }])
         ->get();
