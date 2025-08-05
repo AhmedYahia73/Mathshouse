@@ -68,7 +68,7 @@ class ExamController extends Controller
             $exams = $exams
             ->where('month', $request->month);
         }
-        if($request->code){
+        if($request->code_id){
             $exams = $exams
             ->where('code_id', $request->code_id);
         }
