@@ -108,6 +108,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(DiaExamController::class)->prefix('dia_exam')
     ->group(function(){
         Route::get('/lists', 'lists'); 
+        Route::get('/show_exam/{course_id}', 'show_exam'); 
         Route::post('/grade_exam', 'grade_exam');
     });
 });
