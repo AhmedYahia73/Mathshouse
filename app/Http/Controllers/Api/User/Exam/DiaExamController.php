@@ -48,7 +48,7 @@ class DiaExamController extends Controller
             ], 400);
         }
         $random = rand(0, $exam->count() - 1);
-        $question = $exam[$random]?->pluck('question');
+        $question = $exam[$random]?->question;
 
         return response()->json([
             'exam' => $question
@@ -105,11 +105,7 @@ class DiaExamController extends Controller
         }
   
         $right_questions = $score;
-        $score = $this->score_list
-        ->where('score_id', $exam->score_id)
-        ->where('question_num', $right_questions)
-        ->first();
-        $score = $right_questions == 0 ? 200 : $score->score; 
+        $score = ($right_questions / $total_question) * 100; 
         $grade = $exam->pass_score < $score ? true : false;
         $timer = $request->timer;
         if (empty($stu_q)) {
