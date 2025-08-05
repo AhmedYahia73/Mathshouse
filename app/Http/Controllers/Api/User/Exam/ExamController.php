@@ -88,8 +88,8 @@ class ExamController extends Controller
             $query->select('questions.id', 'question', 'ans_type', 'q_url')
             ->with(['mcq:id,mcq_num,q_id']);
         }])
-        ->first()
-        ?->question;; 
+        ->first();
+        $questions = $exam?->question;
  
         $payments = $this->payment_packag_order
         ->where('state', 1)
@@ -109,7 +109,7 @@ class ExamController extends Controller
             $small_package->save();
             
             return response()->json([
-                'exam' => $exam,
+                'exam' => $questions,
                 'reports' => $reports,
             ]);
         }
@@ -131,7 +131,7 @@ class ExamController extends Controller
                     'number' => $item->number - 1
                 ]);
                 return response()->json([
-                    'exam' => $exam,
+                    'exam' => $questions,
                     'reports' => $reports,
                 ]);
             }
@@ -147,7 +147,7 @@ class ExamController extends Controller
         $validator = Validator::make($request->all(), [
             'answers' => 'required|array',
             'timer' => 'required',
-            'exam_id' => 'required|exists:exams,id',
+            'exam_id' => 'required|exists:exam,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -162,16 +162,16 @@ class ExamController extends Controller
         $exam = $this->exam
         ->where('id', $request->exam_id)
         ->with(['question' => function($query){
-            $query->select('id', 'question', 'ans_type', 'q_url')
+            $query->select('questions.id', 'question', 'ans_type', 'q_url')
             ->with(['mcq', 'g_ans']);
         }])
-        ->first();
-        $questions = $exam?->pluck('question');
+        ->first(); 
+        $questions = $exam?->question;
         foreach ($questions as $item) {
-            $question = $item[$iter++];
+            $question = $item;
             if ($question->ans_type == 'MCQ') {
                 $q_answer = $question->mcq;
-                if($q_answer->isNotEmpty() > 0 && $q_answer[0]->mcq_answers == $answer[1]){
+                if($q_answer->count() > 0 && isset($answer[$iter]) && $q_answer[0]->mcq_answers == $answer[$iter++]){
                     $score++;
                 }
                 else{
@@ -180,7 +180,7 @@ class ExamController extends Controller
             }
             else {
                 $q_answer = $question->g_ans; 
-                if($q_answer->isNotEmpty() > 0 && $q_answer->pluck('grid_ans')->contains($answer)){
+                if($q_answer->count() > 0 && isset($answer[$iter]) && $q_answer->pluck('grid_ans')->contains($answer[$iter++])){
                     $score++;
                 }
                 else{
@@ -189,13 +189,13 @@ class ExamController extends Controller
             }
         }
   
-        $right_questions = $score;
         
         $score = $this->score_list
         ->where('score_id', $exam->score_id)
         ->where('question_num', $right_questions)
         ->first();
         $score = $right_questions == 0 ? 200 : $score->score;
+        $right_questions = $score;
         $grade = $exam->pass_score < $score ? true : false;
         $timer = $request->timer;
         if (empty($stu_q)) {
