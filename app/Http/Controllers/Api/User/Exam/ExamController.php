@@ -154,7 +154,7 @@ class ExamController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-        $score = 0;
+        $score = 0; 
         $total = count($request->answers);
         $mistakes = [];
         $iter = 0;
@@ -167,6 +167,9 @@ class ExamController extends Controller
         }])
         ->first(); 
         $questions = $exam?->question;
+		$total_question = $questions->count();
+        $pass_score = $exam->pass_score;
+        $exam_name = $exam->title;
         foreach ($questions as $item) {
             $question = $item;
             if ($question->ans_type == 'MCQ') {
@@ -189,13 +192,12 @@ class ExamController extends Controller
             }
         }
   
-        
+        $right_questions = $score;
         $score = $this->score_list
         ->where('score_id', $exam->score_id)
         ->where('question_num', $right_questions)
         ->first();
-        $score = $right_questions == 0 ? 200 : $score->score;
-        $right_questions = $score;
+        $score = $right_questions == 0 ? 200 : $score->score; 
         $grade = $exam->pass_score < $score ? true : false;
         $timer = $request->timer;
         if (empty($stu_q)) {
@@ -223,9 +225,10 @@ class ExamController extends Controller
             'mistakes' => $mistakes,
             'score' => $score,
             'exam' => $exam,
-            'right_question' => $right_question,
+            'right_question' => $right_questions,
             'total_question' => $total_question,
-            'report_v' => $report_v,
+            'pass_score' => $pass_score,
+            'exam_name' => $exam_name,
         ]);
  
     }
