@@ -83,7 +83,7 @@ class ExamController extends Controller
         $reports = $this->question_report
         ->get();
         $exam = $this->exam
-        ->where('id', $id)
+        ->where('exam.id', $id)
         ->with(['question' => function($query){
             $query->select('id', 'question', 'ans_type', 'q_url')
             ->with(['mcq:id,mcq_num,q_id']);
