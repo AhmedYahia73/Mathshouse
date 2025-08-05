@@ -88,10 +88,8 @@ class ExamController extends Controller
             $query->select('questions.id', 'question', 'ans_type', 'q_url')
             ->with(['mcq:id,mcq_num,q_id']);
         }])
-        ->first(); 
-        return response()->json([
-            'exam' => $exam
-        ]);
+        ->first()
+        ?->question;; 
  
         $payments = $this->payment_packag_order
         ->where('state', 1)
