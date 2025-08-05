@@ -85,7 +85,7 @@ class ExamController extends Controller
         $exam = $this->exam
         ->where('exam.id', $id)
         ->with(['question' => function($query){
-            $query->select('id', 'question', 'ans_type', 'q_url')
+            $query->select('questions.id', 'question', 'ans_type', 'q_url')
             ->with(['mcq:id,mcq_num,q_id']);
         }])
         ->first()
