@@ -128,7 +128,7 @@ class PaymentController extends Controller
             ->with('package')
             ->first();
             
-            $number = $payment_package_order->package->number;
+            $number = $payment_package_order?->package?->number ?? 0;
         }
 
         return response()->json([
