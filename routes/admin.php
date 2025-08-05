@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\Admin\ReportIssue\Video\VReportAction;
 use App\Http\Controllers\Api\Admin\Payment\PaymentMethodController;
 use App\Http\Controllers\Api\Admin\Payment\PaymentController;
 
+use App\Http\Controllers\Api\Admin\Reports\LiveReportController;
+
 
 // Parents 
 // Students +++++
@@ -151,5 +153,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/wallet', 'wallet');
         Route::put('/approve_wallet/{id}', 'approve_wallet');
         Route::put('/rejected_wallet/{id}', 'rejected_wallet');
+    });
+
+    Route::controller(LiveReportController::class)->prefix('reports/live')
+    ->group(function(){
+        Route::get('/', 'view');  
+        Route::post('/filter', 'filter');  
     });
 });
