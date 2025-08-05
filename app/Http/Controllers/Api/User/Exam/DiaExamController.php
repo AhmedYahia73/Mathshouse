@@ -113,11 +113,10 @@ class DiaExamController extends Controller
             ->create([
                 'date' => now(),
                 'user_id' => auth()->user()->id,
-                'exam_id' => $exam->id,
+                'diagnostic_exams_id' => $exam->id,
                 'score' => $score,
                 'time' => $timer, 
-                'r_questions' => $right_questions,
-                'exam_id' => $exam->id,
+                'r_questions' => $right_questions, 
             ]);
 
             foreach ($mistakes as $item) {
