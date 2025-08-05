@@ -57,7 +57,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/lists', 'lists');
         Route::get('/', 'my_packages');
-        Route::post('payment/{id}', 'payment_package'); 
+        Route::post('payment/{id}', 'payment_package');
+        Route::get('packges/{id}', 'packges');
     });
 
     Route::controller(ScoreSheetController::class)->prefix('score_sheet')

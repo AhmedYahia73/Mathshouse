@@ -90,6 +90,18 @@ class MyPackageController extends Controller
         ]);
     }
 
+    public function packges(Request $request, $id){ 
+        $courses = Course::
+        select('course_name', 'id')
+        ->where('id', $id)
+        ->with('packages:id,name,course_id,price,number,duration,module')
+        ->first();
+
+        return response()->json([
+            'courses' => $courses
+        ]);
+    }
+
     public function lists(){
         $payment_methods = PaymentMethod::where('statue', 1)
         ->get()
