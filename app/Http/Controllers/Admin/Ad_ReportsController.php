@@ -31,7 +31,9 @@ class Ad_ReportsController extends Controller
      ){}
     public function ad_live_report( Request $req )
     {
-        $query = SessionAttendance::query();
+        $query = SessionAttendance::
+        query()
+        ->orderByDesc('id');
     
         if (!empty($req->from)) {
             $query->whereDate('created_at', '>=', $req->from);
