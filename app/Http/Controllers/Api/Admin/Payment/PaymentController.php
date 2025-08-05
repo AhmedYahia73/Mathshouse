@@ -166,8 +166,8 @@ class PaymentController extends Controller
     }
 
     public function approve_wallet(Request $request, $id){
-        Wallet::
-        where('id', $id)
+        $this->wallet
+        ->where('id', $id)
         ->update(['state' => 'Approve']);
 
         return response()->json([
@@ -176,8 +176,17 @@ class PaymentController extends Controller
     }
 
     public function rejected_wallet( $id, Request $request ){
-        Wallet::
-        where('id', $id)
+       $validator = Validator::make($request->all(), [
+            'rejected_reason' => ['required'], 
+        ]);
+        if ($validator->fails()) { 
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        
+        $wallet = $this->wallet
+        ->where('id', $id)
         ->update(['state' => 'Rejected',
         'rejected_reason' => $request->rejected_reason ]);
 
