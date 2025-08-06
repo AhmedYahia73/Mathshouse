@@ -185,7 +185,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
 
     Route::controller(ExamReportController::class)->prefix('reports/exam')
     ->group(function(){
-        Route::get('/', 'view');  
-        Route::post('/filter', 'filter');  
+        Route::get('/', 'lists');  
+        Route::post('/exam_questions', 'exam_questions');  
     });
 });
