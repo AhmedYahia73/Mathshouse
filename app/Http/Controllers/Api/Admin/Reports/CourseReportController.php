@@ -14,26 +14,31 @@ class CourseReportController extends Controller
 
     public function view(Request $request){
         $users = $this->users
-        ->with(['payment_req_approve' => function($query){
-            $query->where('module', 'Chapters')
+    ->with(['payment_req_approve' => function ($query) {
+        $query->where('module', 'Chapters')
             ->with('chapters_order.chapter.course');
-        }])
-        ->whereHas('payment_req_approve.chapters_order.chapter.course')
-        ->get()
-        ->map(function($item){
-            return [
-                'id' => $item->id,
-                'f_name' => $item->f_name,
-                'l_name' => $item->l_name,
-                'nick_name' => $item->nick_name,
-                'courses' => $item->payment_req_approve->pluck('chapters_order')
-                ->map(function($item){
-                    return [
-                        'courses_names' => $item->chapter->course->course_name
-                    ];
-                }),
-            ];
-        });
+    }])
+    ->whereHas('payment_req_approve.chapters_order.chapter.course')
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'f_name' => $item->f_name,
+            'l_name' => $item->l_name,
+            'nick_name' => $item->nick_name,
+            'courses' => $item->payment_req_approve
+                ->flatMap(function ($payment) {
+                    if ($payment->chapters_order && $payment->chapters_order->chapter && $payment->chapters_order->chapter->course) {
+                        return [[
+                            'courses_names' => $payment->chapters_order->chapter->course->course_name
+                        ]];
+                    }
+                    return [];
+                })
+                ->values(), // للتأكد إن الـ index نظيف
+        ];
+    });
+
    
         // $categories = Category::all();
         // $courses = Course::all();
