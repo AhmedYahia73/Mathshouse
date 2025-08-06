@@ -51,7 +51,7 @@ class ExamReportController extends Controller
             'course_id' => ['exists:courses,id'],
             'chapter_id' => ['exists:chapters,id'],
             'lesson_id' => ['exists:lessons,id'],
-            'exam_id' => ['exists:exams,id'],
+            'exam_id' => ['exists:exam,id'],
             'type' => ['in:Trail,Parallel,Extra'],
             'month' => ['numeric', 'min:1', 'max:12'],
         ]);
@@ -72,42 +72,51 @@ class ExamReportController extends Controller
         }
         else{
             $questions = Question:: 
-            with(['mcq:id,mcq_num,mcq_answers,q_id', 'g_ans:id,grid_ans,q_id',
+            with([ 'mcq:id,mcq_num,mcq_answers,q_id', 'g_ans:id,grid_ans,q_id',
                 'lessons.chapter.course'
             ])
+			->whereHas('lessons.chapter.course')
             ->get();
-        }
-        
+        } 
+		 
         if($request->category_id){
-            $questions = $questions->first(function ($item) use($request) {
-                return optional($item->lessons->chapter->course)->category_id === $request->category_id;
+            $questions = $questions->filter(function ($item) use($request) {
+                return optional($item->lessons->chapter->course)->category_id == $request->category_id;
             }); 
         }
         if($request->course_id){
-            $questions = $questions->first(function ($item) use($request) {
-                return optional($item->lessons->chapter)->course_id === $request->course_id;
+            $questions = $questions->filter(function ($item) use($request) {
+                return optional($item->lessons->chapter)->course_id == $request->course_id;
             }); 
         }
         if($request->chapter_id){
-            $questions = $questions->first(function ($item) use($request) {
-                return optional($item->lessons)->chapter_id === $request->chapter_id;
+            $questions = $questions->filter(function ($item) use($request) {
+                return optional($item->lessons)->chapter_id == $request->chapter_id;
             });
         }
         if($request->lesson_id){
-            $questions = $questions->first(function ($item) use($request) {
-                return $item->lesson_id === $request->lesson_id;
+            $questions = $questions->filter(function ($item) use($request) {
+                return $item->lesson_id == $request->lesson_id;
             });
         }
         if($request->type){
-            $questions = $questions->first(function ($item) use($request) {
-                return $item->q_type === $request->type;
+            $questions = $questions->filter(function ($item) use($request) {
+                return $item->q_type == $request->type;
             });
         }
         if($request->month){
-            $questions = $questions->first(function ($item) use($request) {
-                return $item->month === $request->month;
+            $questions = $questions->filter(function ($item) use($request) {
+                return $item->month == $request->month;
             });
         }
+		
+		
+		$questions = $questions->select('id',
+            'month', 'ans_type',
+            'q_num', 'mcq', 'g_ans',
+            'year',
+            'section',
+			'q_code')->values();
 
         return response()->json([
             'questions' => $questions
