@@ -16,6 +16,7 @@ use App\Models\SmallPackage;
 use App\Models\ScoreList;
 use App\Models\ExamHistory;
 use App\Models\ExamMistake;
+use App\Models\Lesson;
 
 class ExamController extends Controller
 {
@@ -24,7 +25,8 @@ class ExamController extends Controller
     private ReportQuestionList $question_report,
     private PaymentPackageOrder $payment_packag_order,
     private SmallPackage $small_package, private ScoreList $score_list,
-    private ExamHistory $exam_history, private ExamMistake $exam_mistakes){}
+    private ExamHistory $exam_history, private ExamMistake $exam_mistakes,
+    private Lesson $lesson){}
 
     public function lists(Request $request){
         $courses = $this->course
