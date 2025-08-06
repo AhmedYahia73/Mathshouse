@@ -31,7 +31,7 @@ class PaymentReportController extends Controller
         return response()->json([
             'payments' => $payment,
             'total_payments' => $payment->sum('price'),
-            'payments' => $payment->unique('user_id')->count(),
+            'total_students' => $payment->unique('user_id')->count(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class PaymentReportController extends Controller
         return response()->json([
             'payments' => $payment,
             'total_payments' => $payment->sum('price'),
-            'payments' => $payment->unique('user_id')->count(),
+            'total_students' => $payment->unique('user_id')->count(),
         ]);
     }
 }
