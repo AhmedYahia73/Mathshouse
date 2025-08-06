@@ -72,10 +72,9 @@ class ExamReportController extends Controller
         }
         else{
             $questions = Question:: 
-            with(['question' => function($query){
-                $query->with('mcq:id,mcq_num,mcq_answers,q_id', 'g_ans:id,grid_ans,q_id',
-                'lessons.chapter.course');
-            }])
+            with(['mcq:id,mcq_num,mcq_answers,q_id', 'g_ans:id,grid_ans,q_id',
+                'lessons.chapter.course'
+            ])
             ->get();
         }
         
