@@ -31,7 +31,7 @@
   </form>
 
   <h4>
-    Total : {{count($payment)}} Students
+    Total : {{count($payment->unique('user_id'))}} Students
   </h4>
   <h4>
     Total Payment: ${{$payment->sum('price')}} 
@@ -40,6 +40,7 @@
     <thead class="fs-7 text-gray-500 text-uppercase">
             <th class="min-w-250px sorting sorting_desc" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Manager: activate to sort column ascending" style="width: 336.359px;" aria-sort="descending">#</th>
             <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Student</th>
+            <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Type</th>
             <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Price</th>
     </thead>
     <tbody class="fs-6">
@@ -50,6 +51,9 @@
             </td>
             <td> 
                 {{$item->user->f_name . ' ' . $item->user->l_name . ' (' .$item->user->nick_name . ')'}}
+            </td>
+            <td>
+                {{$item->module}}
             </td>
             <td>
                 ${{$item->price}}

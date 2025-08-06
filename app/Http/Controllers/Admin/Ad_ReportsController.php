@@ -73,21 +73,21 @@ class Ad_ReportsController extends Controller
         if ( !empty($req->from) && empty($req->to) ) {
             $payment = PaymentRequest::
             where('state', 'Approve')
-            ->where('module', 'Chapters')
+            //->where('module', 'Chapters')
             ->where('created_at', '>=', $req->from)
             ->get();
         }
         elseif ( empty($req->from) && !empty($req->to) ) {
             $payment = PaymentRequest::
             where('state', 'Approve')
-            ->where('module', 'Chapters')
+            //->where('module', 'Chapters')
             ->where('created_at', '<=', $req->to)
             ->get();
         }
         elseif ( !empty($req->from) && !empty($req->to) ) {
             $payment = PaymentRequest::
             where('state', 'Approve')
-            ->where('module', 'Chapters')
+            //->where('module', 'Chapters')
             ->where('created_at', '>=', $req->from)
             ->where('created_at', '<=', $req->to)
             ->get();
@@ -95,7 +95,7 @@ class Ad_ReportsController extends Controller
         else{
             $payment = PaymentRequest::
             where('state', 'Approve')
-            ->where('module', 'Chapters')
+            //->where('module', 'Chapters')
             ->get();
         }
         $data = $req->all();
