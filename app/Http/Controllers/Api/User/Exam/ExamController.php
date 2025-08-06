@@ -220,6 +220,17 @@ class ExamController extends Controller
                 ]);
             }
         }
+        $mistakes = collect($mistakes);
+        $lessons_ids = $mistakes->pluck('lesson_id');
+        $recommanditions = $this->lesson
+        ->whereIn('id', $lessons_ids)
+        ->with(['chapter' => function($query){
+            $query->select('chapter_name', 'id');
+        }])
+        ->get()
+        ->unique('chapter_id')
+        ?->pluck('chapter');
+
         return response()->json([
             'grade' => $grade,
             'mistakes' => $mistakes,
@@ -229,6 +240,7 @@ class ExamController extends Controller
             'total_question' => $total_question,
             'pass_score' => $pass_score,
             'exam_name' => $exam_name,
+            'recommanditions' => $recommanditions,
         ]);
  
     }
