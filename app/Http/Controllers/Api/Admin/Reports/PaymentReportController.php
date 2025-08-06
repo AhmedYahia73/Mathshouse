@@ -50,11 +50,11 @@ class PaymentReportController extends Controller
         where('state', 'Approve');
         if($request->from){
             $payment = $payment
-            ->where('created_at', '>=', $req->from);
+            ->where('created_at', '>=', $request->from);
         }
         if($request->to){
             $payment = $payment
-            ->where('created_at', '<=', $req->to);
+            ->where('created_at', '<=', $request->to);
         }
         $payment = $payment->get()
         ->map(function($item){
