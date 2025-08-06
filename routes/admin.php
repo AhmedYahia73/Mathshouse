@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\Admin\Payment\PaymentMethodController;
 use App\Http\Controllers\Api\Admin\Payment\PaymentController;
 
 use App\Http\Controllers\Api\Admin\Reports\LiveReportController;
+use App\Http\Controllers\Api\Admin\Reports\GradeReportController;
 
 
 // Parents 
@@ -156,6 +157,12 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(LiveReportController::class)->prefix('reports/live')
+    ->group(function(){
+        Route::get('/', 'view');  
+        Route::post('/filter', 'filter');  
+    });
+
+    Route::controller(GradeReportController::class)->prefix('reports/grade')
     ->group(function(){
         Route::get('/', 'view');  
         Route::post('/filter', 'filter');  
