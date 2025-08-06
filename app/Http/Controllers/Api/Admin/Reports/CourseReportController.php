@@ -13,7 +13,7 @@ class CourseReportController extends Controller
     public function __construct(private User $users){}
 
     public function view(Request $request){
-        $users = $this->user
+        $users = $this->users
         ->with(['payment_req_approve' => function($query){
             $query->where('module', 'Chapters')
             ->with('chapters_order.chapter.course');
