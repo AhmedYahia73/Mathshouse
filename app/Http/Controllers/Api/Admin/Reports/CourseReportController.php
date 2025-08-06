@@ -67,12 +67,12 @@ class CourseReportController extends Controller
             ->with([
                 'payment_req_approve' => function ($query) use($request){
                     $query->where('module', 'Chapters')
-                        ->with(['chapters_order.chapter.course' => function($query){
+                        ->with(['chapters_order.chapter.course' => function($query) use($request){
                             $query->where('id', $request->course_id);
                         }]);
                 }
             ])
-            ->whereHas('payment_req_approve.chapters_order.chapter.course', function($query){
+            ->whereHas('payment_req_approve.chapters_order.chapter.course', function($query) use($request){
                 $query->where('id', $request->course_id);
             })
             ->get()
@@ -101,12 +101,12 @@ class CourseReportController extends Controller
             ->with([
                 'payment_req_approve' => function ($query) use($request){
                     $query->where('module', 'Chapters')
-                        ->with(['chapters_order.chapter.course' => function($query){
+                        ->with(['chapters_order.chapter.course' => function($query) use($request){
                             $query->where('category_id', $request->category_id);
                         }]);
                 }
             ])
-            ->whereHas('payment_req_approve.chapters_order.chapter.course', function($query){
+            ->whereHas('payment_req_approve.chapters_order.chapter.course', function($query) use($request){
                 $query->where('category_id', $request->category_id);
             })
             ->get()
