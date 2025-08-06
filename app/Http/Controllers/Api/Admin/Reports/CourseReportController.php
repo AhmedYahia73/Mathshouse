@@ -14,28 +14,31 @@ class CourseReportController extends Controller
 
     public function view(Request $request){
         $users = $this->users
-    ->with(['payment_req_approve' => function ($query) {
-        $query->where('module', 'Chapters')
-            ->with('chapters_order.chapter.course');
-    }])
+    ->with([
+        'payment_req_approve' => function ($query) {
+            $query->where('module', 'Chapters')
+                ->with(['chapters_order.chapter.course']);
+        }
+    ])
     ->whereHas('payment_req_approve.chapters_order.chapter.course')
     ->get()
-    ->map(function ($item) {
+    ->map(function ($user) {
         return [
-            'id' => $item->id,
-            'f_name' => $item->f_name,
-            'l_name' => $item->l_name,
-            'nick_name' => $item->nick_name,
-            'courses' => $item->payment_req_approve
+            'id' => $user->id,
+            'f_name' => $user->f_name,
+            'l_name' => $user->l_name,
+            'nick_name' => $user->nick_name,
+            'courses' => $user->payment_req_approve
                 ->flatMap(function ($payment) {
-                    if ($payment->chapters_order && $payment->chapters_order->chapter && $payment->chapters_order->chapter->course) {
-                        return [[
-                            'courses_names' => $payment->chapters_order->chapter->course->course_name
-                        ]];
-                    }
-                    return [];
-                })
-                ->values(), // للتأكد إن الـ index نظيف
+                    return $payment->chapters_order->map(function ($order) {
+                        if ($order->chapter && $order->chapter->course) {
+                            return [
+                                'course_name' => $order->chapter->course->course_name
+                            ];
+                        }
+                        return null;
+                    })->filter(); // remove nulls
+                })->values(),
         ];
     });
 
