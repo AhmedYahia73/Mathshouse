@@ -139,7 +139,7 @@ class ScoreSheetQuizReportController extends Controller
         $questions = $this->student_quiz
         ->whereIn('student_quizzes.id', $request->selected_ids)
         ->with(['questions' => function($query){
-            $query->select('questions.id', 'question', 'q_url')
+            $query->select('questions.id', 'question', 'q_url', 'lesson_id')
             ->with(['lessons' => function($q1){
                 $q1->select('lessons.id', 'lesson_name', 'chapter_id')
                 ->with(['chapter' => function($q2){
@@ -151,59 +151,88 @@ class ScoreSheetQuizReportController extends Controller
                 }]);
             }]);
         }])->get();
-        
-$questions = $questions->pluck('questions')->flatten(1);
+                
+        $questions = $questions->pluck('questions')->flatten(1);
 
-// Get unique lessons
-$lessons = $questions->pluck('lessons')->filter()->unique('id')->values();
+        // Get unique lessons
+        $lessons = $questions->pluck('lessons')->filter()->unique('id')->values();
 
-// Get unique chapters
-$chapters = $lessons->pluck('chapter')->filter()->unique('id')->values();
+        // Get unique chapters
+        $chapters = $lessons->pluck('chapter')->filter()->unique('id')->values();
 
-// Get unique courses
-$courses = $chapters->pluck('course')->filter()->unique('id')->values();
+        // Get unique courses
+        $courses = $chapters->pluck('course')->filter()->unique('id')->values();
 
-// Get unique categories
-$categories = $courses->pluck('category')->filter()->unique('id')->values(); 
+        // Get unique categories
+        $categories = $courses->pluck('category')->filter()->unique('id')->values(); 
 
         $pdf_name =  'Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
         return response()->json([
             'questions' => $questions->select('id', 'question', 'q_image'),
             'pdf_name' => $pdf_name,
             'student' => $user,
-            'lessons' => $lessons,
-            'chapters' => $chapters,
-            'courses' => $courses,
-            'categories' => $categories,
+            'lessons' => $lessons->select('id', 'lesson_name'),
+            'chapters' => $chapters->select('id', 'chapter_name'),
+            'courses' => $courses->select('id', 'course_name'),
+            'categories' => $categories->select('id', 'cate_name'),
         ]);
     }
 
     
     public function generateAnsPdf(Request $request) {
-           
-        $user = User::find($request->user_id);
-        $questionsIds = is_string($request->selected_ids) ? json_decode($request->selected_ids): $request->selected_ids;
-        $questionsIds =  $questionsIds[0];
-		$questionsIds = str_replace(['[', ']'], '', $questionsIds);
-		$questionsIds = explode(',', $questionsIds);
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'exists:users,id'],
+            'selected_ids' => ['required', 'array'],
+            'selected_ids.*' => ['required', 'exists:student_quizzes,id'],
+        ]);
+        if ($validator->fails()) { 
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        $user = User::find($request->user_id);   
         $questions = $this->student_quiz
-        ->whereIn('id', $questionsIds)
+        ->whereIn('student_quizzes.id', $request->selected_ids)
         ->with(['questions' => function($query){
-            $query->with(['mcq', 'q_ans', 'g_ans']);
+            $query->select('questions.id', 'question', 'q_url', 'lesson_id')
+            ->with(['q_ans', 'lessons' => function($q1){
+                $q1->select('lessons.id', 'lesson_name', 'chapter_id')
+                ->with(['chapter' => function($q2){
+                    $q2->select('chapters.id', 'chapter_name', 'course_id')
+                    ->with(['course' => function($q3){
+                        $q3->select('courses.id', 'course_name', 'category_id')
+                        ->with('category:id,cate_name');
+                    }]);
+                }]);
+            }]);
         }])->get();
+                
         $questions = $questions->pluck('questions')->flatten(1);
-        $answers = []; 
-        foreach ($questions as $question) {
-            if ($question->ans_type == 'MCQ') {
-                $answers[] = $question->mcq;
-            } elseif ($question->ans_type == 'Grid') {
-                $answers[] = $question->q_ans;
-            }
-        } 
-        
-        $pdf_name =  'Ans - Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
-        $pdf = Pdf::loadView('questions_answers', compact('questions', 'answers', 'user'))
-        ->setPaper('a4', 'landscape');
-        return $pdf->download($pdf_name . '.pdf');
+        // Get unique lessons
+        $lessons = $questions->pluck('lessons')->filter()->unique('id')->values();
+
+        // Get unique chapters
+        $chapters = $lessons->pluck('chapter')->filter()->unique('id')->values();
+
+        // Get unique courses
+        $courses = $chapters->pluck('course')->filter()->unique('id')->values();
+
+        // Get unique categories
+        $categories = $courses->pluck('category')->filter()->unique('id')->values(); 
+
+        // Get unique answers
+        $answers = $questions->pluck('q_ans')->select('id', 'ans_pdf_link');
+
+        $pdf_name =  'Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
+        return response()->json([
+            'answers' => $answers,
+            'pdf_name' => $pdf_name,
+            'student' => $user,
+            'lessons' => $lessons->select('id', 'lesson_name'),
+            'chapters' => $chapters->select('id', 'chapter_name'),
+            'courses' => $courses->select('id', 'course_name'),
+            'categories' => $categories->select('id', 'cate_name'),
+        ]);
     }
 }
