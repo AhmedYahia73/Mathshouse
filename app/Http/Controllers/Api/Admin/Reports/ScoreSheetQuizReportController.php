@@ -222,7 +222,7 @@ class ScoreSheetQuizReportController extends Controller
         $categories = $courses->pluck('category')->filter()->unique('id')->values(); 
 
         // Get unique answers
-        $answers = $questions->pluck('q_ans')->select('id', 'ans_pdf_link');
+        $answers = $questions->pluck('q_ans')->flatten(1);
 
         $pdf_name =  'Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
         return response()->json([
