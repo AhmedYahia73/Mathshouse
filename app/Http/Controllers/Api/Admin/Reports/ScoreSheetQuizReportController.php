@@ -171,10 +171,10 @@ $categories = $courses->pluck('category')->filter()->unique('id')->values();
             'questions' => $questions->select('id', 'question', 'q_image'),
             'pdf_name' => $pdf_name,
             'student' => $user,
-            'lessons' => $lesson,
-            'chapters' => $chapter,
-            'courses' => $course,
-            'categories' => $category,
+            'lessons' => $lessons,
+            'chapters' => $chapters,
+            'courses' => $courses,
+            'categories' => $categories,
         ]);
     }
 
