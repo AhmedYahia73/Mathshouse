@@ -12,7 +12,7 @@ use App\Models\Chapter;
 use App\Models\StudentQuizze;
 use App\Models\Lesson;
 
-class ScoreSheetReportController extends Controller
+class ScoreSheetQuizReportController extends Controller
 {
     public function __construct(private User $users,
     private Course $course, private Chapter $chapter, 
@@ -57,6 +57,19 @@ class ScoreSheetReportController extends Controller
         return response()->json([
             'student' => $student,
             'quizs_history' => $quizs
+        ]);
+    }
+
+    public function quiz_mistakes(Request $request, $id){
+        $quizs = $this->student_quiz
+        ->where('id', $id)
+        ->with('questions.q_ans')
+        ->first()
+        ?->questions
+        ?->select('id', 'question', 'q_image', 'q_ans');
+
+        return response()->json([
+            'quizs' => $quizs
         ]);
     }
 }

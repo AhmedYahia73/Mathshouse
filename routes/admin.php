@@ -30,7 +30,7 @@ use App\Http\Controllers\Api\Admin\Reports\GradeReportController;
 use App\Http\Controllers\Api\Admin\Reports\PaymentReportController;
 use App\Http\Controllers\Api\Admin\Reports\CourseReportController;
 use App\Http\Controllers\Api\Admin\Reports\ExamReportController;
-use App\Http\Controllers\Api\Admin\Reports\ScoreSheetReportController;
+use App\Http\Controllers\Api\Admin\Reports\ScoreSheetQuizReportController;
 
 
 // Parents 
@@ -190,9 +190,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/exam_questions', 'exam_questions');  
     });
 
-    Route::controller(ScoreSheetReportController::class)->prefix('reports/score_sheet')
+    Route::controller(ScoreSheetQuizReportController::class)->prefix('reports/score_sheet/quiz')
     ->group(function(){
         Route::get('/students', 'students');  
         Route::post('/quiz_list/{user_id}', 'quiz_list');  
+        Route::post('/quiz_mistakes/{id}', 'quiz_mistakes');  
     });
 });
