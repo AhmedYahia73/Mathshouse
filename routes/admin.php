@@ -193,7 +193,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(ScoreSheetQuizReportController::class)->prefix('reports/score_sheet/quiz')
     ->group(function(){
         Route::get('/students', 'students');  
-        Route::post('/quiz_list/{user_id}', 'quiz_list');  
-        Route::post('/quiz_mistakes/{id}', 'quiz_mistakes');  
+        Route::get('/quiz_list/{user_id}', 'quiz_list');
+        Route::get('/quiz_mistakes/{id}', 'quiz_mistakes');  
     });
 });

@@ -22,7 +22,7 @@ class ScoreSheetQuizReportController extends Controller
     public function students(Request $request){
         $students = $this->users
         ->select('id', 'f_name', 'l_name', 'nick_name',
-        'phone', 'parent_phone', 'email')
+        'phone', 'parent_phone', 'email', 'image')
         ->get();
 
         return response()->json([
