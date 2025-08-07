@@ -152,7 +152,7 @@ class ScoreSheetQuizReportController extends Controller
             }]);
         }])->get();
         
-$questions = $questions->pluck('questions')->flatten(1);
+$questions = $questions->pluck('questions');
 
 // Get unique lessons
 $lessons = $questions->pluck('lessons')->filter()->unique('id')->values();
