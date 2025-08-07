@@ -151,11 +151,20 @@ class ScoreSheetQuizReportController extends Controller
                 }]);
             }]);
         }])->get();
-        $questions = $questions->pluck('questions')->flatten(1);
-        $lesson = $questions->pluck('lessons')->unique('id')->values();
-        $chapter = $lesson->pluck('chapter')->flatten(1)->unique('id')->values();
-        $course = $chapter->pluck('course')->flatten(1)->unique('id')->values();
-        $category = $course->pluck('category')->flatten(1)->unique('id')->values();
+        
+$questions = $questions->pluck('questions')->flatten(1);
+
+// Get unique lessons
+$lessons = $questions->pluck('lesson')->filter()->unique('id')->values();
+
+// Get unique chapters
+$chapters = $lessons->pluck('chapter')->filter()->unique('id')->values();
+
+// Get unique courses
+$courses = $chapters->pluck('course')->filter()->unique('id')->values();
+
+// Get unique categories
+$categories = $courses->pluck('category')->filter()->unique('id')->values(); 
 
         $pdf_name =  'Questions ' . ( $questions->count()) . ' for ' .  $user->f_name . ' ' . $user->l_name;
         return response()->json([
