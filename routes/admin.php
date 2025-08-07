@@ -194,6 +194,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     ->group(function(){
         Route::get('/students', 'students');  
         Route::get('/quiz_list/{user_id}', 'quiz_list');
-        Route::get('/quiz_mistakes/{id}', 'quiz_mistakes');  
+        Route::get('/quiz_mistakes/{id}', 'quiz_mistakes');
+        Route::get('/quiz_report/{id}', 'quiz_report');
     });
 });
