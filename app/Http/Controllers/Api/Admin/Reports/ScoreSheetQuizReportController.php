@@ -137,15 +137,15 @@ class ScoreSheetQuizReportController extends Controller
 
         $user = User::find($request->user_id);   
         $questions = $this->student_quiz
-        ->whereIn('id', $request->selected_ids)
+        ->whereIn('student_quizzes.id', $request->selected_ids)
         ->with(['questions' => function($query){
-            $query->select('id', 'question', 'q_url')
+            $query->select('questions.id', 'question', 'q_url')
             ->with(['lessons' => function($q1){
-                $q1->select('id', 'lesson_name', 'chapter_id')
+                $q1->select('lessons.id', 'lesson_name', 'chapter_id')
                 ->with(['chapter' => function($q2){
-                    $q2->select('id', 'chapter_name', 'course_id')
+                    $q2->select('chapters.id', 'chapter_name', 'course_id')
                     ->with(['course' => function($q3){
-                        $q3->select('id', 'course_name', 'category_id')
+                        $q3->select('courses.id', 'course_name', 'category_id')
                         ->with('category:id,cate_name');
                     }]);
                 }]);
