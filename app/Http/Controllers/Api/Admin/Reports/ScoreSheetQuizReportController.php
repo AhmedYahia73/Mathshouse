@@ -155,7 +155,7 @@ class ScoreSheetQuizReportController extends Controller
 $questions = $questions->pluck('questions')->flatten(1);
 
 // Get unique lessons
-$lessons = $questions->pluck('lesson')->filter()->unique('id')->values();
+$lessons = $questions->pluck('lessons')->filter()->unique('id')->values();
 
 // Get unique chapters
 $chapters = $lessons->pluck('chapter')->filter()->unique('id')->values();
