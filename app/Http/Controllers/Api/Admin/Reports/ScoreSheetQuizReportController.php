@@ -81,7 +81,7 @@ class ScoreSheetQuizReportController extends Controller
         $student = $quizs?->student?->nick_name;
         $course = $quizs?->lesson?->chapter?->course?->course_name;
         $date = $quizs->date;
-        $day = $quizs->date->format('l');
+        $day = Carbon::parse($quizs->date)->format('l');
         $time = $quizs->time;
         $score = $quizs->score;
         
