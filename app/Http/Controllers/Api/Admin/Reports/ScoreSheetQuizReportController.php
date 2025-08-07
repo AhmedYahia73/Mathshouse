@@ -72,4 +72,53 @@ class ScoreSheetQuizReportController extends Controller
             'quizs' => $quizs
         ]);
     }
+
+    public function quiz_report(Request $request, $id){
+        $quizs = $this->student_quiz
+        ->where('id', $id)
+        ->with('lesson.chapter.course', 'student')
+        ->first();
+        $student = $quizs?->student?->nick_name;
+        $course = $quizs?->lesson?->chapter?->course?->course_name;
+        $date = $quizs->date;
+        $day = $quizs->date->format('l');
+        $time = $quizs->time;
+        $score = $quizs->score;
+        
+        // Assume input format is 'H:i:s', e.g., '01:00:00' and '00:10:00'
+        // Retrieve quiz period and solve period from the request
+        $quizPeriod = Carbon::createFromTimeString($quizs?->quizze?->time ?? '01:00:00');
+        $solvePeriod = Carbon::createFromTimeString($quizs->time);
+
+        // Define the two times
+        $time1 = $quizPeriod;
+        $time2 = $solvePeriod;
+
+        // Subtract the times
+        $diff = $time1->diff($time2);
+
+        // Format the difference in hours, minutes, and seconds
+        $hours = $diff->h;
+        $minutes = $diff->i;
+        $seconds = $diff->s;
+
+        // Output the result as H:i:s
+        $formattedDiff = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+        if ( $time1 > $time2 ) {
+            $delay = '-' . $formattedDiff;
+        } else {
+            $delay = '+' . $formattedDiff;
+        }
+
+        return response()->json([
+            'student' => $student,
+            'course' => $course,
+            'date' => $date,
+            'day' => $day,
+            'time' => $time,
+            'score' => $score,
+            'delay' => $delay,
+        ]);
+    }
 }
