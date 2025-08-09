@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\Admin\Reports\PaymentReportController;
 use App\Http\Controllers\Api\Admin\Reports\CourseReportController;
 use App\Http\Controllers\Api\Admin\Reports\ExamReportController;
 use App\Http\Controllers\Api\Admin\Reports\ScoreSheetQuizReportController;
+use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 
 
 // Parents 
@@ -39,7 +40,7 @@ use App\Http\Controllers\Api\Admin\Reports\ScoreSheetQuizReportController;
 // Live ++++
 // Report issues +++
 // Payment +++
-// Reports
+// Reports +++
 // Teacher sessions +++
 // MobileUser
 
@@ -196,6 +197,14 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/quiz_list/{user_id}', 'quiz_list');
         Route::get('/quiz_mistakes/{id}', 'quiz_mistakes');
         Route::get('/quiz_report/{id}', 'quiz_report');
+        Route::post('/generatePdf', 'generatePdf');
+        Route::post('/generateAnsPdf', 'generateAnsPdf');
+    });
+
+    Route::controller(ScoreSheetExamReportController::class)->prefix('reports/score_sheet/exam')
+    ->group(function(){ 
+        Route::get('/exam_list/{user_id}', 'exam_list');
+        Route::get('/exam_mistakes/{id}', 'exam_mistakes');
         Route::post('/generatePdf', 'generatePdf');
         Route::post('/generateAnsPdf', 'generateAnsPdf');
     });
