@@ -21,4 +21,8 @@ class ExamMistake extends Model
         return $this->belongsTo(Question::class, 'question_id')
         ->with('mcq')->with('g_ans')->with('q_ans');
    }
+
+    public function questions(){
+        return $this->belongsTo(Question::class, 'question_id');
+   }
 }
