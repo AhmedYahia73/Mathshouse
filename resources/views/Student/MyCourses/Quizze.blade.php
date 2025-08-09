@@ -703,7 +703,7 @@
                                     <div class="section-setValue">
                                         <span>Answer:</span>
                                         <div class="input_val">
-                                            <input type="text" step="0.001" value="0" class="gridVal"
+                                            <input type="text" step="0.001" value="0" name="q_grid_ans[]" class="gridVal"
                                             id="input_val">
                                         </div>
                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
@@ -712,7 +712,7 @@
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
-                                        <input type="number" id="preview_value" readonly name="q_grid_ans[]"
+                                        <input type="number" id="preview_value" readonly
                                             value="00000">
                                     </div>
                                 </div>

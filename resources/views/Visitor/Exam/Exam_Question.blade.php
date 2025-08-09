@@ -831,7 +831,7 @@
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
-                                        <input type="text" class="gridVal" id="input_val" 
+                                        <input type="text" class="gridVal" name="q_grid_ans[]" id="input_val" 
                                             placeholder="e.g. 1/6">
                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
                                             class="addSl">/</button>
@@ -840,7 +840,7 @@
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
-                                        <input type="text" id="preview_value" name="q_grid_ans[]" readonly>
+                                        <input type="text" id="preview_value"  readonly>
                                     </div>
                                 </div>
                             @endif
