@@ -14,6 +14,7 @@ class WalletController extends Controller
 {
     public function __construct(private PaymentMethod $payment_method,
     private Wallet $wallet){}
+    use Image;
 
     public function history(){
         $wallets = $this->wallet
