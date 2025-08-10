@@ -26,6 +26,14 @@ class Course extends Model
         'discount',
         'user_id', 
     ];
+    protected $appends = ['image_link'];
+
+    public function getImageLinkAttribute(){
+        if ($this->course_url) { 
+            return url('images/courses/' . $this->course_url);
+        }
+        return $this->course_url;
+    }
 
     public function teacher()
     {

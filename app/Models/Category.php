@@ -17,6 +17,14 @@ class Category extends Model
         'teacher_id', 
         'cate_url',
     ];
+    protected $appends = ['image_link'];
+
+    public function getImageLinkAttribute(){
+        if ($this->cate_url) { 
+            return url('images/category/' . $this->cate_url);
+        }
+        return $this->cate_url;
+    }
 
     public function teacher()
     {

@@ -24,7 +24,7 @@ class Chapter extends Model
         'ch_url',
         'ch_price',
         'currency_id',
-    ];
+    ]; 
 
     public function teacher()
     {
