@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\User\Exam\QuestionReportController;
 use App\Http\Controllers\Api\User\Payment\WalletController;
 use App\Http\Controllers\Api\User\Payment\PaymentHistoryController;
 
+use App\Http\Controllers\Api\User\Profile\ProfileController;
+
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
 Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
@@ -131,5 +133,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/', 'history');
         Route::get('/invoic/{id}', 'invoic');
+    });
+
+    Route::controller(ProfileController::class)->prefix('profile')
+    ->group(function(){
+        Route::get('/', 'view');
+        Route::get('/update', 'update_profile');
     });
 });
