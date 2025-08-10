@@ -38,6 +38,10 @@ class PaymentRequest extends Model
         return $this->hasMany(PaymentPackageOrder::class, 'payment_request_id');
     }
 
+    public function first_package_order(){
+        return $this->hasOne(PaymentPackageOrder::class, 'payment_request_id');
+    }
+
     public function chapters_order(){
         return $this->hasMany(PaymentOrder::class, 'payment_request_id');
     }

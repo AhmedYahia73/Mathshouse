@@ -47,9 +47,9 @@ class PaymentHistoryController extends Controller
             'total' => $history->price, 
         ];
         if($history->module == 'Package'){
-            $invoice['package'] = $history?->package_order?->package?->name;
-            $invoice['category'] = $history?->package_order?->package?->course?->category?->cate_name;
-            $invoice['course'] = $history?->package_order?->package?->course?->course_name;
+            $invoice['package'] = $history?->first_package_order?->package?->name;
+            $invoice['category'] = $history?->first_package_order?->package?->course?->category?->cate_name;
+            $invoice['course'] = $history?->first_package_order?->package?->course?->course_name;
             $invoice['chapters'] = null;
         }
         else{
