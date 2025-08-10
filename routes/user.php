@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
 use App\Http\Controllers\Api\User\Exam\QuestionController;
 use App\Http\Controllers\Api\User\Exam\ExamController;
 use App\Http\Controllers\Api\User\Exam\DiaExamController;
+use App\Http\Controllers\Api\User\Exam\QuestionReportController;
 
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
@@ -110,5 +111,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/lists', 'lists'); 
         Route::get('/show_exam/{course_id}', 'show_exam'); 
         Route::post('/grade_exam', 'grade_exam');
+    });
+
+    Route::controller(QuestionReportController::class)->prefix('question_report')
+    ->group(function(){
+        Route::post('/', 'question_report');
     });
 });
