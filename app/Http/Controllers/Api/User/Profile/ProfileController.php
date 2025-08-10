@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api\User\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\trait\Image;
 
 use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function __construct(private User $user){}
+    use Image;
 
     public function view(Request $request){ 
         $user = $request->user()
@@ -35,7 +37,7 @@ class ProfileController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-        
+
         $user = $request->user();
         $user->f_name = $request->f_name ?? $user->f_name;
         $user->l_name = $request->l_name ?? $user->l_name;
@@ -45,7 +47,10 @@ class ProfileController extends Controller
         $user->parent_phone = $request->parent_phone ?? $user->parent_phone;
         $user->parent_email = $request->parent_email ?? $user->parent_email;
         $user->grade = $request->grade ?? $user->grade;
-        $user->image_link = $request->image_link ?? $user->image_link;
+        if($request->image){
+            $image_path = $this->store_base64($request->image, 'images/users');
+            $user->image = $image_path;
+        }
         $user->save();
 
         return response()->json([

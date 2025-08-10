@@ -138,6 +138,6 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(ProfileController::class)->prefix('profile')
     ->group(function(){
         Route::get('/', 'view');
-        Route::get('/update', 'update_profile');
+        Route::post('/update', 'update_profile');
     });
 });
