@@ -21,6 +21,8 @@ use App\Http\Controllers\Api\User\Exam\ExamController;
 use App\Http\Controllers\Api\User\Exam\DiaExamController;
 use App\Http\Controllers\Api\User\Exam\QuestionReportController;
 
+use App\Http\Controllers\Api\User\Payment\WalletController;
+
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
 Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
@@ -116,5 +118,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(QuestionReportController::class)->prefix('question_report')
     ->group(function(){
         Route::post('/', 'question_report');
+    });
+
+    Route::controller(WalletController::class)->prefix('wallet')
+    ->group(function(){
+        Route::get('/history', 'history');
+        Route::post('/recharge', 'recharge');
     });
 });
