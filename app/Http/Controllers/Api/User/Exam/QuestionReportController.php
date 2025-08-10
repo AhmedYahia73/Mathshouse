@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User\Exam;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\ReportQuestion;
 
