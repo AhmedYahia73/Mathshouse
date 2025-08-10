@@ -36,10 +36,12 @@ class PaymentHistoryController extends Controller
         
         $history = $this->payment_request
         ->where('user_id', auth()->user()->id)
-        ->with('payment_method', 'package_order.package.course.category',
+		->where('id', $id)
+        ->with('payment_method', 'first_package_order.package.course.category',
         'chapters_order.chapter.course')
         ->orderByDesc('id')
         ->first();
+		
         $invoice = [
             'receipt' => $history->image_link,
             'service' => $history->module, 
@@ -53,11 +55,11 @@ class PaymentHistoryController extends Controller
             $invoice['chapters'] = null;
         }
         else{
-            $chapters = $history?->chapters_order?->chapter && $history?->chapters_order?->chapter->count() > 0 ?true : false;
+            $chapters = $history?->chapters_order && $history?->chapters_order?->count() > 0 ?true : false;
             $invoice['package'] = null;
-            $invoice['category'] = $chapters ? $history?->chapters_order?->chapter[0]?->course?->category?->cate_name : null;
-            $invoice['chapters'] = $history?->chapters_order?->chapter?->pluck('chapter_name');
-            $invoice['course'] = $chapters ? $history?->chapters_order?->chapter[0]?->course?->course_name : null;
+            $invoice['category'] = $chapters ? $history?->chapters_order[0]?->chapter?->course?->category?->cate_name : null;
+            $invoice['chapters'] = $history?->pluck('chapters_order')?->flatten()->pluck('chapter.chapter_name');
+            $invoice['course'] = $chapters ? $history?->chapters_order[0]?->chapter?->course?->course_name : null;
         }
 
         return response()->json([
