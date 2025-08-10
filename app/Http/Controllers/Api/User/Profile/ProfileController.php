@@ -15,12 +15,18 @@ class ProfileController extends Controller
     use Image;
 
     public function view(Request $request){ 
-        $user = $request->user()
-        ->select('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_phone', 'parent_email',
-        'grade', 'image_link');
+        $user = $request->user();
 
         return response()->json([
-            'student' => $user
+            'f_name' => $user->f_name,
+            'l_name' => $user->l_name,
+            'nick_name' => $user->nick_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'parent_phone' => $user->parent_phone,
+            'parent_email' => $user->parent_email,
+            'grade' => $user->grade,
+            'image_link' => $user->image_link,
         ]);
     }
 
