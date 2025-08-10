@@ -130,6 +130,6 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(PaymentHistoryController::class)->prefix('payment_history')
     ->group(function(){
         Route::get('/', 'history');
-        Route::post('/invoic/{id}', 'invoic');
+        Route::get('/invoic/{id}', 'invoic');
     });
 });
