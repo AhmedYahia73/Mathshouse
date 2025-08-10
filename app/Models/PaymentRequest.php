@@ -29,7 +29,7 @@ class PaymentRequest extends Model
 
     public function getImageLinkAttribute(){
         if(!empty($this->attributes['image'])){
-            return url('/images/payment/' . $this->attributes['image']);
+            return url('/images/payment_reset/' . $this->attributes['image']);
         }
         return $this->attributes['image'];
     }

@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\User\Exam\DiaExamController;
 use App\Http\Controllers\Api\User\Exam\QuestionReportController;
 
 use App\Http\Controllers\Api\User\Payment\WalletController;
+use App\Http\Controllers\Api\User\Payment\PaymentHistoryController;
 
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
@@ -124,5 +125,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/history', 'history');
         Route::post('/recharge', 'recharge');
+    });
+
+    Route::controller(PaymentHistoryController::class)->prefix('payment_history')
+    ->group(function(){
+        Route::get('/', 'history');
+        Route::post('/invoic/{id}', 'invoic');
     });
 });
