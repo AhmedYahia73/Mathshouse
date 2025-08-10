@@ -58,7 +58,7 @@ class PaymentHistoryController extends Controller
             $chapters = $history?->chapters_order && $history?->chapters_order?->count() > 0 ?true : false;
             $invoice['package'] = null;
             $invoice['category'] = $chapters ? $history?->chapters_order[0]?->chapter?->course?->category?->cate_name : null;
-            $invoice['chapters'] = $history?->chapters_order?->pluck('chapter.chapter_nam');
+            $invoice['chapters'] = $history?->chapters_order?->pluck('chapter.chapter_name');
             $invoice['course'] = $chapters ? $history?->chapters_order[0]?->chapter?->course?->course_name : null;
         }
 
