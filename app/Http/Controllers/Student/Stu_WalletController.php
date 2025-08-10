@@ -20,7 +20,9 @@ class Stu_WalletController extends Controller
         ->orderByDesc('id')
         ->where('state', 'Approve')
         ->sum('wallet');
-        $payment_methods = PaymentMethod::all();
+        $payment_methods = PaymentMethod::
+        where('statue', 1)
+        ->get();
 
         return view('Student.Wallet.Wallet', compact('wallets', 'money', 'payment_methods'));
     }
@@ -35,7 +37,9 @@ class Stu_WalletController extends Controller
         ->orderByDesc('id')
         ->where('state', 'Approve')
         ->sum('wallet');
-        $payment_methods = PaymentMethod::all();
+        $payment_methods = PaymentMethod::
+        where('statue', 1)
+        ->get();
         $data = $req->all();
 
         return view('Student.Wallet.Wallet', compact('wallets', 'money', 'payment_methods', 'data'));
