@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api\User\Courses;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\trait\Image;
 
 use App\Models\Category;
+use App\Models\Course;
+use App\Models\Chapter;
 use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\IdeaLesson;
@@ -24,7 +27,10 @@ class CourseController extends Controller
     private UsagePromo $usage_promo,
     private PromoCode $promo_code,
     private PromoCourse $promo_course,
-    private PaymentMethod $payment_method){}
+    private PaymentMethod $payment_method,
+    private Course $course,
+    private Chapter $chapters){}
+    use Image;
 
     public function lists(Request $request){
         
@@ -94,9 +100,13 @@ class CourseController extends Controller
                 }),
             ];
         });
+        $payment_methods = $this->payment_method
+        ->where('statue', 1)
+        ->get();
 
         return response()->json([
-            'categories' => $categories
+            'categories' => $categories,
+            'payment_methods' => $payment_methods,
         ]);
     }
 
@@ -195,4 +205,233 @@ class CourseController extends Controller
         ], 400); 
     }
 
+    public function buy_course(Request $request){
+        $validator = Validator::make($request->all(), [
+            'course_id' => 'required|exists:courses,id',
+            'amount' => 'required|numeric',
+            'payment_method_id' => 'required|exists:payment_method,id',
+            'duration' => 'required|numeric',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        } 
+        $price = $request->amount;
+        $course = $request->course_id;
+        $payment_methods = PaymentMethod::
+        where('statue', 1)
+        ->where('id',$request->payment_method_id)
+        ->first();
+        $paymentRequest['price'] = $price;
+        $paymentRequest['user_id'] = $request->user()->id;
+        $img_state = true;
+ 
+        $img_name = null; 
+        if ( $request->image ) { 
+            $img_state = false;
+            $image_path = $this->store_base64($request->image, 'images/payment_reset');
+            $paymentRequest['image'] = $image_path;
+        }
+        $course = $this->course
+        ->where('id', $request->course_id)
+        ->with(['prices' => function($query) use($duration){
+            $query->where('duration', $duration)
+            ->first();
+        }])
+        ->first();
+        $price = $request->amount;
+
+        //   Start Make Paymob Credit
+        if(isset($payment_methods->payment)){ 
+            if($payment_methods->payment == "Paymob"){
+                $user = auth()->user();
+                $commision = intval(Cookie::get('affilate'));
+                $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
+
+                return response()->json([
+                    'payment_link' => $payment_link
+                ]);
+            }
+        }
+        //   End Make Paymob Credit 
+        if ( $req->payment_method_id == 'Wallet' ) {
+            $wallet = Wallet::
+            where('student_id', auth()->user()->id)
+            ->where('state', 'Approve')
+            ->sum('wallet'); 
+
+            if ( $wallet < $price ) {
+                return response()->json([
+                    'errors' => 'You need to charge wallet'
+                ], 400);
+            }
+           
+            $paymentRequest['state'] = 'Approve'; 
+            
+        } 
+        elseif ( $img_state ) { 
+            return response()->json([
+                'errors' => 'You must upload receipt'
+            ], 400);
+        }
+        else{ 
+            $paymentRequest['payment_method_id'] = $request->payment_method_id;
+            Mail::To('Payment@mathshouse.net')
+            ->send(new PaymentEmail($req->all(), auth()->user()));
+        }
+        $p_request = PaymentRequest::create($paymentRequest);
+        $duration = $request->duration;
+
+        
+        if ( $request->payment_method_id == 'Wallet' ) { 
+            $chapters = Chapter::where('course_id', $course->id)
+            ->get();
+    
+            foreach ( $chapters as $item ) {
+                PaymentOrder::create([
+                    'payment_request_id' => $p_request->id,
+                    'chapter_id' => $item->id,
+                    'duration' => $duration,
+                    'state' => 1
+                ]);
+            }
+        }
+        else { 
+        $chapters = Chapter::where('course_id', $course->id)
+        ->get();
+
+        foreach ( $chapters as $item ) {
+            PaymentOrder::create([
+                'payment_request_id' => $p_request->id,
+                'chapter_id' => $item->id,
+                'duration' => $duration,
+            ]);
+        }
+        }
+        
+        $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet';
+        return response()->json([
+            'course' => $course,
+            'payment_method' => $p_method,
+            'price' => $price,
+        ]);
+    }
+
+    public function buy_chapters(Request $request){
+        $validator = Validator::make($request->all(), [
+            'course_id' => 'required|exists:courses,id',
+            'chapters' => 'required|array',
+            'chapters.chapter_id' => 'required|exists:chapters,id',
+            'chapters.duration' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'payment_method_id' => 'required|exists:payment_method,id', 
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        } 
+        $price = $request->amount;
+        $course = $request->course_id;
+        $payment_methods = PaymentMethod::
+        where('statue', 1)
+        ->where('id',$request->payment_method_id)
+        ->first();
+        $paymentRequest['price'] = $price;
+        $paymentRequest['user_id'] = $request->user()->id;
+        $img_state = true;
+        $img_name = null;
+        $payment = $payment_methods?->payment;
+ 
+        if ( $request->image ) { 
+            $img_state = false;
+            $image_path = $this->store_base64($request->image, 'images/payment_reset');
+            $paymentRequest['image'] = $image_path;
+        }
+        $chapters = [];
+        foreach ($request->chapters as $item) {
+            $duration =  $item['duration'];
+            $chapter_item = $this->chapters
+            ->whereIn('id', $item['chapter_id'])
+            ->with(['price' => function($query) use($duration){
+                $query->where('duration', $duration)
+                ->first();
+            }])
+            ->first();
+            $chapter_item->duration = $duration;
+            $chapters[] = $chapter_item;
+        }
+        $chapters = collect($chapters); 
+        $price = $request->amount;
+        if ( $request->payment_method_id == 'Wallet' ) {
+            $wallet = Wallet::
+            where('student_id', auth()->user()->id)
+            ->where('state', 'Approve')
+            ->sum('wallet');
+            
+            if ( $wallet < $price ) {
+                return response()->json([
+                    'errors' => 'You must recharge wallet'
+                ], 400);
+            }
+            $paymentRequest['state'] = 'Approve'; 
+        }
+        elseif ( $img_state ) {
+            return response()->json([
+                'errors' => 'You Must Upload Receipt'
+            ], 400);
+        
+        }
+        else{ 
+            $paymentRequest['payment_method_id'] = $request->payment_method_id;
+            Mail::To('Payment@mathshouse.net')
+            ->send(new PaymentEmail($request->all(), auth()->user()));
+        }
+        if( $payment == "Paymob"){
+            $user=auth()->user();
+            $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
+            return response()->json([
+                'payment_link' => $payment_link
+            ]);
+        }else{
+        $p_request = PaymentRequest::create($paymentRequest);
+
+        }
+        if ( $req->payment_method_id == 'Wallet' ) {
+            Wallet::create([
+                'student_id' => auth()->user()->id,
+                'wallet' => -$price,
+                'state' => 'Approve',
+                'date' => now(),
+                'payment_request_id' => $p_request->id,
+            ]);
+            $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet';
+            $duration = 0; 
+            for ($i=0, $end = count($chapters); $i < $end; $i++) {
+                PaymentOrder::create( 
+                    ['payment_request_id' => $p_request->id,
+                    'chapter_id' => $chapters[$i]->id,
+                    'duration' => $$chapters[$i]->duration,
+                    'state' => 1]);
+            } 
+        }
+        else {
+            
+            $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet';
+            $duration = 0; 
+            for ($i=0, $end = count($chapters); $i < $end; $i++) {
+                PaymentOrder::create( 
+                ['payment_request_id' => $p_request->id,
+                'chapter_id' => $chapters[$i]->id,
+                'duration' => $chapters[$i]->duration,]);
+            }
+        }
+        
+        return response()->json([
+            'price' => $price,
+            'p_method' => $p_method,
+            'chapters' => $chapters,
+        ]);
+    }
 }

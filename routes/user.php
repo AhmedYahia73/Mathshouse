@@ -147,5 +147,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/', 'lists');
         Route::post('/chaters_data', 'chaters_data');
         Route::post('/use_promocode', 'use_promocode');
+        Route::post('/buy_course', 'buy_course');
+        Route::post('/buy_chapters', 'buy_chapters');
     });
 });

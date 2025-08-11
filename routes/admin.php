@@ -42,7 +42,6 @@ use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 // Payment +++
 // Reports +++
 // Teacher sessions +++
-// MobileUser
 
 Route::post('login', [AdminLoginController::class, 'login']);
 

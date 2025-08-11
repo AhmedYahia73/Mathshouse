@@ -33,6 +33,29 @@ trait PaymentPaymob
         return redirect($paymentLink); // Return Payment Link To Pay Course && Redirect To PayMob Payment Page
         // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
+
+   public function credit_mobile($user,$payment_method,$course,$price,$module,$commision = 0)
+    {
+        $data = [
+            'paymentMethod'=>$payment_method,
+            'items'=>[$module => $course],
+            'amount'=>$price,
+            'user'=>$user,
+        ]; // Data
+        //this fucntion that send all below function data to paymob and use it for routes;
+         $user = auth()->user(); // Get User
+         $tokens = $this->getToken(); // Get Token
+          $order = $this->createOrder( $data , $tokens, $user,$module,$commision); // Create Order
+         $amount_cents = $order->amount_cents; // Get Amount Cents
+        $paymentToken = $this->getPaymentToken($user, $amount_cents, $order, $tokens); // Get Payment Token
+        $items = $order;
+        //    $items = $order['order'];
+        $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken; // Payment Link
+        //  redirect($paymentLink);
+        return $paymentLink; // Return Payment Link To Pay Course && Redirect To PayMob Payment Page
+        // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
+    }
+
      public function getToken() {
      //this function takes api key from env.file and get token from paymob accept
      $response = Http::post('https://accept.paymob.com/api/auth/tokens', [
