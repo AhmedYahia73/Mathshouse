@@ -138,7 +138,7 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [ 
             'promo_code' => 'required',
             'course_id' => 'required|exists:courses,id',
-            'amount' => 'required|exists:courses,id',
+            'amount' => 'required|numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
