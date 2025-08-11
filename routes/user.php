@@ -145,6 +145,6 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(CourseController::class)->prefix('courses')
     ->group(function(){
         Route::get('/', 'lists');
-        Route::get('/chaters_data/{id}', 'chaters_data');
+        Route::post('/chaters_data/{id}', 'chaters_data');
     });
 });
