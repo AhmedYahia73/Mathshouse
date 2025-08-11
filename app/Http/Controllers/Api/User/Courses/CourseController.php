@@ -90,7 +90,7 @@ class CourseController extends Controller
         ]);
     }
 
-    public function chaters_data(Request $request, $id){
+    public function chaters_data(Request $request){
         $validator = Validator::make($request->all(), [ 
             'chapter_ids' => 'array|required',
             'chapter_ids.*' => 'required|exists:chapters,id',
