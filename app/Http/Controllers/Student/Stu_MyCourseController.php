@@ -78,7 +78,7 @@ class Stu_MyCourseController extends Controller
 
         $chapters = [];
         foreach ($payment_order as $item) {
-            $newTime = Carbon::now()->subDays($item->duration);
+            $newTime = Carbon::now()->addDays($item->duration);
             if ( $newTime > $item->date && $item->pay_req->user_id == auth()->user()->id ) {
                 $chapters[$item->chapter_id] = $item;
             }
@@ -100,7 +100,7 @@ class Stu_MyCourseController extends Controller
         $chapters = [];
         $chapter_state = false;
         foreach ($payment_order as $item) {
-            $newTime = Carbon::now()->subDays($item->duration);
+            $newTime = Carbon::now()->addDays($item->duration);
             if ( $newTime > $item->date && $item->pay_req->user_id == auth()->user()->id && $item->chapter_id == $id ) {
                 $chapter_state = true;
             }
