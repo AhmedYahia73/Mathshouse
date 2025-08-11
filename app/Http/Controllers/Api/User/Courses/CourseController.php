@@ -53,6 +53,14 @@ class CourseController extends Controller
                     ->count();
                     return [
                         'id' => $element->id,
+                                    
+                        'videos_count' => $ideas,
+                        'chapters_count' => $chapters,
+                        'lessons_count' => $lessons->count(),
+                        'questions_count' => $questions,
+                        'quizs_count' => $quiz,
+                        'pdfs_count' => $ideas,
+
                         'price' => $element?->prices?->min('price'),
                         'course_name' => $element->course_name,
                         'course_description' => $element->course_des,
