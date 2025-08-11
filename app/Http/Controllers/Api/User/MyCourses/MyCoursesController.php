@@ -23,6 +23,9 @@ class MyCoursesController extends Controller
         $chapters = [];
         $payment_request = PaymentRequest::where('user_id', auth()->id())
         ->where('state', 'Approve')
+        ->whereHas('chapters_order', function ($q) {
+            $q->whereRaw('NOW() <= DATE_ADD(payment_orders.date, INTERVAL payment_orders.duration DAY)');
+        })
         ->with(['order' => function ($query) {
             $query->with('course', 'lessons');
         }])
@@ -32,6 +35,7 @@ class MyCoursesController extends Controller
         $course = [];
 
         foreach ($payment_request as $item) {
+                return $item->order;
             foreach ($item->order as $chapter) { 
                 $course = $chapter->course;
         

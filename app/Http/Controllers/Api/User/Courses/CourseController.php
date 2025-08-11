@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\trait\Image;
+use App\service\PaymentPaymob;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentEmail;
+use Illuminate\Support\Facades\Cookie;
 
 use App\Models\Category;
 use App\Models\Course;
@@ -18,6 +22,8 @@ use App\Models\UsagePromo;
 use App\Models\PromoCode;
 use App\Models\PromoCourse;
 use App\Models\PaymentMethod;
+use App\Models\PaymentRequest;
+use App\Models\PaymentOrder;
 
 class CourseController extends Controller
 {
@@ -31,6 +37,7 @@ class CourseController extends Controller
     private Course $course,
     private Chapter $chapters){}
     use Image;
+    use PaymentPaymob;
 
     public function lists(Request $request){
         
@@ -223,6 +230,7 @@ class CourseController extends Controller
         where('statue', 1)
         ->where('id',$request->payment_method_id)
         ->first();
+        $PaymentRequest = [];
         $paymentRequest['price'] = $price;
         $paymentRequest['user_id'] = $request->user()->id;
         $img_state = true;
@@ -233,6 +241,7 @@ class CourseController extends Controller
             $image_path = $this->store_base64($request->image, 'images/payment_reset');
             $paymentRequest['image'] = $image_path;
         }
+        $duration = $request->duration;
         $course = $this->course
         ->where('id', $request->course_id)
         ->with(['prices' => function($query) use($duration){
@@ -255,7 +264,7 @@ class CourseController extends Controller
             }
         }
         //   End Make Paymob Credit 
-        if ( $req->payment_method_id == 'Wallet' ) {
+        if ( $request->payment_method_id == 'Wallet' ) {
             $wallet = Wallet::
             where('student_id', auth()->user()->id)
             ->where('state', 'Approve')
@@ -278,7 +287,7 @@ class CourseController extends Controller
         else{ 
             $paymentRequest['payment_method_id'] = $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($req->all(), auth()->user()));
+            ->send(new PaymentEmail($request->all(), auth()->user()));
         }
         $p_request = PaymentRequest::create($paymentRequest);
         $duration = $request->duration;
@@ -299,8 +308,7 @@ class CourseController extends Controller
         }
         else { 
         $chapters = Chapter::where('course_id', $course->id)
-        ->get();
-
+        ->get(); 
         foreach ( $chapters as $item ) {
             PaymentOrder::create([
                 'payment_request_id' => $p_request->id,
@@ -322,8 +330,8 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'course_id' => 'required|exists:courses,id',
             'chapters' => 'required|array',
-            'chapters.chapter_id' => 'required|exists:chapters,id',
-            'chapters.duration' => 'required|numeric',
+            'chapters.*.chapter_id' => 'required|exists:chapters,id',
+            'chapters.*.duration' => 'required|numeric',
             'amount' => 'required|numeric',
             'payment_method_id' => 'required|exists:payment_method,id', 
         ]);
@@ -338,6 +346,7 @@ class CourseController extends Controller
         where('statue', 1)
         ->where('id',$request->payment_method_id)
         ->first();
+        $PaymentRequest = [];
         $paymentRequest['price'] = $price;
         $paymentRequest['user_id'] = $request->user()->id;
         $img_state = true;
@@ -351,9 +360,9 @@ class CourseController extends Controller
         }
         $chapters = [];
         foreach ($request->chapters as $item) {
-            $duration =  $item['duration'];
+            $duration =  $item['duration']; 
             $chapter_item = $this->chapters
-            ->whereIn('id', $item['chapter_id'])
+            ->where('id', $item['chapter_id'])
             ->with(['price' => function($query) use($duration){
                 $query->where('duration', $duration)
                 ->first();
@@ -362,7 +371,6 @@ class CourseController extends Controller
             $chapter_item->duration = $duration;
             $chapters[] = $chapter_item;
         }
-        $chapters = collect($chapters); 
         $price = $request->amount;
         if ( $request->payment_method_id == 'Wallet' ) {
             $wallet = Wallet::
@@ -398,7 +406,7 @@ class CourseController extends Controller
         $p_request = PaymentRequest::create($paymentRequest);
 
         }
-        if ( $req->payment_method_id == 'Wallet' ) {
+        if ( $request->payment_method_id == 'Wallet' ) {
             Wallet::create([
                 'student_id' => auth()->user()->id,
                 'wallet' => -$price,
