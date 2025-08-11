@@ -25,6 +25,7 @@ class PaymentController extends Controller
         $pending_payment_request = $this->payment_request
         ->where('state', 'Pendding')
         ->with('payment_method', 'user')
+        ->orderByDesc('id')
         ->get()
         ->map(function($item){
             return [
@@ -39,6 +40,7 @@ class PaymentController extends Controller
         $payment_request_history = $this->payment_request
         ->where('state', '!=', 'Pendding')
         ->with('payment_method', 'user')
+        ->orderByDesc('id')
         ->get()
         ->map(function($item){
             return [
