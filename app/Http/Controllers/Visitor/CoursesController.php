@@ -385,8 +385,8 @@ use PaymentPaymob;
 
         $uses = UsagePromo::where('user_id', auth()->user()->id)
         ->where('promo', $req->promo_code)
-        ->first(); 
-        
+        ->first();
+
         if ( empty($uses) ) {
             $promo = PromoCode::where('starts', '<=', now())
             ->where('ends', '>=', now())
@@ -414,13 +414,13 @@ use PaymentPaymob;
                     $payment_methods = PaymentMethod::
                     where('statue', 1)
                     ->get();
-            
+
                     return view('Visitor.C_Checkout.Checkout', compact('price', 'course', 'payment_methods'));
                     return redirect()->route('promo_check_out_course');
                 }
             }
         } 
-        
+
         session()->flash('faild', 'Promo Code Is Uses');
         return redirect()->route('c_new_payment'); 
     }

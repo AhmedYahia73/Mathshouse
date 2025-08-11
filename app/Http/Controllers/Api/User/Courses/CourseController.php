@@ -11,12 +11,20 @@ use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\IdeaLesson;
 use App\Models\quizze;
+use App\Models\UsagePromo;
+use App\Models\PromoCode;
+use App\Models\PromoCourse;
+use App\Models\PaymentMethod;
 
 class CourseController extends Controller
 {
     public function __construct(private Category $categories,
     private Lesson $lessons, private Question $questions,
-    private quizze $quiz, private IdeaLesson $idea){}
+    private quizze $quiz, private IdeaLesson $idea,
+    private UsagePromo $usage_promo,
+    private PromoCode $promo_code,
+    private PromoCourse $promo_course,
+    private PaymentMethod $payment_method){}
 
     public function lists(Request $request){
         
@@ -125,4 +133,66 @@ class CourseController extends Controller
             'pdfs' => $ideas,
         ]);
     }
+
+    public function use_promocode( Request $request ){
+        $validator = Validator::make($request->all(), [ 
+            'promo_code' => 'required',
+            'course_id' => 'required|exists:courses,id',
+            'amount' => 'required|exists:courses,id',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        } 
+        $course_id = $request->course_id;
+
+        $uses = $this->usage_promo
+        ->where('user_id',$request->user()->id)
+        ->where('promo', $request->promo_code)
+        ->first();
+
+        if ( empty($uses) ) {
+            $promo = $this->promo_code
+            ->where('starts', '<=', date('Y-m-d'))
+            ->where('ends', '>=', date('Y-m-d'))
+            ->where('num_usage', '>', 0)
+            ->where('code', $request->promo_code)
+            ->first();
+            if ( !empty($promo) ) {
+                $promo_course = $this->promo_course
+                ->where('promo_id', $promo->id)
+                ->where('course_id', $course_id)
+                ->first();
+                if ( !empty($promo_course) ) {
+                    $price = $request->amount;
+                    $price = $price - $price * $promo->discount	/ 100;
+                    $this->promo_code
+                    ->where('id', $promo->id)
+                    ->update([
+                        'num_usage' => $promo->num_usage - 1
+                    ]);
+                    $this->usage_promo
+                    ->create([
+                        'user_id' => $request->user()->id,
+                        'promo_id' => $promo->id,
+                        'promo' => $request->promo_code
+                    ]); 
+                    $payment_methods = $this->payment_method
+                    ->where('statue', 1)
+                    ->get();
+                    
+                    return response()->json([
+                        'payment_methods' => $payment_methods,
+                        'new_price' => $price,
+                    ]);
+                }
+            }
+        } 
+
+        return response()->json([
+            'errors' => 'Promo Code is Expired'
+        ], 400); 
+    }
+
 }
