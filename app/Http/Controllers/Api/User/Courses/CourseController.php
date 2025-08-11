@@ -38,7 +38,7 @@ class CourseController extends Controller
                 'course' => $item?->courses?->map(function($element)
                 use($lessons_db, $questions_db, $quiz_db, $idea_db){
                     $chapters_ids = $element->chapter->pluck('id');
-                    $chapters = $chapters_ids->count;
+                    $chapters = $chapters_ids->count();
                     $lessons = $lessons_db
                     ->whereIn('chapter_id', $chapters_ids)
                     ->pluck('id');
