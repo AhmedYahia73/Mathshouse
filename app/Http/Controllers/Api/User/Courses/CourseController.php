@@ -62,6 +62,7 @@ class CourseController extends Controller
                         'pdfs_count' => $ideas,
 
                         'price' => $element?->prices?->min('price'),
+                        'all_prices' => $element?->prices,
                         'course_name' => $element->course_name,
                         'course_description' => $element->course_des,
                         'course_image' => $element->image_link,
@@ -70,6 +71,7 @@ class CourseController extends Controller
                             return [
                                 'id' => $item2->id,
                                 'chapter_price' => $item2?->price?->min('price'),
+                                'chapter_all_prices' => $element?->price,
                                 'chapter_name' => $item2->chapter_name,
                                 'lessons' => $item2->lessons
                                 ->map(function($element2){
