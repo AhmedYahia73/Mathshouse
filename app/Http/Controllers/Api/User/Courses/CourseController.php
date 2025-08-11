@@ -71,7 +71,7 @@ class CourseController extends Controller
                             return [
                                 'id' => $item2->id,
                                 'chapter_price' => $item2?->price?->min('price'),
-                                'chapter_all_prices' => $element?->price,
+                                'chapter_all_prices' => $item2?->price,
                                 'chapter_name' => $item2->chapter_name,
                                 'lessons' => $item2->lessons
                                 ->map(function($element2){
