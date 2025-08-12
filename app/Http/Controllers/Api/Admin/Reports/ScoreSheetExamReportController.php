@@ -52,9 +52,9 @@ class ScoreSheetExamReportController extends Controller
         $mistakes = $this->exam_mistakes
         ->where('student_exam_id', $id)
         ->with('questions.q_ans')
-        ->first()
-        ?->questions
-        ?->select('id', 'question', 'q_image', 'q_ans');
+        ->get()
+        ?->pluck('questions')
+        ?->select('id', 'question', 'q_image', 'q_ans') ?? [];
 
         return response()->json([
             'mistakes' => $mistakes
