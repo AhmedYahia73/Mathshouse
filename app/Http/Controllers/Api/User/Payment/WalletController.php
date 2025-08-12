@@ -51,7 +51,7 @@ class WalletController extends Controller
         $validator = Validator::make($request->all(), [
             'wallet' => 'required|numeric',
             'payment_method_id' => 'required|exists:payment_method,id',  
-            'image' => 'required',  
+            'image' => 'sometimes',  
         ]);
         if ($validator->fails()) {
             return response()->json([
