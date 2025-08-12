@@ -56,6 +56,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'pending_payment_request' => $pending_payment_request,
+            'pending_payment_request_count' => $pending_payment_request->count(),
             'payment_request_history' => $payment_request_history,
         ]);
     }
