@@ -34,8 +34,7 @@ class MyCoursesController extends Controller
 
         $course = [];
 
-        foreach ($payment_request as $item) {
-                return $item->order;
+        foreach ($payment_request as $item) { 
             foreach ($item->order as $chapter) { 
                 $course = $chapter->course;
         
