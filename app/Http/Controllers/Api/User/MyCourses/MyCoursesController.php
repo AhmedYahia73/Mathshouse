@@ -158,7 +158,7 @@ class MyCoursesController extends Controller
             $question = $quiz->question[$iter++];
             if ($question->ans_type == 'MCQ') {
                 $q_answer = $question->mcq;
-                if($q_answer->count() > 0 && $q_answer[0]->mcq_answers == $answer[1]){
+                if(isset($q_answer[0]) && $q_answer[0]->mcq_answers == $answer){
                     $score++;
                 }
                 else{
