@@ -234,7 +234,6 @@ class CourseController extends Controller
         $paymentRequest['price'] = $price;
         $paymentRequest['user_id'] = $request->user()->id;
         $img_state = true;
-        $duration = $request->duration;
  
         $img_name = null; 
         if ( $request->image ) { 
