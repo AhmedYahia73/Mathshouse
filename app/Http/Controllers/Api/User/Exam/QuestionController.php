@@ -184,7 +184,7 @@ class QuestionController extends Controller
             $grade = $question?->mcq[0]?->mcq_answers == $request->answer;
         }
         else{
-            $grade = $question?->g_ans?->pluck('grid_ans')->contains($request->answer);
+            $grade =  $this->grid_answer($question?->g_ans?->pluck('grid_ans'), $request->answer);
         }
         $arr['user_id'] = auth()->user()->id;
         $arr['answer'] = $grade;
@@ -196,5 +196,14 @@ class QuestionController extends Controller
             'grade' => $grade,
             'time' => $timer_val,
         ]);
+    }
+
+    public function grid_answer($answers, $my_answer){
+        foreach ($answers as $item) {
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+                return true;
+            }
+        }
+        return false;
     }
 }

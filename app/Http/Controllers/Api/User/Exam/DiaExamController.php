@@ -94,8 +94,9 @@ class DiaExamController extends Controller
                 }
             }
             else {
-                $q_answer = $question->g_ans; 
-                if($q_answer->count() > 0 && isset($answer[$iter]) && $q_answer->pluck('grid_ans')->contains($answer[$iter++])){
+                $q_answer = $question->g_ans;
+                $grade =  $this->grid_answer($q_answer?->pluck('grid_ans'), $answer[$iter]); 
+                if($q_answer->count() > 0 && isset($answer[$iter++]) && $grade){
                     $score++;
                 }
                 else{
@@ -150,5 +151,14 @@ class DiaExamController extends Controller
             'recommanditions' => $recommanditions,
         ]);
  
+    }
+
+    public function grid_answer($answers, $my_answer){
+        foreach ($answers as $item) {
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+                return true;
+            }
+        }
+        return false;
     }
 }

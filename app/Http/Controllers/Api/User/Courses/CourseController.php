@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\trait\Image;
+use Illuminate\Support\Facades\Cookie;
+use App\service\PaymentPaymob;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentEmail;
 
 use App\Models\Category;
 use App\Models\Course;
@@ -31,6 +35,7 @@ class CourseController extends Controller
     private Course $course,
     private Chapter $chapters){}
     use Image;
+    use PaymentPaymob;
 
     public function lists(Request $request){
         
@@ -226,6 +231,7 @@ class CourseController extends Controller
         $paymentRequest['price'] = $price;
         $paymentRequest['user_id'] = $request->user()->id;
         $img_state = true;
+        $duration = $request->duration;
  
         $img_name = null; 
         if ( $request->image ) { 
@@ -255,7 +261,7 @@ class CourseController extends Controller
             }
         }
         //   End Make Paymob Credit 
-        if ( $req->payment_method_id == 'Wallet' ) {
+        if ( $request->payment_method_id == 'Wallet' ) {
             $wallet = Wallet::
             where('student_id', auth()->user()->id)
             ->where('state', 'Approve')
@@ -278,7 +284,7 @@ class CourseController extends Controller
         else{ 
             $paymentRequest['payment_method_id'] = $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($req->all(), auth()->user()));
+            ->send(new PaymentEmail($request->all(), auth()->user()));
         }
         $p_request = PaymentRequest::create($paymentRequest);
         $duration = $request->duration;
@@ -398,7 +404,7 @@ class CourseController extends Controller
         $p_request = PaymentRequest::create($paymentRequest);
 
         }
-        if ( $req->payment_method_id == 'Wallet' ) {
+        if ( $request->payment_method_id == 'Wallet' ) {
             Wallet::create([
                 'student_id' => auth()->user()->id,
                 'wallet' => -$price,

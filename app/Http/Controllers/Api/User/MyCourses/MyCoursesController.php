@@ -163,8 +163,9 @@ class MyCoursesController extends Controller
                 }
             }
             else {
-                $q_answer = $question->g_ans; 
-                if($q_answer->isNotEmpty() > 0 && $q_answer->pluck('grid_ans')->contains($answer)){
+                $q_answer = $question->g_ans;
+                $grade =  $this->grid_answer($q_answer?->pluck('grid_ans'), $answer);
+                if($q_answer->isNotEmpty() > 0 && $grade){
                     $score++;
                 }
                 else{
@@ -209,5 +210,14 @@ class MyCoursesController extends Controller
             'quiz_name' => $quiz->title,
             'pass_score' => $quiz->pass_score,
         ]);
+    }
+
+    public function grid_answer($answers, $my_answer){
+        foreach ($answers as $item) {
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+                return true;
+            }
+        }
+        return false;
     }
 }
