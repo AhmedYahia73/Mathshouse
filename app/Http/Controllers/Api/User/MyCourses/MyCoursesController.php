@@ -34,8 +34,7 @@ class MyCoursesController extends Controller
 
         $course = [];
 
-        foreach ($payment_request as $item) {
-                return $item->order;
+        foreach ($payment_request as $item) { 
             foreach ($item->order as $chapter) { 
                 $course = $chapter->course;
         
@@ -159,7 +158,7 @@ class MyCoursesController extends Controller
             $question = $quiz->question[$iter++];
             if ($question->ans_type == 'MCQ') {
                 $q_answer = $question->mcq;
-                if($q_answer->isNotEmpty() > 0 && $q_answer[0]->mcq_answers == $answer[1]){
+                if(isset($q_answer[0]) && $q_answer[0]->mcq_answers == $answer){
                     $score++;
                 }
                 else{
@@ -169,7 +168,7 @@ class MyCoursesController extends Controller
             else {
                 $q_answer = $question->g_ans;
                 $grade =  $this->grid_answer($q_answer?->pluck('grid_ans'), $answer);
-                if($q_answer->isNotEmpty() > 0 && $grade){
+                if($q_answer->count() > 0 && $grade){
                     $score++;
                 }
                 else{

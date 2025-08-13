@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin\Reports;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\ExamCodes;
 use App\Models\User;
@@ -52,9 +53,9 @@ class ScoreSheetExamReportController extends Controller
         $mistakes = $this->exam_mistakes
         ->where('student_exam_id', $id)
         ->with('questions.q_ans')
-        ->first()
-        ?->questions
-        ?->select('id', 'question', 'q_image', 'q_ans');
+        ->get()
+        ?->pluck('questions')
+        ?->select('id', 'question', 'q_image', 'q_ans') ?? [];
 
         return response()->json([
             'mistakes' => $mistakes

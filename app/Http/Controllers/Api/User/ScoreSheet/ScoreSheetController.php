@@ -35,18 +35,17 @@ class ScoreSheetController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-
-        $studentId = auth()->user()->id;
+ 
         $data = Chapter::
         select('id', 'chapter_name')
         ->where('course_id', $request->course_id)
-        ->with(['lessons' => function($query) use($studentId) {
+        ->with(['lessons' => function($query) {
             $query
             ->select('id', 'lesson_name', 'chapter_id')
-            ->with(['quizs' => function($query2) use($studentId){
+            ->with(['quizs' => function($query2){
                 $query2->select('id', 'title', 'score', 'pass_score', 'lesson_id')
-                ->with(['student_quizs' => function($query3) use($studentId){
-                    $query3->select('id', 'quizze_id', 'score', 'time', 'date')->where('student_id', $studentId);
+                ->with(['student_score_quiz' => function($query3){
+                    $query3->select('id', 'quizze_id', 'score', 'time', 'date');
                 }]);
             }]);
         }])

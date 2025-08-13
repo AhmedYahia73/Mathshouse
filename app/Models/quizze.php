@@ -65,4 +65,10 @@ class quizze extends Model
         return $this->hasMany(StudentQuizze::class, 'quizze_id')
         ->orderByDesc('created_at');
     }
+
+    public function student_score_quiz(){
+        return $this->hasOne(StudentQuizze::class, 'quizze_id')
+        ->where('student_id', auth()->id())
+        ->latest('id');
+    }
 }

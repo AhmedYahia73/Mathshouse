@@ -33,8 +33,10 @@ use App\Http\Controllers\Api\Admin\Reports\ExamReportController;
 use App\Http\Controllers\Api\Admin\Reports\ScoreSheetQuizReportController;
 use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 
+use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
-// Parents 
+
+// Parents ++++
 // Students +++++
 // Teacher ++++
 // Live ++++
@@ -206,5 +208,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::get('/exam_mistakes/{id}', 'exam_mistakes');
         Route::post('/generatePdf', 'generatePdf');
         Route::post('/generateAnsPdf', 'generateAnsPdf');
+    });
+
+    Route::controller(ParentController::class)->prefix('parent')
+    ->group(function(){ 
+        Route::get('/', 'view');
+        Route::post('/add', 'create');
+        Route::post('/update/{id}', 'update');
+        Route::delete('/delete/{id}', 'delete');
     });
 });

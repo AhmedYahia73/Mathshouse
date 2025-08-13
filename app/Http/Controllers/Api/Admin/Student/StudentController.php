@@ -50,9 +50,7 @@ class StudentController extends Controller
                 'l_name' => $item->l_name,
                 'nick_name' => $item->nick_name,
                 'email' => $item->email,
-                'phone' => $item->phone,
-                'parent_phone' => $item->parent_phone,
-                'parent_email' => $item->parent_email,
+                'phone' => $item->phone, 
                 'grade' => $item->grade,
                 'payment' => !empty($item->payment_req_approve->first()) ? 'Paid' : 'Free',
                 'image' => $item->image_link,
@@ -81,9 +79,7 @@ class StudentController extends Controller
             'nick_name'  => 'required|unique:users,nick_name',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|unique:users,phone',
-            'password' => 'required',
-            'parent_phone' => 'nullable|sometimes|unique:users,parent_phone',
-            'parent_email' => 'nullable|sometimes|unique:users,parent_email',
+            'password' => 'required', 
             'grade' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
         ]);
@@ -117,9 +113,7 @@ class StudentController extends Controller
             'nick_name'  => 'required|unique:users,nick_name,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|unique:users,phone,' . $id,
-            'password' => 'required',
-            'parent_phone' => 'nullable|sometimes|unique:users,parent_phone,' . $id,
-            'parent_email' => 'nullable|sometimes|unique:users,parent_email,' . $id,
+            'password' => 'required', 
             'grade' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
         ]);
@@ -387,13 +381,13 @@ class StudentController extends Controller
                 }
             }
         
+            if(!$have_package){
+                return response()->json([
+                    'errors' => 'The user does not have package'
+                ], 400);
+            }
         }
 
-        if(!$have_package){
-            return response()->json([
-                'errors' => 'The user does not have package'
-            ], 400);
-        }
         return response()->json([
             'success' => 'You update status success'
         ]);
