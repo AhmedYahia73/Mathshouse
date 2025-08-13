@@ -51,6 +51,10 @@ class ParentController extends Controller
         if($request->student_ids && count($request->student_ids) > 0){
             $parent->students()->attach($request->student_ids);
         }
+
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
     }
 
     public function update(Request $request, $id){
