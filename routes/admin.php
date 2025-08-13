@@ -36,7 +36,7 @@ use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
 
-// Parents 
+// Parents ++++
 // Students +++++
 // Teacher ++++
 // Live ++++

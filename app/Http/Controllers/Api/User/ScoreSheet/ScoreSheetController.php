@@ -46,7 +46,9 @@ class ScoreSheetController extends Controller
             ->with(['quizs' => function($query2) use($studentId){
                 $query2->select('id', 'title', 'score', 'pass_score', 'lesson_id')
                 ->with(['student_quizs' => function($query3) use($studentId){
-                    $query3->select('id', 'quizze_id', 'score', 'time', 'date')->where('student_id', $studentId);
+                    $query3->select('id', 'quizze_id', 'score', 'time', 'date')->where('student_id', $studentId)
+                    ->orderByDesc('id')
+                    ->first();
                 }]);
             }]);
         }])
