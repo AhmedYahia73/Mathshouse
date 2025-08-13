@@ -387,13 +387,13 @@ class StudentController extends Controller
                 }
             }
         
+            if(!$have_package){
+                return response()->json([
+                    'errors' => 'The user does not have package'
+                ], 400);
+            }
         }
 
-        if(!$have_package){
-            return response()->json([
-                'errors' => 'The user does not have package'
-            ], 400);
-        }
         return response()->json([
             'success' => 'You update status success'
         ]);
