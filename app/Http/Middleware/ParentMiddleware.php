@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MobileAdminMiddleware
+class ParentMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,8 @@ class MobileAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
-
-        // Check if user is authenticated
-        if (!empty($user) && (auth()->user()->position == 'admin' || auth()->user()->position == 'user_admin')) {  
+        if (auth()->user() && auth()->user()->role == 'Parent' && auth()->user()->status) {
             return $next($request);
-        } 
+        }
     }
 }

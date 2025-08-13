@@ -20,6 +20,11 @@ class SupParent extends Model
         'password',
         'status',
     ];
+    protected $appends = ['role'];
+
+    public function getRoleAttribute(){
+        return 'Parent';
+    }
 
     protected $hidden = [
         'password', 

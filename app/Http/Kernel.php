@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         
         'auth.MobileAdmin' => \App\Http\Middleware\MobileAdminMiddleware::class,
         'auth.MobileUser' => \App\Http\Middleware\MobileUserMiddleware::class,
+        'auth.MobileParent' => \App\Http\Middleware\ParentMiddleware::class,
         
         'limit.sessions' => \App\Http\Middleware\LimitActiveSessions::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

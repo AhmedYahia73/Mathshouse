@@ -12,5 +12,6 @@ class ForgetPassword extends Model
     protected $fillable = [
         'user_id',
         'code',
+        'parent_id',
     ]; 
 }
