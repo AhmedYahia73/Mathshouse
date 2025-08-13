@@ -35,34 +35,21 @@ class ScoreSheetController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-
-        $studentId = auth()->user()->id;
+ 
         $data = Chapter::
         select('id', 'chapter_name')
         ->where('course_id', $request->course_id)
-        ->with(['lessons' => function($query) use($studentId) {
+        ->with(['lessons' => function($query) {
             $query
             ->select('id', 'lesson_name', 'chapter_id')
-            ->with(['quizs' => function($query2) use($studentId){
+            ->with(['quizs' => function($query2){
                 $query2->select('id', 'title', 'score', 'pass_score', 'lesson_id')
-                ->with(['student_quizs' => function($query3) use($studentId){
-                    $query3->select('id', 'quizze_id', 'score', 'time', 'date')->where('student_id', $studentId)
-                    ->orderByDesc('id')
-                    ->limit(1);
+                ->with(['student_score_quiz' => function($query3){
+                    $query3->select('id', 'quizze_id', 'score', 'time', 'date');
                 }]);
             }]);
         }])
-        ->get()
-        ->map(function($chapter){
-            $chapter->lessons->map(function($lesson){
-                $lesson->quizs->map(function($quiz){ 
-                    $quiz->student_quizs = $quiz->student_quizs->first();
-                    return $quiz;
-                });
-                return $lesson;
-            });
-            return $chapter;
-        });
+        ->get();
         foreach ($data as $item) {
             foreach ($item->lessons as $element) {
                 $sessions = Session::where('lesson_id', $element->id)
