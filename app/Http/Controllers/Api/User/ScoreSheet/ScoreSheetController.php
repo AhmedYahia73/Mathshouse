@@ -48,11 +48,21 @@ class ScoreSheetController extends Controller
                 ->with(['student_quizs' => function($query3) use($studentId){
                     $query3->select('id', 'quizze_id', 'score', 'time', 'date')->where('student_id', $studentId)
                     ->orderByDesc('id')
-                    ->first();
+                    ->limit(1);
                 }]);
             }]);
         }])
-        ->get();
+        ->get()
+        ->map(function($chapter){
+            $chapter->lessons->map(function($lesson){
+                $lesson->quizs->map(function($quiz){ 
+                    $quiz->student_quizs = $quiz->student_quizs->first();
+                    return $quiz;
+                });
+                return $lesson;
+            });
+            return $chapter;
+        });
         foreach ($data as $item) {
             foreach ($item->lessons as $element) {
                 $sessions = Session::where('lesson_id', $element->id)
