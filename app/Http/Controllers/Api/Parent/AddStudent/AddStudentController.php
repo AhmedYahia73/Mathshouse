@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Parent\AddStudent;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MyEmail; 
 use App\Mail\ForgetPassword as ForgetPasswordEmail;
