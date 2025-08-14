@@ -45,6 +45,14 @@ class AddStudentController extends Controller
     }
 
     public function check_code(Request $request){
+        $validator = Validator::make($request->all(), [
+            'code' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        } 
         $parent_code = $this->parent_code
         ->where('parent_id', $request->user()->id)
         ->where('code', $request->code)
