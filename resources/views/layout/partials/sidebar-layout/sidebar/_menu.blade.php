@@ -151,6 +151,13 @@
 							<span class="menu-title">Students</span>
 						</a>
 						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+							href="{{ route('view_parent') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Parents</span>
+						</a>
+						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
 							href="{{ route('teacher') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>

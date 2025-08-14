@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\AdminsController;
 use App\Http\Controllers\Admin\LogoutUsersController;
 use App\Http\Controllers\Admin\PackagesController as Ad_PackagesController;
 use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\ParentController;
 
 use App\Http\Controllers\Admin\paymob\CallBackPaymobController;
 use App\Http\Controllers\Student\Stu_DashboardController;
@@ -324,6 +325,15 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         Route::post('/Student/Add', 'student_add')->name('student_add');
         Route::post('/Student/Edit', 'stu_edit')->name('stu_edit');
         Route::get('/Student/Payments/{id}', 'student_payments')->name('student_payments');
+    });
+    
+
+    Route::controller(ParentController::class)->middleware('can:Users')->prefix('Parent')->group(function(){
+        Route::get('/', 'view')->name('view_parent'); 
+        Route::post('/add', 'create')->name('add_web_parent');
+        Route::put('/status/{id}', 'update')->name('parent_web_status'); 
+        Route::post('/update/{id}', 'update')->name('update_web_parent'); 
+        Route::get('/delete/{id}', 'delete')->name('delete_web_parent'); 
     });
 
     Route::get('/', [DashboardController::class, 'index']);

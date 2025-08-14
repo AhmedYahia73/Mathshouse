@@ -212,9 +212,9 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
 
     Route::controller(ParentController::class)->prefix('parent')
     ->group(function(){ 
-        Route::get('/', 'view');
-        Route::post('/add', 'create');
-        Route::post('/update/{id}', 'update');
-        Route::delete('/delete/{id}', 'delete');
+        Route::get('/', 'view')->name('parent_view');
+        Route::post('/add', 'create')->name('parent_add');
+        Route::post('/update/{id}', 'update')->name('parent_update');
+        Route::delete('/delete/{id}', 'delete')->name('parent_delete');
     });
 });
