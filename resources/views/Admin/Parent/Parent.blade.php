@@ -64,44 +64,53 @@
         } 
  
             
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 28px;
-  vertical-align: middle;
-}
-.switch input { display: none; }
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #ccc;
-  border-radius: 999px;
-  transition: background .2s;
-  box-shadow: inset 0 0 2px rgba(0,0,0,.2);
-}
-.slider::after{
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  left: 3px;
-  top: 3px;
-  background: white;
-  border-radius: 50%;
-  transition: transform .2s;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
-}
-.switch input:checked + .slider {
-  background-color: #4caf50;
-}
-.switch input:checked + .slider::after {
-  transform: translateX(24px);
-}
+        .switch {
+        position: relative;
+        display: inline-block;
+        width: 52px;
+        height: 28px;
+        vertical-align: middle;
+        }
+        .switch input { display: none; }
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #ccc;
+        border-radius: 999px;
+        transition: background .2s;
+        box-shadow: inset 0 0 2px rgba(0,0,0,.2);
+        }
+        .slider::after{
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        left: 3px;
+        top: 3px;
+        background: white;
+        border-radius: 50%;
+        transition: transform .2s;
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        }
+        .switch input:checked + .slider {
+        background-color: #4caf50;
+        }
+        .switch input:checked + .slider::after {
+        transform: translateX(24px);
+        }
 
-/* optional: label text */
-.switch-text { margin-left: 8px; font-size:14px; vertical-align: middle; }
+        /* optional: label text */
+        .switch-text { margin-left: 8px; font-size:14px; vertical-align: middle; }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        select {
+            width: 200px;
+            height: 120px;
+            padding: 5px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 
@@ -166,6 +175,22 @@
                         placeholder="Phone" />
                     </div>
 
+ 
+                    <select name="student_ids[]" class="mySelect" multiple>
+                        @foreach($students as $element)
+                            <option value="{{ $element->id }}">
+                                {{ $element->nick_name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                                                
+                    <label class="switch">
+                        <input type="checkbox" class="status_switch_add" name="status" data-default="true" data-id="add"> <!-- ضع data-default="0" أو "1" -->
+                        <span class="slider"></span>
+                    </label> 
+
+                    <br><br>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary"
@@ -210,7 +235,7 @@
                         </td>
                         <td>
                             <label class="switch">
-                                <input type="checkbox" id="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
+                                <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
                                 <span class="slider"></span>
                             </label> 
 
@@ -279,7 +304,22 @@
                                                     <input class='form-control' name="phone"
                                                         value="{{ $item->phone }}" placeholder="Phone" />
                                                 </div>
+                                                
+                                                <label class="switch">
+                                                    <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
+                                                    <span class="slider"></span>
+                                                </label> 
+
+                                                <br><br>
  
+                                                <select name="student_ids[]" class="mySelect" multiple>
+                                                    @foreach($students as $element)
+                                                        <option value="{{ $element->id }}" 
+                                                            @if(in_array($element->id, $item->students->pluck('id')->toArray())) selected @endif>
+                                                            {{ $element->nick_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
  
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-label-secondary"
@@ -290,7 +330,7 @@
                                                 </div>
                                                                
                                                 <label class="switch">
-                                                    <input type="checkbox" id="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
+                                                    <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
                                                     <span class="slider"></span>
                                                 </label> 
 
@@ -370,7 +410,7 @@
     <script>
         
 $(function(){ 
-  var $switch = $('#status_switch');
+  var $switch = $('.status_switch');
   var def = String($switch.data('default')) === '1' ? 1 : 0;
   $switch.prop('checked', def === 1);
 
@@ -393,6 +433,26 @@ $(function(){
     });
   });
 });
+        
+$(function(){ 
+  var $switch = $('.status_switch_add');
+  var def = String($switch.data('default')) === '1' ? 1 : 0;
+  $switch.prop('checked', def === 1);
+
+  $switch.on('change', function(){
+    var id = $(this).data('id');
+    var newStatus = $(this).is(':checked') ? 1 : 0;
+    var url_api = "{{ url('Admin/Parent/status') }}" + '/' + id
+ 
+  });
+});
+
+    $(document).ready(function() {
+        $('.mySelect').select2({
+            placeholder: "Select Students",
+            allowClear: true
+        });
+    });
         $(document).ready(function() {
             $("#myInput").on("keyup", () => {
                 var vale = $("#myInput").val().toLowerCase();
