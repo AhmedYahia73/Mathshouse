@@ -37,7 +37,7 @@ class ParentLoginController extends Controller
                     'errors' => ' This Account Unavailable'
                 ]);
             }
-            if (password_verify($request->input('password'), $user->parent)) { 
+            if (password_verify($request->input('password'), $parent->password)) { 
                 $token = $parent->createToken("Parent")->plainTextToken;
                 $parent->token = $token;
 
