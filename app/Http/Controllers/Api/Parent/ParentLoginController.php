@@ -79,7 +79,7 @@ class ParentLoginController extends Controller
             Mail::To($user->email)->send(new ForgetPasswordEmail($user->id, $code));
         } else {
             return response()->json([
-                'faild' => 'Email or Phone is Wrong'
+                'errors' => 'Email or Phone is Wrong'
             ]);
         }
     }
@@ -145,7 +145,7 @@ class ParentLoginController extends Controller
             ]);
         } else {
             return response()->json([
-                'faild' => 'Code Is Wrong'
+                'errors' => 'Code Is Wrong'
             ]);
         }
     }
