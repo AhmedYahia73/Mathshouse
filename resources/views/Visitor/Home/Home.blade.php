@@ -386,11 +386,11 @@
         box-shadow: 0 0 0 10px #ffffff99;
     }
 
-    @property --num {
+    /* @property --num {
         syntax: "<integer>";
         initial-value: 0;
         inherits: false;
-    }
+    } */
 
     .counter-num h3 {
         counter-reset: num var(--num);
@@ -405,6 +405,14 @@
     /* End of counter section */
 
     /* start of Courses section */
+    .Courses-caption {
+        background-color: #fef5f3;
+        padding: 5%;
+        border-radius: 20%;
+        margin-top: 20px;
+
+    }
+
     #Courses .caption h3 {
         color: #727272;
     }
@@ -524,8 +532,8 @@
 
     /* End of Subscribe section */
 </style>
-<!-- Start of Home Section -->
 
+<!-- Start of Home Section -->
 <main>
     <div class="container">
         <div class="main-inner">
@@ -543,10 +551,12 @@
         </div>
 
         <div class="d-flex justify-content-center align-items-center">
-            <a href=""><i class="fa-solid fa-chevron-down fa-2x" style="color:#CF202F"></i></a>
+            <a href="#Courses" class="scroll-arrow"><i class="fa-solid fa-chevron-down fa-2x"
+                    style="color:#CF202F"></i></a>
         </div>
         <div class="d-flex justify-content-center align-items-center" style="margin-top: -15px;">
-            <a href=""><i class="fa-solid fa-chevron-down fa-2x" style="color:#CF202F"></i></a>
+            <a href="#Courses" class="scroll-arrow"><i class="fa-solid fa-chevron-down fa-2x"
+                    style="color:#CF202F"></i></a>
         </div>
 
 
@@ -564,11 +574,11 @@
                         <i class="fa-solid fa-user mb-3 icons p-3 rounded rounded-3"></i>
                         <h3 class="mb-0">Achieve your goals</h3>
                         <p class="pt-4 m-0 text-muted">Empower yourself with our online math courses designed
-for the international education system. Led by
-experienced and passionate instructors, our interactive
-Zoom sessions cater to all levels and learning styles.
-Whether you're aiming for top grades or preparing for
-exams, we'll guide you to success.</p>
+                            for the international education system. Led by
+                            experienced and passionate instructors, our interactive
+                            Zoom sessions cater to all levels and learning styles.
+                            Whether you're aiming for top grades or preparing for
+                            exams, we'll guide you to success.</p>
                     </div>
 
                 </div>
@@ -612,8 +622,8 @@ exams, we'll guide you to success.</p>
         </div>
     </div>
 </section>
-
 <!-- End of second section -->
+
 <!--Start of Counter section-->
 <div class="section-counter image-counter pt-5 pb-5">
     <div class="container position-relative">
@@ -658,7 +668,6 @@ exams, we'll guide you to success.</p>
 </div>
 <!--End of Counter section-->
 
-
 <section id="Courses" class="pt-5">
     <div class="container">
         <div class="row">
@@ -666,37 +675,37 @@ exams, we'll guide you to success.</p>
                 <div class="caption text-center">
                     <h3 class="caption-a fw-bolder">Browse Our <span>Top</span> Courses</h3>
                     <h4 class="subtitle-a">
-                        Cum doctus civibus efficiantur in imperdiet deterruisset
+                        Discover expertly crafted courses to elevate your skills
                     </h4>
                 </div>
             </div>
         </div>
         <div class="row">
-            @foreach( $courses as $item )
-                <div class="col-md-3">
-                    <a href="{{route('v_course', ['id' => $item->id])}}">
-                    <div class="Courses-caption">
-                        <div class="badge d-flex flex-row-reverse">
-                            <h2> <span class="badge bg-badge h5">Top Seller</span></h2>
-                        </div>
-                        <h3 class="h5">{{$item->course_name}}</h3>
-                        <h3 class="h5 p-0 m-0"> Web Design</h3>
-                        <h4>${{$item->prices->min('price')}}</h4>
+            @foreach ($courses as $item)
+                <div class="col-md-3 course-style">
+                    <a href="{{ route('v_course', ['id' => $item->id]) }}">
+                        <div class="Courses-caption">
+                            <div class="badge d-flex flex-row-reverse">
+                                <h2> <span class="badge bg-badge h5">Top Seller</span></h2>
+                            </div>
+                            <h3 class="h5">{{ $item->course_name }}</h3>
+                            <h3 class="h5 p-0 m-0"> Web Design</h3>
+                            <h4>${{ $item->prices->min('price') }}</h4>
 
-                    </div>
-                </a>
+                        </div>
+                    </a>
                 </div>
             @endforeach
 
-            <div class="d-flex align-items-center flex-row-reverse">
-                <a href="{{route('categories')}}" class="btn btn-danger mt-3">view all courses</a>
-            </div>
+        </div>
 
+        <div class="text-center mt-5">
+            <a href="{{ route('categories') }}" class="btn btn-danger px-4 py-2">
+                View All Courses
+            </a>
         </div>
     </div>
 </section class="py-4">
-
-
 
 <section id="Customer">
     <div class="container">
@@ -1046,6 +1055,7 @@ exams, we'll guide you to success.</p>
         </div>
     </div>
 @endforeach
+
 <script>
     let show_popup = document.querySelectorAll('.show_popup');
     let btn_close = document.querySelectorAll('.btn-close');
@@ -1068,5 +1078,18 @@ exams, we'll guide you to success.</p>
             }
         })
     }
+
+    document.querySelectorAll('.scroll-arrow').forEach(arrow => {
+        arrow.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = arrow.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 </script>
 @include('Visitor.inc.footer')

@@ -46,7 +46,7 @@
     }
 
     .mainContent .leftContent>p {
-        font-size: 1.5rem !important;
+        font-size: 1rem !important;
         font-weight: 600 !important;
         margin-bottom: 0 !important;
         color: #727272;
