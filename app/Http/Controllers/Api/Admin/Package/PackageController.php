@@ -33,10 +33,16 @@ class PackageController extends Controller
         $courses = $this->courses
         ->select('id', 'course_name')
         ->get();
+        $modules = [
+            'Exam',
+            'Question',
+            'Live',
+        ];
 
         return response()->json([
             'packages' => $packages,
-            'courses' => $courses
+            'courses' => $courses,
+            'modules' => $modules,
         ]);
     }
 
@@ -64,6 +70,7 @@ class PackageController extends Controller
         $package->number = $request->number ?? $package->number;
         $package->price = $request->price ?? $package->price;
         $package->duration = $request->duration ?? $package->duration;
+        $package->save();
 
         return response()->json([
             'success' => 'You update data success',
