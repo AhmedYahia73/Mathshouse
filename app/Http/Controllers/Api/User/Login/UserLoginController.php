@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MyEmail;
 use App\Mail\Sign_upEmail;
+use Illuminate\Support\Facades\Cookie;
 use App\Mail\ForgetPassword as ForgetPasswordEmail;
 
 use App\Models\ForgetPassword;
 use App\Models\LoginUser;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\Category;
+use App\Models\Wallet;
+use App\Models\Currancy;
+use App\Models\City;
 
 class UserLoginController extends Controller
 {
@@ -29,6 +35,83 @@ class UserLoginController extends Controller
 // user/update_password
 // keys
 // user, code, password
+
+    public function __construct(
+        private Wallet $wallet,
+        private Currancy $currancy,
+    
+    ){}
+
+    public function sign_up_lists(){
+        $countries = Country::
+        select('id', 'name')
+        ->get();
+        $categories = Category::
+        select('id', 'cate_name')
+        ->get();
+        $cities = City::
+        select('id', 'city', 'country_id')
+        ->get();
+
+        return response()->json([
+            'countries' => $countries,
+            'categories' => $categories,
+            'cities' => $cities,
+        ]);
+    }
+    
+    public function sign_up(Request $request){
+        $validator = Validator::make($request->all(), [
+            'f_name' => 'required',
+            'l_name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'nick_name' => 'required|unique:users,nick_name',
+            'phone' => 'required|unique:users,phone',
+            'city_id' => 'required|exists:cities,id',
+            'category_id' => 'required|exists:cities,id',
+            'grade' => 'required|numeric',
+            'password' => 'required',
+            'conf_password' => 'required|same:password',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $userRequest = $validator->validated();
+        $userRequest['position'] = 'student';
+        $userRequest['state'] = 'Show';
+        $userRequest['password'] = bcrypt($request->password);
+        $user = User::create($userRequest);
+
+        $token = $user->createToken("user")->plainTextToken;
+        $user->token =$token ;
+        $user = Auth::loginUsingId($user->id);
+                // Start Make Two Wallet EGP and USD
+        $dolar = $this->currancy->select('id')->where('currency', 'USD')->first();
+        $pound = $this->currancy->select('id')->where('currency', 'EGP')->first();
+        $userWallet = [
+                ['student_id'=>$user->id,'wallet'=>0,'date'=>now(),'currency_id'=>$dolar->id],
+                ['student_id'=>$user->id,'wallet'=>0,'date'=>now(),'currency_id'=>$pound->id]
+        ];
+        $this->wallet->insert($userWallet);
+        $value = Cookie::get('device_id');
+        if ( empty($value) ) {
+            $value = rand(1, 99999999999);
+            Cookie::queue(Cookie::make('device_id', $value, 60 * 24 * 365));
+        }
+        LoginUser::create([
+            'type' => 'mobile', 
+            'user_id'=> $user->id,
+            'ip' => $value,
+        ]);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
