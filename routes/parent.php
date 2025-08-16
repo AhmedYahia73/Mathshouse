@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     Route::controller(PaymentController::class)
     ->prefix('payment')->group(function(){
         Route::post('/history', 'history'); 
-        Route::post('/invoic', 'invoic'); 
+        Route::post('/invoic/{id}', 'invoic'); 
     });
 
     Route::controller(WalletController::class)
