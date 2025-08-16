@@ -4,7 +4,7 @@
         return 'admin';
     }
 @endphp
-<x-default-layout> 
+<x-default-layout>
     @include('success')
     @section('title', 'Students')
     <style>
@@ -61,51 +61,64 @@
 
         .table td p:hover {
             width: 100%;
-        } 
- 
-            
+        }
+
+
         .switch {
-        position: relative;
-        display: inline-block;
-        width: 52px;
-        height: 28px;
-        vertical-align: middle;
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+            vertical-align: middle;
         }
-        .switch input { display: none; }
+
+        .switch input {
+            display: none;
+        }
+
         .slider {
-        position: absolute;
-        cursor: pointer;
-        inset: 0;
-        background-color: #ccc;
-        border-radius: 999px;
-        transition: background .2s;
-        box-shadow: inset 0 0 2px rgba(0,0,0,.2);
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #ccc;
+            border-radius: 999px;
+            transition: background .2s;
+            box-shadow: inset 0 0 2px rgba(0, 0, 0, .2);
         }
-        .slider::after{
-        content: "";
-        position: absolute;
-        width: 22px;
-        height: 22px;
-        left: 3px;
-        top: 3px;
-        background: white;
-        border-radius: 50%;
-        transition: transform .2s;
-        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+
+        .slider::after {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: transform .2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
         }
-        .switch input:checked + .slider {
-        background-color: #4caf50;
+
+        .switch input:checked+.slider {
+            background-color: #4caf50;
         }
-        .switch input:checked + .slider::after {
-        transform: translateX(24px);
+
+        .switch input:checked+.slider::after {
+            transform: translateX(24px);
         }
 
         /* optional: label text */
-        .switch-text { margin-left: 8px; font-size:14px; vertical-align: middle; }
+        .switch-text {
+            margin-left: 8px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
         }
+
         select {
             width: 200px;
             height: 120px;
@@ -120,49 +133,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-        data-bs-target="#modalParentAdd">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalParentAdd">
         Add
     </button>
 
     <!-- Modal -->
     <form method="POST" action="{{ route('add_web_parent') }}">
         @csrf
-        <div class="modal fade" id="modalParentAdd" tabindex="-1"
-            aria-hidden="true" style="display: none;">
+        <div class="modal fade" id="modalParentAdd" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
 
                         <h5 class="modal-title" id="modalCenterTitle">Add Student</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class='my-2 px-3'>
                         <label>Name</label>
-                        <input class='form-control' name="name"
-                        placeholder="Name" />
-                    </div> 
+                        <input class='form-control' name="name" placeholder="Name" />
+                    </div>
 
                     <div class="my-2 px-3">
                         <label>
                             E-mail
                         </label>
-                        <input class='form-control' name="email"
-                        placeholder="E-mail" />
+                        <input class='form-control' name="email" placeholder="E-mail" />
                     </div>
 
                     <div class="my-2 px-3">
                         <label>Password</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i
-                                    class="fa fa-lock"></i></span>
-                            <input class="form-control password_field" type="password"
-                                name="password" placeholder="Password" />
+                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            <input class="form-control password_field" type="password" name="password"
+                                placeholder="Password" />
                             <span class="input-group-text">
-                                <i class="fa fa-eye togglePassword"
-                                    style="cursor: pointer"></i>
+                                <i class="fa fa-eye togglePassword" style="cursor: pointer"></i>
                             </span>
                         </div>
                     </div>
@@ -171,30 +177,29 @@
                         <label>
                             Phone
                         </label>
-                        <input class='form-control' name="phone"
-                        placeholder="Phone" />
+                        <input class='form-control' name="phone" placeholder="Phone" />
                     </div>
 
- 
+
                     <select name="student_ids[]" class="mySelect" multiple>
-                        @foreach($students as $element)
+                        @foreach ($students as $element)
                             <option value="{{ $element->id }}">
                                 {{ $element->nick_name }}
                             </option>
                         @endforeach
                     </select>
 
-                                                
+                    <input type="hidden" name="status" value="0"> <!-- Hidden input for default status -->
                     <label class="switch">
-                        <input type="checkbox" class="status_switch_add" name="status" data-default="true" data-id="add"> <!-- ضع data-default="0" أو "1" -->
+                        <input type="checkbox" class="status_switch_add" name="status" value="1" data-id="add">
+                        <!-- ضع data-default="0" أو "1" -->
                         <span class="slider"></span>
-                    </label> 
+                    </label>
 
                     <br><br>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-label-secondary"
-                            data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                         <button class="btn btn-primary">Submit</button>
@@ -203,47 +208,48 @@
             </div>
         </div>
     </form>
-        
+
     <div class="mt-4 card-datatable table-responsive" style="overflow-x: hidden">
         <table class="datatables-users border-top display table-hover table-striped" id="cm-list">
             <thead>
                 <tr>
                     <th scope="row">Name</th>
                     <th scope="row">E-Mail</th>
-                    <th scope="row">Phone</th> 
+                    <th scope="row">Phone</th>
                     <th scope="row">status</th>
                     <th scope="row">Action</th>
             </thead>
             <tbody id="myTable">
                 @foreach ($parents as $item)
                     <tr>
-                        <td >
-                            <p> 
+                        <td>
+                            <p>
                                 {{ $item->name }}
                             </p>
-                        </td> 
-                        <td >
+                        </td>
+                        <td>
                             <p>
 
                                 {{ $item->email }}
                             </p>
-                        </td>  
-                        <td >
+                        </td>
+                        <td>
                             <p>
                                 {{ $item->phone }}
                             </p>
                         </td>
                         <td>
                             <label class="switch">
-                                <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
+                                <input type="checkbox" class="status_switch" data-default="{{ $item->status }}"
+                                    data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
                                 <span class="slider"></span>
-                            </label> 
+                            </label>
 
                             <br><br>
                         </td>
- 
 
-                        <td >
+
+                        <td>
                             <div class="mt-3">
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
@@ -258,6 +264,7 @@
                                 <!-- Modal -->
                                 <form method="POST" action="{{ route('update_web_parent', $item->id) }}">
                                     @csrf
+                                    @method('PUT') <!-- Add this line -->
                                     <div class="modal fade" id="modalCenterEdit{{ $item->id }}" tabindex="-1"
                                         aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -273,7 +280,7 @@
                                                     <label>Name</label>
                                                     <input class='form-control' name="name"
                                                         value="{{ $item->name }}" placeholder="Name" />
-                                                </div> 
+                                                </div>
 
                                                 <div class="my-2 px-3">
                                                     <label>
@@ -304,23 +311,27 @@
                                                     <input class='form-control' name="phone"
                                                         value="{{ $item->phone }}" placeholder="Phone" />
                                                 </div>
-                                                
+                                                <input type="hidden" name="status" id="status_{{ $item->id }}"
+                                                    value="{{ $item->status }}">
                                                 <label class="switch">
-                                                    <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
+                                                    <input type="checkbox" class="status_switch"
+                                                        data-default="{{ $item->status }}"
+                                                        data-id="{{ $item->id }}">
+                                                    <!-- ضع data-default="0" أو "1" -->
                                                     <span class="slider"></span>
-                                                </label> 
+                                                </label>
 
                                                 <br><br>
- 
+
                                                 <select name="student_ids[]" class="mySelect" multiple>
-                                                    @foreach($students as $element)
-                                                        <option value="{{ $element->id }}" 
-                                                            @if(in_array($element->id, $item->students->pluck('id')->toArray())) selected @endif>
+                                                    @foreach ($students as $element)
+                                                        <option value="{{ $element->id }}"
+                                                            @if (in_array($element->id, $item->students->pluck('id')->toArray())) selected @endif>
                                                             {{ $element->nick_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
- 
+
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-label-secondary"
                                                         data-bs-dismiss="modal">
@@ -328,11 +339,6 @@
                                                     </button>
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
-                                                               
-                                                <label class="switch">
-                                                    <input type="checkbox" class="status_switch" data-default="{{ $item->status }}" data-id="{{ $item->id }}"> <!-- ضع data-default="0" أو "1" -->
-                                                    <span class="slider"></span>
-                                                </label> 
 
                                                 <br><br>
                                             </div>
@@ -408,51 +414,58 @@
         }
     </script>
     <script>
-        
-$(function(){ 
-  var $switch = $('.status_switch');
-  var def = String($switch.data('default')) === '1' ? 1 : 0;
-  $switch.prop('checked', def === 1);
+        $(function() {
+            $('.status_switch').each(function() {
+                var $switch = $(this);
+                var def = String($switch.data('default')) === '1' ? 1 : 0;
+                $switch.prop('checked', def === 1);
 
-  $switch.on('change', function(){
-    var id = $(this).data('id');
-    var newStatus = $(this).is(':checked') ? 1 : 0;
-    var url_api = "{{ url('Admin/Parent/status') }}" + '/' + id
+                $switch.on('change', function() {
+                    var id = $(this).data('id');
+                    var newStatus = $(this).is(':checked') ? 1 : 0;
+                    $(`#status_${id}`).val(newStatus); // Update hidden input for form submission
 
-    $.ajax({
-      url: url_api,
-      type: 'PUT',
-      data: { status: newStatus,
-            _token: "{{ csrf_token() }}" },
-      success: function(res){
-        console.log(res);
-      },
-      error: function(xhr){
-        console.log(xhr);
-      }
-    });
-  });
-});
-        
-$(function(){ 
-  var $switch = $('.status_switch_add');
-  var def = String($switch.data('default')) === '1' ? 1 : 0;
-  $switch.prop('checked', def === 1);
+                    var url_api = "{{ url('Admin/Parent/status') }}" + '/' + id;
 
-  $switch.on('change', function(){
-    var id = $(this).data('id');
-    var newStatus = $(this).is(':checked') ? 1 : 0;
-    var url_api = "{{ url('Admin/Parent/status') }}" + '/' + id
- 
-  });
-});
-
-    $(document).ready(function() {
-        $('.mySelect').select2({
-            placeholder: "Select Students",
-            allowClear: true
+                    $.ajax({
+                        url: url_api,
+                        type: 'PUT',
+                        data: {
+                            status: newStatus
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(res) {
+                            console.log(res);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
+                });
+            });
         });
-    });
+
+        $(function() {
+            var $switch = $('.status_switch_add');
+            var def = $switch.data('default') === 'true' ? 1 : 0; // Fix default value check
+            $switch.prop('checked', def);
+
+            $switch.on('change', function() {
+                var newStatus = $(this).is(':checked') ? 1 : 0;
+                var id = $(this).data('id');
+                var url_api = "{{ url('Admin/Parent/status') }}" + '/' + id
+
+            });
+        });
+
+        $(document).ready(function() {
+            $('.mySelect').select2({
+                placeholder: "Select Students",
+                allowClear: true
+            });
+        });
         $(document).ready(function() {
             $("#myInput").on("keyup", () => {
                 var vale = $("#myInput").val().toLowerCase();
