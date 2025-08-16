@@ -183,7 +183,7 @@ class Stu_MyCourseController extends Controller
             ->orderBy('quizze_order')
             ->first();
             
-            if ( $quizze->quizze_order > $next_quiz->quizze_order ) {
+            if ( isset($next_quiz->quizze_order) && $quizze->quizze_order > $next_quiz->quizze_order ) {
                 session()->flash('faild', 'You Must Pass Last Quiz First');
                 return redirect()->back();
             }
