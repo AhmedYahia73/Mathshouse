@@ -263,8 +263,7 @@
 
                                 <!-- Modal -->
                                 <form method="POST" action="{{ route('update_web_parent', $item->id) }}">
-                                    @csrf
-                                    @method('PUT') <!-- Add this line -->
+                                    @csrf 
                                     <div class="modal fade" id="modalCenterEdit{{ $item->id }}" tabindex="-1"
                                         aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
