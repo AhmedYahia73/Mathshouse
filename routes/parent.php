@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Parent\MyCourses\MyCouresController;
 use App\Http\Controllers\Api\Parent\ScoreSheet\ScoreSheetController;
 use App\Http\Controllers\Api\Parent\Payment\PaymentController;
 use App\Http\Controllers\Api\Parent\Payment\WalletController;
+use App\Http\Controllers\Api\Parent\Courses\CourseController;
 
 Route::post('sign_up', [ParentLoginController::class, 'sign_up']); 
 Route::post('login', [ParentLoginController::class, 'login']); 
@@ -57,5 +58,14 @@ Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     ->prefix('score_sheet')->group(function(){
         Route::post('/lists', 'lists'); 
         Route::post('/', 'scoreSheet'); 
+    });
+
+    Route::controller(CourseController::class)
+    ->prefix('courses')->group(function(){
+        Route::get('/lists', 'lists'); 
+        Route::post('/chaters_data', 'chaters_data'); 
+        Route::post('/use_promocode', 'use_promocode'); 
+        Route::post('/buy_course', 'buy_course'); 
+        Route::post('/buy_chapters', 'buy_chapters'); 
     });
 });

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\User\Courses;
+namespace App\Http\Controllers\Api\Parent\Courses;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
 use App\service\PaymentPaymob;
 use Illuminate\Support\Facades\Mail;
@@ -24,6 +24,7 @@ use App\Models\PromoCourse;
 use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
 use App\Models\PaymentOrder;
+use App\Models\User;
 
 class CourseController extends Controller
 {
@@ -35,10 +36,10 @@ class CourseController extends Controller
     private PromoCourse $promo_course,
     private PaymentMethod $payment_method,
     private Course $course,
-    private Chapter $chapters){}
+    private Chapter $chapters,
+    private User $user){}
     use Image;
     use PaymentPaymob;
-
     public function lists(Request $request){
         
         $lessons_db = $this->lessons;
@@ -156,6 +157,7 @@ class CourseController extends Controller
             'promo_code' => 'required',
             'course_id' => 'required|exists:courses,id',
             'amount' => 'required|numeric',
+            'user_id' => 'required|exists:users,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -165,7 +167,7 @@ class CourseController extends Controller
         $course_id = $request->course_id;
 
         $uses = $this->usage_promo
-        ->where('user_id',$request->user()->id)
+        ->where('user_id', $request->user_id)
         ->where('promo', $request->promo_code)
         ->first();
 
@@ -191,7 +193,7 @@ class CourseController extends Controller
                     ]);
                     $this->usage_promo
                     ->create([
-                        'user_id' => $request->user()->id,
+                        'user_id' => $request->user_id,
                         'promo_id' => $promo->id,
                         'promo' => $request->promo_code
                     ]); 
@@ -216,8 +218,9 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'course_id' => 'required|exists:courses,id',
             'amount' => 'required|numeric',
-            'payment_method_id' => 'required',
+            'payment_method_id' => 'required|exists:payment_method,id',
             'duration' => 'required|numeric',
+            'user_id' => 'required|exists:users,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -232,7 +235,7 @@ class CourseController extends Controller
         ->first();
         $PaymentRequest = [];
         $paymentRequest['price'] = $price;
-        $paymentRequest['user_id'] = $request->user()->id;
+        $paymentRequest['user_id'] = $request->user_id;
         $img_state = true;
  
         $img_name = null; 
@@ -250,11 +253,13 @@ class CourseController extends Controller
         }])
         ->first();
         $price = $request->amount;
+        $user = $this->user
+        ->where('id', $request->user_id)
+        ->first();
 
         //   Start Make Paymob Credit
         if(isset($payment_methods->payment)){ 
             if($payment_methods->payment == "Paymob"){
-                $user = auth()->user();
                 $commision = intval(Cookie::get('affilate'));
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
 
@@ -264,22 +269,7 @@ class CourseController extends Controller
             }
         }
         //   End Make Paymob Credit 
-        if ( $request->payment_method_id == 'Wallet' ) {
-            $wallet = Wallet::
-            where('student_id', auth()->user()->id)
-            ->where('state', 'Approve')
-            ->sum('wallet'); 
-
-            if ( $wallet < $price ) {
-                return response()->json([
-                    'errors' => 'You need to charge wallet'
-                ], 400);
-            }
-           
-            $paymentRequest['state'] = 'Approve'; 
-            
-        } 
-        elseif ( $img_state ) { 
+        if ( $img_state ) { 
             return response()->json([
                 'errors' => 'You must upload receipt'
             ], 400);
@@ -287,26 +277,11 @@ class CourseController extends Controller
         else{ 
             $paymentRequest['payment_method_id'] = $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($request->all(), auth()->user()));
+            ->send(new PaymentEmail($request->all(), $user));
         }
         $p_request = PaymentRequest::create($paymentRequest);
         $duration = $request->duration;
-
-        
-        if ( $request->payment_method_id == 'Wallet' ) { 
-            $chapters = Chapter::where('course_id', $course->id)
-            ->get();
-    
-            foreach ( $chapters as $item ) {
-                PaymentOrder::create([
-                    'payment_request_id' => $p_request->id,
-                    'chapter_id' => $item->id,
-                    'duration' => $duration,
-                    'state' => 1
-                ]);
-            }
-        }
-        else { 
+ 
         $chapters = Chapter::where('course_id', $course->id)
         ->get(); 
         foreach ( $chapters as $item ) {
@@ -315,8 +290,7 @@ class CourseController extends Controller
                 'chapter_id' => $item->id,
                 'duration' => $duration,
             ]);
-        }
-        }
+        } 
         
         $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet';
         return response()->json([
@@ -333,7 +307,8 @@ class CourseController extends Controller
             'chapters.*.chapter_id' => 'required|exists:chapters,id',
             'chapters.*.duration' => 'required|numeric',
             'amount' => 'required|numeric',
-            'payment_method_id' => 'required', 
+            'payment_method_id' => 'required|exists:payment_method,id', 
+            'user_id' => 'required|exists:users,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -348,7 +323,7 @@ class CourseController extends Controller
         ->first();
         $PaymentRequest = [];
         $paymentRequest['price'] = $price;
-        $paymentRequest['user_id'] = $request->user()->id;
+        $paymentRequest['user_id'] = $request->user_id;
         $img_state = true;
         $img_name = null;
         $payment = $payment_methods?->payment;
@@ -371,21 +346,12 @@ class CourseController extends Controller
             $chapter_item->duration = $duration;
             $chapters[] = $chapter_item;
         }
-        $price = $request->amount;
-        if ( $request->payment_method_id == 'Wallet' ) {
-            $wallet = Wallet::
-            where('student_id', auth()->user()->id)
-            ->where('state', 'Approve')
-            ->sum('wallet');
-            
-            if ( $wallet < $price ) {
-                return response()->json([
-                    'errors' => 'You must recharge wallet'
-                ], 400);
-            }
-            $paymentRequest['state'] = 'Approve'; 
-        }
-        elseif ( $img_state ) {
+        $price = $request->amount; 
+        $user = $this->user
+        ->where('id', $request->user_id)
+        ->first();
+
+        if ( $img_state ) {
             return response()->json([
                 'errors' => 'You Must Upload Receipt'
             ], 400);
@@ -394,10 +360,9 @@ class CourseController extends Controller
         else{ 
             $paymentRequest['payment_method_id'] = $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($request->all(), auth()->user()));
+            ->send(new PaymentEmail($request->all(), $user));
         }
-        if( $payment == "Paymob"){
-            $user=auth()->user();
+        if( $payment == "Paymob"){ 
             $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
             return response()->json([
                 'payment_link' => $payment_link
@@ -408,7 +373,7 @@ class CourseController extends Controller
         }
         if ( $request->payment_method_id == 'Wallet' ) {
             Wallet::create([
-                'student_id' => auth()->user()->id,
+                'student_id' => $request->user_id,
                 'wallet' => -$price,
                 'state' => 'Approve',
                 'date' => now(),
