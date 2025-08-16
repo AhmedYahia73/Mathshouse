@@ -99,7 +99,7 @@ class PackageController extends Controller
     }
 
 
-    public function packges(Request $request, $id){ 
+    public function packages(Request $request, $id){ 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id'
         ]);

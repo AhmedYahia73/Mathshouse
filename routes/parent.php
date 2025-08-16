@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Parent\AddStudent\AddStudentController;
 use App\Http\Controllers\Api\Parent\Package\PackageController;
 use App\Http\Controllers\Api\Parent\MyCourses\MyCouresController;
 use App\Http\Controllers\Api\Parent\ScoreSheet\ScoreSheetController;
+use App\Http\Controllers\Api\Parent\Payment\PaymentController;
+use App\Http\Controllers\Api\Parent\Payment\WalletController;
 
 Route::post('login', [ParentLoginController::class, 'login']); 
 Route::post('/forget_password', [ParentLoginController::class, 'forget_password']);
@@ -28,7 +30,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     Route::controller(PackageController::class)
     ->prefix('packages')->group(function(){
         Route::post('/my_packages', 'my_packages');
-        Route::post('/packges', 'packges');
+        Route::post('/packages/{id}', 'packages');
         Route::post('/lists', 'lists');
         Route::post('/payment_package/{id}', 'payment_package');
     });
@@ -38,9 +40,16 @@ Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
         Route::post('/', 'my_course'); 
     });
 
-    Route::controller(MyCouresController::class)
-    ->prefix('my_courses')->group(function(){
-        Route::post('/', 'my_course'); 
+    Route::controller(PaymentController::class)
+    ->prefix('payment')->group(function(){
+        Route::post('/history', 'history'); 
+        Route::post('/invoic', 'invoic'); 
+    });
+
+    Route::controller(WalletController::class)
+    ->prefix('wallet_payment')->group(function(){
+        Route::post('/history', 'history'); 
+        Route::post('/recharge', 'recharge'); 
     });
 
     Route::controller(ScoreSheetController::class)
