@@ -56,13 +56,15 @@ class ScoreSheetController extends Controller
         $data = Chapter::
         select('id', 'chapter_name')
         ->where('course_id', $request->course_id)
-        ->with(['lessons' => function($query) {
+        ->with(['lessons' => function($query) use($request) {
             $query
             ->select('id', 'lesson_name', 'chapter_id')
-            ->with(['quizs' => function($query2){
+            ->with(['quizs' => function($query2) use($request){
                 $query2->select('id', 'title', 'score', 'pass_score', 'lesson_id')
-                ->with(['student_score_quiz' => function($query3){
-                    $query3->select('id', 'quizze_id', 'score', 'time', 'date');
+                ->with(['student_quizs' => function($query3) use($request){
+                    $query3->select('id', 'quizze_id', 'score', 'time', 'date')
+                    ->where('student_id', $request->user_id)
+                    ->first();
                 }]);
             }]);
         }])
