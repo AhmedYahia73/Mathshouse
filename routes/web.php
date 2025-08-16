@@ -212,12 +212,12 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         Route::get('/PenddingPayment/Filter','filter_pendding_payment')->name('filter_pendding_payment');
         Route::get('/PaymentRequest','payment_request')->name('payment_request');
         Route::get('/PaymentRequest/Filter','filter_payment_req')->name('filter_payment_req');
-        Route::get('/ApprovePayment/{id}','approve_payment')->name('approve_payment');
-        Route::post('/RejectedPayment/{id}','rejected_payment')->name('rejected_payment');
+        Route::get('/ApprovePayment/{id}','approve_payment')->middleware('can:AcceptPayment')->name('approve_payment');
+        Route::post('/RejectedPayment/{id}','rejected_payment')->middleware('can:AcceptPayment')->name('rejected_payment');
         Route::get('/WalletPayment','wallet_pendding')->name('wallet_pendding');
         Route::get('/WalletPayment/Filter','filter_pendding_wallet')->name('filter_pendding_wallet');
-        Route::get('/WalletPayment/Approve/{id}','approve_wallet')->name('approve_wallet');
-        Route::post('/WalletPayment/Rejected/{id}','rejected_wallet')->name('rejected_wallet');
+        Route::get('/WalletPayment/Approve/{id}','approve_wallet')->middleware('can:AcceptPayment')->name('approve_wallet');
+        Route::post('/WalletPayment/Rejected/{id}','rejected_wallet')->middleware('can:AcceptPayment')->name('rejected_wallet');
         Route::get('/WalletPayment/History','wallet_history')->name('wallet_history');
         Route::get('/WalletPayment/HistoryFilter','filter_wallet_history')->name('filter_wallet_history');
     });
@@ -307,7 +307,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         Route::get('/Teacher/Del/{id}', 'del_teacher')->name('del_teacher');
 
         // Students
-        Route::post('/Add_Wallet', 'ad_add_wallet')->name('ad_add_wallet');
+        Route::post('/Add_Wallet', 'ad_add_wallet')->middleware('can:Wallet')->name('ad_add_wallet');
         Route::get('/Student', 'student')->name('student');
         Route::post('/Student_Filter', 'student_filter')->name('student_filter');
         Route::get('/Student/Info', 'stu_info')->name('stu_info');

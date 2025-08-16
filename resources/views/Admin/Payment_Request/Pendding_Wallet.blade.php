@@ -38,7 +38,9 @@
             <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Receipt</th>
             <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Date</th>
             <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Statue</th>
-            <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Action</th>
+            @can('AcceptPayment')
+              <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Action</th> 
+            @endcan
     </thead>
     <tbody class="fs-6">
         @foreach($wallets as $item)
@@ -79,67 +81,70 @@
             <td>
                 {{$item->state}}
             </td>
-            <td>
-            <div class="mt-3">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalCenter{{$item->id}}">
-                          Approve
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalRejected{{$item->id}}">
-                          Rejected
-                        </button>
+            
+            @can('AcceptPayment')
+              <td>
+              <div class="mt-3">
+                          <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalCenter{{$item->id}}">
+                            Approve
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalRejected{{$item->id}}">
+                            Rejected
+                          </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="modalCenter{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
+                          <!-- Modal -->
+                          <div class="modal fade" id="modalCenter{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  
+                                  <h5 class="modal-title" id="modalCenterTitle">Approve Payment</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div> 
                                 
-                                <h5 class="modal-title" id="modalCenterTitle">Approve Payment</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div> 
-                              
-                              <div class='p-3'>
-                                Are You Sure To Approve
-                              </div>
-
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                                  Close
-                                </button>
-                                <a href="{{route('approve_wallet', ['id'=>$item->id])}}" class="btn btn-success">Approve</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="modalRejected{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                
-                                <h5 class="modal-title" id="modalCenterTitle">Delete Payment</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div> 
-                              <form action="{{route('rejected_wallet', ['id'=>$item->id])}}" method="POST">
-                                @csrf
                                 <div class='p-3'>
-                                  <input class="form-control" name="rejected_reason" placeholder="Rejected Reasons" />
+                                  Are You Sure To Approve
                                 </div>
 
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                                     Close
                                   </button>
-                                  <button class="btn btn-danger">Reject</button>
-                                </form>
+                                  <a href="{{route('approve_wallet', ['id'=>$item->id])}}" class="btn btn-success">Approve</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="modalRejected{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  
+                                  <h5 class="modal-title" id="modalCenterTitle">Delete Payment</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div> 
+                                <form action="{{route('rejected_wallet', ['id'=>$item->id])}}" method="POST">
+                                  @csrf
+                                  <div class='p-3'>
+                                    <input class="form-control" name="rejected_reason" placeholder="Rejected Reasons" />
+                                  </div>
+
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                      Close
+                                    </button>
+                                    <button class="btn btn-danger">Reject</button>
+                                  </form>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-            </td>
+              </td>
+            @endcan
         </tr>
         @endforeach
     </tbody>

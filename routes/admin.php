@@ -35,6 +35,8 @@ use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 
 use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
+use App\Http\Controllers\Api\Admin\Package\PackageController;
+
 
 // Parents ++++
 // Students +++++
@@ -81,7 +83,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::delete('/delete/{id}', 'delete'); 
         Route::get('/payment_history/{id}', 'payment_history');
         Route::get('/wallet_balance/{id}', 'wallet_balance');
-        Route::post('/charge_wallet', 'charge_wallet'); 
+        Route::post('/charge_wallet', 'charge_wallet')->middleware('can:Wallet'); 
         Route::get('/academic_list/{id}', 'academic_list');
         Route::post('/academic_list_add', 'academic_list_add');
         Route::post('/lives_view', 'lives_view');
@@ -155,11 +157,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(PaymentController::class)->prefix('payment_request')
     ->middleware('can:Payment')->group(function(){
         Route::get('/', 'payment_request'); 
-        Route::put('/reject_request/{id}', 'reject_request'); 
-        Route::put('/approve_request/{id}', 'approve_request');
+        Route::put('/reject_request/{id}', 'reject_request')->middleware('can:AcceptPayment'); 
+        Route::put('/approve_request/{id}', 'approve_request')->middleware('can:AcceptPayment');
         Route::get('/wallet', 'wallet');
-        Route::put('/approve_wallet/{id}', 'approve_wallet');
-        Route::put('/rejected_wallet/{id}', 'rejected_wallet');
+        Route::put('/approve_wallet/{id}', 'approve_wallet')->middleware('can:AcceptPayment');
+        Route::put('/rejected_wallet/{id}', 'rejected_wallet')->middleware('can:AcceptPayment');
     });
 
     Route::controller(LiveReportController::class)->prefix('reports/live')
@@ -216,5 +218,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create')->name('parent_add');
         Route::post('/update/{id}', 'update')->name('parent_update');
         Route::delete('/delete/{id}', 'delete')->name('parent_delete');
+    });
+
+    Route::controller(PackageController::class)->prefix('package')
+    ->middleware('can:Packages')->group(function(){ 
+        Route::get('/', 'view');
+        Route::post('/update/{id}', 'modify'); 
     });
 });

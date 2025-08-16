@@ -123,7 +123,9 @@
                     <th scope="row">Parent Phone</th>
                     <th scope="row">Payment</th>
                     <th scope="row">History</th>
-                    <th scope="row">Wallet</th>
+                    @can('Wallet')
+                        <th scope="row">Wallet</th>
+                    @endcan
                     <th scope="row">Action</th>
             </thead>
             <tbody id="myTable">
@@ -189,18 +191,19 @@
                                 <button type="button" class="btn btn-sm btn-primary show_wallet">
                                     View
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#modalCenter{{ $item->id }}">
-                                    Top up
-                                </button>
-                                <div class='wallet_h d-none'>
-                                    @php
-                                        foreach ($wallet as $w_item) {
-                                            $total += $w_item->wallet;
-                                        }
-                                    @endphp
-                                    {{ $total }}$
-                                </div>
+                    
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#modalCenter{{ $item->id }}">
+                                        Top up
+                                    </button>
+                                    <div class='wallet_h d-none'>
+                                        @php
+                                            foreach ($wallet as $w_item) {
+                                                $total += $w_item->wallet;
+                                            }
+                                        @endphp
+                                        {{ $total }}$
+                                    </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="modalCenter{{ $item->id }}" tabindex="-1"
                                     aria-hidden="true" style="display: none;">

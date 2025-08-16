@@ -292,6 +292,20 @@ $arr = [];
                         <label for="Payment{{$item->id}}" class="form-check-label">Payment</label>
                       </div>
                       @endif
+                      
+                      @if(in_array('AcceptPayment', $arr))
+                      <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                        <input id="AcceptPayment{{$item->id}}" class="form-check-input" type="checkbox" value="AcceptPayment"
+                          name="roles[]" checked='checked'>
+                        <label for="AcceptPayment{{$item->id}}" class="form-check-label">Accept Payment</label>
+                      </div>
+                      @else
+                      <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                        <input id="AcceptPayment{{$item->id}}" class="form-check-input" type="checkbox" value="AcceptPayment"
+                          name="roles[]">
+                        <label for="AcceptPayment{{$item->id}}" class="form-check-label">Accept Payment</label>
+                      </div>
+                      @endif
                       @if(in_array('Slider', $arr))
                       <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
                         <input id="Slider{{$item->id}}" class="form-check-input" type="checkbox" value="Slider"

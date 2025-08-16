@@ -33,6 +33,7 @@
         <th>Date</th> 
         <th>Service</th>
         <th>Payment Method</th>
+        <th>Rejected Reason</th>
         <th>Price</th> 
         <th>Statues</th>
         <th>Details</th>
@@ -54,6 +55,9 @@
             <td>
                 {{isset($item->method->payment) ? $item->method->payment : 'Wallet' }}
             </td>
+            <td>
+                {{$item->rejected_reason}}
+            </td>  
             <td>
                 {{$item->price}}
             </td>  
