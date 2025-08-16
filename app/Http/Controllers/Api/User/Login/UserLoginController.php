@@ -103,7 +103,6 @@ class UserLoginController extends Controller
         LoginUser::create([
             'type' => 'mobile', 
             'user_id'=> $user->id,
-            'ip' => $value,
         ]);
 
         return response()->json([
