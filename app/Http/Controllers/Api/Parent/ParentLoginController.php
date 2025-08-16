@@ -17,6 +17,33 @@ class ParentLoginController extends Controller
 {
     public function __construct(private SupParent $parent){}
 
+    public function sign_up(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required', 
+            'email' => 'required|email|unique:users,email', 
+            'phone' => 'required|unique:users,phone', 
+            'password' => 'required|min:7', 
+            'conf_password' => 'required|same:password', 
+            // 'status' => 'required|boolean', 
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $parentRequest = $validator->validated();
+        $user = $this->parent
+        ->create($parentRequest);
+        
+        $token = $user->createToken("parent")->plainTextToken;
+        $user->token = $token ;
+
+        return response()->json([
+            'parent' => $user,
+            'token' => $token,
+        ]);
+    }
+
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required',

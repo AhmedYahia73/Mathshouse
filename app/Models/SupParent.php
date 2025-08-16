@@ -18,6 +18,7 @@ class SupParent extends Model
         'email',
         'phone',
         'password',
+        'code',
         'status',
     ];
     protected $appends = ['role'];

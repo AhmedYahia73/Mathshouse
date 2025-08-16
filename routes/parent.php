@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Parent\ScoreSheet\ScoreSheetController;
 use App\Http\Controllers\Api\Parent\Payment\PaymentController;
 use App\Http\Controllers\Api\Parent\Payment\WalletController;
 
+Route::post('sign_up', [ParentLoginController::class, 'sign_up']); 
 Route::post('login', [ParentLoginController::class, 'login']); 
 Route::post('/forget_password', [ParentLoginController::class, 'forget_password']);
 Route::post('/confirm_code', [ParentLoginController::class, 'confirm_code']);

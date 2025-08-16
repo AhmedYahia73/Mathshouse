@@ -149,8 +149,8 @@ class PackageController extends Controller
 
     public function payment_package( $id, Request $request){
         $validator = Validator::make($request->all(), [
-            'payment_method_id' => 'required',
-            'image' => 'sometimes',
+            'payment_method_id' => 'required|exists:payment_method,id',
+            'image' => 'required',
             'user_id' => 'required|exists:users,id'
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -179,20 +179,7 @@ class PackageController extends Controller
         where('id', $request->user_id)
         ->first();
         
-        if ( $request->payment_method_id == 'Wallet' ) {
-            $wallet = Wallet::
-            where('student_id', $request->user_id)
-            ->where('state', 'Approve')
-            ->sum('wallet'); 
-
-            if ( $wallet < $price ) {
-                return response()->json([
-                    'errors' => 'Your must recharge your wallet'
-                ], 400);
-            }
-            $arr['state'] = 'Approve'; 
-        }
-        elseif ( $img_state ) { 
+        if ( $img_state ) { 
             return response()->json([
                 'errors' => 'You Must Enter Receipt'
             ], 400); 
