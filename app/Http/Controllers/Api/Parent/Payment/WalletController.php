@@ -16,7 +16,7 @@ class WalletController extends Controller
     private Wallet $wallet){}
     use Image;
 
-    public function history(){
+    public function history(Request $request){
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id', 
         ]);
