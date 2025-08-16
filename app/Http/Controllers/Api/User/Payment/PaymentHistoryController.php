@@ -24,6 +24,7 @@ class PaymentHistoryController extends Controller
                 'price' => $item->price,
                 'service' => $item->module,
                 'status' => $item->state,
+                'rejected_reason' => $item->rejected_reason,
             ];
         });
 

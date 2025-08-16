@@ -49,7 +49,7 @@ Route::post('login', [AdminLoginController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(TeacherController::class)->prefix('teacher')
-    ->group(function(){
+    ->middleware('can:Users')->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(SessionController::class)->prefix('live/session')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/', 'view');
         Route::get('/lists', 'lists');
         Route::post('/add', 'create');
@@ -66,7 +66,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(GroupController::class)->prefix('live/groups')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(StudentController::class)->prefix('student')
-    ->group(function(){
+    ->middleware('can:Users')->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -89,34 +89,34 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(AcademicController::class)->prefix('live/academic')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/lists', 'lists');
         Route::post('/', 'academic'); 
     });
 
     Route::controller(PrivateSession::class)->prefix('live/private')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/', 'view');
         Route::get('/requests', 'private_requests');
         Route::put('/request_status/{id}', 'private_request_status');
     });
 
     Route::controller(CancelationController::class)->prefix('live/cancelation')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/', 'cancelation');
         Route::post('/cancelation_filter', 'cancelation_filter');
         Route::put('/cancelation_status/{id}', 'cancelation_status');
     });
 
     Route::controller(TeacherSessionController::class)->prefix('live/teacher_session')
-    ->group(function(){
+    ->middleware('can:Live')->group(function(){
         Route::get('/', 'view');
         Route::get('/lists', 'lists');
         Route::post('/filter_teacher_session', 'filter_teacher_session');
     });
 
     Route::controller(QReportList::class)->prefix('report_issue/q_reportlist')
-    ->group(function(){
+    ->prefix('ReportIssues')->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -124,13 +124,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(QReportAction::class)->prefix('report_issue/q_report_action')
-    ->group(function(){
+    ->prefix('ReportIssues')->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
     });
 
     Route::controller(VReportList::class)->prefix('report_issue/v_reportlist')
-    ->group(function(){
+    ->prefix('ReportIssues')->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -138,13 +138,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(VReportAction::class)->prefix('report_issue/v_report_action')
-    ->group(function(){
+    ->prefix('ReportIssues')->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
     });
 
     Route::controller(PaymentMethodController::class)->prefix('payment_method')
-    ->group(function(){
+    ->middleware('can:Payment')->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
         Route::post('/add', 'create'); 
@@ -153,7 +153,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(PaymentController::class)->prefix('payment_request')
-    ->group(function(){
+    ->middleware('can:Payment')->group(function(){
         Route::get('/', 'payment_request'); 
         Route::put('/reject_request/{id}', 'reject_request'); 
         Route::put('/approve_request/{id}', 'approve_request');
@@ -163,37 +163,37 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(LiveReportController::class)->prefix('reports/live')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/', 'view');  
         Route::post('/filter', 'filter');  
     });
 
     Route::controller(GradeReportController::class)->prefix('reports/grade')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/', 'view');  
         Route::post('/filter', 'filter');  
     });
 
     Route::controller(PaymentReportController::class)->prefix('reports/payment')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/', 'view');  
         Route::post('/filter', 'filter');  
     });
 
     Route::controller(CourseReportController::class)->prefix('reports/courses')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/', 'view');  
         Route::post('/filter', 'filter');  
     });
 
     Route::controller(ExamReportController::class)->prefix('reports/exam')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/', 'lists');  
         Route::post('/exam_questions', 'exam_questions');  
     });
 
     Route::controller(ScoreSheetQuizReportController::class)->prefix('reports/score_sheet/quiz')
-    ->group(function(){
+    ->middleware('can:Reports')->group(function(){
         Route::get('/students', 'students');  
         Route::get('/quiz_list/{user_id}', 'quiz_list');
         Route::get('/quiz_mistakes/{id}', 'quiz_mistakes');
@@ -203,7 +203,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(ScoreSheetExamReportController::class)->prefix('reports/score_sheet/exam')
-    ->group(function(){ 
+    ->middleware('can:Reports')->group(function(){ 
         Route::get('/exam_list/{user_id}', 'exam_list');
         Route::get('/exam_mistakes/{id}', 'exam_mistakes');
         Route::post('/generatePdf', 'generatePdf');
@@ -211,7 +211,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(ParentController::class)->prefix('parent')
-    ->group(function(){ 
+    ->middleware('can:Users')->group(function(){ 
         Route::get('/', 'view')->name('parent_view');
         Route::post('/add', 'create')->name('parent_add');
         Route::post('/update/{id}', 'update')->name('parent_update');
