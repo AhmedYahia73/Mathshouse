@@ -42,6 +42,7 @@ use App\Http\Controllers\Student\Stu_MyPackagesController;
 use App\Http\Controllers\Student\Stu_QuestionController;
 use App\Http\Controllers\Student\Stu_LiveController;
 use App\Http\Controllers\Student\ScoreController;
+use App\Http\Controllers\Student\Stu_NotificationController;
 
 use App\Http\Controllers\Visitor\HomeController;
 use App\Http\Controllers\Visitor\ContactController;
@@ -506,6 +507,9 @@ Route::middleware(['auth','auth.student'])->prefix('student')->group(function(){
         return $money;
     });
 
+    Route::controller(Stu_NotificationController::class)->group(function(){
+        Route::get('/Notifications', 'view')->name('notification_view'); 
+    });
 
     Route::controller(DomPdfController::class)->group(function(){
         Route::get('/DiaExam/PDF/{id}', 'dia_exam_mistake_pdf')->name('dia_exam_mistake_pdf');
