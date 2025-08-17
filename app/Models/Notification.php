@@ -25,7 +25,7 @@ class Notification extends Model
     }
 
     public function parent(){
-        return $this->belongsToMany(User::class, 'notification_user', 'notification_id', 'parent_id');
+        return $this->belongsToMany(SupParent::class, 'notification_user', 'notification_id', 'parent_id');
     }
     
     public function user(){
