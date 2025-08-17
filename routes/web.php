@@ -333,6 +333,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
     ->prefix('notifictions')->group(function(){
         Route::get('/', 'view')->name('view_notifictions');  
         Route::post('/add', 'create')->name('add_notifictions');  
+        Route::get('/delete/{id}', 'delete')->name('delete_notifictions');  
     });
     
     Route::controller(ParentController::class)->middleware('can:Users')->prefix('Parent')->group(function(){
