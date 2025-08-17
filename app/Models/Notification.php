@@ -19,7 +19,7 @@ class Notification extends Model
     
     public function getMaterialFileLinkAttribute(){
         if($this->attributes['material_file']){
-            return url('storage/' . $this->attributes['material_file']);
+            return url($this->attributes['material_file']);
         }
         return null;
     }
