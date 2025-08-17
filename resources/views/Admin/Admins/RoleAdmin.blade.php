@@ -82,6 +82,18 @@ $arr = [];
             <input id="Slider_item" class="form-check-input" type="checkbox" value="Slider" name="roles[]">
             <label for="Slider_item" class="form-check-label">Slider</label>
           </div>
+          
+          <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+            <input id="Notifictions" class="form-check-input" type="checkbox" value="Notifictions"
+              name="roles[]">
+            <label for="Notifictions" class="form-check-label">Notifictions</label>
+          </div> 
+          
+          <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+            <input id="AcceptPayment" class="form-check-input" type="checkbox" value="AcceptPayment"
+              name="roles[]">
+            <label for="AcceptPayment" class="form-check-label">Accept Payment</label>
+          </div>
 
           <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <input id="Affilate_item" class="form-check-input" type="checkbox" value="Affilate" name="roles[]">
@@ -290,6 +302,20 @@ $arr = [];
                         <input id="Payment{{$item->id}}" class="form-check-input" type="checkbox" value="Payment"
                           name="roles[]">
                         <label for="Payment{{$item->id}}" class="form-check-label">Payment</label>
+                      </div>
+                      @endif
+                      
+                      @if(in_array('Notifictions', $arr))
+                      <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                        <input id="Notifictions{{$item->id}}" class="form-check-input" type="checkbox" value="Notifictions"
+                          name="roles[]" checked='checked'>
+                        <label for="Notifictions{{$item->id}}" class="form-check-label">Notifictions</label>
+                      </div>
+                      @else
+                      <div class="m-3 form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                        <input id="Notifictions{{$item->id}}" class="form-check-input" type="checkbox" value="Notifictions"
+                          name="roles[]">
+                        <label for="Notifictions{{$item->id}}" class="form-check-label">Notifictions</label>
                       </div>
                       @endif
                       

@@ -483,6 +483,19 @@
 			</div>
 			@endcan
 
+			@can('Notifictions')
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+				<!--begin:Menu link--> 
+				<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+					href="{{ route('view_notifictions') }}">
+					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
+					<span class="menu-title">Notifications</span>
+				</a>
+				<!--end:Menu link--> 
+			</div>
+			@endcan
+
 			@can('Settings')
 			<div data-kt-menu-trigger="click"
 				class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">

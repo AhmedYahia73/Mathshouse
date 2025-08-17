@@ -220,5 +220,19 @@ class AuthServiceProvider extends ServiceProvider
                 }
             }
         });
+
+        Gate::define('Notifictions', function (User $user) {
+            if ( $user->position == 'admin' ) {
+                return true;
+            }
+            elseif ( $user->position == 'user_admin' ) {
+                $arr = $user->user_admin->user_role;
+                foreach ($arr as $item) {
+                    if ( $item->admin_role == 'Notifictions' ) {
+                        return true;
+                    }
+                }
+            }
+        });
     }
 }

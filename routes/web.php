@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\LogoutUsersController;
 use App\Http\Controllers\Admin\PackagesController as Ad_PackagesController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\ParentController;
+use App\Http\Controllers\Admin\NotificationController;
 
 use App\Http\Controllers\Admin\paymob\CallBackPaymobController;
 use App\Http\Controllers\Student\Stu_DashboardController;
@@ -326,8 +327,13 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         Route::post('/Student/Edit', 'stu_edit')->name('stu_edit');
         Route::get('/Student/Payments/{id}', 'student_payments')->name('student_payments');
     });
-    
 
+    Route::controller(NotificationController::class)->middleware('can:Notifictions')
+    ->prefix('notifictions')->group(function(){
+        Route::get('/', 'view')->name('view_notifictions');  
+        Route::post('/add', 'create')->name('add_notifictions');  
+    });
+    
     Route::controller(ParentController::class)->middleware('can:Users')->prefix('Parent')->group(function(){
         Route::get('/', 'view')->name('view_parent'); 
         Route::post('/add', 'create')->name('add_web_parent');
