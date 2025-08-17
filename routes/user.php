@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\User\Payment\PaymentHistoryController;
 
 use App\Http\Controllers\Api\User\Profile\ProfileController;
 use App\Http\Controllers\Api\User\Courses\CourseController;
+use App\Http\Controllers\Api\User\Notification\StudentNotificationController;
 
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
@@ -152,5 +153,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::post('/use_promocode', 'use_promocode');
         Route::post('/buy_course', 'buy_course');
         Route::post('/buy_chapters', 'buy_chapters');
+    });
+
+    Route::controller(StudentNotificationController::class)->prefix('notifications')
+    ->group(function(){
+        Route::get('/', 'view');
     });
 });
