@@ -14,6 +14,10 @@ return [
     |
     */
 
+    'firebase' => [
+        'credentials' => storage_path('app/firebase/food2go-8676e-firebase-adminsdk-fbsvc-b651bbb757.json'),
+    ],
+    
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
