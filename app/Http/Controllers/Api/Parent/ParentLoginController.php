@@ -20,8 +20,8 @@ class ParentLoginController extends Controller
     public function sign_up(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required', 
-            'email' => 'required|email|unique:users,email', 
-            'phone' => 'required|unique:users,phone', 
+            'email' => 'required|email|unique:sup_parents,email', 
+            'phone' => 'required|unique:sup_parents,phone', 
             'password' => 'required|min:7', 
             'conf_password' => 'required|same:password', 
             // 'status' => 'required|boolean', 
@@ -62,7 +62,7 @@ class ParentLoginController extends Controller
             if (!$parent->status) {
                 return response()->json([
                     'errors' => ' This Account Unavailable'
-                ]);
+                ], 400);
             }
             if (password_verify($request->input('password'), $parent->password)) { 
                 $token = $parent->createToken("Parent")->plainTextToken;
