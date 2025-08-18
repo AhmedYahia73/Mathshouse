@@ -333,6 +333,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
     ->prefix('notifictions')->group(function(){
         Route::get('/', 'view')->name('view_notifictions');  
         Route::post('/add', 'create')->name('add_notifictions');  
+        Route::post('/update/{id}', 'modify')->name('update_notifictions');  
         Route::get('/delete/{id}', 'delete')->name('delete_notifictions');  
     });
     

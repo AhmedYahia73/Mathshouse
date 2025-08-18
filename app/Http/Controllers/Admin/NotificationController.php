@@ -102,6 +102,61 @@ class NotificationController extends Controller
         return redirect()->back();
     }
 
+    public function modify(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'parents.*' => ['required', 'exists:sup_parents,id'],
+            'students.*' => ['required', 'exists:users,id'],
+            'teachers.*' => ['required', 'exists:users,id'],
+            'material_link' => ['sometimes'],
+            'material_file' => ['sometimes'],
+            'text' => ['sometimes'],
+            'date' => ['required']
+        ]);
+        if ($validator->fails()) {
+            session()->flash('faild', $validator->errors()->first());
+            return redirect()->back();
+        }
+        // material_link, material_file, text,
+        $material_file = null; 
+        $notificationRequest = [
+            'material_link' => $request->material_link ?? null,
+            'text' => $request->text ?? null, 
+            'date' => $request->date
+        ];
+        if($request->hasFile('material_file')){ 
+            extract($_FILES['material_file']);
+            if( !empty($name) ){ 
+                $extension = explode('.', $name);
+                $extension = end($extension);
+                $extension = strtolower($extension); 
+                $file_name = rand(0, 1000) . now() . $name;
+                $file_name = 'files/notification/' . str_replace([' ', ':', '-'], 'X', $file_name);
+                $path = public_path('files/notification'); 
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                move_uploaded_file($tmp_name, $file_name);
+                $notificationRequest['material_file'] = $file_name;
+            }
+        }
+        $notifications = $this->notifications
+        ->where('id', $id)
+        ->first();
+        $notifications->update($notificationRequest); 
+        $notifications->user()->detach();
+        if($request->parents){
+            $notifications->parent()->sync($request->parents);
+        }
+        if($request->students){
+            $notifications->user()->attach($request->students);
+        }
+        if($request->teachers){
+            $notifications->user()->attach($request->teachers);
+        }
+
+        return redirect()->back();
+    }
+
     public function delete(Request $request, $id){
         $this->notifications
         ->where('id', $id)

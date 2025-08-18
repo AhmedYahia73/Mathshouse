@@ -12,15 +12,13 @@ use Carbon\Carbon;
 @include('success') 
 
 
-<div class="upcoming_tbl">
+<div>
     <table class="table">
         <thead>
             <th>#</th>
             <th>Material Link</th>
             <th>Material File</th>
-            <th>Text</th>
-            <th>Date</th>
-            <th>Time</th>
+            <th>Text</th> 
         </thead>
 
         <tbody>
@@ -44,6 +42,9 @@ use Carbon\Carbon;
                         @else
                             Empty
                         @endif
+                    </td>
+                    <td>
+                        {{ $item->text }}
                     </td>
                 </tr>
             @endforeach

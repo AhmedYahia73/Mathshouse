@@ -60,7 +60,7 @@ return "admin";
                     <div class='my-2 px-3'>
                         <label>Notification</label>
                         <textarea class='form-control' type="texatarea" name="text" placeholder="Notification"></textarea>
-                    </div> 
+                    </div>
 
                     <div class="my-2 px-3">
                         <select name="parents[]" class="mySelect mySelectParent" multiple>
@@ -139,6 +139,9 @@ return "admin";
                 @foreach ($notifications as $item)
                 <tr>
                     <td>
+                        {{ $loop->iteration }}
+                    </td>
+                    <td>
                         {{ $item['text'] }}
                     </td>
                     <td class="text-center">
@@ -155,11 +158,96 @@ return "admin";
 
                     <td>
                         <div class="mt-3"> 
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-sm edit_btn" data-bs-toggle="modal"
+                                data-bs-target="#modalCenter{{ $item['id'] }}">
+                                Edit
+                            </button>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#modalDelete{{ $item['id'] }}">
                                 Delete
                             </button> 
 
+
+                        <!-- Modal -->
+                        <form method="POST" action="{{ route('update_notifictions', ['id' => $item['id']]) }}">
+                           @csrf
+                            <div class="modal fade" id="modalCenter{{ $item['id'] }}" tabindex="-1" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <h5 class="modal-title" id="modalCenterTitle">Add Notification</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                            
+                                        <div class='my-2 px-3'>
+                                            <label>Material Link</label>
+                                            <input class='form-control' name="material_link" value="{{ $item['material_link'] }}" placeholder="Material Link" />
+                                        </div>
+                                        <div class='my-2 px-3'>
+                                            <label>Material File</label>
+                                            <input class='form-control' type="file" name="material_file" placeholder="Material File" />
+                                        </div>
+
+                                        <div class="my-2 px-3">
+                                            <label>
+                                                Date Time
+                                            </label>
+                                            <input class='form-control' name="date" 
+                                            type="datetime-local"
+                                            required value="{{ \Carbon\Carbon::parse($item['date'])->format('Y-m-d\TH:i:s') }}"
+                                            step="1" placeholder="Date Time" />
+                                        </div>
+                                        <div class='my-2 px-3'>
+                                            <label>Notification</label>
+                                            <textarea class='form-control' type="texatarea" name="text" placeholder="Notification">{{ $item['text'] }}</textarea>
+                                        </div> 
+
+                                        <div class="my-2 px-3">
+                                            <select name="parents[]" class="mySelect mySelectParent" multiple>
+                                                @foreach ($parents as $element)
+                                                    <option value="{{ $element->id }}"
+                                                        @if (in_array($element->id, $item['parent']->pluck('id')->toArray())) selected @endif>
+                                                        {{ $element->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="my-2 px-3">
+                                            <select name="students[]" class="mySelect mySelectStudent" multiple>
+                                                @foreach ($students as $element)
+                                                    <option value="{{ $element->id }}"
+                                                        @if (in_array($element->id, $item['students']->pluck('id')->toArray())) selected @endif>
+                                                        {{ $element->nick_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="my-2 px-3">
+                                            <select name="teachers[]" class="mySelect mySelectTeacher" multiple>
+                                                @foreach ($teachers as $element)
+                                                    <option value="{{ $element->id }}"
+                                                        @if (in_array($element->id, $item['teachers']->pluck('id')->toArray())) selected @endif>
+                                                        {{ $element->nick_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>  
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
                             <!-- Modal -->
                             <div class="modal fade" id="modalDelete{{ $item['id'] }}" tabindex="-1" aria-hidden="true"

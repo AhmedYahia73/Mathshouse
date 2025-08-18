@@ -487,7 +487,7 @@
 			<div data-kt-menu-trigger="click"
 				class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link--> 
-				<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+				<a class="menu-link"
 					href="{{ route('view_notifictions') }}">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
 					<span class="menu-title">Notifications</span>
