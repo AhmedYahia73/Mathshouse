@@ -57,6 +57,7 @@ use App\Http\Controllers\Teacher\TDashboardController;
 use App\Http\Controllers\Teacher\TProfileController;
 use App\Http\Controllers\Teacher\TLiveController;
 use App\Http\Controllers\Teacher\TScheduleController;
+use App\Http\Controllers\Teacher\TNotificationController;
 
 use App\Http\Controllers\Affilate\Aff_DashboardController;
 use App\Http\Controllers\Affilate\Aff_PayoutController;
@@ -656,6 +657,10 @@ Route::middleware(['auth','auth.teacher'])->prefix('Teacher')->group(function(){
 
     Route::controller(TScheduleController::class)->prefix('schedule')->group(function(){
         Route::get('/', 'view')->name('t_schedule'); 
+    });
+
+    Route::controller(TNotificationController::class)->prefix('notification')->group(function(){
+        Route::get('/', 'view')->name('t_notification'); 
     });
     
 });
