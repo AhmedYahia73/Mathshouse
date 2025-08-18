@@ -69,6 +69,17 @@
                                                 @endfor
                                             </select>
                                     </div>
+                                    {{-- <div class='my-3'>
+                                        <label>Category</label>
+                                        <select name="category_id" class="form-control" id="gradeInput">
+                                            <option disabled>Select Category ...</option>
+                                            @foreach ($categories as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->cate_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
                                     <div class='my-3'>
                                         <label>Parent E-mail</label>
                                         <input class='form-control' value="{{@$data['parent_email']}}" name="parent_email" placeholder="Parent E-mail" />

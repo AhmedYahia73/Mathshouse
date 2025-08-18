@@ -262,7 +262,9 @@ class UserController extends Controller
     } 
 
     public function add_student(){
-        return view('Admin.Users.AddStudent');
+        $categories = Category::all();
+
+        return view('Admin.Users.AddStudent', compact('categories'));
     }
 
     public function student_add( Request $req ){
