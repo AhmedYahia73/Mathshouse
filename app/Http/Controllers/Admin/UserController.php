@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 use App\Models\Admin_role;
@@ -130,6 +131,32 @@ class UserController extends Controller
         $courses = $user->courses_live; 
 
         return view('Admin.Users.StudentDetails.Live', compact('courses', 'user', 'courses_names'));
+    }
+
+    public function lesson_seesions(Request $request){
+        $validator = Validator::make($request->all(), [
+            'lesson_id' => ['required', 'exists:lessons,id'],
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $sessions = Session::
+        select('name', 'date')
+        ->where('lesson_id', $request->lesson_id)
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'date' => $item->date,
+                'teacher' => $item?->teacher?->nick_name,
+            ];
+        });
+
+        return response()->json([
+            'sessions' => $sessions
+        ]);
     }
 
     public function stu_live_course_content( $id, $course_id ){

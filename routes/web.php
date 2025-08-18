@@ -84,7 +84,7 @@ use Illuminate\Support\Facades\App;
 |
 */
     $controller_path = 'App\Http\Controllers' ;
-
+// Fawry Package => laravel-pay/fawry
     Route::get('Affilate/Data/{id}', [Aff_DashboardController::class, 'aff_link'])->name('aff_link');
     Route::controller(LoginController::class)->group(function(){
         Route::post('/Market','market_login')->name('market_ch');

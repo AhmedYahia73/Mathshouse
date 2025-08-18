@@ -79,6 +79,7 @@ Route::get('/add_stu_academic', [UserController::class, 'add_stu_academic'])->na
 Route::get('/api_stu_academic', [UserController::class, 'api_stu_academic'])->name('api_stu_academic');
 Route::get('/stu_search_api', [UserController::class, 'stu_search_api'])->name('stu_search_api');
 Route::get('/teacher_search_api', [UserController::class, 'teacher_search_api'])->name('teacher_search_api');
+Route::post('/lesson_seesions', [UserController::class, 'lesson_seesions'])->name('teacher_search_api');
 
 Route::get('/package_stu_search', [PackagesController::class, 'package_stu_search'])->name('package_stu_search');
 Route::get('/stu_package_add', [PackagesController::class, 'stu_package_add'])->name('stu_package_add');
