@@ -2,13 +2,14 @@
 @php
     $page_name = 'Notifications';
 @endphp
+@section('title','Notifications')
 @include('Teacher.inc.header')
 @include('Teacher.inc.menu')
 @extends('Teacher.inc.nav')
-@section('title','Profile')
 
-@include('success') 
+@section('page_content')
 
+@include('success')
 
 <div>
     <table class="table">

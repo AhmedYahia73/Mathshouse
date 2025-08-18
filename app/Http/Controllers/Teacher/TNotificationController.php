@@ -20,7 +20,7 @@ class TNotificationController extends Controller
         ->orderByDesc('id')
         ->get();
 
-        return view('Student.Notification.Notification', 
+        return view('Teacher.Notification.Notification', 
         compact('notifications'));
     }
 }
