@@ -32,6 +32,7 @@ class ParentLoginController extends Controller
             ],400);
         }
         $parentRequest = $validator->validated();
+        $parentRequest['password'] = bcrypt($request->password);
         $user = $this->parent
         ->create($parentRequest);
         
