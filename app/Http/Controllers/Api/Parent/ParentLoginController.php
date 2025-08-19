@@ -58,6 +58,7 @@ class ParentLoginController extends Controller
         $parent = $this->parent
         ->where('email', $request->email)
         ->orWhere('phone', $request->email)
+        ->with('students:id,nick_name')
         ->first();
        if (!empty($parent)) {
             if (!$parent->status) {
