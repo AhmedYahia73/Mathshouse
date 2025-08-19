@@ -74,10 +74,10 @@ class ParentLoginController extends Controller
                 ], 200);
             }
             else{
-                return response()->json(['errors' => 'Your Account Not Available', 400]);
+                return response()->json(['errors' => 'Your Account Not Available'], 400);
             }
         } else {
-            return response()->json(['errors' => 'Your Account Not Available', 400]);
+            return response()->json(['errors' => 'Your Account Not Available'], 400);
         } 
     }
 
