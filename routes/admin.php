@@ -118,7 +118,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(QReportList::class)->prefix('report_issue/q_reportlist')
-    ->prefix('ReportIssues')->group(function(){
+    ->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -126,13 +126,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(QReportAction::class)->prefix('report_issue/q_report_action')
-    ->prefix('ReportIssues')->group(function(){
+    ->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
     });
 
     Route::controller(VReportList::class)->prefix('report_issue/v_reportlist')
-    ->prefix('ReportIssues')->group(function(){
+    ->group(function(){
         Route::get('/', 'view');
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
@@ -140,7 +140,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     });
 
     Route::controller(VReportAction::class)->prefix('report_issue/v_report_action')
-    ->prefix('ReportIssues')->group(function(){
+    ->group(function(){
         Route::get('/', 'view'); 
         Route::put('/status/{id}', 'status'); 
     });
