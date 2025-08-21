@@ -27,6 +27,7 @@ class ProfileController extends Controller
             'parent_email' => $user->parent_email,
             'grade' => $user->grade,
             'image' => $user->image_link,
+            'extra_email' => $user->extra_email,
         ]);
     }
 
