@@ -1291,12 +1291,47 @@
             var paginationSize = Math.ceil(numberOfItems / 3);
             var currentPage;
 
+            // function showPage(whichPage) {
+            //     if (whichPage < 1 || whichPage > totalPages) return false;
+
+            //     // Hide current question with animation
+            //     $(".question.active").removeClass("active");
+
+            //     if (whichPage == totalPages) {
+            //         $(".btn-submit-quiz").removeClass("d-none");
+            //     } else {
+            //         $(".btn-submit-quiz").addClass("d-none");
+            //     }
+
+            //     currentPage = whichPage;
+
+            //     // Show new question with animation
+            //     $(".question").hide().slice((currentPage - 1) * limitPerPage,
+            //         currentPage * limitPerPage).addClass("active").show();
+
+            //     $(".pagination li").slice(1, -1).remove();
+
+            //     getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+            //         $("<li>").addClass("page-item").addClass("current-page")
+            //             .toggleClass("activee", item === currentPage).append($("<a>")
+            //                 .addClass("page-link").attr({
+            //                     href: "javascript:void(0)",
+            //                     "aria-label": item ? `Page ${item}` : "More pages"
+            //                 }).text(item || "...")).insertBefore(".next-page");
+            //     });
+
+            //     $(".previous-page").toggleClass("disabled", currentPage === 1);
+            //     $(".next-page").toggleClass("disabled", currentPage === totalPages);
+            //     return true;
+            // }
+            // استبدال دالة showPage الحالية بهذه النسخة المحسنة
             function showPage(whichPage) {
                 if (whichPage < 1 || whichPage > totalPages) return false;
 
                 // Hide current question with animation
                 $(".question.active").removeClass("active");
 
+                // التحقق بشكل صحيح من الصفحة الأخيرة
                 if (whichPage == totalPages) {
                     $(".btn-submit-quiz").removeClass("d-none");
                 } else {
@@ -1320,8 +1355,14 @@
                             }).text(item || "...")).insertBefore(".next-page");
                 });
 
+                // منع الانتقال إلى صفحة غير موجودة
                 $(".previous-page").toggleClass("disabled", currentPage === 1);
                 $(".next-page").toggleClass("disabled", currentPage === totalPages);
+                
+                // إضافة تحقق إضافي لمنع الخروج من نطاق الصفحات
+                if (currentPage < 1) currentPage = 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+                
                 return true;
             }
 
