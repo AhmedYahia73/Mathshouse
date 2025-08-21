@@ -103,6 +103,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(LiveLesson::class, 'user_id');
     }
+
+    public function parent(){
+        return $this->belongsToMany(SupParent::class, 'parent_user', 'user_id', 'parent_id');
+    }
     
     public function teacher_courses()
     {

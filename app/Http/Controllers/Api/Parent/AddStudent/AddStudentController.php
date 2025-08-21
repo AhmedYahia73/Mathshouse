@@ -18,6 +18,19 @@ class AddStudentController extends Controller
     public function __construct(private ParentCode $parent_code,
     private User $user, private SupParent $parent){}
 
+    public function students_list(Request $request){
+        $students = $this->user
+        ->select('id', 'email', 'phone', 'nick_name')
+        ->whereDoesntHave('parent', function($query) use($request){
+            $query->where('sup_parents.id', $request->user()->id);
+        })
+        ->get();
+
+        return response()->json([
+            'students' => $students,
+        ]);
+    }
+
     public function add_student(Request $request){
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',

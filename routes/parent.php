@@ -26,6 +26,7 @@ Route::post('/update_password', [ParentLoginController::class, 'update_password'
 Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     Route::controller(AddStudentController::class)
     ->prefix('student')->group(function(){
+        Route::post('/lists', 'students_list');
         Route::post('/add', 'add_student');
         Route::post('/check_code', 'check_code');
     });
