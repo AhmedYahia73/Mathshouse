@@ -24,6 +24,7 @@ class AddStudentController extends Controller
         ->whereDoesntHave('parent', function($query) use($request){
             $query->where('sup_parents.id', $request->user()->id);
         })
+        ->where('position', 'student')
         ->get();
 
         return response()->json([
