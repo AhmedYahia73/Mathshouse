@@ -36,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'f_name',
         'l_name',
+        'fcm_token',
         'nick_name',
         'city_id',
         'grade',

@@ -20,6 +20,7 @@ class SupParent extends Model
         'password',
         'code',
         'status',
+        'fcm_token',
     ];
     protected $appends = ['role'];
 

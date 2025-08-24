@@ -15,8 +15,9 @@ class Kernel extends ConsoleKernel
      */ 
      protected function schedule(Schedule $schedule)
      {
-         $schedule->command('tokens:cleanup')->daily();
-             $schedule->command(command: 'exchange-rates:update')->hourly(); // Run hourly
+        $schedule->command('tokens:cleanup')->daily();
+        $schedule->command(command: 'exchange-rates:update')->hourly(); // Run hourly
+        $schedule->command('notifications:send')->everyMinute();
 
      }
 

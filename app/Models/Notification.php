@@ -14,6 +14,7 @@ class Notification extends Model
         'material_file', 
         'text',
         'date',
+        'is_sent',
     ];
     protected $appends = ['material_file_link'];
     
