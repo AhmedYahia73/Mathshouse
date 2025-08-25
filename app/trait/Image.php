@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\File;
 
 trait Image
 {
-    public function store_base64($base64Image, $img_path){
+    public function store_base64($base64Image, $img_path, $full_link = 0){
         if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
             $image = substr($base64Image, strpos($base64Image, ',') + 1);
             $image = base64_decode($image);
@@ -22,7 +22,9 @@ trait Image
                 }
  
                 file_put_contents($path, $image);
-
+                if($full_link){
+                    return $img_path . '/' . $img_name;
+                }
                 return $img_name;
             } 
         }

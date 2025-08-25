@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\trait\Image;
 
 use App\Models\Notification;
 use App\Models\User;
@@ -15,6 +16,7 @@ class NotificationController extends Controller
 {
     public function __construct(private Notification $notifications,
     private SupParent $parent, private User $users){}
+    use Image;
 
     public function view(){
         $notifications = $this->notifications
@@ -72,20 +74,9 @@ class NotificationController extends Controller
         }
         // material_link, material_file, text,
         $material_file = null; 
-        if($request->hasFile('material_file')){ 
-            extract($_FILES['material_file']);
-            if( !empty($name) ){ 
-                $extension = explode('.', $name);
-                $extension = end($extension);
-                $extension = strtolower($extension); 
-                $file_name = rand(0, 1000) . now() . $name;
-                $file_name = 'files/notification/' . str_replace([' ', ':', '-'], 'X', $file_name);
-                $path = public_path('files/notification'); 
-                if (!file_exists($path)) {
-                    mkdir($path, 0777, true);
-                }
-                move_uploaded_file($tmp_name, $file_name); 
-            }
+        if($request->material_file){  
+            $file_path = $this->store_base64($request->material_file, 'files/notification');
+            $studentRequest['material_file'] = $file_path; 
         }
         $notifications = $this->notifications
         ->create([
@@ -130,25 +121,14 @@ class NotificationController extends Controller
             'text' => $request->text ?? null, 
             'date' => $request->date
         ];
-        if($request->hasFile('material_file')){ 
-            extract($_FILES['material_file']);
-            if( !empty($name) ){ 
-                $extension = explode('.', $name);
-                $extension = end($extension);
-                $extension = strtolower($extension); 
-                $file_name = rand(0, 1000) . now() . $name;
-                $file_name = 'files/notification/' . str_replace([' ', ':', '-'], 'X', $file_name);
-                $path = public_path('files/notification'); 
-                if (!file_exists($path)) {
-                    mkdir($path, 0777, true);
-                }
-                move_uploaded_file($tmp_name, $file_name);
-                $notificationRequest['material_file'] = $file_name;
-            }
-        }
         $notifications = $this->notifications
         ->where('id', $id)
         ->first();
+        if($request->material_file){  
+            $file_path = $this->store_base64($request->material_file, 'files/notification');
+            $notificationRequest['material_file'] = $file_path; 
+            $this->delete_image_path($notifications->material_file);
+        }
         $notifications->update($notificationRequest); 
         $notifications->user()->detach();
         if($request->parents){
@@ -167,10 +147,17 @@ class NotificationController extends Controller
     }
 
     public function delete(Request $request, $id){
-        $this->notifications
+        $notification = $this->notifications
         ->where('id', $id)
-        ->delete();
- 
+        ->first();
+        if(empty($notification)){
+            return response()->json([
+                'errors' => 'id is wrong'
+            ], 400);
+        }
+        $this->delete_image_path($notifications->material_file);
+        $notification->delete();
+        
         return response()->json([
             'success' => 'You delete data success'
         ]);
