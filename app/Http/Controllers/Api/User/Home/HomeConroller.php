@@ -165,7 +165,6 @@ class HomeConroller extends Controller
         $notifications = $this->notifications
         ->where('user_id', $request->user()->id)
         ->where('read_notification', 0)
-        ->orderByDesc('id')
         ->count();
 
         return response()->json([
