@@ -179,6 +179,7 @@ class HomeConroller extends Controller
             'questions' => $questions,
             'exam' => $exam,
             'lives' => $live,
+            'notifications' => $notifications,
         ]);
     }
 }
