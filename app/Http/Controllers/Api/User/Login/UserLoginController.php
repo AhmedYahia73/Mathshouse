@@ -159,9 +159,11 @@ class UserLoginController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
-        LoginUser::where('type', 'mobile')
-        ->where('user_id', $user->id)
-        ->delete();
+        if(!empty($user->position)){
+            LoginUser::where('type', 'mobile')
+            ->where('user_id', $user->id)
+            ->delete();
+        }
         $user = Auth::user();
         $request->user();
         if (empty($user)) {

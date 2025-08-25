@@ -29,5 +29,8 @@ class MobileUserMiddleware
                 return $next($request);
             }
         }
+        return response()->json([
+            'errors' => 'You must login as user'
+        ]);
     }
 }
