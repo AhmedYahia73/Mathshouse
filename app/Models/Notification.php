@@ -30,6 +30,7 @@ class Notification extends Model
     }
     
     public function user(){
-        return $this->belongsToMany(User::class, 'notification_user', 'notification_id', 'user_id');
+        return $this->belongsToMany(User::class, 'notification_user', 'notification_id', 'user_id')
+        ->withPivot('read_notification');
     }
 }
