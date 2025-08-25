@@ -39,6 +39,8 @@ use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
 use App\Http\Controllers\Api\Admin\Package\PackageController;
 
+use App\Http\Controllers\Api\Admin\Home\HomeController;
+
 
 // Parents ++++
 // Students +++++
@@ -58,6 +60,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
         Route::delete('/delete/{id}', 'delete');
+    });
+
+    Route::controller(HomeController::class)->prefix('home')
+    ->group(function(){
+        Route::get('/', 'view');
     });
 
     Route::controller(SessionController::class)->prefix('live/session')
