@@ -75,9 +75,20 @@ class NotificationController extends Controller
         // material_link, material_file, text,
         $material_file = null; 
         $file_name = null;
-        if($request->material_file){  
-            $file_path = $this->store_base64($request->material_file, 'files/notification');
-            $file_name = $file_path; 
+        if($request->hasFile('material_file')){ 
+            extract($_FILES['material_file']);
+            if( !empty($name) ){ 
+                $extension = explode('.', $name);
+                $extension = end($extension);
+                $extension = strtolower($extension); 
+                $file_name = rand(0, 1000) . now() . $name;
+                $file_name = 'files/notification/' . str_replace([' ', ':', '-'], 'X', $file_name);
+                $path = public_path('files/notification'); 
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                move_uploaded_file($tmp_name, $file_name); 
+            }
         }
         $notifications = $this->notifications
         ->create([
@@ -125,11 +136,23 @@ class NotificationController extends Controller
         $notifications = $this->notifications
         ->where('id', $id)
         ->first();
-        if($request->material_file){  
-            $file_path = $this->store_base64($request->material_file, 'files/notification');
-            $notificationRequest['material_file'] = $file_path; 
-            $this->delete_image_path($notifications->material_file);
-        }
+        if($request->hasFile('material_file')){ 
+            extract($_FILES['material_file']);
+            if( !empty($name) ){ 
+                $extension = explode('.', $name);
+                $extension = end($extension);
+                $extension = strtolower($extension); 
+                $file_name = rand(0, 1000) . now() . $name;
+                $file_name = 'files/notification/' . str_replace([' ', ':', '-'], 'X', $file_name);
+                $path = public_path('files/notification'); 
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                move_uploaded_file($tmp_name, $file_name);
+                $notificationRequest['material_file'] = $file_name;
+                $this->delete_image_path($notifications->material_file);
+            }
+        } 
         $notifications->update($notificationRequest); 
         $notifications->user()->detach();
         if($request->parents){
