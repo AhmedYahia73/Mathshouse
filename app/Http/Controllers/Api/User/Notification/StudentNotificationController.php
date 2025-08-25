@@ -37,7 +37,7 @@ class StudentNotificationController extends Controller
         ->where('date', '<=', now())
         ->pluck('id');
         $this->notification_user
-        ->whereIn('notification_id', $notification_ids)
+        ->whereIn('notification_id', $notification_ids->toArray())
         ->where('user_id', $request->user()->id)
         ->update([
             'read_notification' => 1
