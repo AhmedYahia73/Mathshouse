@@ -179,7 +179,7 @@ class NotificationController extends Controller
                 'errors' => 'id is wrong'
             ], 400);
         }
-        $this->delete_image_path($notifications->material_file);
+        $this->delete_image_path($notification->material_file);
         $notification->delete();
 
         return response()->json([
