@@ -74,9 +74,10 @@ class NotificationController extends Controller
         }
         // material_link, material_file, text,
         $material_file = null; 
+        $file_name = null;
         if($request->material_file){  
             $file_path = $this->store_base64($request->material_file, 'files/notification');
-            $studentRequest['material_file'] = $file_path; 
+            $file_name = $file_path; 
         }
         $notifications = $this->notifications
         ->create([
@@ -157,7 +158,7 @@ class NotificationController extends Controller
         }
         $this->delete_image_path($notifications->material_file);
         $notification->delete();
-        
+
         return response()->json([
             'success' => 'You delete data success'
         ]);
