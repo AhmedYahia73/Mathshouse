@@ -33,6 +33,8 @@ use App\Http\Controllers\Api\Admin\Reports\ExamReportController;
 use App\Http\Controllers\Api\Admin\Reports\ScoreSheetQuizReportController;
 use App\Http\Controllers\Api\Admin\Reports\ScoreSheetExamReportController;
 
+use App\Http\Controllers\Api\Admin\Notification\NotificationController;
+
 use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
 use App\Http\Controllers\Api\Admin\Package\PackageController;
@@ -224,5 +226,14 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     ->middleware('can:Packages')->group(function(){ 
         Route::get('/', 'view');
         Route::post('/update/{id}', 'modify'); 
+    });
+    
+
+    Route::controller(NotificationController::class)->middleware('can:Notifictions')
+    ->prefix('notifictions')->group(function(){
+        Route::get('/', 'view')->name('view_notifictions');  
+        Route::post('/add', 'create')->name('add_notifictions');  
+        Route::post('/update/{id}', 'modify')->name('update_notifictions');  
+        Route::get('/delete/{id}', 'delete')->name('delete_notifictions');  
     });
 });
