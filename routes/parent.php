@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Parent\Payment\PaymentController;
 use App\Http\Controllers\Api\Parent\Payment\WalletController;
 use App\Http\Controllers\Api\Parent\Courses\CourseController;
 use App\Http\Controllers\Api\Parent\Notification\ParentNotificationController;
+use App\Http\Controllers\Api\Parent\Home\HomeController;
 
 Route::post('sign_up', [ParentLoginController::class, 'sign_up']); 
 Route::post('login', [ParentLoginController::class, 'login']); 
@@ -65,6 +66,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     Route::controller(ParentNotificationController::class)
     ->prefix('notification')->group(function(){
         Route::get('/', 'view');
+    });
+
+    Route::controller(HomeController::class)
+    ->prefix('home')->group(function(){
+        Route::get('/{id}', 'view');
     });
 
     Route::controller(CourseController::class)
