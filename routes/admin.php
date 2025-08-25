@@ -231,9 +231,9 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
 
     Route::controller(NotificationController::class)->middleware('can:Notifictions')
     ->prefix('notifictions')->group(function(){
-        Route::get('/', 'view')->name('view_notifictions');  
-        Route::post('/add', 'create')->name('add_notifictions');  
-        Route::post('/update/{id}', 'modify')->name('update_notifictions');  
-        Route::get('/delete/{id}', 'delete')->name('delete_notifictions');  
+        Route::get('/', 'view');  
+        Route::post('/add', 'create');  
+        Route::post('/update/{id}', 'modify');  
+        Route::delete('/delete/{id}', 'delete');  
     });
 });
