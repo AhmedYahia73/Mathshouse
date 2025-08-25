@@ -31,7 +31,8 @@ use App\Http\Controllers\Api\User\Courses\CourseController;
 use App\Http\Controllers\Api\User\Notification\StudentNotificationController;
 
 Route::post('login', [UserLoginController::class, 'login']);
-Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum', 'auth.MobileUser']);
+Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum']);
+Route::get('delete', [UserLoginController::class, 'delete'])->middleware(['auth:sanctum']);
 Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
 Route::get('sign_up_lists', [UserLoginController::class, 'sign_up_lists']);
 Route::post('sign_up', [UserLoginController::class, 'sign_up']);

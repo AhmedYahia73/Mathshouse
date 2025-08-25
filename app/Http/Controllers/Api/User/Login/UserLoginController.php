@@ -174,6 +174,14 @@ class UserLoginController extends Controller
         }
     }
 
+    public function delete(Request $request){
+        $request->user()->delete();
+
+        return response()->json([
+            'success' => 'You delete account success'
+        ]);
+    }
+
     public function forget_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
