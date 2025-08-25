@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 use App\Models\PaymentPackageOrder;
 use App\Models\SmallPackage;
 use App\Models\Package;
-use App\Models\Course;
-use App\Models\Notification;
+use App\Models\Course; 
+use App\Models\NotificationUser;
 
 use Carbon\Carbon;
 
 class HomeConroller extends Controller
 {
-    public function __construct(private Notification $notifications){}
+    public function __construct(private NotificationUser $notifications){}
 
     public function view(Request $request){ 
         $student_data = [];
@@ -163,11 +163,8 @@ class HomeConroller extends Controller
         $question_details = collect($question_details1)->merge(collect($question_details2));
         $exam_details = collect($exam_details1)->merge(collect($exam_details2));
         $notifications = $this->notifications
-        ->whereHas('user', function($query) use($request){
-            $query->where('users.id', $request->user()->id)
-            ->wherePivot('read_notification', 1);
-        })
-        ->where('date', '<=', now())
+        ->where('user_id', $request->user()->id)
+        ->where('read_notification', 0)
         ->orderByDesc('id')
         ->count();
 
