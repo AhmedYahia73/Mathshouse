@@ -22,6 +22,15 @@ class HomeController extends Controller
         where('position', 'student')
         ->where('state', 'hidden')
         ->count();
+        $sign_up_year = User::
+        where('position', 'student')
+        ->whereYear('created_at', date('Y'))
+        ->count();
+        $sign_up_month = User::
+        where('position', 'student')
+        ->whereYear('created_at', date('Y'))
+        ->whereMonth('created_at', date('m'))
+        ->count();
         $teachers = User::
         where('position', 'teacher') 
         ->count();
@@ -48,6 +57,8 @@ class HomeController extends Controller
             'courses' => $courses,
             'chapter' => $chapter,
             'lessons' => $lessons,
+            'sign_up_year' => $sign_up_year,
+            'sign_up_month' => $sign_up_month,
         ]);
     }
 }
