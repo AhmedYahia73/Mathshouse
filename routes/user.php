@@ -21,6 +21,8 @@ use App\Http\Controllers\Api\User\Exam\ExamController;
 use App\Http\Controllers\Api\User\Exam\DiaExamController;
 use App\Http\Controllers\Api\User\Exam\QuestionReportController;
 
+use App\Http\Controllers\Api\User\Home\HomeConroller;
+
 use App\Http\Controllers\Api\User\Payment\WalletController;
 use App\Http\Controllers\Api\User\Payment\PaymentHistoryController;
 
@@ -156,6 +158,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     });
 
     Route::controller(StudentNotificationController::class)->prefix('notifications')
+    ->group(function(){
+        Route::get('/', 'view');
+    });
+
+    Route::controller(HomeConroller::class)->prefix('home')
     ->group(function(){
         Route::get('/', 'view');
     });
