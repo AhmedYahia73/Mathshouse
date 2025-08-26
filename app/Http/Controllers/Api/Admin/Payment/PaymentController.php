@@ -142,6 +142,7 @@ class PaymentController extends Controller
     public function wallet(Request $request){
         $wallet = $this->wallet
         ->where('wallet', '>', '0')
+        ->orderByDesc('updated_at')
         ->orderByDesc('id')
         ->get()
         ->map(function($item){
@@ -154,14 +155,12 @@ class PaymentController extends Controller
                 'image' => $item->image_link,
                 'currency' => $item->currency,
                 'student' => $item?->student?->nick_name,
-                'state' => $item->state,
-                'updated_at' => $item->updated_at,
+                'state' => $item->state, 
             ];
         });
         $pending_wallet = $wallet->where('state', 'Pendding')
         ->values();
-        $history_wallet = $wallet->where('state', '!=' ,'Pendding')
-        ->sortByDesc('updated_at')
+        $history_wallet = $wallet->where('state', '!=' ,'Pendding') 
         ->values();
 
         return response()->json([
