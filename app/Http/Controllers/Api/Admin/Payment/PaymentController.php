@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $pending_payment_request = $this->payment_request
         ->where('state', 'Pendding')
         ->with('payment_method', 'user')
-        ->orderByDesc('updated_at')
+        ->orderByDesc('id')
         ->get()
         ->map(function($item){
             return [
@@ -40,7 +40,7 @@ class PaymentController extends Controller
         $payment_request_history = $this->payment_request
         ->where('state', '!=', 'Pendding')
         ->with('payment_method', 'user')
-        ->orderByDesc('id')
+        ->orderByDesc('updated_at')
         ->get()
         ->map(function($item){
             return [
@@ -142,7 +142,7 @@ class PaymentController extends Controller
     public function wallet(Request $request){
         $wallet = $this->wallet
         ->where('wallet', '>', '0')
-        ->orderByDesc('updated_at')
+        ->orderByDesc('id')
         ->get()
         ->map(function($item){
             return [
@@ -155,11 +155,13 @@ class PaymentController extends Controller
                 'currency' => $item->currency,
                 'student' => $item?->student?->nick_name,
                 'state' => $item->state,
+                'updated_at' => $item->updated_at,
             ];
         });
         $pending_wallet = $wallet->where('state', 'Pendding')
         ->values();
         $history_wallet = $wallet->where('state', '!=' ,'Pendding')
+        ->sortByDesc('updated_at')
         ->values();
 
         return response()->json([
