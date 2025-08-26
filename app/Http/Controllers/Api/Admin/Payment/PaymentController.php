@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $pending_payment_request = $this->payment_request
         ->where('state', 'Pendding')
         ->with('payment_method', 'user')
-        ->orderByDesc('id')
+        ->orderByDesc('updated_at')
         ->get()
         ->map(function($item){
             return [
@@ -142,7 +142,7 @@ class PaymentController extends Controller
     public function wallet(Request $request){
         $wallet = $this->wallet
         ->where('wallet', '>', '0')
-        ->orderByDesc('id')
+        ->orderByDesc('updated_at')
         ->get()
         ->map(function($item){
             return [
