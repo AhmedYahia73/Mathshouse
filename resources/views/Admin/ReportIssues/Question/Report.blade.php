@@ -25,6 +25,7 @@
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Date</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Student</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Question</th>
+                    <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Issue</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Details</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Statues</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Action</th>
@@ -39,7 +40,7 @@
                         {{$item->date}}
                     </td>
                     <td>
-                        {{$item->student->nick_name}}
+                        {{$item?->student?->nick_name}}
                     </td>
                     <td>
                         <label class="view_text" data-bs-toggle="modal" data-bs-target="#modalQuestion{{$item->id}}">
@@ -59,10 +60,10 @@
                             <div class="my-2 px-3">
                                 Question :
                                 <br />
-                                {{$item->question->question}}
+                                {{$item?->question?->question}}
 
-                                @if ( !empty( $item->question->q_url) )
-                                <img class="w-150px h-150px" src="{{asset('images/questions/' . $item->question->q_url)}}" />
+                                @if ( !empty( $item?->question?->q_url) )
+                                <img class="w-150px h-150px" src="{{asset('images/questions/' . $item?->question?->q_url)}}" />
                                 @endif
                             </div>
 
@@ -71,6 +72,36 @@
                                 Close
                             </button>
                             <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                      </div>
+                      </div> 
+                    </td>
+                    <td>
+                        <label class="view_text" data-bs-toggle="modal" data-bs-target="#modalIssue{{$item->id}}">
+                          view
+                        </label>
+
+                        <!-- Modal --> 
+                        <div class="modal fade" id="modalIssue{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                
+                                <h5 class="modal-title" id="modalCenterTitle">Issue</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                            <div class="my-2 px-3">
+                                Issue :
+                                <br />
+                                {{$item?->list?->list}} 
+                            </div>
+
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button> 
                             </div>
                         </div>
                       </div>
@@ -94,21 +125,21 @@
                             <div class="my-2 px-3">
                               Answer of question
                               <br />
-                              Category : {{$item->question->lessons->chapter->course->category->cate_name}}
+                              Category : {{$item?->question?->lessons?->chapter?->course?->category?->cate_name}}
                               <br />
-                              Course : {{$item->question->lessons->chapter->course->course_name}}
+                              Course : {{$item?->question?->lessons?->chapter?->course?->course_name}}
                               <br />
-                              Chapter : {{$item->question->lessons->chapter->chapter_name}}
+                              Chapter : {{$item?->question?->lessons?->chapter?->chapter_name}}
                               <br />
-                              Category : {{$item->question->lessons->lesson_name}}
+                              Category : {{$item?->question?->lessons?->lesson_name}}
                               <br />
-                              Month : {{$item->question->month}}
+                              Month : {{$item?->question?->month}}
                               <br />
-                              Year : {{$item->question->year}}
+                              Year : {{$item?->question?->year}}
                               <br />
-                              Section : {{$item->question->section}}
+                              Section : {{$item?->question?->section}}
                               <br />
-                              Q Num : {{$item->question->q_num}}
+                              Q Num : {{$item?->question?->q_num}}
                               <br />
                             </div>
 

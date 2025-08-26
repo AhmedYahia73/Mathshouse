@@ -91,6 +91,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Wallet::class, 'student_id');
     }
 
+    public function city(){
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
     public function getProfilePhotoUrlAttribute()
     {
         if ($this->profile_photo_path) {
