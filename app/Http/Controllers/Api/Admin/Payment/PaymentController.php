@@ -156,11 +156,13 @@ class PaymentController extends Controller
                 'currency' => $item->currency,
                 'student' => $item?->student?->nick_name,
                 'state' => $item->state, 
+                'updated_at' => $item->updated_at
             ];
         });
         $pending_wallet = $wallet->where('state', 'Pendding')
         ->values();
         $history_wallet = $wallet->where('state', '!=' ,'Pendding') 
+        ->sortByDesc('updated_at')
         ->values();
 
         return response()->json([
