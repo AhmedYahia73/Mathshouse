@@ -161,7 +161,7 @@ class PaymentController extends Controller
         });
         $pending_wallet = $wallet->where('state', 'Pendding')
         ->values();
-        $history_wallet = $wallet->where('state', '!=' ,'Pendding') 
+        $history_wallet = $wallet->where('state', '!=' ,'Pendding')
         ->sortByDesc('updated_at')
         ->values();
 
