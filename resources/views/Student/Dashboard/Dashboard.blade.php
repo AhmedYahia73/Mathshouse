@@ -334,7 +334,178 @@
             </div>
         </div>
     </section>
-    <!-- Modal -->
+    <!-- Modal --> <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 20px;
+      color: #333;
+    }
+
+    .student_data {
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .student_data span {
+      display: block;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .live_details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card span {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .card h4 {
+      font-size: 28px;
+      margin: 8px 0;
+      color: #007bff;
+    }
+
+    .toggle-details {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      font-size: 14px;
+      border: 1px solid #007bff;
+      background: #fff;
+      color: #007bff;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .toggle-details:hover {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .details-box {
+      margin-top: 12px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      display: none;
+      font-size: 14px;
+    }
+    .details-box li {
+      margin-bottom: 6px;
+    }
+
+    .notifications {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Student Info -->
+  <div class="student_data">
+    <span>Nick Name: <strong>{{$student_data['nick_name']}}</strong></span>
+    <span>Grade: <strong>{{$student_data['grade']}}</strong></span>
+    <span>Category: <strong>{{$student_data['category']}}</strong></span>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="live_details">
+
+    <!-- Questions -->
+    <div class="card">
+      <span>Questions</span>
+      <h4>{{$questions}}</h4>
+      <button class="toggle-details"><i class="fa fa-eye"></i> View Details</button>
+      <div class="details-box">
+        <ul>
+          @foreach ($question_details as $item)
+            <li>Course: {{ $item['course'] }}</li>
+            <li>Number: {{ $item['number'] }}</li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
+
+    <!-- Exams -->
+    <div class="card">
+      <span>Exams</span>
+      <h4>{{$exam}}</h4>
+      <button class="toggle-details"><i class="fa fa-eye"></i> View Details</button>
+      <div class="details-box">
+        <ul>
+          @foreach ($exam_details as $item)
+            <li>Course: {{ $item['course'] }}</li>
+            <li>Number: {{ $item['number'] }}</li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
+
+    <!-- Lives -->
+    <div class="card">
+      <span>Lives</span>
+      <h4>{{$live}}</h4>
+      <button class="toggle-details"><i class="fa fa-eye"></i> View Details</button>
+      <div class="details-box">
+        <ul>
+          @foreach ($live_details as $item)
+            <li>Course: {{ $item['course'] }}</li>
+            <li>Number: {{ $item['number'] }}</li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Notifications -->
+  <div class="notifications">
+    Notifications: {{$notifications}}
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $(".toggle-details").click(function(){
+        let details = $(this).next(".details-box");
+        $(".details-box").not(details).slideUp(); // يغلق باقي التفاصيل
+        details.slideToggle(); // يفتح/يقفل الحالي
+      });
+    });
+  </script>
+
+</body>
+</html>
+
     {{-- <div class="modal fade" id="exampleModalCenter22" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
