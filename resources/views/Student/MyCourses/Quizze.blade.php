@@ -678,7 +678,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <input type="hidden" name="quizze" value="{{ $quizze }}">
+                            <input type="hidden" name="quizze" value="{{ $quizze->id }}">
                             @php
                                 $arr = ['A', 'B', 'C', 'D'];
                                 $iter = $loop->iteration;

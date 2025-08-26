@@ -196,7 +196,7 @@ class Stu_MyCourseController extends Controller
     {
         $timer_val = $req->time;
         $timer_val = empty($timer_val) ? '00:00:00' : $timer_val;
-        $quizze_id = json_decode($req->quizze)->id;
+        $quizze_id = $req->quizze;
         $quizze = quizze::where('id', $quizze_id)
         ->first();
 
