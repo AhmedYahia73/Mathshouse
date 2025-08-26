@@ -127,30 +127,19 @@
                 class="form-control"
                 placeholder="Enter Your Old Password"
                  />
-            
+             
       
             <div class="mb-3 col-md-6">
-              <label class="form-label" for="phoneNumber">Add Parent Email</label>
-              <div class="input-group input-group-merge">
-                <input
-                  type="text"
-                  id=""
-                  value="{{auth()->user()->parent_email}}"
-                  name="parent_email"
-                  class="form-control"/>
-              </div>
-            </div>
-            Education History
-      
-            <div class="mb-3 col-md-6">
-              <label class="form-label" for="phoneNumber">Add Parent Phone</label>
-              <div class="input-group input-group-merge">
-                <input
-                  type="text"
-                  id=""
-                  value="{{auth()->user()->parent_phone}}"
-                  name="parent_phone"
-                  class="form-control"/>
+              <label class="form-label" for="phoneNumber">Category</label>
+              <div class="input-group input-group-merge"> 
+                  <select name="category_id" class="form-control">
+                    <option disabled selected>Select Category ...</option>
+                    @foreach ($categories as $item)
+                      <option value="{{ $item->id }}" {{ $item->id == auth()->user()->category_id ? 'selected' : null}}>
+                        {{ $item->cate_name }}
+                      </option>
+                    @endforeach
+                  </select>
               </div>
             </div>
             
