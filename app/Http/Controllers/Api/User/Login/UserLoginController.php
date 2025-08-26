@@ -175,7 +175,9 @@ class UserLoginController extends Controller
     }
 
     public function delete(Request $request){
-        $request->user()->delete();
+        User::
+        where('id', $request->user()->id)
+        ->delete();
 
         return response()->json([
             'success' => 'You delete account success'
