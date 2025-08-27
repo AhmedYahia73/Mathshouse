@@ -22,6 +22,36 @@
         </label>
         <input type="date" value="{{@$data['to']}}" name="to" class="form-control mx-2" />
       </div>
+      <div class="d-flex align-items-center mx-2">
+        <label>
+          Category
+        </label>
+        <select name="category_id" class="form-control mx-2">
+          <option selected disabled>
+            Select Category ...
+          </option>
+          @foreach ($categories as $item)
+            <option value="{{ $item->id }}" {{ $item->id == @$data['category_id'] ? 'selected' : null }}>
+              {{ $item->cate_name }}
+            </option>
+          @endforeach
+        </select>
+      </div>
+      <div class="d-flex align-items-center mx-2">
+        <label>
+          Course
+        </label>
+        <select name="course_id" class="form-control mx-2">
+          <option selected disabled>
+            Select Course ...
+          </option>
+          @foreach ($courses as $item)
+            <option value="{{ $item->id }}" {{ $item->id == @$data['course_id'] ? 'selected' : null }}>
+              {{ $item->course_name }}
+            </option>
+          @endforeach
+        </select>
+      </div>
       <div class="mx-2">
         <button class="btn btn-primary">
           Filter

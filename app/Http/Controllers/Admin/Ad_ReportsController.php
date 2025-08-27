@@ -74,33 +74,73 @@ class Ad_ReportsController extends Controller
             $payment = PaymentRequest::
             where('state', 'Approve')
             //->where('module', 'Chapters')
-            ->where('created_at', '>=', $req->from)
-            ->get();
+            ->where('created_at', '>=', $req->from);
         }
         elseif ( empty($req->from) && !empty($req->to) ) {
             $payment = PaymentRequest::
             where('state', 'Approve')
             //->where('module', 'Chapters')
-            ->where('created_at', '<=', $req->to)
-            ->get();
+            ->where('created_at', '<=', $req->to);
         }
         elseif ( !empty($req->from) && !empty($req->to) ) {
             $payment = PaymentRequest::
             where('state', 'Approve')
             //->where('module', 'Chapters')
             ->where('created_at', '>=', $req->from)
-            ->where('created_at', '<=', $req->to)
-            ->get();
+            ->where('created_at', '<=', $req->to);
         }
         else{
             $payment = PaymentRequest::
-            where('state', 'Approve')
-            //->where('module', 'Chapters')
-            ->get();
+            where('state', 'Approve');
+            //->where('module', 'Chapters');
         }
+        if($req->course_id){
+            $courses_ids = $req->course_id;
+            $chapters = Chapter::
+            where('course_id', $courses_ids)
+            ?->pluck('id')?->toArray() ?? [];
+            $payment = $payment
+            ->where(function($query) use($courses_ids, $chapters){
+                $query->whereHas('package_order', function($q) use($courses_ids){
+                    $q->whereHas('package', function($q2) use($courses_ids){
+                        $q2->where('course_id', $courses_ids);
+                    });
+                })
+                ->orWhereHas('chapters_order', function($q) use($courses_ids, $chapters){
+                    $q->whereIn('chapter_id', $chapters);
+                });
+            });
+        }
+        elseif($req->category_id){
+            $courses_ids = Course::
+            where('category_id', $req->category_id)
+            ?->pluck('id')?->toArray() ?? [];
+            $chapters = Chapter::
+            whereIn('course_id', $courses_ids)
+            ?->pluck('id')?->toArray() ?? [];
+            $payment = $payment
+            ->where(function($query) use($courses_ids, $chapters){
+                $query->whereHas('package_order', function($q) use($courses_ids){
+                    $q->whereHas('package', function($q2) use($courses_ids){
+                        $q2->whereIn('course_id', $courses_ids);
+                    });
+                })
+                ->orWhereHas('chapters_order', function($q) use($courses_ids, $chapters){
+                    $q->whereIn('chapter_id', $chapters);
+                });
+            });
+        }
+        $payment = $payment->get();
         $data = $req->all();
+        $courses = Course::
+        select('id', 'course_name')
+        ->get();
+        $categories = Category::
+        select('id', 'cate_name')
+        ->get();
 
-        return view('Admin.Reports.Payment.Payment', compact('data', 'payment'));
+        return view('Admin.Reports.Payment.Payment', compact('data', 'payment',
+        'courses', 'categories'));
     }
     
     public function ad_course_report( Request $req ){
