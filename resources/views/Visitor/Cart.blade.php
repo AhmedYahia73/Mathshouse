@@ -161,10 +161,7 @@
                                                     $min = $item;
                                                     }
                                                     }
-                                                    @endphp
-                                                    <option value="{{ $min->id }}">
-                                                        {{ $min->duration }} Days
-                                                    </option>
+                                                    @endphp 
                                                     @foreach ($chapter->price as $item)
                                                     @if ( $min->id == $item->id )
                                                     <option selected value="{{ $item->id }}">

@@ -114,6 +114,7 @@
         <th>#</th>
         <th>Wallet</th> 
         <th>Date</th>
+        <th>Payment Method</th>
         <th>State</th> 
     </thead>
 
@@ -128,6 +129,9 @@
             </td>
             <td>
                 {{$item->date}}
+            </td>
+            <td>
+                {{$item?->method?->payment}}
             </td>
             <td>
                 {{$item->state}}

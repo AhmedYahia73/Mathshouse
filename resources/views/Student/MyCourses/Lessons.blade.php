@@ -786,7 +786,7 @@
                             <!-- Dropdown Trigger -->
                             <div class="list-header d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem; color: #CF202F;">
-                                    Select an Issue:
+                                    
                                 </h4>
                                 <div class="dropdown" style="width: 70%">
                                     <button
@@ -1129,7 +1129,7 @@
                             <div class="list-container p-4 rounded shadow-sm mb-4">
                                 <div class="list-header d-flex align-items-center justify-content-between">
                                     <h4 class="mb-0 text-danger fw-bold" style="font-size: 1.2rem;">
-                                        Select an Issue:
+                                        
                                     </h4>
                                     <div class="dropdown" style="width: 70%">
                                         <button class="btn dropdown-toggle text-white px-4 py-2" type="button"

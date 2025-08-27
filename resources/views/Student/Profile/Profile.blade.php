@@ -16,33 +16,49 @@
       <form id="formAccountSettings" action="{{ route('stu_edit_profile') }}" method="POST" enctype="multipart/form-data" >
           @csrf
           <input type="hidden" name="id" value = {{ auth()->user()->id }}>
-          <div class="card-body">
-            <div class="d-flex align-items-start align-items-sm-center gap-4">
-              <img
-                src="{{asset('images/users/' . auth()->user()->image) }}" alt="user-avatar"
-                class="d-block rounded"
-                height="100"
-                width="100"
-                id="uploadedAvatar" />
-              <div class="button-wrapper">
-          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-            <span class="d-none d-sm-block">Upload new photo</span>
-            <i class="bx bx-upload d-block d-sm-none"></i>
-            <input
-              type="file"
-              id="upload"
-              name="image"
-              value="{{auth()->user()->image }}"
-              class="account-file-input"
-              hidden
-              />
-              
-          </label>
+      <div class="card shadow-sm rounded-3">
+  <div class="card-body">
+    <div class="d-flex flex-column flex-md-row align-items-center gap-4">
       
-          
+      <!-- User Avatar -->
+      <div class="text-center">
+        <img
+            src="{{asset('images/users/' . auth()->user()->image) }}" alt="user-avatar"
+            class="d-block rounded"
+            height="100"
+            width="100"
+            id="uploadedAvatar" />
+      </div>
+
+      <!-- User Info + Upload -->
+      <div class="flex-grow-1 w-100">
+        <!-- Upload button -->
+        <label for="upload" class="btn btn-primary mb-3">
+          <i class="bx bx-upload me-1"></i> Upload new photo
+          <input
+            type="file"
+            id="upload"
+            name="image"
+            class="account-file-input d-none"
+          />
+        </label>
+
+        <!-- User details -->
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <strong>Country:</strong> 
+            <span>{{ auth()->user()?->city?->country?->name ?? '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-2">
+            <strong>City:</strong> 
+            <span>{{ auth()->user()?->city?->city ?? '-' }}</span>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
     <hr class="my-0" />
     <div class="card-body">
         <div class="row">

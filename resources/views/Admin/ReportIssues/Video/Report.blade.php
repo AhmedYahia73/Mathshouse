@@ -25,6 +25,7 @@
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Date</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Student</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Video</th>
+                    <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Issue</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Details</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Statues</th>
                     <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_profile_overview_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 205.188px;">Action</th>
@@ -51,6 +52,36 @@
                           View Video 
                       </a>
                       @endif
+                    </td>
+                    <td>
+                        <label class="view_text" data-bs-toggle="modal" data-bs-target="#modalIssue{{$item->id}}">
+                          view
+                        </label>
+
+                        <!-- Modal --> 
+                        <div class="modal fade" id="modalIssue{{$item->id}}" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                
+                                <h5 class="modal-title" id="modalCenterTitle">Issue</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                            <div class="my-2 px-3">
+                                Issue :
+                                <br />
+                                {{$item?->list?->list}} 
+                            </div>
+
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button> 
+                            </div>
+                        </div>
+                      </div>
+                      </div> 
                     </td>
                     <td>
                         <label class="view_text" data-bs-toggle="modal" data-bs-target="#modalDetails{{$item->id}}">

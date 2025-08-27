@@ -39,6 +39,7 @@ class ScoreSheetExamController extends Controller
         }
         // $course_ids = auth()->user()->courses_live->pluck('id');
         $courses = $this->courses
+        ->where('category_id', $user->category_id)
         ->get();
         $years = range(2000, date('Y'));
         $months = range(1, 12);
