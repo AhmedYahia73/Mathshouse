@@ -27,6 +27,7 @@ class StudentNotificationController extends Controller
                 'material_link' => $item->material_link,
                 'material_file' => $item->material_file_link,
                 'text' => $item->text, 
+                'datetime' => $item->date, 
             ];
         });
         

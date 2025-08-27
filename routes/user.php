@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
 use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
 use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
 use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
+use App\Http\Controllers\Api\User\EducationHistory\QuestionHistory;
 
 use App\Http\Controllers\Api\User\Exam\QuestionController;
 use App\Http\Controllers\Api\User\Exam\ExamController;
@@ -80,6 +81,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     ->group(function(){
         Route::get('/lists', 'lists'); 
         Route::get('/', 'scoreSheet'); 
+    });
+
+    Route::controller(QuestionHistory::class)->prefix('education/question')
+    ->group(function(){
+        Route::get('/question_history', 'question_history');
     });
 
     Route::controller(QuizHistoryController::class)->prefix('education/quiz')
