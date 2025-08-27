@@ -86,7 +86,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
 
     Route::controller(QuestionHistory::class)->prefix('education/question')
     ->group(function(){
-        Route::get('/question_history', 'question_history');
+        Route::get('/question_history', 'view');
     });
 
     Route::controller(QuizHistoryController::class)->prefix('education/quiz')
