@@ -36,5 +36,9 @@ class QuestionHistory extends Controller
                 ]
             ];
         });
+
+        return response()->json([
+            'questions_history' => $q_history
+        ]);
     }
 }
