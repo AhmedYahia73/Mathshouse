@@ -163,11 +163,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-lg-3 text-capitalize"
-                        href="https://mathshouse.net/index.php/the-firm/">about</a>
+                        href="{{ route('v_about') }}">about</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link p-lg-3" href="https://mathshouse.net/index.php/contact">contact us</a>
+                    <a class="nav-link p-lg-3" href="{{ route('v_contact') }}">contact us</a>
                 </li>
                 <li class="nav-item">
                     @if (empty(auth()->user()))

@@ -85,6 +85,12 @@ use Illuminate\Support\Facades\App;
 */
     $controller_path = 'App\Http\Controllers' ;
 // Fawry Package => laravel-pay/fawry
+
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/about','v_about')->name('v_about');
+        Route::get('/contact','v_contact')->name('v_contact');
+    });
+
     Route::get('Affilate/Data/{id}', [Aff_DashboardController::class, 'aff_link'])->name('aff_link');
     Route::controller(LoginController::class)->group(function(){
         Route::post('/Market','market_login')->name('market_ch');

@@ -24,4 +24,12 @@ class HomeController extends Controller
         
         return view('Visitor.Home.Home', compact('slider', 'popup', 'courses'));
     }
+
+    public function v_about(Request $request){
+        return view('Visitor.About.About');
+    }
+
+    public function v_contact(Request $request){
+        return view('Visitor.Contact.Contact');
+    }
 }
