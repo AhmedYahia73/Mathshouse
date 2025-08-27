@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 use App\Models\ExamHistory;
 use App\Models\ExamMistake; 
 use App\Models\Exam; 
+use App\Models\Chapter;
 
 class ExamHistoryController extends Controller
 {
-    public function view_dia(Request $request){
+    public function __construct(private Chapter $chapters){}
+
+    public function view(Request $request){
         $chapters = $this->chapters;
         $exam_history = ExamHistory::
         select('id', 'date', 'score', 'time', 'exam_id')
@@ -20,7 +23,7 @@ class ExamHistoryController extends Controller
         ->get()
         //  pdf
         ->map(function($item) use($chapters){
-            $mistakes = clone $item?->mistakes?->pluck('all_question');
+            $mistakes = clone $item?->mistakes?->pluck('questions');
             $lesson_ids = $mistakes?->unique('lesson_id')?->pluck('lesson_id');
             $chapters = $this->chapters
             ->select('id', 'chapter_name')
