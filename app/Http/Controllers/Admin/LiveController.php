@@ -25,10 +25,18 @@ use App\Models\TeacherCourse;
 class LiveController extends Controller
 {
     
-    public function index(){
-        $sessions = Session::
-        orderByDesc('id')
-        ->simplePaginate(10);
+    public function index(Request $request){
+        if($request->date){
+            $sessions = Session::
+            where('date', $request->date)
+            ->orderByDesc('id')
+            ->simplePaginate(100);
+        }
+        else{
+            $sessions = Session::
+            orderByDesc('id')
+            ->simplePaginate(10);
+        }
         $categories = Category::all();
         $courses = Course::all();
         $chapters = Chapter::all();
