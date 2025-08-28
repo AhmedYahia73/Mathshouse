@@ -123,7 +123,7 @@
                                 Select
                             </th>
                             <th class="col-5" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
-                                scope="col">QUIZZES </th>
+                                scope="col">QUIZS </th>
                             <th class="col-1" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "
                                 scope="col">Score</th>
                             <th class="col-1" style="border-top: none !important; color: #CF202F;font-size: 1.1rem; "

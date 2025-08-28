@@ -128,6 +128,16 @@ return 'admin';
         <a href="#" class="btn btn-primary er fs-6 px-8 py-4" data-bs-toggle="modal"
             data-bs-target="#kt_modal_create_question">Add Session</a>
     </div>
+
+    <form method="get" action="{{ route('sessions') }}">
+        
+        <div class="my-3 d-flex">
+            <input class="form-control" type="date" name="date" />
+            <button href="#" class="btn btn-primary er fs-6 px-8 py-4 mx-3">
+                Filter
+            </button>
+        </div>
+    </form>
     <!--end::Action-->
 
     <div class="modal fade" id="kt_modal_create_question" tabindex="-1" aria-hidden="true">

@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\User\ScoreSheet\ScoreSheetController;
 use App\Http\Controllers\Api\User\EducationHistory\QuizHistoryController;
 use App\Http\Controllers\Api\User\EducationHistory\QuestionFlowController;
 use App\Http\Controllers\Api\User\EducationHistory\DiaExamHistoryController;
+use App\Http\Controllers\Api\User\EducationHistory\ExamHistoryController;
+use App\Http\Controllers\Api\User\EducationHistory\QuestionHistory;
 
 use App\Http\Controllers\Api\User\Exam\QuestionController;
 use App\Http\Controllers\Api\User\Exam\ExamController;
@@ -82,6 +84,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/', 'scoreSheet'); 
     });
 
+    Route::controller(QuestionHistory::class)->prefix('education/question')
+    ->group(function(){
+        Route::get('/question_history', 'view');
+    });
+
     Route::controller(QuizHistoryController::class)->prefix('education/quiz')
     ->group(function(){
         Route::get('/quiz_history', 'quiz_history');
@@ -101,6 +108,13 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
         Route::get('/', 'view_dia'); 
         Route::get('/pdf/{id}', 'dia_pdf');
         Route::get('/dia_report/{id}', 'dia_report');
+    });
+
+    Route::controller(ExamHistoryController::class)->prefix('education/exam')
+    ->group(function(){
+        Route::get('/', 'view'); 
+        Route::get('/pdf/{id}', 'exam_pdf');
+        Route::get('/exam_report/{id}', 'exam_report');
     });
 
     Route::controller(QuestionController::class)->prefix('question')
