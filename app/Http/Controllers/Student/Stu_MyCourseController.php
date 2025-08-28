@@ -77,15 +77,24 @@ class Stu_MyCourseController extends Controller
         ->get();
 
         $chapters = [];
+        $locked_chapters = [];
         foreach ($payment_order as $item) {
             $newTime = Carbon::now()->addDays($item->duration);
             if ( $newTime > $item->date && $item->pay_req->user_id == auth()->user()->id ) {
                 $chapters[$item->chapter_id] = $item;
+                $locked_chapters[] = $item->chapter_id;
             }
         }
+        $locked_chapters = Chapter::
+        select('id', 'ch_url', 'chapter_name')
+        ->withCount('lessons')
+        ->where('course_id', $id)
+        ->whereNotIn('id', $locked_chapters)
+        ->get();
         $course_id = $id;
 
-        return view('Student.MyCourses.Chapters_Working', compact('chapters', 'course_id'));
+        return view('Student.MyCourses.Chapters_Working', 
+        compact('chapters', 'course_id', 'locked_chapters'));
     }
 
     public function stu_lessons($id, $L_id, $idea_num)

@@ -6,6 +6,41 @@ $page_name = 'Chapter';
 @include('Student.inc.menu')
 @extends('Student.inc.nav')
 
+<style>
+    .gridarea__wraper {
+    position: relative;
+}
+
+/* Lock overlay */
+.lock .lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #333;
+    border-radius: 10px;
+    pointer-events: all; 
+}
+
+.gridarea__wraper:not(.lock) .lock-overlay {
+    display: none;
+}
+
+.lock {
+    pointer-events: none;
+}
+.lock .lock-overlay {
+    pointer-events: auto; 
+}
+
+</style>
+
 @section('page_content')
 <main class="main_wrapper overflow-hidden">
     <!-- dashboardarea__area__start  -->
@@ -71,6 +106,44 @@ $page_name = 'Chapter';
                                                 </div>
                                             </div>
                                             @endif
+                                            @endforeach
+                                            
+                                            @foreach ($locked_chapters as $item)
+                                      <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="gridarea__wraper lock">
+        <div class="gridarea__img">
+            <a href="javascript:void(0);">
+                <img loading="lazy" src="{{ asset('images/Chapters/' . $item->ch_url) }}" alt="grid">
+            </a>
+            <div class="gridarea__small__button">
+                <div class="grid__badge">Data &amp; Tech</div>
+            </div>
+            <div class="gridarea__small__icon">
+                <a href="javascript:void(0);"><i class="icofont-heart-alt"></i></a>
+            </div>
+        </div>
+        <div class="gridarea__content">
+            <div class="gridarea__list">
+                <ul>
+                    <li>
+                        <i class="icofont-book-alt"></i>
+                        {{ $item->lessons_count }} Lesson
+                    </li>
+                </ul>
+            </div>
+            <div class="gridarea__heading">
+                <h3><p>{{ $item->chapter_name }}</p></h3>
+            </div>
+            <div class="gridarea__bottom"></div>
+        </div>
+
+        <!-- Overlay Lock -->
+        <div class="lock-overlay">
+            <i class="icofont-lock"></i>
+        </div>
+    </div>
+</div>
+
                                             @endforeach
                                             @else
                                             <h1>Chapters Is Empty</h1>
