@@ -151,7 +151,7 @@
                   <select name="category_id" class="form-control">
                     <option disabled selected>Select Category ...</option>
                     @foreach ($categories as $item)
-                      <option value="{{ $item->id }}" {{ $item->id == auth()->user()->category_id ? 'selected' : nul l}}>
+                      <option value="{{ $item->id }}" {{ $item->id == auth()->user()->category_id ? 'selected' : null}}>
                         {{ $item->cate_name }}
                       </option>
                     @endforeach
