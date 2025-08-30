@@ -126,8 +126,7 @@ use PaymentPaymob;
         return $req->all();
     }
     
-    public function buy_course( Request $req ){
-        
+    public function buy_course( Request $req ){ 
            $course_data = json_decode($req->course_data);
         $course = Course::where('id', $course_data->id)
         ->first();
@@ -154,14 +153,14 @@ use PaymentPaymob;
     // Minimum Price
      foreach($data as $chapter){
              $min = $chapter->price[0]->price;
-              $discount = $chapter->price[0]->discount;
+              $discount = 0;
             foreach ($chapter->price as $ch_price){
-                       if ($min > $ch_price->price){
+                       if ($min >= $ch_price->price){
                        $chapter->ch_price = $ch_price->price;
                        $discount = $ch_price->discount;
                        }
             }
-        }
+        } 
     //Minimum Price
         $chapters_price = $req->chapters_price;
         $chapter_discount = 0;

@@ -4,13 +4,46 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
+use App\Models\PaymentRequest;
 class DashboardController extends Controller
 {
     public function index()
     {
         addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
 
-        return view('Admin.Dashboards.index');
+        $payment_graph = PaymentRequest::
+        selectRaw("SUM(price) as total, DATE(created_at) as date")
+        ->where('state', 'Approve')
+        ->groupBy(DB::raw('DATE(created_at)'))
+        ->get();
+                    
+        $firstDate = PaymentRequest::min('created_at');
+        $lastDate  = PaymentRequest::max('created_at');
+ 
+        if (!$firstDate || !$lastDate) {
+            $average = 0;
+        } else {
+            $firstDate = Carbon::parse($firstDate)->startOfDay();
+            $lastDate  = Carbon::parse($lastDate)->endOfDay();
+            $days = $firstDate->diffInDays($lastDate) + 1;
+
+            $totalPrice = PaymentRequest::whereBetween('created_at', [$firstDate, $lastDate])
+                ->sum('price');
+
+            $average = $days > 0 ? $totalPrice / $days : 0;
+        }
+        $avg_payment_day = $average;
+        $avg_payment_week = $average * 7;
+        $avg_payment_month = $average * 30.4375;
+        $avg_payment = [
+            'day' => $avg_payment_day,
+            'week' => $avg_payment_week,
+            'month' => $avg_payment_month,
+        ];
+        return view('Admin.Dashboards.index', compact('payment_graph', 'avg_payment'));
     }
 }

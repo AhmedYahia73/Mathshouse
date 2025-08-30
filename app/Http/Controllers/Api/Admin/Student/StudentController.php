@@ -188,6 +188,7 @@ class StudentController extends Controller
     public function wallet_balance(Request $request, $student_id){
         $balance = Wallet::
         where('student_id', $student_id)
+        ->where('state', 'Approve')
         ->sum('wallet');
         
         return response()->json([
