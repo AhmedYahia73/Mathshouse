@@ -39,6 +39,7 @@ class ProfileController extends Controller
             'parent_phone' => 'unique:users,parent_phone,' . $request->user()->id,
             'parent_email' => 'email|unique:users,parent_email,' . $request->user()->id,
             'extra_email' => 'email|unique:users,extra_email,' . $request->user()->id,
+            'grade' => 'numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([

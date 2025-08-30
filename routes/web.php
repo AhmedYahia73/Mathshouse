@@ -167,6 +167,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
 
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/grades_count', [DashboardController::class, 'grades_count'])->withoutMiddleware(['auth','auth.Admin']);
 
     Route::controller(Ad_Slider::class)->middleware('can:Slider')->prefix('Slider')->group(function(){
         Route::get('/', 'index')->name('slider_imgs');
