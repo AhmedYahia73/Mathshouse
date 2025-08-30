@@ -122,9 +122,10 @@ class NotificationController extends Controller
             'text' => ['sometimes'],
             'date' => ['required']
         ]);
-        if ($validator->fails()) {
-            session()->flash('faild', $validator->errors()->first());
-            return redirect()->back();
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
         }
         // material_link, material_file, text,
         $material_file = null; 
