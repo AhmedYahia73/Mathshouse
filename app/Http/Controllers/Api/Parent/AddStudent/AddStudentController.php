@@ -26,9 +26,17 @@ class AddStudentController extends Controller
         })
         ->where('position', 'student')
         ->get();
+        $my_students = $this->user
+        ->select('id', 'email', 'phone', 'nick_name')
+        ->whereHas('parent', function($query) use($request){
+            $query->where('sup_parents.id', $request->user()->id);
+        })
+        ->where('position', 'student')
+        ->get();
 
         return response()->json([
             'students' => $students,
+            'my_students' => $my_students,
         ]);
     }
 
