@@ -113,6 +113,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(ExamHistoryController::class)->prefix('education/exam')
     ->group(function(){
         Route::get('/', 'view'); 
+        Route::get('/mistakes/{id}', 'mistakes'); 
         Route::get('/pdf/{id}', 'exam_pdf');
         Route::get('/exam_report/{id}', 'exam_report');
     });

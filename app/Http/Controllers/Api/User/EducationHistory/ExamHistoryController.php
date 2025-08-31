@@ -39,13 +39,24 @@ class ExamHistoryController extends Controller
                 'score' => $item->score,
                 'time' => $item->time,
                 'recommendaions' => $chapters,
-                'mistakes' => $mistakes
-                ->select('id', 'q_image', 'question', 'ans_type', 'mcq', 'g_ans'),
             ];
         });
 
         return response()->json([
             'exam_history' => $exam_history,
+        ]);
+    }
+
+    public function mistakes($id){
+        $questions = ExamMistake::
+        where('student_exam_id', $id)
+        ->with('questions')
+        ->get()
+        ?->pluck('questions') ?? collect([]);
+        $questions = $questions->select('id', 'q_image', 'question', 'ans_type', 'mcq', 'g_ans');
+
+        return response()->json([
+            'questions' => $questions
         ]);
     }
 
