@@ -34,6 +34,7 @@ class PaymentController extends Controller
                 'service' => $item->module,
                 'price' => $item->price,
                 'receipt' => $item->image_link,
+                'student' => $item?->user?->nick_name,
                 'date' => $item->created_at->format('Y-m-d'),
             ];
         });
@@ -49,6 +50,7 @@ class PaymentController extends Controller
                 'service' => $item->module,
                 'price' => $item->price,
                 'receipt' => $item->image_link,
+                'student' => $item?->user?->nick_name,
                 'date' => $item->created_at->format('Y-m-d'),
                 'rejected_reason' => $item->rejected_reason,
             ];

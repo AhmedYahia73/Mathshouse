@@ -30,7 +30,6 @@ class PaymentController extends Controller
                 'id' => $item->id,
                 'date' => $item->created_at->format('Y-m-d'),
                 'payment_method' => $item?->payment_method?->payment ?? 'Wallet',
-                'student' => $item?->user?->nick_name,
                 'price' => $item->price,
                 'service' => $item->module,
                 'status' => $item->state,
