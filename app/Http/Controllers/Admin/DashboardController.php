@@ -12,11 +12,48 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\PaymentRequest;
 use App\Models\Country;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Course;
+use App\Models\Chapter;
+use App\Models\Lesson;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $active_students = User::
+        where('position', 'student')
+        ->where('state', 'Show')
+        ->count();
+        $banned_students = User::
+        where('position', 'student')
+        ->where('state', 'hidden')
+        ->count();
+        $sign_up_year = User::
+        where('position', 'student')
+        ->whereYear('created_at', date('Y'))
+        ->count();
+        $sign_up_month = User::
+        where('position', 'student')
+        ->whereYear('created_at', date('Y'))
+        ->whereMonth('created_at', date('m'))
+        ->count();
+        $teachers = User::
+        where('position', 'teacher') 
+        ->count();
+        $affilates = User::
+        where('position', 'affilate') 
+        ->count();
+        $all_students = $active_students + $banned_students;
+        $categories = Category::
+        count(); 
+        $courses = Course::
+        count();
+        $chapter = Chapter::
+        count();
+        $lessons = Lesson::
+        count();
+
         addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
 
         $payment_graph = PaymentRequest::
@@ -48,8 +85,10 @@ class DashboardController extends Controller
             'week' => $avg_payment_week,
             'month' => $avg_payment_month,
         ];
-        $countries = Country::all();
-        return view('Admin.Dashboards.index', compact('payment_graph', 'avg_payment', 'countries'));
+        $countries = Country::all(); 
+        return view('Admin.Dashboards.index', compact('payment_graph', 'avg_payment', 'countries',
+        'active_students', 'banned_students', 'sign_up_year', 'sign_up_month', 'teachers', 'affilates',
+        'all_students', 'categories', 'courses', 'chapter', 'lessons'));
     }
 
     public function grades_count(Request $request){
