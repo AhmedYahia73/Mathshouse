@@ -32,7 +32,7 @@ class MyPackageController extends Controller
 {
     use Image;
 
-    public function my_packages(){
+    public function my_packages(Request $request){
         $packages = Package::all();
         foreach ( $packages as $item ) {
             $newTime = Carbon::now()->subDays($item->duration); 
@@ -80,6 +80,7 @@ class MyPackageController extends Controller
         
         $courses = Course::
         select('course_name', 'id')
+        ->where('category_id', $request->user()->category_id)
         ->with('packages:id,name,course_id,price,number,duration,module')
         ->get();
         return response()->json([
