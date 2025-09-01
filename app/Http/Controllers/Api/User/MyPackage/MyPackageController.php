@@ -103,7 +103,7 @@ class MyPackageController extends Controller
         ]);
     }
 
-    public function lists(){
+    public function lists(Request $request){
         $payment_methods = PaymentMethod::where('statue', 1)
         ->get()
         ->map(function($item){
@@ -125,6 +125,10 @@ class MyPackageController extends Controller
                 'logo' => url('images/payment/' . $item->logo),
             ];
         });
+       $wallet = Wallet::
+        where('student_id', $request->user()->id)
+        ->where('state', 'Approve')
+        ->sum('wallet');
 
         return response()->json([
             'payment_methods' => $payment_methods
