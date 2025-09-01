@@ -131,7 +131,8 @@ class MyPackageController extends Controller
         ->sum('wallet');
 
         return response()->json([
-            'payment_methods' => $payment_methods
+            'payment_methods' => $payment_methods,
+            'wallet' => $wallet,
         ]);
     }
 
