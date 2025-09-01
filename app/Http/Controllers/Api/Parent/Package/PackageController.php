@@ -88,6 +88,7 @@ class PackageController extends Controller
         
         $courses = Course::
         select('course_name', 'id')
+        ->where('category_id', $request->user()->category_id)
         ->with('packages:id,name,course_id,price,number,duration,module')
         ->get();
         return response()->json([
