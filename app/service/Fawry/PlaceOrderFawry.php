@@ -139,34 +139,22 @@ trait PlaceOrder
             $customerMerchantId = $response['customerMerchantId'];
             $orderStatus = $response['orderStatus'];
         }
-  
+        
         if($orderStatus == 'PAID'){
+            $service = 'Chapters';
             $payment =
-                $this->payment->where('merchantRefNum', $merchantRefNum)->with('bundle', function ($query):void {
-                    $query->with('users');
-                }, 'subject', function ($query):void {
-                $query->with('users');
-           })->first();
-            $order = $this->checkItemType($payment->service);
-            // $order = $payment->service == 'Bundle' ? 'bundle' : 'subject';
-            if($order == 'bundle'){
-                $orderBundle = $payment->bundle;
-                foreach($orderBundle as $student_bundle){
-                    $student_bundle->users()->attach([$student_bundle->id=>['user_id'=>$customerMerchantId]] );
-                }
-            }elseif($order == 'subject'){
-                $orderSubject= $payment->subject;
-                 foreach($orderSubject as $student_subject){
-                  $student_subject->users()->attach([$student_subject->id=>['user_id'=>$customerMerchantId]] );
-                 }
-            }elseif($order == 'Live'){
-                $orderLive = $payment->live;
-                  $orderLive->users()->attach([$orderLive->id=>['user_id'=>$customerMerchantId]] );
-            }elseif($order == 'Live Recorded'){
-                $orderRecordedLive = $payment->recorded_live;
-                  $orderRecordedLive->users()->attach([$orderRecordedLive->id=>['user_id'=>$customerMerchantId]] );
-
+                $this->payment_request
+                ->where('user_id', auth()->user()->id)
+                ->where('merchantRefNum', $merchantRefNum)
+                ->first();
+            if(empty($payment)){
+                $payment = $this->wallet
+                ->where('merchantRefNum', $merchantRefNum)
+                ->where('student_id', auth()->user()->id)
+                ->first();
+                $service = 'Wallet';
             }
+            $order = $this->checkItemType($service);
 
         }
         return response()->json($response);
