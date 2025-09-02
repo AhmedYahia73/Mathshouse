@@ -244,6 +244,7 @@ class ExamController extends Controller
             'pass_score' => $pass_score,
             'exam_name' => $exam_name,
             'recommanditions' => $recommanditions,
+            'exam_history_id' => $stu_exam->id,
         ]);
  
     }

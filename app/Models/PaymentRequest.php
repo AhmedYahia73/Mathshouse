@@ -23,7 +23,8 @@ class PaymentRequest extends Model
         'image',
         'module',
         'state',
-        'rejected_reason'
+        'rejected_reason',
+        'merchantRefNum',
     ];
     protected $appends = ['image_link'];
 
