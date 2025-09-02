@@ -174,7 +174,7 @@ class StudentController extends Controller
         ->where('state', 1)
         ->get();
         $packages = PaymentPackageOrder::
-        selectRaw('*, COUNT(*) as count_package')
+        selectRaw('COUNT(*) as count_package')
         ->whereHas('pay_req', function( $query ) use($id){
             $query->where('user_id', $id);
         })  
