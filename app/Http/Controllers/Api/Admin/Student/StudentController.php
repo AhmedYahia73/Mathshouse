@@ -167,21 +167,44 @@ class StudentController extends Controller
 
     public function payment_history(Request $request, $id){
         $chapters = PaymentOrder::
-        whereHas('pay_req', function( $query )use($id){
+        whereHas('pay_req', function( $query ) use($id){
             $query->where('user_id', $id);
-        })
-        ->with('chapter.teacher', 'chapter.course')
+        }) 
+        ->with('chapter.teacher', 'chapter.course', 'pay_req')
         ->where('state', 1)
-        ->get()
-        ?->pluck('chapter')
-        ->map(function($item){
+        ->get();
+        $packages = PaymentPackageOrder::
+        selectRaw('*, COUNT(*) as count_package')
+        ->whereHas('pay_req', function( $query ) use($id){
+            $query->where('user_id', $id);
+        })  
+        ->with('package', 'pay_req')
+        ->where('state', 1)
+        ->groupBy('package_id')
+        ->get();
+        $payment_chapters = $chapters?->pluck('pay_req');
+        $payment_packages = $packages?->pluck('pay_req');
+        $total_payment = $payment_chapters?->sum('price') +  $payment_packages?->sum('price');
+
+        $chapters = $chapters?->pluck('chapter') 
+        ?->map(function($item){
             $item->chapter = $item?->course?->course_name;
             $item->teacher = $item?->teacher?->nick_name;
             return $item;
         });
+        $packages = $packages
+        ->map(function($item){
+            return [
+                'id' => $item?->package?->id,
+                'package' => $item?->package?->name,
+                'count_package' => $item?->count_package,
+            ];
+        });
 
         return response()->json([
             'chapters' => $chapters,
+            'total_payment' => $total_payment,
+            'packages' => $packages
         ]);
     }
     
