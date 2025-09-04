@@ -73,7 +73,7 @@ class CourseController extends Controller
                     $ideas = $idea_db
                     ->whereIn('lesson_id', $lessons)
                     ->count();
-                    return [
+                    return [ 
                         'id' => $element->id,
                                     
                         'videos_count' => $ideas,
