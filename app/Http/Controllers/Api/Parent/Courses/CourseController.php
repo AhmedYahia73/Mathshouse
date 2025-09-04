@@ -285,7 +285,7 @@ class CourseController extends Controller
             
         } 
         //   End Make Paymob Credit 
-        if ( $img_state ) { 
+        elseif ( $img_state ) { 
             return response()->json([
                 'errors' => 'You must upload receipt'
             ], 400);
