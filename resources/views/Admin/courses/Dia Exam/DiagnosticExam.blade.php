@@ -26,9 +26,14 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
+
+
+
+
         /* Hide the default checkbox */
         .btn-container input {
             display: none;
+            
         }
 
         .btn-container {
@@ -644,7 +649,7 @@
                                         <form class="form_editquizze"
                                             action="{{ route('edit_dia_exam_item', ['id' => $item->id]) }}"
                                             method="POST">
-                                            @csrf 
+                                            @csrf
                                             <div class="modal-header" style="border-bottom: 0 !important;">
                                                 <h2 class="modal-title" id="exampleModalLongTitle">Edit Diagnostic
                                                 </h2>
@@ -1027,7 +1032,7 @@
                                                                                     id="question_edite_id{{ $question->id }}" />
 
                                                                                 <input type="hidden"
-                                                                                    value="{{ $item->id }}" 
+                                                                                    value="{{ $item->id }}"
                                                                                     class='diagnostic_edite_id'
                                                                                     id='diagnostic_edite_id{{ $question->id }}' />
 
@@ -1340,7 +1345,7 @@
 
                             // Check if exam_code exists in element.code, otherwise set it to 'null'
                             const examCode = element.code && element.code.exam_code ? element.code.exam_code : 'null';
-                            
+
                         quizze_item.innerHTML += `<tr>
                           <th scope="row" class="idd d-none">${element.question_id}</th>
                           <th>${index + 1}</th>
@@ -1703,7 +1708,7 @@
                                 class='question_edite_id' id='question_edite_id${question_idd}'/>
 
                                 <input type="hidden"
-                                value=${quizze_idd} 
+                                value=${quizze_idd}
                                 class='diagnostic_edite_id' id='diagnostic_edite_id${question_idd}'/>
 
                                 <td class="question_edite_type" id='question_edite_type${question_idd}' style="font-weight: 500; font-size: 1.1rem">
@@ -1919,6 +1924,6 @@
                 });
             })
         });
-        
+
     </script>
 </x-default-layout>
