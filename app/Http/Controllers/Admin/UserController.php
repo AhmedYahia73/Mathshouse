@@ -337,14 +337,42 @@ class UserController extends Controller
     }
 
     public function student_payments( $id ){
-        $data = PaymentOrder::
-        whereHas('pay_req', function( $query )use($id){
+        $chapters = PaymentOrder::
+        whereHas('pay_req', function( $query ) use($id){
             $query->where('user_id', $id);
-        })
+        }) 
+        ->with('chapter.teacher', 'chapter.course', 'pay_req')
         ->where('state', 1)
         ->get();
+        $packages = PaymentPackageOrder::
+        selectRaw('package_id, COUNT(*) as count_package')
+        ->whereHas('pay_req', function( $query ) use($id){
+            $query->where('user_id', $id);
+        })  
+        ->with('package', 'pay_req')
+        ->where('state', 1)
+        ->groupBy('package_id')
+        ->get();
+        $payment_chapters = $chapters?->pluck('pay_req');
+        $payment_packages = $packages?->pluck('pay_req');
+        $total_payment = $payment_chapters?->sum('price') +  $payment_packages?->sum('price');
 
-        return view('Admin.Users.Student_History', compact('data'));
+        $chapters = $chapters?->pluck('chapter') 
+        ?->map(function($item){ 
+            return [
+                'chapter_name' => $item->chapter_name
+            ];
+        });
+        $packages = $packages
+        ->map(function($item){
+            return [
+                'id' => $item?->package?->id,
+                'package' => $item?->package?->name,
+                'count_package' => $item?->count_package,
+            ];
+        });
+
+        return view('Admin.Users.Student_History', compact('chapters', 'total_payment', 'packages'));
     }
 
     public function teacher(){
