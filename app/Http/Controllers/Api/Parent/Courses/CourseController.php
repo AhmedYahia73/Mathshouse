@@ -25,6 +25,7 @@ use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
 use App\Models\PaymentOrder;
 use App\Models\User;
+use App\Models\Wallet;
 
 class CourseController extends Controller
 {
@@ -218,7 +219,7 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'course_id' => 'required|exists:courses,id',
             'amount' => 'required|numeric',
-            'payment_method_id' => 'required|exists:payment_method,id',
+            'payment_method_id' => 'required',
             'duration' => 'required|numeric',
             'user_id' => 'required|exists:users,id',
         ]);
@@ -268,6 +269,21 @@ class CourseController extends Controller
                 ]);
             }
         }
+        if ( $request->payment_method_id == 'Wallet' ) {
+            $wallet = Wallet::
+            where('student_id', $request->user_id)
+            ->where('state', 'Approve')
+            ->sum('wallet'); 
+
+            if ( $wallet < $price ) {
+                return response()->json([
+                    'errors' => 'You need to charge wallet'
+                ], 400);
+            }
+           
+            $paymentRequest['state'] = 'Approve'; 
+            
+        } 
         //   End Make Paymob Credit 
         if ( $img_state ) { 
             return response()->json([
@@ -282,6 +298,21 @@ class CourseController extends Controller
         $p_request = PaymentRequest::create($paymentRequest);
         $duration = $request->duration;
  
+        
+        if ( $request->payment_method_id == 'Wallet' ) { 
+            $chapters = Chapter::where('course_id', $course->id)
+            ->get();
+    
+            foreach ( $chapters as $item ) {
+                PaymentOrder::create([
+                    'payment_request_id' => $p_request->id,
+                    'chapter_id' => $item->id,
+                    'duration' => $duration,
+                    'state' => 1
+                ]);
+            }
+        }
+        else { 
         $chapters = Chapter::where('course_id', $course->id)
         ->get(); 
         foreach ( $chapters as $item ) {
@@ -290,7 +321,8 @@ class CourseController extends Controller
                 'chapter_id' => $item->id,
                 'duration' => $duration,
             ]);
-        } 
+        }
+        }
         
         $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet';
         return response()->json([
@@ -307,7 +339,7 @@ class CourseController extends Controller
             'chapters.*.chapter_id' => 'required|exists:chapters,id',
             'chapters.*.duration' => 'required|numeric',
             'amount' => 'required|numeric',
-            'payment_method_id' => 'required|exists:payment_method,id', 
+            'payment_method_id' => 'required', 
             'user_id' => 'required|exists:users,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -351,7 +383,20 @@ class CourseController extends Controller
         ->where('id', $request->user_id)
         ->first();
 
-        if ( $img_state ) {
+        if ( $request->payment_method_id == 'Wallet' ) {
+            $wallet = Wallet::
+            where('student_id', $request->user_id)
+            ->where('state', 'Approve')
+            ->sum('wallet');
+            
+            if ( $wallet < $price ) {
+                return response()->json([
+                    'errors' => 'You must recharge wallet'
+                ], 400);
+            }
+            $paymentRequest['state'] = 'Approve'; 
+        }
+        elseif ( $img_state ) {
             return response()->json([
                 'errors' => 'You Must Upload Receipt'
             ], 400);
