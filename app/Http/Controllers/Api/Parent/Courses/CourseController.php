@@ -430,7 +430,7 @@ class CourseController extends Controller
                 PaymentOrder::create( 
                     ['payment_request_id' => $p_request->id,
                     'chapter_id' => $chapters[$i]->id,
-                    'duration' => $$chapters[$i]->duration,
+                    'duration' => $chapters[$i]->duration,
                     'state' => 1]);
             } 
         }
