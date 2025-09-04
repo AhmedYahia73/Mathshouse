@@ -23,6 +23,7 @@ use App\Models\PromoCode;
 use App\Models\PromoCourse;
 use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
+use App\Models\Wallet;
 use App\Models\PaymentOrder;
 
 class CourseController extends Controller
