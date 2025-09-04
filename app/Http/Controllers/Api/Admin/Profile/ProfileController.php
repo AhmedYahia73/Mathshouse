@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\User\Profile;
+namespace App\Http\Controllers\Api\Admin\Profile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\trait\Image;
-
-use App\Models\User;
 
 class ProfileController extends Controller
 {
-    public function __construct(private User $user){}
-    use Image;
+    public function __construct(){}
 
-    public function view(Request $request){ 
+    public function view(Request $request){
         $user = $request->user();
 
         return response()->json([
@@ -23,21 +19,14 @@ class ProfileController extends Controller
             'nick_name' => $user->nick_name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'parent_phone' => $user->parent_phone,
-            'parent_email' => $user->parent_email,
-            'grade' => $user->grade,
-            'image' => $user->image_link,
-            'extra_email' => $user->extra_email,
         ]);
     }
 
-    public function update_profile(Request $request){
+    public function update(Request $request){
         $validator = Validator::make($request->all(), [
             'nick_name' => 'unique:users,nick_name,' . $request->user()->id,
             'email' => 'email|unique:users,email,' . $request->user()->id,
             'phone' => 'unique:users,phone,' . $request->user()->id,
-            'extra_email' => 'email|unique:users,extra_email,' . $request->user()->id,
-            'grade' => 'numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -51,12 +40,6 @@ class ProfileController extends Controller
         $user->nick_name = $request->nick_name ?? $user->nick_name;
         $user->email = $request->email ?? $user->email;
         $user->phone = $request->phone ?? $user->phone;
-        $user->grade = $request->grade ?? $user->grade;
-        $user->extra_email = $request->extra_email ?? $user->extra_email;
-        if($request->image){
-            $image_path = $this->store_base64($request->image, 'images/users');
-            $user->image = $image_path;
-        }
         if($request->password){
             $user->password = bcrypt($request->password);
         }
@@ -65,6 +48,5 @@ class ProfileController extends Controller
         return response()->json([
             'success' => 'You update your profile'
         ]);
-        // Hello
     }
 }
