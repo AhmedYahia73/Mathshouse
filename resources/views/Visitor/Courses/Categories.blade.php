@@ -373,6 +373,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -380,7 +381,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap"
+        rel="stylesheet">
     <!-- AOS Library for scroll animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -411,7 +414,11 @@
             background-color: var(--light-bg);
         }
 
-        h1, h2, h3, h4, h5 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             line-height: 1.3;
@@ -430,7 +437,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,249,250,1) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 249, 250, 1) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -441,7 +448,7 @@
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            background: linear-gradient(45deg, rgba(207,32,47,0.03) 0%, rgba(74,144,226,0.03) 100%);
+            background: linear-gradient(45deg, rgba(207, 32, 47, 0.03) 0%, rgba(74, 144, 226, 0.03) 100%);
             top: -150px;
             right: -150px;
             z-index: 0;
@@ -453,7 +460,7 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: linear-gradient(45deg, rgba(207,32,47,0.03) 0%, rgba(74,144,226,0.03) 100%);
+            background: linear-gradient(45deg, rgba(207, 32, 47, 0.03) 0%, rgba(74, 144, 226, 0.03) 100%);
             bottom: -100px;
             left: -100px;
             z-index: 0;
@@ -479,7 +486,7 @@
             row-gap: 24px;
         }
 
-        .mainContent .leftContent > h3 {
+        .mainContent .leftContent>h3 {
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 0;
@@ -491,7 +498,7 @@
             padding-bottom: 15px;
         }
 
-        .mainContent .leftContent > h3::after {
+        .mainContent .leftContent>h3::after {
             content: '';
             position: absolute;
             left: 0;
@@ -502,7 +509,7 @@
             border-radius: 2px;
         }
 
-        .mainContent .leftContent > p {
+        .mainContent .leftContent>p {
             font-size: 1.25rem;
             font-weight: 400;
             margin-bottom: 0;
@@ -591,7 +598,7 @@
             top: 20%;
             left: 10%;
             animation-delay: 0s;
-            background: linear-gradient(135deg, rgba(207,32,47,0.1) 0%, rgba(74,144,226,0.1) 100%);
+            background: linear-gradient(135deg, rgba(207, 32, 47, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
         }
 
         .floating-element:nth-child(2) {
@@ -600,7 +607,7 @@
             animation-delay: 2s;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, rgba(207,32,47,0.1) 0%, rgba(74,144,226,0.1) 100%);
+            background: linear-gradient(135deg, rgba(207, 32, 47, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
         }
 
         .floating-element:nth-child(3) {
@@ -609,13 +616,21 @@
             animation-delay: 4s;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, rgba(207,32,47,0.1) 0%, rgba(74,144,226,0.1) 100%);
+            background: linear-gradient(135deg, rgba(207, 32, 47, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
         }
 
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-            100% { transform: translateY(0) rotate(0deg); }
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
         }
 
         .footerSec {
@@ -738,7 +753,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
@@ -762,7 +777,7 @@
 
         .icon {
             color: var(--white);
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -910,12 +925,12 @@
                 margin-bottom: 40px;
             }
 
-            .mainContent .leftContent > h3::after {
+            .mainContent .leftContent>h3::after {
                 left: 50%;
                 transform: translateX(-50%);
             }
 
-            .mainContent .leftContent > p {
+            .mainContent .leftContent>p {
                 max-width: 100%;
             }
 
@@ -934,11 +949,11 @@
         }
 
         @media (max-width: 768px) {
-            .mainContent .leftContent > h3 {
+            .mainContent .leftContent>h3 {
                 font-size: 2.5rem;
             }
 
-            .mainContent .leftContent > p {
+            .mainContent .leftContent>p {
                 font-size: 1.1rem;
             }
 
@@ -961,6 +976,7 @@
         }
     </style>
 </head>
+
 <body>
     @include('Visitor.inc.header')
     @include('Visitor.inc.menu')
@@ -973,7 +989,8 @@
             <div class="mainContent">
                 <div class="leftContent" data-aos="fade-right" data-aos-duration="1000">
                     <h3>Expand Your Knowledge</h3>
-                    <p>Our courses are meticulously categorized within the educational system framework, allowing you to efficiently select the program that aligns with your specific learning objectives</p>
+                    <p>Our courses are meticulously categorized within the educational system framework, allowing you to
+                        efficiently select the program that aligns with your specific learning objectives</p>
                     <a href="#courses" class="cta-button">Explore Courses</a>
                 </div>
                 <div class="rightContent" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
@@ -986,10 +1003,10 @@
                 </div>
             </div>
             <div class="footerSec" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                <img src="{{ asset('images/HeroBackground/sat.png') }}" alt="SAT">
-                <img src="{{ asset('images/HeroBackground/collegeBoard.png') }}" alt="College Board">
-                <img src="{{ asset('images/HeroBackground/act.png') }}" alt="ACT">
-                <img src="{{ asset('images/HeroBackground/est.png') }}" alt="EST">
+                <img src="https://placehold.co/100x40/cccccc/000000/png?text=SAT" alt="SAT">
+                <img src="https://placehold.co/100x40/cccccc/000000/png?text=College+Board" alt="College Board">
+                <img src="https://placehold.co/100x40/cccccc/000000/png?text=ACT" alt="ACT">
+                <img src="https://placehold.co/100x40/cccccc/000000/png?text=EST" alt="EST">
             </div>
         </section>
 
@@ -1017,7 +1034,8 @@
                                                 <div class="overlay">
                                                     <div class="icon"><span class="flaticon-like"></span></div>
                                                     <a class="tc_preview_course"
-                                                        href="{{ route('v_courses', ['id' => $category->id]) }}">View Course</a>
+                                                        href="{{ route('v_courses', ['id' => $category->id]) }}">View
+                                                        Course</a>
                                                 </div>
                                             </div>
                                             <div class="details">
@@ -1100,4 +1118,5 @@
 
     @include('Visitor.inc.footer')
 </body>
+
 </html>
