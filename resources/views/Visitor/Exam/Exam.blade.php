@@ -102,15 +102,154 @@
             width: 80% !important;
         }
     }
+
+
+
+
+        .heroSec {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 10px
+        }
+
+        .mainContent {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .leftContent {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+        }
+
+        .leftContent h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #dc3545;
+            line-height: 1.2;
+        }
+
+        .leftContent p {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .feature-icon {
+            background: #dc3545;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .rightContent {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fef5f3;
+            padding: 20px;
+        }
+
+        .rightContent img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .footerSec {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .footerSec img {
+            height: 30px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footerSec img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .mainContent {
+                flex-direction: column;
+            }
+
+            .leftContent h3 {
+                font-size: 1.8rem;
+            }
+
+            .leftContent, .rightContent {
+                padding: 20px;
+            }
+
+            .footerSec {
+                gap: 15px;
+            }
+
+            .footerSec img {
+                height: 25px;
+            }
+        }
 </style>
 
 <!-- Hero Page Exams -->
-<section class="heroSec">
+{{-- <section class="heroSec">
     <div class="mainContent">
         <div class="leftContent">
             <h3>Conquer Global Exams</h3>
             <p>Stop Guessing! Pinpoint Your Math Strengths & Weaknesses for Top Exam
-                Scores 
+                Scores
             </p>
         </div>
         <div class="rightContent">
@@ -118,12 +257,34 @@
         </div>
     </div>
     <div class="footerSec">
-        <img src="{{ asset('images/HeroBackground/sat.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/collegeBoard.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/act.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/est.png') }}" alt="photo">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=SAT" alt="SAT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=College+Board" alt="College Board">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=ACT" alt="ACT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=EST" alt="EST">
+    </div>
+</section> --}}
+
+<section class="heroSec">
+    <div class="mainContent">
+        <div class="leftContent">
+            <h3>Conquer Global Exams</h3>
+            <p>
+              Stop Guessing! Pinpoint Your Math Strengths & Weaknesses for Top Exam
+                Scores
+            </p>
+
+            <a href="#" class="cta-button">Get Started Now</a>
+        </div>
+    </div>
+    <div class="footerSec">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=SAT" alt="SAT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=College+Board" alt="College Board">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=ACT" alt="ACT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=EST" alt="EST">
     </div>
 </section>
+
+
 <div class="row">
     <div class="col-lg-6 offset-lg-3">
         <div class="main-title text-center">

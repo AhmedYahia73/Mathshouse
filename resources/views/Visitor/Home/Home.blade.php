@@ -1,4 +1,4 @@
-@include('Visitor.inc.header')
+{{-- @include('Visitor.inc.header')
 @include('Visitor.inc.menu')
 
 
@@ -1092,4 +1092,887 @@
         });
     });
 </script>
-@include('Visitor.inc.footer')
+@include('Visitor.inc.footer') --}}
+
+
+
+@include('Visitor.inc.header')
+@include('Visitor.inc.menu')
+
+<style>
+    :root {
+        --main-color: #CF202F;
+        --secondary-color: #727272;
+        --light-bg: #FEF5F3;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        padding: 20px 0 50px;
+        background: linear-gradient(to bottom, #ffffff, #fff5f5);
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .hero-content h1 span,
+    .hero-content h2,
+    .hero-content p span {
+        color: var(--main-color);
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+    }
+
+    .hero-image {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .scroll-down {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .scroll-down a {
+        color: var(--main-color);
+        font-size: 2rem;
+        text-decoration: none;
+        display: inline-block;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-20px);
+        }
+
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+
+    /* Services Section */
+    .services-section {
+        padding: 80px 0;
+        background-color: white;
+    }
+
+    .service-card {
+        text-align: center;
+        padding: 30px 20px;
+        border-radius: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin-bottom: 30px;
+        background-color: var(--light-bg);
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-icon {
+        font-size: 3rem;
+        color: var(--main-color);
+        margin-bottom: 20px;
+    }
+
+    .curve-svg {
+        width: 100%;
+        height: 50px;
+        margin: 30px 0;
+    }
+
+    /* Counter Section */
+    .counter-section {
+        padding: 60px 0;
+        background-color: var(--light-bg);
+    }
+
+    .counter-item {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .counter-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--main-color);
+        margin-bottom: 10px;
+    }
+
+    .counter-text {
+        color: var(--secondary-color);
+        font-weight: 500;
+    }
+
+    /* Courses Section */
+    .courses-section {
+        padding: 80px 0;
+        background-color: white;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+    }
+
+    .section-title h2 span {
+        color: var(--main-color);
+    }
+
+    .section-title p {
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+    }
+
+    .course-card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        margin-bottom: 30px;
+        background-color: var(--light-bg);
+    }
+
+    .course-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .course-badge {
+        background-color: var(--light-bg);
+        color: var(--main-color);
+        padding: 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-block;
+        padding-bottom: 0;
+    }
+
+    .course-content {
+        padding: 20px;
+    }
+
+    .course-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .course-price {
+        font-size: 1.2rem;
+        color: var(--main-color);
+        font-weight: 700;
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+        padding: 80px 0;
+        background-color: var(--light-bg);
+    }
+
+    .testimonial-card {
+        background-color: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin: 15px;
+        position: relative;
+    }
+
+    .testimonial-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .testimonial-user {
+        display: flex;
+        align-items: center;
+    }
+
+    .testimonial-user img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+    }
+
+    .testimonial-rating {
+        color: var(--main-color);
+        font-weight: 600;
+    }
+
+    .testimonial-text {
+        color: var(--secondary-color);
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .testimonial-controls {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .testimonial-controls button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--main-color);
+        margin: 0 10px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .testimonial-controls button:hover {
+        color: #a00;
+    }
+
+    /* Upcoming Events Section */
+    .events-section {
+        padding: 80px 0;
+        background-color: white;
+    }
+
+    .event-card {
+        display: flex;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        background-color: white;
+    }
+
+    .event-image {
+        width: 150px;
+        min-width: 150px;
+        background-color: #ddd;
+    }
+
+    .event-content {
+        padding: 20px;
+        flex-grow: 1;
+    }
+
+    .event-date {
+        background-color: var(--light-bg);
+        color: var(--main-color);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .event-details {
+        display: flex;
+        margin-top: 15px;
+        color: var(--secondary-color);
+    }
+
+    .event-details div {
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .event-details i {
+        margin-right: 5px;
+        color: var(--main-color);
+    }
+
+    .events-controls {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .slider-dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ddd;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .slider-dot.active {
+        background-color: var(--main-color);
+    }
+
+    /* Blog Section */
+    .blog-section {
+        padding: 80px 0;
+        background-color: var(--light-bg);
+    }
+
+    .blog-card {
+        background-color: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+    }
+
+    .blog-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .blog-content {
+        padding: 20px;
+    }
+
+    .blog-category {
+        color: var(--main-color);
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .blog-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .blog-date {
+        color: var(--secondary-color);
+    }
+
+    /* Subscribe Section */
+    .subscribe-section {
+        padding: 80px 0;
+        background-color: white;
+        text-align: center;
+    }
+
+    .subscribe-form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-control {
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        padding: 15px 25px;
+        margin-bottom: 20px;
+    }
+
+    .form-control:focus {
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 0.2rem rgba(207, 32, 47, 0.25);
+    }
+
+    /* Modal */
+    .modal-content {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .modal-footer {
+        border-top: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .hero-content h1 {
+            font-size: 2.8rem;
+        }
+
+        .event-card {
+            flex-direction: column;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+        }
+
+        .testimonial-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .testimonial-rating {
+            margin-top: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-content h1 {
+            font-size: 1.8rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+        }
+
+        .service-card {
+            padding: 20px 15px;
+        }
+
+        .counter-number {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <h1>Unlock Your Math Potential Expert-Led Courses for Global Students <span>.</span></h1>
+                        <h2>Anywhere</h2>
+                        <p>Connect With The Most Qualified And Passionate <span>Mentors</span></p>
+                        <a href="#" class="btn btn-danger btn-lg">Find Courses</a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="hero-image text-center">
+                        <img class="v-100" src="{{ asset('images/Home/Learning-cuate 1.png') }}" alt="he">
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-down">
+                <a href="#services"><i class="fas fa-chevron-down"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Achieve your goals</h3>
+                        <p>Empower yourself with our online math courses designed for the international education
+                            system. Led by experienced and passionate instructors, our interactive Zoom sessions cater
+                            to all levels and learning styles. Whether you're aiming for top grades or preparing for
+                            exams, we'll guide you to success.</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="text-center">
+                        <svg class="curve-svg" viewBox="0 0 500 100">
+                            <path d="M 10,80 C 100,10 400,100 490,20" stroke="#CF202F" stroke-width="3"
+                                fill="transparent" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Benefits</h3>
+                        <ul class="text-start">
+                            <li><strong>Expert Instructors:</strong> Learn from highly qualified math educators.</li>
+                            <li><strong>Personalized Learning:</strong> We cater to individual needs.</li>
+                            <li><strong>Interactive Sessions:</strong> Engage in real-time discussions.</li>
+                            <li><strong>Flexible Scheduling:</strong> Choose sessions that fit your timetable.</li>
+                            <li><strong>Comprehensive Resources:</strong> Access a wealth of study materials.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Counter Section -->
+    <section class="counter-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="counter-item">
+                        <div class="counter-number">55</div>
+                        <div class="counter-text">Creative Events</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="counter-item">
+                        <div class="counter-number">55</div>
+                        <div class="counter-text">Skilled Tutor</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="counter-item">
+                        <div class="counter-number">55K</div>
+                        <div class="counter-text">Online Courses</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="counter-item">
+                        <div class="counter-number">55K</div>
+                        <div class="counter-text">People Wordwide</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <div class="section-title">
+                <h2>Browse Our <span>Top</span> Courses</h2>
+                <p>Discover expertly crafted courses to elevate your skills</p>
+            </div>
+            <div class="row">
+                @foreach ($courses as $item)
+                    <div class="col-md-4">
+                        <a href="{{ route('v_course', ['id' => $item->id]) }}">
+                            <div class="course-card">
+                                <div class="course-badge">Top Seller</div>
+                                <div class="course-content">
+                                    <h3>{{ $item->course_name }}</h3>
+                                    <p>${{ $item->prices->min('price') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+
+            </div>
+            <div class="text-center mt-4">
+                <a href="{{ route('categories') }}" class="btn btn-outline-danger">View All Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Trusted by Thousands of <span>Happy</span> Customer</h2>
+                <p>Look at their reviews</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-user">
+                                <img src="https://placehold.co/50x50/CF202F/white?text=A" alt="User">
+                                <div>
+                                    <h5>Amr Mohammed</h5>
+                                </div>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i> 4.5
+                            </div>
+                        </div>
+                        <p class="testimonial-text">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi
+                            diam, egestas sed tellus sed, aliquet cursus arcu”</p>
+                    </div>
+                </div>
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-user">
+                                <img src="https://placehold.co/50x50/CF202F/white?text=S" alt="User">
+                                <div>
+                                    <h5>Sarah Johnson</h5>
+                                </div>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                        </div>
+                        <p class="testimonial-text">“The math courses here completely transformed my understanding of
+                            calculus. The instructors are amazing and very supportive!”</p>
+                    </div>
+                </div>
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-user">
+                                <img src="https://placehold.co/50x50/CF202F/white?text=J" alt="User">
+                                <div>
+                                    <h5>John Davis</h5>
+                                </div>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </div>
+                        </div>
+                        <p class="testimonial-text">“I was struggling with algebra for years until I found these
+                            courses. Now I'm confident and even enjoying math problems!”</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-controls">
+                <button id="prev-testimonial"><i class="fas fa-arrow-left"></i></button>
+                <button id="next-testimonial"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="events-section" id="events">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Events</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6 event-item">
+                    <div class="event-card">
+                        <div class="event-image"></div>
+                        <div class="event-content">
+                            <span class="event-date">18 Mar</span>
+                            <h4>Algebra Masterclass</h4>
+                            <div class="event-details">
+                                <div><i class="far fa-clock"></i> 8:00am-10:00am</div>
+                                <div><i class="fas fa-location-dot"></i> Online</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 event-item">
+                    <div class="event-card">
+                        <div class="event-image"></div>
+                        <div class="event-content">
+                            <span class="event-date">22 Mar</span>
+                            <h4>Calculus Workshop</h4>
+                            <div class="event-details">
+                                <div><i class="far fa-clock"></i> 2:00pm-4:00pm</div>
+                                <div><i class="fas fa-location-dot"></i> Online</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="events-controls">
+                <span class="slider-dot active"></span>
+                <span class="slider-dot"></span>
+                <span class="slider-dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section" id="blog">
+        <div class="container">
+            <div class="section-title">
+                <h2>Blog</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://placehold.co/400x200/CF202F/white?text=Math+Tips" alt="Blog"
+                            class="blog-image">
+                        <div class="blog-content">
+                            <span class="blog-category">Tips</span>
+                            <h3 class="blog-title">Attract More Attention Sales And Profits</h3>
+                            <span class="blog-date">May 15, 2020</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://placehold.co/400x200/CF202F/white?text=Marketing" alt="Blog"
+                            class="blog-image">
+                        <div class="blog-content">
+                            <span class="blog-category">Marketing</span>
+                            <h3 class="blog-title">11 Tips to Help You Get New Clients</h3>
+                            <span class="blog-date">May 15, 2020</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://placehold.co/400x200/CF202F/white?text=Education" alt="Blog"
+                            class="blog-image">
+                        <div class="blog-content">
+                            <span class="blog-category">Tips</span>
+                            <h3 class="blog-title">An Overworked Newspaper Editor</h3>
+                            <span class="blog-date">May 15, 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section class="subscribe-section" id="subscribe">
+        <div class="container">
+            <div class="section-title">
+                <h2>Subscribe our newsletter</h2>
+                <p>Your download should start automatically, if not Click here. Should I give up, huh?</p>
+            </div>
+            <form class="subscribe-form">
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email address">
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    {{-- <div class="modal fade" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Special Offer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://placehold.co/500x300/CF202F/white?text=Math+Course+Offer" class="img-fluid"
+                        alt="Offer">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Testimonial slider functionality
+            const testimonials = document.querySelectorAll('.testimonial-item');
+            const prevBtn = document.getElementById('prev-testimonial');
+            const nextBtn = document.getElementById('next-testimonial');
+            let currentTestimonial = 0;
+
+            // Show specific testimonial
+            function showTestimonial(index) {
+                testimonials.forEach(testimonial => {
+                    testimonial.style.display = 'none';
+                });
+
+                testimonials[index].style.display = 'block';
+                currentTestimonial = index;
+            }
+
+            // Initialize - show first testimonial only on mobile
+            function initTestimonials() {
+                if (window.innerWidth < 768) {
+                    showTestimonial(0);
+                } else {
+                    testimonials.forEach(testimonial => {
+                        testimonial.style.display = 'block';
+                    });
+                }
+            }
+
+            // Call on load and resize
+            initTestimonials();
+            window.addEventListener('resize', initTestimonials);
+
+            // Navigation handlers
+            prevBtn.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    let newIndex = currentTestimonial - 1;
+                    if (newIndex < 0) newIndex = testimonials.length - 1;
+                    showTestimonial(newIndex);
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    let newIndex = currentTestimonial + 1;
+                    if (newIndex >= testimonials.length) newIndex = 0;
+                    showTestimonial(newIndex);
+                }
+            });
+
+            // Show modal after 2 seconds
+            setTimeout(function() {
+                const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }, 2000);
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    @include('Visitor.inc.footer')

@@ -31,19 +31,19 @@
         row-gap: 20px;
     }
 
-    .mainContent .leftContent>h3 {
-        font-size: 4rem !important;
+    /* .mainContent .leftContent>h3 {
+        font-size: 2rem !important;
         font-weight: 700 !important;
         margin-bottom: 0 !important;
         color: #CF202F;
-    }
+    } */
 
-    .mainContent .leftContent>p {
+    /* .mainContent .leftContent>p {
         font-size: 1.5rem !important;
         font-weight: 600 !important;
         margin-bottom: 0 !important;
         color: #727272;
-    }
+    } */
 
     .mainContent .rightContent {
         width: 50%;
@@ -105,6 +105,144 @@
             width: 80% !important;
         }
     }
+
+
+
+        .heroSec {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 10px
+        }
+
+        .mainContent {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .leftContent {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+        }
+
+        .leftContent h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #dc3545;
+            line-height: 1.2;
+        }
+
+        .leftContent p {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .feature-icon {
+            background: #dc3545;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .rightContent {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fef5f3;
+            padding: 20px;
+        }
+
+        .rightContent img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .footerSec {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .footerSec img {
+            height: 30px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footerSec img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .mainContent {
+                flex-direction: column;
+            }
+
+            .leftContent h3 {
+                font-size: 1.8rem;
+            }
+
+            .leftContent, .rightContent {
+                padding: 20px;
+            }
+
+            .footerSec {
+                gap: 15px;
+            }
+
+            .footerSec img {
+                height: 25px;
+            }
+        }
 </style>
 
 
@@ -113,30 +251,64 @@
 <section class="heroSec">
     <div class="mainContent">
         <div class="leftContent">
-            <h3>Conquer Math Anxiety
-                Get Expert Solutions, Videos & PDFs
-                for Every Exam Question.</h3>
+            <h3>Conquer Math Anxiety<br>Get Expert Solutions, Videos & PDFs</h3>
             <p>
-                Feeling overwhelmed by math problems on global exams like SAT, ACT, EST, AP Calculus, and more? You're not alone!
-But what if you could find solutions, explanations, and different approaches to any math question from any of these exams?
-Here's where we come in! Our comprehensive math solution library empowers you to:
-<br>
-<b>•Master Any Math Topic:</b> Search by exam and topic to access detailed answers, step-by-step explanations, and clear visuals.<br />
-<b>•Multiple Learning Styles:</b> Choose from text explanations, explainer videos, and downloadable PDFs to suit your learning style.<br />
-<b>•Unlock Different Approaches:</b> See various problem-solving methods to enhance your understanding and strengthen your critical thinking skills.<br />
-<b>•Boost Confidence:</b> Tackle exam questions with newfound clarity and eliminate the fear of the unknown.<br />
-Stop wasting time searching for scattered resources! Our one-stop solution library provides everything you need to conquer math on any global exam.
+                Feeling overwhelmed by math problems on global exams like SAT, ACT, EST, AP Calculus, and more? You're
+                not alone! But what if you could find solutions, explanations, and different approaches to any math
+                question?
             </p>
-        </div>
-        <div class="rightContent">
-            <img src="{{ asset('images/HeroBackground/Questions Hero.png') }}" alt="Courses">
+
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <b>Master Any Math Topic:</b> Search by exam and topic for detailed answers and clear visuals.
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <b>Multiple Learning Styles:</b> Choose from text, videos, and PDFs to suit your style.
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <b>Unlock Different Approaches:</b> See various problem-solving methods.
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <b>Boost Confidence:</b> Tackle exam questions with newfound clarity.
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                Stop wasting time! Our one-stop solution provides everything you need to conquer math on any global
+                exam.
+            </p>
+
+            <a href="#" class="cta-button">Get Started Now</a>
         </div>
     </div>
     <div class="footerSec">
-        <img src="{{ asset('images/HeroBackground/sat.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/collegeBoard.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/act.png') }}" alt="photo">
-        <img src="{{ asset('images/HeroBackground/est.png') }}" alt="photo">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=SAT" alt="SAT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=College+Board" alt="College Board">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=ACT" alt="ACT">
+        <img src="https://placehold.co/100x40/cccccc/000000/png?text=EST" alt="EST">
     </div>
 </section>
 
@@ -149,7 +321,8 @@ Stop wasting time searching for scattered resources! Our one-stop solution libra
 </div>
 
 <form action="{{ route('v_filter_question') }}" method="GET">
-    <div  style="display: flex !important;align-items: center;width: 100% !important;justify-content: center; flex-wrap: wrap !important;gap: 25px !important;">
+    <div
+        style="display: flex !important;align-items: center;width: 100% !important;justify-content: center; flex-wrap: wrap !important;gap: 25px !important;">
         <select
             style="width: 30%;font-size: 1.1rem; border: none;border-bottom: 3px solid red;border-radius: 0;color: #B8B8B8;"
             class="form-control sel_category mx-2" name="category_id">

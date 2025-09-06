@@ -1,4 +1,4 @@
-
+{{--
 @include('Visitor.inc.header')
 @include('Visitor.inc.menu')
 
@@ -303,8 +303,8 @@
 	</div>
 
 	<!-- Main Header Nav For Mobile -->
-		@include('Visitor.inc.mobile_menu') 
-		
+		@include('Visitor.inc.mobile_menu')
+
 	<!-- Inner Page Breadcrumb -->
 	<section class="inner_page_breadcrumb">
 		<div class="container">
@@ -707,4 +707,470 @@
 
 <a class="scrollToHome" href="#"><i class="flaticon-up-arrow-1"></i></a>
 </div>
+@include('Visitor.inc.footer') --}}
+
+
+@include('Visitor.inc.header')
+@include('Visitor.inc.menu')
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    /* Header Styles */
+    .page-header {
+        background: linear-gradient(to right, rgba(220, 53, 69, 0.9), rgba(220, 53, 69, 0.8)), url('https://images.unsplash.com/photo-1522881193457-37ae97c905bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
+        color: var(--white);
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .breadcrumb {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-top: 15px;
+    }
+
+    .breadcrumb-item {
+        margin: 0 10px;
+        position: relative;
+    }
+
+    .breadcrumb-item:not(:last-child):after {
+        content: "/";
+        position: absolute;
+        right: -15px;
+        color: var(--white);
+    }
+
+    .breadcrumb-item a {
+        color: var(--white);
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+    .breadcrumb-item a:hover {
+        opacity: 0.8;
+    }
+
+    /* Section Styles */
+    section {
+        padding: 80px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title h2:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background-color: var(--primary);
+    }
+
+    .section-title p {
+        color: var(--gray);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* About Content */
+    .about-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 60px;
+    }
+
+    .about-text {
+        flex: 1;
+        min-width: 300px;
+        padding: 20px;
+    }
+
+    .about-image {
+        flex: 1;
+        min-width: 300px;
+        padding: 20px;
+    }
+
+    .about-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Stats Section */
+    .stats {
+        background-color: var(--primary-light);
+        border-radius: 10px;
+        padding: 40px;
+        margin: 40px 0;
+    }
+
+    .stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        text-align: center;
+    }
+
+    .stat-item {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+    }
+
+    .stat-item h3 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+
+    /* Team Section */
+    .team-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .team-member {
+        background-color: var(--white);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        max-width: 280px;
+    }
+
+    .team-member:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-img {
+        width: 100%;
+        height: 250px;
+        object-fit: contain;
+    }
+
+    .team-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .team-info h4 {
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+
+    .team-info p {
+        color: var(--gray);
+        margin-bottom: 15px;
+    }
+
+    .team-stats {
+        display: flex;
+        justify-content: space-around;
+        border-top: 1px solid var(--light-gray);
+        padding: 15px 0 0;
+        margin-top: 15px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(to right, rgba(220, 53, 69, 0.9), rgba(220, 53, 69, 0.8)), url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
+        color: var(--white);
+        text-align: center;
+        padding: 100px 0;
+    }
+
+    .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .btn-icon {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--white);
+        color: var(--primary);
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+    }
+
+    .btn-icon:hover {
+        background-color: transparent;
+        border-color: var(--white);
+        color: var(--white);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .about-content {
+            flex-direction: column;
+        }
+
+        .stats-container {
+            flex-direction: column;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--primary);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s;
+        z-index: 1000;
+    }
+
+    .back-to-top:hover {
+        background-color: var(--dark);
+        transform: translateY(-5px);
+    }
+</style>
+
+<body>
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>About Us</h1>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">About Us</li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- About Content Section -->
+    <section>
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Values</h2>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium laudantium, totam rem
+                        aperiam, eaque ipsa quae ab illo inventore veritatis, et quasi architecto beatae vitae dicta
+                        sunt explicabo.</p>
+                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                        magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
+                        ipsum quia dolor sit amet.</p>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats">
+                <h3 class="section-title">Our Story</h3>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <h3>88,000</h3>
+                        <p>FOREIGN FOLLOWERS</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>96</h3>
+                        <p>CERTIFIED TEACHERS</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>4,789</h3>
+                        <p>STUDENTS ENROLLED</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>489</h3>
+                        <p>COMPLETE COURSES</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Who We Are / What We Do -->
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Who We Are</h2>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium laudantium, totam rem
+                        aperiam, eaque ipsa quae ab illo inventore veritatis, et quasi architecto beatae vitae dicta
+                        sunt explicabo.</p>
+                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                        magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                </div>
+                <div class="about-text">
+                    <h2>What We Do</h2>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium laudantium, totam rem
+                        aperiam, eaque ipsa quae ab illo inventore veritatis, et quasi architecto beatae vitae dicta
+                        sunt explicabo.</p>
+                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                        magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Enhance Your Skills With Best Online Courses</h2>
+                <p>Join thousands of students learning with our platform. Start your educational journey today.</p>
+                <a href="#" class="btn-icon">Get Started Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section style="background-color: var(--primary-light);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Instructors</h2>
+                <p>Meet our team of dedicated and experienced educators</p>
+            </div>
+
+            <div class="team-container">
+                <!-- Team Member 1 -->
+                <div class="team-member">
+                    <img src="/Mathshouse/public/assets/media/logos/mathshouse_white_logo.png"
+                        alt="Andrew Williams" class="team-img">
+                    <div class="team-info">
+                        <h4>Andrew Williams</h4>
+                        <p>Web Design, Photoshop</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(6)</span>
+                        </div>
+                        <div class="team-stats">
+                            <div>56,178 students</div>
+                            <div>22 courses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-member">
+                    <img src="/Mathshouse/public/assets/media/logos/mathshouse_white_logo.png"
+                        alt="Anna Richard" class="team-img">
+                    <div class="team-info">
+                        <h4>Anna Richard</h4>
+                        <p>CSS, HTML</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(6)</span>
+                        </div>
+                        <div class="team-stats">
+                            <div>56,178 students</div>
+                            <div>22 courses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-member">
+                    <img src="/Mathshouse/public/assets/media/logos/mathshouse_white_logo.png"
+                        alt="Krisztina Szer" class="team-img">
+                    <div class="team-info">
+                        <h4>Krisztina Szer</h4>
+                        <p>User Experience Design</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(6)</span>
+                        </div>
+                        <div class="team-stats">
+                            <div>56,178 students</div>
+                            <div>22 courses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="team-member">
+                    <img src="/Mathshouse/public/assets/media/logos/mathshouse_white_logo.png"
+                        alt="Kristen Pala" class="team-img">
+                    <div class="team-info">
+                        <h4>Kristen Pala</h4>
+                        <p>Web Design, PSD to HTML</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(6)</span>
+                        </div>
+                        <div class="team-stats">
+                            <div>56,178 students</div>
+                            <div>22 courses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+</body>
+
 @include('Visitor.inc.footer')
