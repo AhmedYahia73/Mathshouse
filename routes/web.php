@@ -319,6 +319,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         // Students
         Route::post('/Add_Wallet', 'ad_add_wallet')->middleware('can:Wallet')->name('ad_add_wallet');
         Route::get('/Student', 'student')->name('student');
+        Route::get('/opent_student_account/{id}', 'opent_student_account')->name('opent_student_account');
         Route::post('/Student_Filter', 'student_filter')->name('student_filter');
         Route::get('/Student/Info', 'stu_info')->name('stu_info');
         Route::get('/Student/Details/{id}', 'stu_details')->name('stu_details');

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
+use App\Models\LoginUser;
 use App\Models\User;
 use App\Models\Admin_role;
 use App\Models\Marketing;
@@ -23,6 +25,7 @@ use App\Models\SmallPackage;
 use App\Models\Session;
 use App\Models\Lesson;
 
+use Illuminate\Support\Facades\Cookie;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -166,6 +169,24 @@ class UserController extends Controller
         $courses = $user->course_live_item($course_id)->get();
 
         return view('Admin.Users.StudentDetails.Live', compact('courses', 'user', 'courses_names'));
+    }
+
+    public function opent_student_account(Request $request, $id){
+        Auth::logout();
+        $user = User::where('id',$id)
+        ->where('position', 'student')
+        ->first();
+        if(!$user){
+            return redirect()->back();
+        }
+		Auth::loginUsingId($user->id);
+        $value = Cookie::get('device_id');
+        LoginUser::create([
+                'type' => 'web',
+                'user_id'=> $user->id,
+                'ip' => $value,
+        ]);
+        return redirect()->route('stu_dashboard');
     }
 
     public function live_attend( $users_id, $lesson_id, Request $req ){  

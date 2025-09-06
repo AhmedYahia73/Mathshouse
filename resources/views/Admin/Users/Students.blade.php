@@ -118,6 +118,7 @@
                 <tr>
                     <th scope="row">Name</th>
                     <th scope="row">Details</th>
+                    <th scope="row">Account</th>
                     <th scope="row">Phone</th>
                     <th scope="row">Email</th>
                     <th scope="row">Parent Phone</th>
@@ -135,6 +136,14 @@
                             <p>
 
                                 {{ $item->f_name . ' ' . $item->l_name . ' (' . $item->nick_name . ')' }}
+                            </p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>
+
+                                <a class="btn btn-success btn-sm" href="{{ route('opent_student_account', ['id' => $item->id]) }}">
+                                    Open Account
+                                </a>
                             </p>
                         </td>
                         <td style="width: 8%;">
