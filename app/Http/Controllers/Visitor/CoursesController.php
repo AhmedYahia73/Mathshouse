@@ -650,6 +650,7 @@ use PaymentPaymob;
                     ['payment_request_id' => $p_request->id,
                     'chapter_id' => $chapters[$i]->id,
                     'duration' => $duration,
+                    'date' => now(),
                     'state' => 1]);
             }
             if ( !empty(Cookie::get('affilate')) ) {
