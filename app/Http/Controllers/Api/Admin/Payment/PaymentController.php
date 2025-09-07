@@ -89,6 +89,7 @@ class PaymentController extends Controller
         ->where('id', $id)
         ->update([ 
             'state' => 'Approve',
+            'date' => now(),
         ]);
 
         $aff_req = $this->affilate_request

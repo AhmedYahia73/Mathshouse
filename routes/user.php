@@ -35,13 +35,13 @@ use App\Http\Controllers\Api\User\Notification\StudentNotificationController;
 Route::post('login', [UserLoginController::class, 'login']);
 Route::post('logout', [UserLoginController::class, 'logout'])->middleware(['auth:sanctum']);
 Route::delete('delete', [UserLoginController::class, 'delete'])->middleware(['auth:sanctum']);
-Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
 Route::get('sign_up_lists', [UserLoginController::class, 'sign_up_lists']);
 Route::post('sign_up', [UserLoginController::class, 'sign_up']);
 
 // /user/forget_password
 // /user/confirm_code
 // /user/update_password
+Route::post('/forget_password', [UserLoginController::class, 'forget_password']);
 Route::post('/confirm_code', [UserLoginController::class, 'confirm_code']);
 Route::post('/update_password', [UserLoginController::class, 'update_password']);
 

@@ -303,7 +303,8 @@ class CourseController extends Controller
                     'payment_request_id' => $p_request->id,
                     'chapter_id' => $item->id,
                     'duration' => $duration,
-                    'state' => 1
+                    'date' => now(),
+                    'state' => 1,
                 ]);
             }
         }
@@ -422,6 +423,7 @@ class CourseController extends Controller
                     ['payment_request_id' => $p_request->id,
                     'chapter_id' => $chapters[$i]->id,
                     'duration' => $$chapters[$i]->duration,
+                    'date' => now(),
                     'state' => 1]);
             } 
         }
