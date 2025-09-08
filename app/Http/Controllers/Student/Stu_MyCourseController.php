@@ -43,7 +43,7 @@ class Stu_MyCourseController extends Controller
         $courses = [];
         foreach ($payment_request as $item) {
             foreach ($item->order as $value) {
-                if($value->updated_at  ){
+                if($value->updated_at <= Carbon::parse($value->date)->addDays($value->duration)){
                     $courses[$value->course->course_name] = $value->course;
                 }
             }
