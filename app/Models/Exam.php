@@ -57,6 +57,7 @@ class Exam extends Model
 
     public function exam_history(){
         return $this->hasMany(ExamHistory::class, 'exam_id')
+        ->where('user_id', auth()->user()->id)
         ->orderByDesc('score');
     }
 
