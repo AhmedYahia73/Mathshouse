@@ -80,7 +80,7 @@ class ScoreSheetController extends Controller
 
         $score_sheet = Exam::
         with('exam_history')
-        ->where('course_id', $reqest->course_id)
+        ->where('course_id', $request->course_id)
         ->get()
         ->map(function($item){
             return [
