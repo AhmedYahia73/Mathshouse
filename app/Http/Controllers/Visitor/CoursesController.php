@@ -610,6 +610,7 @@ use PaymentPaymob;
                 return redirect()->back();
             }
             $arr['state'] = 'Approve'; 
+            $arr['date'] = now(); 
         }
         elseif ( $img_state ) { 
             session()->flash('faild', 'You Must Enter Receipt');
@@ -781,6 +782,7 @@ use PaymentPaymob;
             }
            
             $arr['state'] = 'Approve'; 
+            $arr['date'] = now(); 
             
         }elseif( $req->payment_method_id == 'paymob'){
             return "Welcom To Paymob";
