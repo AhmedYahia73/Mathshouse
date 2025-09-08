@@ -55,4 +55,9 @@ class Exam extends Model
         return $this->hasMany(ExamSection::class, 'exam_id');
     }
 
+    public function exam_history(){
+        return $this->hasMany(ExamHistory::class, 'exam_id')
+        ->orderByDesc('score');
+    }
+
 }

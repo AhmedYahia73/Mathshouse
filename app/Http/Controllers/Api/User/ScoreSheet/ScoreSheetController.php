@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Course;
 use App\Models\Chapter;
 use App\Models\Session;
+use App\Models\Exam;
 use App\Models\SessionStudent;
 
 class ScoreSheetController extends Controller
@@ -64,6 +65,35 @@ class ScoreSheetController extends Controller
 
         return response()->json([
             'data' => $data
+        ]);
+    }
+
+    public function scoreSheet_Exam(Request $request){
+        $validator = Validator::make($request->all(), [
+            'course_id' => 'required|exists:courses,id', 
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        $score_sheet = Exam::
+        with('exam_history')
+        ->where('course_id', $reqest->course_id)
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item?->id,
+                'score' => count($item?->exam_history) > 0 ? $item?->exam_history[0]?->score : [],
+                'time' => $item?->exam_history?->time,
+                'pass_score' => $item?->pass_score,
+                'number_of_trial' => count($item?->exam_history),
+            ];
+        });
+
+        return response()->json([
+            'score_sheet' => $score_sheet
         ]);
     }
 }

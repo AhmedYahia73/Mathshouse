@@ -81,7 +81,8 @@ Route::middleware(['auth:sanctum', 'auth.MobileUser'])->group(function(){
     Route::controller(ScoreSheetController::class)->prefix('score_sheet')
     ->group(function(){
         Route::get('/lists', 'lists'); 
-        Route::get('/', 'scoreSheet'); 
+        Route::get('/', 'scoreSheet');
+        Route::post('/Exam', 'scoreSheet_Exam');
     });
 
     Route::controller(QuestionHistory::class)->prefix('education/question')
