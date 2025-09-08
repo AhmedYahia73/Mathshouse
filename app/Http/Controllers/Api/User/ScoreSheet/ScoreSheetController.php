@@ -86,7 +86,7 @@ class ScoreSheetController extends Controller
             return [
                 'id' => $item?->id,
                 'score' => count($item?->exam_history) > 0 ? $item?->exam_history[0]?->score : [],
-                'time' => $item?->exam_history?->time,
+                'time' => $item?->exam_history[0]?->time,
                 'pass_score' => $item?->pass_score,
                 'number_of_trial' => count($item?->exam_history),
             ];
