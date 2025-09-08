@@ -41,6 +41,9 @@ class OtpController extends Controller
                 'faild' => 'Email or Phone is Wrong'
             ]);
         }
+        return response()->json([
+            'success' => 'Check your email'
+        ]);
     }
     
 

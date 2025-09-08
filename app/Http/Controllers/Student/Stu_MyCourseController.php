@@ -43,7 +43,9 @@ class Stu_MyCourseController extends Controller
         $courses = [];
         foreach ($payment_request as $item) {
             foreach ($item->order as $value) {
-                $courses[$value->course->course_name] = $value->course;
+                if($value->updated_at  ){
+                    $courses[$value->course->course_name] = $value->course;
+                }
             }
         }
         return view('Student.MyCourses.MyCourses', compact('courses'));
