@@ -17,12 +17,14 @@ use App\Http\Controllers\Api\Parent\Payment\WalletController;
 use App\Http\Controllers\Api\Parent\Courses\CourseController;
 use App\Http\Controllers\Api\Parent\Notification\ParentNotificationController;
 use App\Http\Controllers\Api\Parent\Home\HomeController;
+use App\Http\Controllers\Api\Parent\OTP\OtpController;
 
 Route::post('sign_up', [ParentLoginController::class, 'sign_up']); 
 Route::post('login', [ParentLoginController::class, 'login']); 
-Route::post('/forget_password', [ParentLoginController::class, 'forget_password']);
-Route::post('/confirm_code', [ParentLoginController::class, 'confirm_code']);
-Route::post('/update_password', [ParentLoginController::class, 'update_password']);
+
+Route::post('/forget_password', [OtpController::class, 'forget_password']);
+Route::post('/confirm_code', [OtpController::class, 'confirm_code']);
+Route::post('/update_password', [OtpController::class, 'update_password']);
  
 Route::middleware(['auth:sanctum', 'auth.MobileParent'])->group(function(){
     Route::controller(AddStudentController::class)
