@@ -24,7 +24,7 @@ class MyCoursesController extends Controller
         $payment_request = PaymentRequest::where('user_id', auth()->id())
         ->where('state', 'Approve')
         ->whereHas('chapters_order', function ($q) {
-            $q->whereRaw('NOW() <= DATE_ADD(payment_orders.date, INTERVAL payment_orders.duration DAY)');
+            $q->whereRaw('NOW() <= DATE_ADD(payment_orders.updated_at, INTERVAL payment_orders.duration DAY)');
         })
         ->with(['order' => function ($query) {
             $query->with('course', 'lessons');
