@@ -207,7 +207,7 @@ class MyCoursesController extends Controller
         }
 
         return response()->json([
-            'quiz_history_id' => $stu_qiuz->id,
+            'quiz_history_id' => $student_quize_id,
             'score' => $score,
             'time' => $request->timer,
             'right_questions' => $right_questions,
