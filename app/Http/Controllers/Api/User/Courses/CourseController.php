@@ -119,6 +119,7 @@ class CourseController extends Controller
         return response()->json([
             'categories' => $categories,
             'payment_methods' => $payment_methods,
+            'wallet' => $wallet
         ]);
     }
 
