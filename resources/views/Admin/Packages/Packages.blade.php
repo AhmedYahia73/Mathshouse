@@ -32,6 +32,76 @@
   {{$message}}
   </div>
 @enderror
+
+    <!--begin::Modal header-->
+    <form action="{{ route('admin_packages') }}" method="GET">
+        <div class="py-5 d-flex">
+            <select name="module" class="form-control mx-2">
+                <option disabled selected>
+                    Select Module ...
+                </option>
+                <option {{ @$data['module'] == 'Exam' ? 'selected' : '' }} value="Exam">Exam</option>
+                <option {{ @$data['module'] == 'Question' ? 'selected' : '' }} value="Question">Question</option>
+                <option {{ @$data['module'] == 'Live' ? 'selected' : '' }} value="Live">Live</option>
+            </select>
+
+            <select name="category_id" class="form-control sel_category mx-2">
+                <option disabled selected>
+                    Select Category ...
+                </option>
+                @foreach ($categories as $category)
+                <option {{ @$data['category_id']==$category->id ? 'selected' : '' }} value="{{ $category->id }}">
+                    {{ $category->cate_name }}
+                </option>
+                @endforeach
+            </select>
+
+            <select name="course_id" class="form-control sel_course_items mx-2">
+                <option disabled selected>
+                    Select Course ...
+                </option>
+                @foreach ($courses as $course)
+                @if (@$data['course_id'] == $course->id)
+                <option value="{{ $course->id }}" selected>
+                    {{ $course->course_name }}
+                </option>
+                @elseif(@$data['category_id'] == $course->category_id)
+                <option value="{{ $course->id }}">
+                    {{ $course->course_name }}
+                </option>
+                @endif
+                @endforeach
+            </select>
+
+            <input type="hidden" value="{{ $courses }}" class="course" />
+            <script>
+                let sel_category = document.querySelector('.sel_category');
+                let sel_course_items = document.querySelector('.sel_course_items');
+                let course = document.querySelector('.course');
+                course = course.value;
+                course = JSON.parse(course);
+
+                sel_category.addEventListener('change', () => {
+                    sel_course_items.innerHTML = `
+                <option disabled selected>
+                    Select Course ...
+                </option>`;
+                    course.forEach(element => {
+                        if (sel_category.value == element.category_id) {
+                            sel_course_items.innerHTML += `
+                  <option value="${element.id}">
+                      ${element.course_name}
+                  </option>`;
+                        }
+                    });
+                })
+            </script>
+            <button class="btn btn-primary mx-2">
+                Submit
+            </button>
+        </div>
+    </form>
+    
 <button type="button" class="btn btn-primary btn-edit my-3" data-bs-toggle="modal" data-bs-target="#addModalCenter">
   Add New Package
 </button>

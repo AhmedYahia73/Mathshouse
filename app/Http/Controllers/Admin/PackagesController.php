@@ -14,13 +14,30 @@ use App\Models\Category;
 class PackagesController extends Controller
 {
     
-    public function index(){
+    public function index(Request $request){
         $courses = Course::all();
         $categories = Category::all();
         $package = Package::
-        orderByDesc('id')
+        orderByDesc('id');
+        if($request->module){
+            $package = $package
+            ->where('module', $request->module);
+        }
+        if($request->category_id){
+            $package = $package
+            ->whereHas('course', function($query) use($request){
+                $query->where('category_id', $request->category_id);
+            });
+        }
+        if($request->course_id){
+            $package = $package
+            ->where('course_id', $request->course_id);
+        }
+        $package = $package
         ->simplePaginate(10);
-        return view('Admin.Packages.Packages', compact('package', 'courses', 'categories'));
+        $data = $request->all();
+
+        return view('Admin.Packages.Packages', compact('package', 'courses', 'categories', 'data'));
     }
 
     public function del_package( $id ){
