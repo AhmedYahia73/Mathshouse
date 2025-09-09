@@ -31,6 +31,8 @@ use App\Http\Controllers\DomPdfController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Student\payment\PaymentPaymobController;
 
+use App\Http\Controllers\Api\Visitor\CoursesController as V_CoursesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,6 +49,11 @@ Route::controller(TeacherReportController::class)
     Route::get('/', 'data')->name('teacher_report');
     Route::get('/Filter', 'filter')->name('teacher_report_filter');
 });
+Route::controller(V_CoursesController::class)
+->prefix('courses')->group(function(){
+    Route::get('/', 'lists'); 
+});
+
 Route::post('/filter_exams', [ScoreSheetExamController::class, 'filter_exams'])->name('filter_exams');
 
 Route::post('/question_type', [QuestionController::class, 'question_type'])->name('question_type');
