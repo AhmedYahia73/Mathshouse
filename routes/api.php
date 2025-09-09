@@ -50,7 +50,7 @@ Route::controller(TeacherReportController::class)
     Route::get('/Filter', 'filter')->name('teacher_report_filter');
 });
 Route::controller(V_CoursesController::class)
-->prefix('courses')->group(function(){
+->prefix('courses_lists')->group(function(){
     Route::get('/', 'lists'); 
 });
 
