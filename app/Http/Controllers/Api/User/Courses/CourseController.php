@@ -111,6 +111,10 @@ class CourseController extends Controller
         $payment_methods = $this->payment_method
         ->where('statue', 1)
         ->get();
+        $wallet = Wallet::
+        where('student_id', $request->user()->id)
+        ->where('state', 'Approve')
+        ->sum('wallet');
 
         return response()->json([
             'categories' => $categories,
