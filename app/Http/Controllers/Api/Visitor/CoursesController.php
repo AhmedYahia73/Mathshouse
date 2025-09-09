@@ -9,8 +9,7 @@ use App\Models\Category;
 use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\quizze;
-use App\Models\IdeaLesson;
-use App\Models\PaymentMethod;
+use App\Models\IdeaLesson; 
 use App\Models\Course;
 
 class CoursesController extends Controller
@@ -18,7 +17,6 @@ class CoursesController extends Controller
     public function __construct(private Category $categories,
     private Lesson $lessons, private Question $questions,
     private quizze $quiz, private IdeaLesson $idea,
-    private PaymentMethod $payment_method,
     private Course $course){}
 
     public function lists(Request $request){
@@ -62,8 +60,7 @@ class CoursesController extends Controller
                         'questions_count' => $questions,
                         'quizs_count' => $quiz,
                         'pdfs_count' => $ideas,
-                        'price' => $element?->prices?->min('price'),
-                        'all_prices' => $element?->prices,
+                        'price' => $element?->prices?->min('price'), 
                         'course_name' => $element->course_name,
                         'course_description' => $element->course_des,
                         'course_image' => $element->image_link,
@@ -71,8 +68,7 @@ class CoursesController extends Controller
                         'chapters' => $element->chapter->map(function($item2){
                             return [
                                 'id' => $item2->id,
-                                'chapter_price' => $item2?->price?->min('price'),
-                                'chapter_all_prices' => $item2?->price,
+                                'chapter_price' => $item2?->price?->min('price'), 
                                 'chapter_name' => $item2->chapter_name,
                                 'lessons' => $item2->lessons
                                 ->map(function($element2){
@@ -86,14 +82,10 @@ class CoursesController extends Controller
                     ];
                 }),
             ];
-        });
-        $payment_methods = $this->payment_method
-        ->where('statue', 1)
-        ->get();
+        }); 
 
         return response()->json([
-            'categories' => $categories,
-            'payment_methods' => $payment_methods,
+            'categories' => $categories, 
         ]);
     }
 }
