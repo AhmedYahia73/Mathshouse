@@ -207,6 +207,7 @@ class MyCoursesController extends Controller
         }
 
         return response()->json([
+            'quiz_history_id' => $stu_qiuz->id,
             'score' => $score,
             'time' => $request->timer,
             'right_questions' => $right_questions,
@@ -222,5 +223,28 @@ class MyCoursesController extends Controller
             }
         }
         return false;
+    }
+
+    public function quiz_mistakes(Request $request, $id){
+        $mistakes = StudentQuizzeMistake::
+        where('student_quizze_id', $id)
+        ->with(['question' => function($query){
+            $query->with(['mcq' => function($query1){
+                $query1->select('id', 'mcq_num', 'mcq_answers', 'q_id', 'mcq_ans');
+            } , 'g_ans' => function($query1){
+                $query1->select('id', 'grid_ans', 'q_id');
+            }]);
+        }])
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id,
+                'q_image' => $item->id,
+                'question' => $item->question,
+                'ans_type' => $item->ans_type,
+                'mcq' => $item->mcq,
+                'g_ans' => $item->g_ans,
+            ];
+        });
     }
 }
