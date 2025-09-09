@@ -246,5 +246,9 @@ class MyCoursesController extends Controller
                 'g_ans' => $item->g_ans,
             ];
         });
+
+        return response()->json([
+            'mistakes' => $mistakes
+        ]);
     }
 }
