@@ -238,12 +238,12 @@ class MyCoursesController extends Controller
         ->get()
         ->map(function($item){
             return [
-                'id' => $item->id,
-                'q_image' => $item->id,
-                'question' => $item->question,
-                'ans_type' => $item->ans_type,
-                'mcq' => $item->mcq,
-                'g_ans' => $item->g_ans,
+                'id' => $item->question->id,
+                'q_image' => $item->question->id,
+                'question' => $item->question->question,
+                'ans_type' => $item->question->ans_type,
+                'mcq' => $item->question->mcq,
+                'g_ans' => $item->question->g_ans,
             ];
         });
 
