@@ -33,6 +33,8 @@ use App\Http\Controllers\Student\payment\PaymentPaymobController;
 
 use App\Http\Controllers\Api\Visitor\CoursesController as V_CoursesController;
 
+use App\Http\Controllers\Api\Visitor\ExamController as V_Api_ExamController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -52,6 +54,10 @@ Route::controller(TeacherReportController::class)
 Route::controller(V_CoursesController::class)
 ->prefix('courses_lists')->group(function(){
     Route::get('/', 'lists'); 
+});
+Route::controller(V_Api_ExamController::class)
+->prefix('exam_lists')->group(function(){
+    Route::get('/', 'exam_lists'); 
 });
 
 Route::post('/filter_exams', [ScoreSheetExamController::class, 'filter_exams'])->name('filter_exams');
