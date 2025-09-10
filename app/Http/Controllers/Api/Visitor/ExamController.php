@@ -39,6 +39,13 @@ class ExamController extends Controller
             'code_id' => 'exists:exam_codes,id',
             'year' => 'numeric',
             'month' => 'numeric',
+        ], [
+            'category_id.required' => 'category is required',
+            'category_id.exists'   => 'category not exist',
+            'course_id.exists'     => 'category not exist',
+            'code_id.exists'       => 'course not exist',
+            'year.numeric'         => 'year must be numeric',
+            'month.numeric'        => 'month must be number',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -97,6 +104,15 @@ class ExamController extends Controller
             'month' => 'numeric',
             'section' => 'numeric',
             'q_num' => 'numeric',
+        ], [
+            'category_id.required' => 'category is required',
+            'category_id.exists'   => 'category not exist',
+            'course_id.exists'     => 'category not exist',
+            'code_id.exists'       => 'course not exist',
+            'year.numeric'         => 'year must be numeric',
+            'month.numeric'        => 'month must be number',
+            'section.numeric'      => 'section must be number',
+            'q_num.numeric'        => 'Question Number must be number',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
