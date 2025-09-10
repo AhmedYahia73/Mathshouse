@@ -57,7 +57,8 @@ Route::controller(V_CoursesController::class)
 });
 Route::controller(V_Api_ExamController::class)
 ->prefix('exam_lists')->group(function(){
-    Route::get('/', 'exam_lists'); 
+    Route::get('/', 'exam_lists');
+    Route::post('/filter_exam', 'filter_exam');
 });
 
 Route::post('/filter_exams', [ScoreSheetExamController::class, 'filter_exams'])->name('filter_exams');

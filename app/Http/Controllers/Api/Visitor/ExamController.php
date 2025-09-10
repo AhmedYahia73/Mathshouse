@@ -18,7 +18,7 @@ class ExamController extends Controller
         select('id', 'cate_name')
         ->get();
         $courses = Course::
-        select('id', 'course_name')
+        select('id', 'course_name', 'category_id')
         ->get();
         $exam_codes = ExamCodes::
         select('id', 'exam_code')
@@ -34,8 +34,10 @@ class ExamController extends Controller
     public function filter_exam(Request $request){
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
-            'course_id' => 'required|exists:courses,id',
-            'category_id' => 'required|exists:categories,id',
+            'course_id' => 'exists:courses,id',
+            'code_id' => 'exists:exam_codes,id',
+            'year' => 'numeric',
+            'month' => 'numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
