@@ -81,5 +81,9 @@ class ExamController extends Controller
                 'course' => $item?->course?->course_name,
             ];
         });
+
+        return response()->json([
+            'exams' => $exams
+        ]);
     }
 }
