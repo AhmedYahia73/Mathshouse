@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\ExamCodes;
+use App\Models\Question;
 use App\Models\Exam;
 
 class ExamController extends Controller
@@ -84,6 +85,65 @@ class ExamController extends Controller
 
         return response()->json([
             'exams' => $exams
+        ]);
+    }
+
+    public function filter_question(Request $request){
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required|exists:categories,id',
+            'course_id' => 'exists:courses,id',
+            'code_id' => 'exists:exam_codes,id',
+            'year' => 'numeric',
+            'month' => 'numeric',
+            'section' => 'numeric',
+            'q_num' => 'numeric',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+        $questions = Question::
+        with('code');
+        if($request->category_id){
+            $questions = $questions
+            ->whereHas('lessons.chapter.course', function($query) use($request){
+                $query->where('courses.category_id', $request->category_id);
+            });
+        }
+        if($request->course_id){
+            $questions = $questions
+            ->whereHas('lessons.chapter', function($query) use($request){
+                $query->where('chapters.course_id', $request->category_id);
+            });
+        }
+        if($request->year){
+            $questions = $questions
+            ->where('year', $request->year);
+
+        }
+        if($request->month){
+            $questions = $questions
+            ->where('month', $request->month);
+        }
+        if($request->code_id){
+            $questions = $questions
+            ->where('q_code', $request->code_id);
+        }
+        $questions = $questions
+        ->get()
+        ->map(function($item){
+            return [
+                'id' => $item->id, 
+                'year' => $item->year,
+                'month' => $item->month,
+                'code' => $item?->code?->exam_code,
+                'section' => $item->section,
+            ];
+        });
+
+        return response()->json([
+            'questions' => $questions
         ]);
     }
 }
