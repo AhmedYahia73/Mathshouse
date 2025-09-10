@@ -130,6 +130,14 @@ class ExamController extends Controller
             $questions = $questions
             ->where('q_code', $request->code_id);
         }
+        if($request->section){
+            $questions = $questions
+            ->where('section', $request->section);
+        }
+        if($request->q_num){
+            $questions = $questions
+            ->where('q_num', $request->q_num);
+        }
         $questions = $questions
         ->get()
         ->map(function($item){
