@@ -71,13 +71,13 @@ class MyCoursesController extends Controller
 
         $courses = array_values($courses);
 
-        foreach($courses as $item){
+        foreach($courses as $key => $item){
             $chapters = collect($item['chapters'])
             ->unique('id')
             ->sortBy('id')
             ->values();
 
-            $item['chapters'] = $chapters->all();
+            $courses[$key]['chapters'] = $chapters->all();
         }
 
         return response()->json([
