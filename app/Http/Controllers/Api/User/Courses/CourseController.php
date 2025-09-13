@@ -266,9 +266,6 @@ class CourseController extends Controller
 
                 return response()->json([
                     'payment_link' => $payment_link,
-                    'course' => $course,
-                    'payment_method' => $payment_methods->payment,
-                    'price' => $price,
                 ]);
             }
         }
@@ -410,9 +407,6 @@ class CourseController extends Controller
             $user=auth()->user();
             $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
             return response()->json([
-                'price' => $price,
-                'p_method' => $payment,
-                'chapters' => $chapters,
                 'payment_link' => $payment_link
             ]);
         }else{
