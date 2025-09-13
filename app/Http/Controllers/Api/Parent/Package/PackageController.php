@@ -150,8 +150,7 @@ class PackageController extends Controller
 
     public function payment_package( $id, Request $request){
         $validator = Validator::make($request->all(), [
-            'payment_method_id' => 'required|exists:payment_method,id',
-            'image' => 'required',
+            'payment_method_id' => 'required',
             'user_id' => 'required|exists:users,id'
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -186,7 +185,7 @@ class PackageController extends Controller
             ], 400); 
         }
         else{ 
-            $arr['payment_method_id'] = $request->payment_method_id;
+            $arr['payment_method_id'] = $request->payment_method_id == 'Wallet' ? null: $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
             ->send(new PaymentEmail($request->all(), $user));
         }
