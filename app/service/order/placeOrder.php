@@ -45,7 +45,7 @@ trait placeOrder
         ];
 
         try {
-            $payment = $this->payment->create($newPayment);
+            $payment = PaymentRequest::create($newPayment);
 
             if (!empty(Cookie::get('affilate'))) {
                 $commision = Commission::where('name', 'Chapter')
@@ -89,7 +89,7 @@ trait placeOrder
         $totalPaymentPrice = $price;
         if (isset($cart['Course'])) {
             $course = $cart['Course'];
-            $chapters = $this->chapter->where('course_id', $course->id)->get();
+            $chapters = Chapter::where('course_id', $course->id)->get();
             $duration = $this->courseDuration($course, $price, $service);
 
             foreach ($chapters as $chapter) {

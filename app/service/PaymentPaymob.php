@@ -60,7 +60,7 @@ trait PaymentPaymob
      //this function takes api key from env.file and get token from paymob accept
      $response = Http::post('https://accept.paymob.com/api/auth/tokens', [
      'api_key' => env('PAYMOB_API_KEY')
-     ]); // Get Token From PayMob Accept
+     ]); // Get Token From PayMob Accept 
      return $response->object()->token; // Return Token 
      }
       public function createOrder( $data,$tokens,$user,$module,$commision) {
@@ -121,7 +121,7 @@ trait PaymentPaymob
             "apartment" => '45', //example $dataa->appartment
             "email" => $user->email, //example $dataa->email
             "floor" => '7',
-            "first_name" => $user->name,
+            "first_name" => $user->nick_name,
             "street" => "NA",
             "building" => "NA",
             "phone_number" => $user->phone,
