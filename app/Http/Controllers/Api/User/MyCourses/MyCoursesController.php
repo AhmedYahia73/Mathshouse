@@ -71,6 +71,15 @@ class MyCoursesController extends Controller
 
         $courses = array_values($courses);
 
+        foreach($courses as $item){
+            $chapters = collect($item['chapters'])
+            ->unique('id')
+            ->sortBy('id')
+            ->values();
+
+            $item['chapters'] = $chapters->all();
+        }
+
         return response()->json([
             'courses' => $courses
         ]);
