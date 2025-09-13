@@ -285,7 +285,7 @@ class CourseController extends Controller
             $paymentRequest['state'] = 'Approve'; 
             
         } 
-        elseif ( $img_state ) { 
+        elseif ( $img_state && $payment_methods->payment != 'Paymob' ) { 
             return response()->json([
                 'errors' => 'You must upload receipt'
             ], 400);
@@ -392,7 +392,7 @@ class CourseController extends Controller
             }
             $paymentRequest['state'] = 'Approve'; 
         }
-        elseif ( $img_state ) {
+        elseif ( $img_state && $payment != 'Paymob' ) {
             return response()->json([
                 'errors' => 'You Must Upload Receipt'
             ], 400);
@@ -405,7 +405,7 @@ class CourseController extends Controller
         }
         if( $payment == "Paymob"){
             $user=auth()->user();
-            $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
+            $payment_link = $this->credit_mobile($user,$payment_methods,$chapters,$price,'Chapters');
             return response()->json([
                 'payment_link' => $payment_link
             ]);
