@@ -41,6 +41,9 @@ class PackageController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
+        $user = User::
+        where('id', $request->user_id)
+        ->first();
         $packages = Package::all();
         foreach ( $packages as $item ) {
             $newTime = Carbon::now()->subDays($item->duration); 
@@ -88,7 +91,7 @@ class PackageController extends Controller
         
         $courses = Course::
         select('course_name', 'id')
-        ->where('category_id', $request->user()->category_id)
+        ->where('category_id', $user->category_id)
         ->with('packages:id,name,course_id,price,number,duration,module')
         ->get();
         return response()->json([
@@ -158,7 +161,6 @@ class PackageController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-
         $package_data = Package::where('id', $id)
         ->first();
         $arr = [];
@@ -175,19 +177,29 @@ class PackageController extends Controller
             $arr['image'] = $image_path;
             $img_state = false;
         }
-        $user = User::
-        where('id', $request->user_id)
-        ->first();
         
-        if ( $img_state ) { 
+        if ( $request->payment_method_id == 'Wallet' ) {
+            $wallet = Wallet::
+            where('student_id', $request->user_id)
+            ->where('state', 'Approve')
+            ->sum('wallet'); 
+
+            if ( $wallet < $price ) {
+                return response()->json([
+                    'errors' => 'Your must recharge your wallet'
+                ], 400);
+            }
+            $arr['state'] = 'Approve'; 
+        }
+        elseif ( $img_state ) { 
             return response()->json([
                 'errors' => 'You Must Enter Receipt'
             ], 400); 
         }
         else{ 
-            $arr['payment_method_id'] = $request->payment_method_id == 'Wallet' ? null: $request->payment_method_id;
+            $arr['payment_method_id'] = $request->payment_method_id;
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($request->all(), $user));
+            ->send(new PaymentEmail($request->all(), $request->user_id ));       
         }
         $p_request = PaymentRequest::create($arr);
         $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet'; 
