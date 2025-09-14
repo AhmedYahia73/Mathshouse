@@ -89,7 +89,7 @@ class DiagnosticExamController extends Controller
     public function edit_dia_exam_item( $id, Request $req){
        $arr = $req->only('title', 'description', 'score', 'pass_score', 'course_id', 'score_id');
        $arr['state'] = isset($req->state) ? 1 : 0;
-       $arr['time'] = $req->time_h . ':' . $req->time_m . ':00';
+       $arr['time'] = $req->time;
        $dia_exam = DiagnosticExam::
        where('id', $id)
        ->update($arr);
