@@ -1,9 +1,5 @@
 @php
     $page_name = 'Diagnostic Exam';
-    // $quizze->question;
-    // "Mcq" => $item->mcq
-    // "Grid" => $item->g_ans
-    // api_quizze
 @endphp
 @section('title', 'Quizze')
 @include('success')
@@ -28,13 +24,11 @@
         justify-content: space-between;
         border-bottom: 3px solid #c9c9c9;
         padding-bottom: 10px;
-        /* background: #000; */
     }
 
     .quizzes-page .type-quizzes {
         position: relative;
         width: calc(100% / 3);
-        /* background: orange; */
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -78,7 +72,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* row-gap: 10px */
     }
 
     .quizzes-page .timer-quizzes div:nth-child(1) {
@@ -103,17 +96,10 @@
         color: #fff;
     }
 
-
     .quizzes-page .options {
         position: relative;
         width: 100%;
-        /* display: flex;
-        align-items: center;
-        justify-content: flex-end; */
-        /* margin-right: 100px; */
     }
-
-    /* style drop down */
 
     .btn-dropdown {
         position: relative;
@@ -124,13 +110,11 @@
         cursor: pointer;
         background: none;
         border: none;
-        /* margin-right: 100px; */
     }
 
     .options-list {
         position: absolute;
         top: 60%;
-        /* left: 22%; */
         width: 100%;
         margin: 0;
         padding: 1px;
@@ -164,7 +148,6 @@
         border-radius: 1.1rem;
     }
 
-    /* Main */
     main {
         width: 100%;
         min-height: 80vh;
@@ -201,16 +184,13 @@
         padding: 10px;
     }
 
-    /* Media query for small screens (e.g., max-width: 768px) */
     @media (max-width: 768px) {
         main .main-wrapper .question {
             flex-direction: column;
             row-gap: 10px;
-            /* Optional: Add spacing between stacked items */
         }
     }
 
-    /* Question Side */
     main .main-wrapper .question .question-side {
         width: 100%;
         display: flex;
@@ -218,19 +198,16 @@
         align-items: center;
     }
 
-    /* width */
     main .main-wrapper .question .question-side::-webkit-scrollbar {
         width: 8px;
         border-radius: 10px;
     }
 
-    /* Track */
     main .main-wrapper .question .question-side::-webkit-scrollbar-track {
         background: grey;
         border-radius: 10px;
     }
 
-    /* Handle */
     main .main-wrapper .question .question-side::-webkit-scrollbar-thumb {
         background: rgb(226, 226, 226);
         border-radius: 10px;
@@ -275,14 +252,11 @@
         border-radius: 10px;
     }
 
-    /* Answer Side */
     main .main-wrapper .question .answer-side {
         width: 7%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* background: #20e690; */
-        /* overflow-y: scroll */
         justify-content: center;
     }
 
@@ -291,24 +265,6 @@
             width: 100%;
         }
     }
-
-    /* width */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar {
-        width: 8px;
-        border-radius: 10px;
-    } */
-
-    /* Track */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar-track {
-        background: grey;
-        border-radius: 10px;
-    } */
-
-    /* Handle */
-    /* main .main-wrapper .question .question-side::-webkit-scrollbar-thumb {
-        background: rgb(226, 226, 226);
-        border-radius: 10px;
-    } */
 
     main .main-wrapper .question .answer-side .sup-question {
         display: flex;
@@ -336,7 +292,6 @@
         text-align: start;
     }
 
-
     main .main-wrapper .question .answer-side .answer-chosen {
         width: 100%;
         margin-top: 30px;
@@ -346,7 +301,6 @@
         align-items: center;
         padding: 5px;
     }
-
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen {
         width: 80%;
@@ -358,12 +312,10 @@
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
         border-right: 0;
-        /* border-radius: 20px; */
         column-gap: 20px;
         padding: 3px 8px;
         cursor: pointer;
         transition: border 0.3s ease-in;
-        /* box-shadow: 0px 0px 8px 3px rgb(4 4 4 / 18%); */
     }
 
     main .main-wrapper .question .answer-side .answer-chosen .chosen:hover {
@@ -394,7 +346,6 @@
         cursor: pointer;
     }
 
-
     main .main-wrapper .question .answer-side .answer-setValue {
         width: 100%;
         display: flex;
@@ -402,8 +353,6 @@
         align-items: flex-start;
         row-gap: 10px;
         margin-top: 40px;
-        /* background: red; */
-
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-setValue {
@@ -424,10 +373,7 @@
     main .main-wrapper .question .answer-side .answer-setValue .input_val {
         width: 100%;
         padding: 1px;
-        /* border-radius: 10px; */
-        /* border: 2px solid #cdcdcd; */
         border-radius: 20px;
-        /* padding-bottom: 15px; */
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .input_val>input {
@@ -440,11 +386,10 @@
     }
 
     main .main-wrapper .question .answer-side .answer-setValue .section-value {
-                width: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
         justify-content: flex-start;
         column-gap: 10px;
     }
@@ -457,185 +402,64 @@
     main .main-wrapper .question .answer-side .answer-setValue .section-value input {
         width: 100%;
         border: none;
-        /* padding: 10px; */
         background: none;
         font-size: 1rem;
         text-align: center;
         border-radius: 20px;
     }
 
-    /* Section Pagination  */
-    main .paginationn {
-        position: relative;
-        display: flex;
-        text-align: center;
-        margin-top: 15px;
-        user-select: none;
-    }
-
-    main .paginationn>li {
-        display: inline-block;
-        margin: 5px;
-        box-shadow: 0 5px 25px rgb(1 1 1 / 10%)
-    }
-
-    main .paginationn>li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 1.2em;
-        line-height: 45px;
-    }
-
-    main .paginationn>.currentt-page:hover {
-        background: #0ab1ce;
-    }
-
-    main .paginationn>li:hover a {
-        color: #fff !important;
-    }
-
-    .previouss-page,
-    .nextt-page {
-        background: #0ab1ce;
-        width: 80px;
-        border-radius: 45px;
-        cursor: pointer;
-        transition: 0.3s ease;
-    }
-
-    main .previouss-page:hover {
-        transform: translateX(-5px);
-    }
-
-    .nextt-page:hover {
-        transform: translateX(5px);
-    }
-
-    .currentt-page,
-    .dotss {
-        background: #ccc;
-        width: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    /* .activee {
-        background: #0ab1ce;
-    } */
-
-    .disablee {
-        background: #ccc;
-    }
-
-    .btn-submit-quiz {
-        position: absolute;
-        right: -45%;
-        top: 9%;
-        border: none;
-        cursor: pointer;
-        font-weight: 500;
-        padding: 5px 30px;
-        font-size: 1.2rem;
-        border-radius: 45px;
-        transition: 0.3s ease;
-        background: #0ab1ce;
-        color: #fff !important;
-        transition: all 0.3s ease;
-    }
-
-    .btn-submit-quiz:hover {
-        background: cadetblue;
-    }
-
-    /* .addSl {
-        font-size: 2rem;
-        border: none;
-        background: transparent;
-        margin-left: 100px;
-        font-weight: 500;
-        border: 2px solid #2222;
-        padding: 1px 20px;
-        border-radius: 15px;
-    } */
-
-    /* ///Section Pagination  */
-
-    .answer-setValue {
-        margin: 20px 0;
-        /* padding: 15px; */
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .section-setValue,
-    .section-value {
-        margin-bottom: 10px;
-    }
-
-    input[type="text"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    button {
-        padding: 8px 12px;
-        margin-left: 5px;
-        background: #e53e3e;
-        /* color: white;
-    border: none; */
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    #preview_value {
-        background: #f5f5f5;
-        font-weight: bold;
-    }
-
-    /* ///Section Pagination  */
-
+    /* Pagination Container */
     .pagination-container {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         margin: 2rem 0;
-        position: relative;
         width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
     }
 
+    /* Pagination List */
     .pagination {
         display: flex;
+        flex-wrap: nowrap;
         list-style: none;
-        padding: 0;
-        margin: 0 auto;
+        padding: 5px 10px;
+        margin: 0;
         align-items: center;
         background: #fff;
         border-radius: 50px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        padding: 5px;
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: center;
     }
 
+    /* Page Items */
     .page-item {
-        margin: 0 3px;
+        margin: 0 0.3rem;
         text-align: center;
     }
 
+    /* Page Links */
     .page-link {
         display: flex !important;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: clamp(36px, 8vw, 40px);
+        height: clamp(36px, 8vw, 40px);
         border-radius: 50%;
         color: #4a5568;
         text-decoration: none;
         font-weight: 500;
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
         transition: all 0.3s ease;
         border: 1px solid transparent;
         padding: 0 !important;
     }
 
+    /* Active Page */
     .page-item.activee .page-link {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
@@ -644,49 +468,119 @@
         box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
     }
 
+    /* Hover Effect */
     .page-item:not(.activee):not(.disabled) .page-link:hover {
         background: #f7fafc;
         border-color: #e2e8f0;
     }
 
+    /* Disabled Page */
     .page-item.disabled .page-link {
         color: #cbd5e0;
         pointer-events: none;
     }
 
-    .btn-submit-quiz {
-        position: absolute;
-        right: 20px;
-        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
+    /* Previous and Next Buttons */
+    .previous-page .page-link,
+    .next-page .page-link {
+        width: clamp(60px, 15vw, 80px);
+        border-radius: 45px;
+        background: #0ab1ce;
+        transition: transform 0.3s ease;
     }
-    
-    .enterBtn{
+
+    .previous-page .page-link:hover {
+        transform: translateX(-5px);
+    }
+
+    .next-page .page-link:hover {
+        transform: translateX(5px);
+    }
+
+    /* Submit Button */
+    .btn-submit-quiz {
         background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         color: white;
         border: none;
-        padding: 10px 20px;
+        padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 24px);
         border-radius: 50px;
         font-weight: 600;
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
+        margin-top: 1rem;
+        min-width: clamp(140px, 40vw, 180px);
+        text-align: center;
     }
 
     .btn-submit-quiz:hover {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(245, 101, 101, 0.4);
     }
 
     .btn-submit-quiz.d-none {
         display: none;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+        .pagination {
+            max-width: 90vw;
+            justify-content: flex-start;
+        }
+
+        .page-link {
+            width: clamp(32px, 10vw, 36px);
+            height: clamp(32px, 10vw, 36px);
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+        }
+
+        .previous-page .page-link,
+        .next-page .page-link {
+            width: clamp(50px, 12vw, 60px);
+        }
+
+        .btn-submit-quiz {
+            min-width: clamp(140px, 40vw, 180px);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pagination {
+            max-width: 85vw;
+        }
+
+        .page-link {
+            width: clamp(28px, 9vw, 32px);
+            height: clamp(28px, 9vw, 32px);
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+        }
+
+        .previous-page .page-link,
+        .next-page .page-link {
+            width: clamp(45px, 11vw, 50px);
+        }
+
+        .btn-submit-quiz {
+            min-width: clamp(120px, 35vw, 140px);
+            font-size: clamp(0.8rem, 2.3vw, 0.9rem);
+            padding: clamp(8px, 2vw, 10px) clamp(15px, 4vw, 20px);
+        }
+    }
+
+    .enterBtn {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(245, 101, 101, 0.3);
     }
 
     /* Animation for page transitions */
@@ -706,13 +600,16 @@
         height: auto;
         position: relative;
     }
+
+    /* Remove conflicting styles */
+    main .paginationn {
+        display: none;
+    }
 </style>
 @include('Student.inc.header')
 
-
 <div class="quizzes-page">
     <header>
-        {{-- Type section --}}
         <div class="type-quizzes">
             <span>Math</span>
             <span>Directions<i class="fa-solid fa-angle-up angle-show-disc rotateEle"></i></span>
@@ -722,9 +619,7 @@
                 nesciunt.
             </p>
         </div>
-        {{-- Timer section --}}
         <div class="timer-quizzes">
-            {{-- show section --}}
             <div class="show-timer">
                 <div class="timer">
                     <span class="hr" id="hour">00</span>
@@ -735,78 +630,21 @@
                 </div>
                 <button class="hide-btn">Hide</button>
             </div>
-            {{-- hide section --}}
             <div class="hide-timer d-none">
-                <div class="icon-timer"><i class="fa-regular fa-clock" style="padding-bottom: 5px;margin-top: 5px;"></i>
-                </div>
+                <div class="icon-timer"><i class="fa-regular fa-clock" style="padding-bottom: 5px;margin-top: 5px;"></i></div>
                 <button class="show-btn">Show</button>
             </div>
         </div>
-        {{-- Options section --}}
-        {{-- <div class="options">
-            <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
-            <div class="options-list d-none">
-                <ul class="options-tx">
-                    @foreach ($reports as $report)
-                    <li>
-                        <div type="button" data-bs-toggle="modal" data-bs-target="#modalCenter{{ $report->id }}">
-                            {{ $report->list }}
-                        </div>
-                        <!-- Modal -->
-                        <form method="POST" action="{{ route('Ad_report_list_edit', ['id' => $report->id]) }}"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal fade" id="modalCenter{{ $report->id }}" tabindex="-1" aria-hidden="true"
-                                style="display: none;">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-
-                                        <div class="modal-header">
-
-                                            <h5 class="modal-title" id="modalCenterTitle">Make Report</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-
-
-                                        <div class="my-2 px-3">
-                                            <label>
-                                                Report
-                                            </label>
-                                            <input class='form-control' value="{{ $report->list }}" name="list"
-                                                placeholder="Report" />
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-label-secondary"
-                                                data-bs-dismiss="modal">
-                                                Close
-                                            </button>
-                                            <button class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div> --}}
     </header>
     <main>
-        <form action="{{ route('dia_exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;"
-            id="quizForm">
+        <form action="{{ route('dia_exam_ans', ['id' => $exam->id]) }}" method="POST" style="width: 100%;" id="quizForm">
             @csrf
-            <!-- Hidden input for start time (Unix timestamp) -->
             <input type="hidden" name="start_time" id="start_time" value="{{ now()->timestamp }}">
-            <!-- Hidden input for time difference in HH:MM:SS -->
             <input type="hidden" name="time" id="time_diff">
             <div class="main-wrapper">
                 @foreach ($exam->question as $question)
                     <div class="question">
-                        <input type="hidden" value="{{ $question->id }}" class="questionID"
-                            id="questionID{{ $question->id }}">
+                        <input type="hidden" value="{{ $question->id }}" class="questionID" id="questionID{{ $question->id }}">
                         <div class="question-side">
                             <div class="text-question">
                                 <span class="question-num">{{ $loop->iteration }}</span>
@@ -820,7 +658,6 @@
                             </div>
                         </div>
                         <div class="answer-side">
-                            <!-- Existing answer-side content -->
                             <div class="options">
                                 <i class="fa-solid fa-ellipsis-vertical btn-dropdown"></i>
                                 <div class="options-list d-none">
@@ -834,26 +671,16 @@
                                     </ul>
                                 </div>
                             </div>
-
-                            {{-- Supp Question --}}
-
-                            {{-- Input to set and send value about answer question to array --}}
-                            {{-- <input type="hidden" id="timer_val" name="timer_val" /> --}}
                             <input type="hidden" name="quizze" value="{{ $exam }}">
-
-                            {{-- Answer chosen --}}
-
                             @php
                                 $arr = ['A', 'B', 'C', 'D', 'E'];
                                 $iter = $loop->iteration;
                             @endphp
                             @if ($question->ans_type == 'MCQ')
                                 <div class="answer-chosen">
-                                    <input name="q_answers[]" type="hidden" class="q_answers"
-                                        value="{{ json_encode(['q_id' => $question->id]) }}" />
+                                    <input name="q_answers[]" type="hidden" class="q_answers" value="{{ json_encode(['q_id' => $question->id]) }}" />
                                     @foreach ($question->mcq as $mcq)
-                                        <div class="chosen chose_mcq chosen{{ $iter }}"
-                                            id="chosen{{ $iter }}{{ $loop->iteration }}">
+                                        <div class="chosen chose_mcq chosen{{ $iter }}" id="chosen{{ $iter }}{{ $loop->iteration }}">
                                             <input type="hidden" class="mcq_id" value="{{ $mcq->id }}">
                                             <button type="button" class="ans_btn">{{ $mcq->mcq_num }}</button>
                                             <input type="text" value="{{ $mcq->mcq_ans }}" readonly>
@@ -861,33 +688,15 @@
                                     @endforeach
                                 </div>
                             @else
-                                <input name="q_grid_answers[]" type="hidden" class="q_grid_answers"
-                                    value="{{ json_encode(['q_id' => $question->id]) }}" />
-                                {{-- Answer Set Value --}}
-                                {{-- <div class="answer-setValue">
-                            <div class="section-setValue">
-                                <span>Answer:</span>
-                                <div class="input_val">
-                                    <input type="text" name="q_grid_ans[]" step="0.001" value="0" class="gridVal">
-                                </div>
-                                <input type="button" value="/" class="addSl">
-                            </div>
-                            <div class="section-value">
-                                <span>Answer Preview:</span>
-                                <input type="number" value="00000" readonly>
-                            </div>
-                        </div> --}}
+                                <input name="q_grid_answers[]" type="hidden" class="q_grid_answers" value="{{ json_encode(['q_id' => $question->id]) }}" />
                                 <div class="answer-setValue">
                                     <div class="section-setValue">
                                         <span>Answer:</span>
                                         <div class="input_val">
-                                            <input type="text" step="0.001" value="0"
-                                                class="gridVal" id="input_val" name="q_grid_ans[]">
+                                            <input type="text" step="0.001" value="0" class="gridVal" id="input_val" name="q_grid_ans[]">
                                         </div>
-                                         <button style="font-size:20px;border-radius:100%;color:#fff" type="button"
-                                            class="addSl">/</button>
-                                        <button type="button"
-                                            class="enterBtn">Enter</button>
+                                        <button style="font-size:20px;border-radius:100%;color:#fff" type="button" class="addSl">/</button>
+                                        <button type="button" class="enterBtn">Enter</button>
                                     </div>
                                     <div class="section-value">
                                         <span>Preview:</span>
@@ -895,23 +704,17 @@
                                     </div>
                                 </div>
                             @endif
-
                         </div>
                     </div>
                 @endforeach
             </div>
-            {{-- end Section Question --}}
             <div class="pagination-container">
-                <ul class="pagination">
-                    <button class="btn-submit-quiz d-none" type="submit">Submit Quiz</button>
-                </ul>
+                <ul class="pagination"></ul>
+                <button class="btn-submit-quiz d-none" type="submit" aria-label="Submit Quiz">Submit Quiz</button>
             </div>
         </form>
     </main>
 </div>
-
-
-
 @include('Student.inc.footer')
 
 <script>
@@ -939,117 +742,32 @@
             }
         })
     }
-</script>
-<script>
+
     $(document).ready(function() {
-        /* Timer question */
-        // var hoursLabel = $("#hour");
-        // var minutesLabel = $("#minutes");
-        // var secondsLabel = $("#seconds");
-        // var totalHours = 0;
-        // var totalMinutes = 0;
-        // var totalSeconds = 0;
-
-        // setInterval(setTime, 1000);
-
-        // function setTime() {
-        //     var Hours_quizz = $("#hour").text();
-        //     var Min_quizz = $("#minutes").text();
-        //     var Sec_quizz = $("#seconds").text();
-        //     var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
-        //     var objTim = alltime;
-
-        //     $("#timer_val").val(JSON.stringify(objTim));
-
-        //     console.log("Hours_quizz", Hours_quizz)
-        //     console.log("Min_quizz", Min_quizz)
-        //     console.log("Sec_quizz", Sec_quizz)
-        //     console.log("objTim", objTim)
-        //     console.log("timer_val ", $("#timer_val").val())
-        //         ++totalSeconds;
-        //     secondsLabel.html(pad(totalSeconds % 60));
-        //     secondsLabel.html(pad(parseInt(totalSeconds)));
-
-        //     if (totalSeconds <= 59) {
-        //         console.log("sec < 59")
-        //         // var Hours_quizz = $("#hr").text();
-        //         // var Min_quizz = $("#minutes").text();
-        //         // var Sec_quizz = $("#seconds").text();
-        //         // var Timer_quizz = Hours_quizz + Min_quizz + Sec_quizz;
-
-        //         // console.log("Hours_quizz", Hours_quizz)
-        //         // console.log("Min_quizz", Min_quizz)
-        //         // console.log("Sec_quizz", Sec_quizz)
-        //         // console.log("Timer_quizz", Timer_quizz)
-        //     } else {
-        //         secondsLabel.html(pad(parseInt(0)));
-        //         totalSeconds = 0;
-        //         totalMinutes++;
-        //         minutesLabel.html(pad(parseInt(totalMinutes)));
-        //         console.log("5555")
-
-        //         if (totalMinutes <= 59) {
-        //             console.log("min < 59")
-        //         } else {
-        //             minutesLabel.html(pad(parseInt(0)));
-        //             totalMinutes = 0;
-        //             totalHours++;
-        //             hoursLabel.html(pad(parseInt(totalHours)));
-        //             console.log("6666")
-        //         }
-        //     }
-
-
-        // }
-
-        // function pad(val) {
-        //     var valString = val + "";
-        //     if (valString.length < 2) {
-        //         return "0" + valString;
-        //     } else {
-        //         return valString;
-        //     }
-        // }
-
-        //edit here for time
-        // Handle form submission
-        // Ensure jQuery is loaded
         if (typeof $ === 'undefined') {
             console.error('jQuery is not loaded!');
         }
 
-        // Handle form submission
         $('#quizForm').on('submit', function(e) {
             console.log('Form submit triggered');
-
-            // Get start time
             const startTimeVal = $('#start_time').val();
             console.log('Start time:', startTimeVal);
-
             if (!startTimeVal) {
                 console.error('Start time is missing or empty!');
-                return; // Prevent submission if start_time is missing
+                return;
             }
-
-            const startTime = parseInt(startTimeVal) * 1000; // Convert to milliseconds
+            const startTime = parseInt(startTimeVal) * 1000;
             const endTime = Date.now();
             const timeDiffSeconds = Math.floor((endTime - startTime) / 1000);
-
-            // Convert to HH:MM:SS
             const hours = Math.floor(timeDiffSeconds / 3600);
             const minutes = Math.floor((timeDiffSeconds % 3600) / 60);
             const seconds = timeDiffSeconds % 60;
             const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-
-            // Set time difference
             console.log('Formatted time:', formattedTime);
             $('#time_diff').val(formattedTime);
             console.log('Time diff set:', $('#time_diff').val());
-
-            // Allow form submission to proceed
         });
 
-        // Timer for display (unchanged)
         var hoursLabel = $("#hour");
         var minutesLabel = $("#minutes");
         var secondsLabel = $("#seconds");
@@ -1062,13 +780,11 @@
         function setTime() {
             ++totalSeconds;
             secondsLabel.html(pad(totalSeconds % 60));
-
             if (totalSeconds >= 60) {
                 secondsLabel.html(pad(0));
                 totalSeconds = 0;
                 totalMinutes++;
                 minutesLabel.html(pad(totalMinutes));
-
                 if (totalMinutes >= 60) {
                     minutesLabel.html(pad(0));
                     totalMinutes = 0;
@@ -1083,31 +799,6 @@
             return valString.length < 2 ? "0" + valString : valString;
         }
 
-        /* Send Timer */
-        // $(".btn-submit-quiz").click(function() {
-
-        //     var Hours_quizz = $("#hour").text();
-        //     var Min_quizz = $("#minutes").text();
-        //     var Sec_quizz = $("#seconds").text();
-        //     var alltime = `${Hours_quizz}:${Min_quizz}:${Sec_quizz}`;
-        //     var objTim = alltime;
-
-        //     var timer_val = $("#timer_val").val(JSON.stringify(objTim));
-        //     var timer = timer_val.val();
-        //     console.log()
-        //     $.ajax({
-        //         url: "{{ route('api_timer') }}",
-        //         type: "GET",
-        //         data: {
-        //             timer,
-        //         },
-        //         success: function(data) {
-        //             console.log("data", data)
-        //         }
-        //     })
-        // })
-
-        /* Send Report about the question */
         $(".report_item").on("click", function() {
             console.log("Report id", $(this).find(".reportID").val())
             console.log("ques id", $(this).closest(".question").find(".questionID").val())
@@ -1122,165 +813,125 @@
                     console.log(data)
                 }
             })
-        })
-        /* Show Discraption */
+        });
+
         $(".angle-show-disc").click(function() {
             $('.disc-ruels-quizzes').toggleClass("d-none");
             $('.angle-show-disc').toggleClass("rotateEle");
         });
-        /* Hide Timer */
+
         $(".hide-btn").click(function() {
             $(".show-timer").addClass("d-none");
             $(".hide-timer").removeClass("d-none");
         });
-        /* Show Timer */
+
         $(".show-btn").click(function() {
             $(".hide-timer").addClass("d-none");
             $(".show-timer").removeClass("d-none");
         });
-        /* Show dropDown */
+
         $(".btn-dropdown").click(function() {
             $('.options-list').toggleClass("d-none");
         });
-        /* Hide dropDown */
+
         $(".options-list li").click(function() {
             $(".options-list").toggleClass("d-none");
         });
 
-        /* /////////////// */
-        /* Handel Data question */
-        /* /////////////// */
-
-        // Add slash button - using event delegation in case elements are dynamic
-        $(document).ready(function() {
-            // Event handlers for fraction input
-            $(document).on('click', '.addSl', function() {
-                // Find the closest answer-setValue container first
-                let container = $(this).closest('.answer-setValue');
-                // Then find the gridVal input within that container
-                let input = container.find('.gridVal');
-                let currentVal = input.val();
-
-                // Only add slash if not already present and input isn't empty
-                if (currentVal && !currentVal.includes('/')) {
-                    input.val(currentVal + '/');
-                }
-            });
-
-            $(document).on('click', '.enterBtn', calculateFraction);
-            $(document).on('keypress', '.gridVal', function(e) {
-                if (e.which === 13) calculateFraction();
-            });
-
-            function calculateFraction() {
-                // Get the container based on which button was clicked
-                const container = $(this).closest('.answer-setValue');
-                const input = container.find('.gridVal').val().trim();
-                const preview = container.find('#preview_value');
-
-                if (!input) {
-                    preview.val("0");
-                    return;
-                }
-
-                if (input.includes('/')) {
-                    const parts = input.split('/');
-                    if (parts.length === 2) {
-                        const numerator = parseFloat(parts[0]);
-                        const denominator = parseFloat(parts[1]);
-
-                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-                            const result = numerator / denominator;
-                            preview.val(formatResult(result));
-                            return;
-                        }
-                    }
-                    preview.val("Invalid fraction");
-                    return;
-                }
-
-                const num = parseFloat(input);
-                preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
-            }
-
-
-            function formatResult(value) {
-                // Round to 2 decimal places first
-                const rounded = Math.round(value * 100) / 100;
-
-                // Check if it's a whole number after rounding
-                if (rounded % 1 === 0) {
-                    return rounded.toString(); // Return as integer string
-                }
-                return rounded.toFixed(2); // Return with 2 decimal places
+        $(document).on('click', '.addSl', function() {
+            let container = $(this).closest('.answer-setValue');
+            let input = container.find('.gridVal');
+            let currentVal = input.val();
+            if (currentVal && !currentVal.includes('/')) {
+                input.val(currentVal + '/');
             }
         });
 
+        $(document).on('click', '.enterBtn', calculateFraction);
+        $(document).on('keypress', '.gridVal', function(e) {
+            if (e.which === 13) calculateFraction();
+        });
+
+        function calculateFraction() {
+            const container = $(this).closest('.answer-setValue');
+            const input = container.find('.gridVal').val().trim();
+            const preview = container.find('#preview_value');
+            if (!input) {
+                preview.val("0");
+                return;
+            }
+            if (input.includes('/')) {
+                const parts = input.split('/');
+                if (parts.length === 2) {
+                    const numerator = parseFloat(parts[0]);
+                    const denominator = parseFloat(parts[1]);
+                    if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                        const result = numerator / denominator;
+                        preview.val(formatResult(result));
+                        return;
+                    }
+                }
+                preview.val("Invalid fraction");
+                return;
+            }
+            const num = parseFloat(input);
+            preview.val(!isNaN(num) ? formatResult(num) : "Invalid input");
+        }
+
+        function formatResult(value) {
+            const rounded = Math.round(value * 100) / 100;
+            if (rounded % 1 === 0) {
+                return rounded.toString();
+            }
+            return rounded.toFixed(2);
+        }
+
         $(".chosen").each((elePar, valPar) => {
-
             var staPar = elePar + 1;
-            console.log("elePar", elePar)
-            console.log("staPar", staPar)
-            console.log("valPar", valPar)
             var elementPar = `.${$(valPar).attr("class").slice(0, 6) + staPar}`;
-
-            console.log(elementPar)
-
             $(elementPar).each((ele, val) => {
-                console.log("ele", ele)
-                console.log("val", val)
                 var element = `#${$(val).attr("id")}`;
-                console.log(element)
                 $(element).click(() => {
                     $(elementPar).removeClass("selectedd");
                     $(element).addClass("selectedd");
                 })
             })
-        })
+        });
 
-        /* Handel pagination question */
         function getPageList(totalPages, currentPage, paginationSize) {
             if (totalPages < 1) return [];
             if (currentPage < 1) currentPage = 1;
             if (currentPage > totalPages) currentPage = totalPages;
             if (paginationSize < 3) paginationSize = 3;
-
             let pages = [];
             let startPage, endPage;
-
             if (totalPages <= paginationSize) {
                 for (let i = 1; i <= totalPages; i++) {
                     pages.push(i);
                 }
                 return pages;
             }
-
             const half = Math.floor(paginationSize / 2);
             startPage = Math.max(1, currentPage - half);
             endPage = Math.min(totalPages, startPage + paginationSize - 1);
-
             if (endPage - startPage + 1 < paginationSize) {
                 startPage = Math.max(1, endPage - paginationSize + 1);
             }
-
             if (startPage > 1) {
                 pages.push(1);
                 if (startPage > 2) {
                     pages.push('...');
                 }
             }
-
             for (let i = startPage; i <= endPage; i++) {
                 pages.push(i);
             }
-
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
                     pages.push('...');
                 }
                 pages.push(totalPages);
             }
-
             return pages;
         }
 
@@ -1288,81 +939,64 @@
             var numberOfItems = $(".question").length;
             var limitPerPage = 1;
             var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = Math.ceil(numberOfItems / 3);
+            var paginationSize = window.innerWidth <= 768 ? 3 : Math.ceil(numberOfItems / 3);
             var currentPage;
 
             function showPage(whichPage) {
                 if (whichPage < 1 || whichPage > totalPages) return false;
-
-                // Hide current question with animation
                 $(".question.active").removeClass("active");
-
                 if (whichPage == totalPages) {
                     $(".btn-submit-quiz").removeClass("d-none");
                 } else {
                     $(".btn-submit-quiz").addClass("d-none");
                 }
-
                 currentPage = whichPage;
-
-                // Show new question with animation
-                $(".question").hide().slice((currentPage - 1) * limitPerPage,
-                    currentPage * limitPerPage).addClass("active").show();
-
-                $(".pagination li").slice(1, -1).remove();
-
+                $(".question").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).addClass("active").show();
+                $(".pagination li").remove();
+                $(".pagination").append(
+                    $("<li>").addClass("page-item").addClass("previous-page").append(
+                        $("<a>").addClass("page-link").attr({
+                            href: "javascript:void(0)",
+                            "aria-label": "Previous"
+                        }).html(
+                            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                        )
+                    )
+                );
                 getPageList(totalPages, currentPage, paginationSize).forEach(item => {
                     $("<li>").addClass("page-item").addClass("current-page")
                         .toggleClass("activee", item === currentPage).append($("<a>")
                             .addClass("page-link").attr({
                                 href: "javascript:void(0)",
                                 "aria-label": item ? `Page ${item}` : "More pages"
-                            }).text(item || "...")).insertBefore(".next-page");
+                            }).text(item || "...")).appendTo(".pagination");
                 });
-
+                $(".pagination").append(
+                    $("<li>").addClass("page-item").addClass("next-page").append(
+                        $("<a>").addClass("page-link").attr({
+                            href: "javascript:void(0)",
+                            "aria-label": "Next"
+                        }).html(
+                            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
+                        )
+                    )
+                );
                 $(".previous-page").toggleClass("disabled", currentPage === 1);
                 $(".next-page").toggleClass("disabled", currentPage === totalPages);
                 return true;
             }
 
-            // Initialize pagination
-            $(".pagination").append(
-                $("<li>").addClass("page-item").addClass("previous-page").append(
-                    $("<a>").addClass("page-link").attr({
-                        href: "javascript:void(0)",
-                        "aria-label": "Previous"
-                    }).html(
-                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
-                    )
-                ),
-                $("<li>").addClass("page-item").addClass("next-page").append(
-                    $("<a>").addClass("page-link").attr({
-                        href: "javascript:void(0)",
-                        "aria-label": "Next"
-                    }).html(
-                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'
-                    )
-                )
-            );
-
             $(".main-wrapper").show();
             showPage(1);
 
-            // Event handlers
             $(document).on("click", ".pagination li.current-page:not(.activee)", function() {
                 const pageText = $(this).text();
                 if (pageText === '...') {
-                    // Get the current page list
                     const pages = getPageList(totalPages, currentPage, paginationSize);
-                    // Find the index of the clicked dots
                     const dotsIndex = pages.indexOf('...');
-
-                    // Determine if it's the left or right dots
-                    if (dotsIndex === 1) { // Left dots (before first page)
-                        // Show pages around the first page
+                    if (dotsIndex === 1) {
                         return showPage(Math.floor(currentPage / 2));
-                    } else { // Right dots (before last page)
-                        // Show pages around the last page
+                    } else {
                         return showPage(Math.floor((currentPage + totalPages) / 2));
                     }
                 } else {
@@ -1378,10 +1012,10 @@
                 return showPage(currentPage - 1);
             });
 
-            // $(".addSl").on("click", function() {
-            //     var inpVal = $(this).closest(".section-setValue").find(".gridVal");
-            //     var currentVal = inpVal.val().toString();
-            //     inpVal.val(currentVal + "/");
+            $(window).on('resize', function() {
+                paginationSize = window.innerWidth <= 768 ? 3 : Math.ceil(numberOfItems / 3);
+                showPage(currentPage || 1);
+            });
         });
     });
 </script>
