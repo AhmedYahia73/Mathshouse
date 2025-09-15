@@ -88,8 +88,7 @@ use Illuminate\Support\Facades\App;
 // Fawry Package => laravel-pay/fawry
 
     Route::controller(Stu_PoliciesController::class)->group(function(){
-        Route::get('/privacy','privacy')->name('v_privacy');
-        Route::get('/copyrights','copyrights')->name('v_copyrights');
+        Route::get('/privacy','privacy')->name('v_privacy'); 
         Route::get('/support','support')->name('v_support');
     });
 
