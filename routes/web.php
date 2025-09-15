@@ -43,6 +43,7 @@ use App\Http\Controllers\Student\Stu_QuestionController;
 use App\Http\Controllers\Student\Stu_LiveController;
 use App\Http\Controllers\Student\ScoreController;
 use App\Http\Controllers\Student\Stu_NotificationController;
+use App\Http\Controllers\Student\Stu_PoliciesController;
 
 use App\Http\Controllers\Visitor\HomeController;
 use App\Http\Controllers\Visitor\ContactController;
@@ -85,6 +86,12 @@ use Illuminate\Support\Facades\App;
 */
     $controller_path = 'App\Http\Controllers' ;
 // Fawry Package => laravel-pay/fawry
+
+    Route::controller(Stu_PoliciesController::class)->group(function(){
+        Route::get('/privacy','privacy')->name('v_privacy');
+        Route::get('/copyrights','copyrights')->name('v_copyrights');
+        Route::get('/support','support')->name('v_support');
+    });
 
     Route::controller(HomeController::class)->group(function(){
         Route::get('/about','v_about')->name('v_about');
