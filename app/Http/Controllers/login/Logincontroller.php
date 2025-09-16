@@ -65,6 +65,43 @@ class Logincontroller extends Controller
                 return view('pages.authanticated.login');            
         }
 
+        public function module_type( Request $request, $module_type, $id ){
+                $now = Carbon::now();
+                $timeMinus120Minutes = $now->subMinutes(300);
+                $value = Cookie::get('device_id');
+                if ( empty($value) ) {
+                        $value = rand(1, 99999999999);
+                        Cookie::queue(Cookie::make('device_id', $value, 60 * 24 * 365));
+                }
+
+                if ( auth()->user() ) {
+                        $l_user = LoginUser::
+                        where('type', 'web')
+                        ->where('user_id', auth()->user()->id)
+                        ->where('created_at', '>=', $timeMinus120Minutes)
+                        ->first();
+                }
+                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'student' ) {
+                        return redirect()->route('stu_dashboard');
+                }
+                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'user_admin' ) {
+                        return redirect()->route('dashboard');
+                }
+                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'admin' ) {
+                        return redirect()->route('dashboard');
+                }
+                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'teacher' ) {
+                        return redirect()->route('t_dashboard');
+                }
+                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'affilate' ) {
+                        return redirect()->route('stu_affilate');
+                }
+                LoginUser::
+                where('ip', $value)
+                ->delete();
+                return view('pages.authanticated.login', compact('module_type', 'id'));            
+        }
+
         public function store(Request $request){
                 
                 $request->validate([

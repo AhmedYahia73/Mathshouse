@@ -101,6 +101,11 @@ use Illuminate\Support\Facades\App;
     Route::controller(LoginController::class)->group(function(){
         Route::post('/Market','market_login')->name('market_ch');
         Route::get('/login','index')->name('login.index');
+        Route::get('/my_login/{module_type}/{id}','module_type')->name('login.module_type');
+
+        Route::post('/login/question','question')->name('login.question'); 
+        Route::post('/login/exam','exam')->name('login.exam');
+
         Route::post('/login.store','store')->name('login.store');
         Route::get('/sign_up','sign_up')->name('sign_up');
 
