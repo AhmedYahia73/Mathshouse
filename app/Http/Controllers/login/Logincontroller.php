@@ -144,7 +144,11 @@ class Logincontroller extends Controller
 
                                 
                         $authantecated = Auth::attempt($credentials);
-                        
+                        $value = Cookie::get('device_id');
+                        if ( empty($value) ) {
+                                $value = rand(1, 99999999999);
+                                Cookie::queue(Cookie::make('device_id', $value, 60 * 24 * 365));
+                        }
                         if($authantecated){
                                 $user = User::where('email',$request->email)->first();
                                 $token = $user->createToken("user")->plainTextToken;
