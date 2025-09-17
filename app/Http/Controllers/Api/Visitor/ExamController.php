@@ -154,8 +154,9 @@ class ExamController extends Controller
             $questions = $questions
             ->where('q_num', $request->q_num);
         }
+        $perPage = $request->get('per_page', 10);
         $questions = $questions
-        ->get()
+        ->paginate($perPage)
         ->map(function($item){
             return [
                 'id' => $item->id, 
