@@ -161,6 +161,9 @@ class Logincontroller extends Controller
                                 if(!empty($request->question_id)){
                                         return redirect()->route('q_page', ['id' => $request->question_id]);
                                 }  
+                                if(!empty($request->exam_id)){
+                                        return redirect()->route('exam_page', ['id' => $request->exam_id]);
+                                }  
                         }
                         if(!$authantecated){
                                 return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
