@@ -239,12 +239,12 @@
 
     <div class="contentRe">
         @if (isset($module_type) && isset($id))
-            @if ($module_type == 'question') 
-                <form action='{{ route('login.question') }}' method="POST" novalidate="novalidate" class="leftRe">
-                <input type="hidden" name="question_id" value="{{ $$id }}" />
-            @elseif($module_type == 'exam')
-                <form action='{{ route('login.exam') }}' method="POST" novalidate="novalidate" class="leftRe">
-                <input type="hidden" name="exam_id" value="{{ $$id }}" />
+            @if ($module_type == 'questions') 
+                <form action='{{ route('login.module') }}' method="POST" novalidate="novalidate" class="leftRe">
+                <input type="hidden" name="question_id" value="{{ $id }}" />
+            @elseif($module_type == 'exams')
+                <form action='{{ route('login.module') }}' method="POST" novalidate="novalidate" class="leftRe">
+                <input type="hidden" name="exam_id" value="{{ $id }}" />
             @endif
         @else
             <form action='{{ route('login.store') }}' method="POST" novalidate="novalidate" class="leftRe">

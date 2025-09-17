@@ -103,7 +103,7 @@ use Illuminate\Support\Facades\App;
         Route::get('/login','index')->name('login.index');
         Route::get('/my_login/{module_type}/{id}','module_type')->name('login.module_type');
 
-        Route::post('/login/question','question')->name('login.question'); 
+        Route::post('/login/module','module')->name('login.module'); 
         Route::post('/login/exam','exam')->name('login.exam');
 
         Route::post('/login.store','store')->name('login.store');

@@ -102,6 +102,69 @@ class Logincontroller extends Controller
                 return view('pages.authanticated.login', compact('module_type', 'id'));            
         }
 
+        public function module(Request $request){
+                
+                $request->validate([
+                'email'=> 'required|email',
+                'password'=> 'required'
+                ],[
+                'email.required'=> 'Email or Password Invalid',
+                'email.email'=> 'Email or Password Invalid',
+                'password.required'=> 'Email or Password Invalid',
+                ]);
+
+
+                        $user = User::where('email',$request->input('email'))->first();
+                        if(!$user){
+                                return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
+
+                        }
+                        if ($user->state == 'hidden') {
+                                return redirect()->route('login.index')->withErrors(['error'=>'The Email Is Not Enable']);
+                        }
+                        if(!password_verify($request->input('password'),$user->password)){
+                                return redirect()->route('login.index')->withErrors(['error'=>'The  Password Invalid']);
+                        }
+                        $now = Carbon::now();
+                        $timeMinus120Minutes = $now->subMinutes(300);
+                        if ( auth()->user() ) {
+                                $l_user = LoginUser::
+                                where('type', 'web') 
+                                ->where('user_id', $user->id)
+                                ->where('created_at', '>=', $timeMinus120Minutes)
+                                ->first();
+                                if ( $l_user ) {
+                                        return redirect()->route('login.index')->withErrors(['error'=>'You are logged in from another device.']);
+                                }
+                        }
+
+                        Auth::loginUsingId($user->id);
+
+                        $credentials = $request->only('email','password');
+
+                                
+                        $authantecated = Auth::attempt($credentials);
+                        
+                        if($authantecated){
+                                $user = User::where('email',$request->email)->first();
+                                $token = $user->createToken("user")->plainTextToken;
+                                $user->token =$token;
+                                LoginUser::create([
+                                        'type' => 'web',
+                                        'user_id'=> $user->id,
+                                        'ip' => $value,
+                                ]);
+                                if(!empty($request->question_id)){
+                                        return redirect()->route('q_page', ['id' => $request->question_id]);
+                                }  
+                        }
+                        if(!$authantecated){
+                                return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
+                        }
+
+                           
+        }
+
         public function store(Request $request){
                 
                 $request->validate([

@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Session;
 class V_ExamController extends Controller
 {
     
+
     public function v_exams(){
         $exam_code = ExamCodes::all();
         $courses = Course::all();
