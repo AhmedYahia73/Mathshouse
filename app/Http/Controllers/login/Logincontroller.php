@@ -82,20 +82,13 @@ class Logincontroller extends Controller
                         ->first();
                 }
                 if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'student' ) {
-                        return redirect()->route('stu_dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'user_admin' ) {
-                        return redirect()->route('dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'admin' ) {
-                        return redirect()->route('dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'teacher' ) {
-                        return redirect()->route('t_dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'affilate' ) {
-                        return redirect()->route('stu_affilate');
-                }
+					if($module_type == 'questions'){
+						return redirect()->route('q_page', ['id' => $id]);
+					}  
+					elseif($module_type == 'exams'){
+						return redirect()->route('exam_page', ['id' => $id]);
+					}  
+                } 
                 LoginUser::
                 where('ip', $value)
                 ->delete();
