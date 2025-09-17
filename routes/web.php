@@ -102,7 +102,7 @@ use Illuminate\Support\Facades\App;
         Route::post('/Market','market_login')->name('market_ch');
         Route::get('/login','index')->name('login.index');
         Route::get('/my_login/{module_type}/{id}','module_type')->name('login.module_type');
-
+ 
         Route::post('/login/module','module')->name('login.module'); 
         Route::post('/login/exam','exam')->name('login.exam');
 
