@@ -168,7 +168,8 @@ class ExamController extends Controller
         });
 
         return response()->json([
-            'questions' => $questions
+            'questions' => $questions,
+            'total_pages' => $questions->lastPage()
         ]);
     }
 }
