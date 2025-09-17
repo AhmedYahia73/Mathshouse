@@ -156,7 +156,9 @@ class ExamController extends Controller
         }
         $perPage = $request->get('per_page', 10);
         $questions = $questions
-        ->paginate($perPage)
+        ->paginate($perPage);
+        $total_pages = $questions->lastPage();
+        $questions = $questions
         ->map(function($item){
             return [
                 'id' => $item->id, 
@@ -169,7 +171,7 @@ class ExamController extends Controller
 
         return response()->json([
             'questions' => $questions,
-            'total_pages' => $questions->lastPage()
+            'total_pages' => $total_pages
         ]);
     }
 }
