@@ -994,7 +994,7 @@
                                                         id="sel_lesson{{ $question->q_id ? $question->q_id : $question->id }}"
                                                         name="lesson_id">
                                                         <option value="{{ $question->lesson_id }}" selected>
-                                                            {{ $question->lessons->lesson_name }}
+                                                            {{ $question?->lessons?->lesson_name }}
                                                         </option>
                                                     </select>
                                                     <!--end::Input-->
