@@ -946,7 +946,7 @@
                                                         id="sel_cate{{ $question->q_id ? $question->q_id : $question->id }}"
                                                         name="category_id">
                                                         <option selected>
-                                                            {{ $question->lessons->chapter->course->category->cate_name }}
+                                                            {{ $question?->lessons?->chapter?->course?->category?->cate_name }}
                                                         </option>
                                                         @foreach ($categories as $category)
                                                             <option value="{{ $category->id }}">
@@ -966,7 +966,7 @@
                                                         id="sel_course{{ $question->q_id ? $question->q_id : $question->id }}"
                                                         name="course_id">
                                                         <option selected>
-                                                            {{ $question->lessons->chapter->course->course_name }}
+                                                            {{ $question?->lessons?->chapter?->course?->course_name }}
                                                         </option>
                                                     </select>
                                                     <!--end::Input-->
@@ -981,7 +981,7 @@
                                                         id="sel_chapter{{ $question->q_id ? $question->q_id : $question->id }}"
                                                         name="chapter_id">
                                                         <option selected>
-                                                            {{ $question->lessons->chapter->chapter_name }}
+                                                            {{ $question?->lessons?->chapter?->chapter_name }}
                                                         </option>
                                                     </select>
                                                     <!--end::Input-->
