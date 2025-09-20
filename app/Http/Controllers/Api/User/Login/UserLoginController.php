@@ -66,7 +66,7 @@ class UserLoginController extends Controller
             'l_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'nick_name' => 'required|unique:users,nick_name',
-            'phone' => 'required|unique:users,phone',
+            'phone' => 'unique:users,phone',
             'city_id' => 'required|exists:cities,id',
             'country_id' => 'required|exists:countries,id',
             'category_id' => 'required|exists:categories,id',
