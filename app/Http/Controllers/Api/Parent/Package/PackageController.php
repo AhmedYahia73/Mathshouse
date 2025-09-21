@@ -198,8 +198,11 @@ class PackageController extends Controller
         }
         else{ 
             $arr['payment_method_id'] = $request->payment_method_id;
+            $user = User::
+            where('id', $request->user_id)
+            ->first();
             Mail::To('Payment@mathshouse.net')
-            ->send(new PaymentEmail($request->all(), $request->user_id ));       
+            ->send(new PaymentEmail($request->all(), $user));       
         }
         $p_request = PaymentRequest::create($arr);
         $p_method = isset($p_request->method->payment) ? $p_request->method->payment : 'Wallet'; 
