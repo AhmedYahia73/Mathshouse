@@ -408,7 +408,7 @@ class CourseController extends Controller
             ->send(new PaymentEmail($request->all(), $user));
         }
         if( $payment == "Paymob"){ 
-            return $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
+            $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
             return response()->json([
                 'payment_link' => $payment_link
             ]);
