@@ -265,7 +265,8 @@ class CourseController extends Controller
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
 
                 return response()->json([
-                    'payment_link' => $payment_link
+                    'payment_link' => $payment_link,
+                    'req' => $request->all()
                 ]);
             }
         }
