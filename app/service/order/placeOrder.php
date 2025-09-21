@@ -177,8 +177,12 @@ trait placeOrder
 
         if ($service == 'Chapters') {
             foreach ($models as $item) {
-                if ($item->price == $price) {
-                    return $item->duration;
+                try {
+                    if ($item->price == $price) {
+                        return $item->duration;
+                    }
+                } catch (\Throwable $th) {
+                    dd( $item->duration);
                 }
             }
         }
