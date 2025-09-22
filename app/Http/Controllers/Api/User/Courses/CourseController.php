@@ -493,6 +493,11 @@ class CourseController extends Controller
             'chargeItems.*.chapters_id' => 'required|exists:chapters,id',
             'chargeItems.*.description' => 'required',
         ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        } 
       
         
          // Start Create Order If Operation Payment Success
