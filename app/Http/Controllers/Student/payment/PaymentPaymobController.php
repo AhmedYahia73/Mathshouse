@@ -13,11 +13,10 @@ class PaymentPaymobController extends Controller
 
     use PaymentPaymob;
     // This Controller About Payment Check Out By Paymob
-     public function credit(PaymentPaymobRequest $request)
+     public function credit(PaymentPaymobRequest $request, $user)
     {
          $requestValidated = $request->validated();
         //this fucntion that send all below function data to paymob and use it for routes;
-        $user = $request->user();
         
          $tokens = $this->getToken();
         return $order = $this->createOrder( $request , $tokens, $user);
