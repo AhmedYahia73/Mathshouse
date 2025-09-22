@@ -58,8 +58,8 @@ trait PlaceOrderFawry
                     "image"=>'fawry.png',
                     'state' => 'Faild',
                 ];
-                $payment = $this->wallet
-                ->create($paymentData);
+                $payment = Wallet::
+                create($paymentData);
                 $payment_number = $payment->id;
             }elseif($service == 'Chapters'){
                 $paymentData = [
@@ -97,11 +97,11 @@ trait PlaceOrderFawry
                 create($paymentData);
                 $payment_number = $payment->id;
                 $package_data = json_decode($item['itemId']);
-                $package = $this->package
-                ->where('id', $package_data['id'])
+                $package = Package::
+                where('id', $package_data['id'])
                 ->first();
-                $this->payment_package
-                ->create([
+                PaymentPackageOrder::
+                create([
                     'payment_request_id' => $payment->id,
                     'user_id' => auth()->user()->id,
                     'package_id' => $package_data['id'],
@@ -147,7 +147,7 @@ trait PlaceOrderFawry
                 ->where('merchantRefNum', $merchantRefNum)
                 ->first();
             if(empty($payment)){
-                $payment = $this->wallet
+                $payment = Wallet
                 ->where('merchantRefNum', $merchantRefNum)
                 ->where('student_id', auth()->user()->id)
                 ->first();
