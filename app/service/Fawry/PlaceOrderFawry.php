@@ -34,7 +34,7 @@ trait PlaceOrderFawry
         $new_item = [];
         $service = $newOrder['chargeItems'][0]['description'];
         $amount = $newOrder['amount'];
-         $paymentMethod = $this->paymenty_method->where('payment','Fawry')->first();
+        $paymentMethod = $this->payment_method->where('payment','Fawry')->first();
         $payment_method_id = $paymentMethod->id;
         if(!$paymentMethod){
             return abort(404);
