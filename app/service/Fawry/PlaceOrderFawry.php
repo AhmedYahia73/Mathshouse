@@ -1,6 +1,6 @@
 <?php
 
-namespace App\trait;
+namespace App\service\Fawry;
 
 use App\Models\bundle;
 use App\Models\subject;

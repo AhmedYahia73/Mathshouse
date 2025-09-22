@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\service\Fawry;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
