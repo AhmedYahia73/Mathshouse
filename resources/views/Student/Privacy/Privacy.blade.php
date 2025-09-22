@@ -121,6 +121,10 @@
 
         <h2>Children's Privacy</h2>
         <p>We require parental consent for child accounts. Parents may review or request deletion of child data by contacting us.</p>
+        
+
+        <h2>Fawry's Privacy</h2>
+        <p>(“Fawry responsibility is limited to payment collection. For any related issue please contact us” ) .</p>
     </div>
 </section>
 
