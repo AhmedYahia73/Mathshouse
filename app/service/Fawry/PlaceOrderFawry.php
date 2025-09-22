@@ -6,6 +6,8 @@ use App\Models\bundle;
 use App\Models\subject;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\PaymentRequest;
+use App\Models\PaymentOrder;
 use App\Models\User;
 use DragonCode\Contracts\Cashier\Config\Payments\Statuses;
 use Error;
@@ -45,7 +47,7 @@ trait PlaceOrderFawry
             $itemId = $item['itemId'];
             // $item_type = $service == 'Bundle' ? 'bundle' : 'subject'; // iF Changed By Sevice Name Get Price One Of Them
             $item_type = $this->checkItemType($service);
-            try {
+           // try {
             if($service == 'Wallet'){
                 $paymentData = [
                     "merchantRefNum"=> $newOrder['merchantRefNum'],
@@ -69,13 +71,13 @@ trait PlaceOrderFawry
                     "image"=>'fawry.png',
                     'state' => 'Faild',
                 ];
-                $payment = $this->payment_request
-                ->create($paymentData);
+                $payment = PaymentRequest::
+                create($paymentData);
                 $payment_number = $payment->id;
                 $chapters_data = json_decode($item['itemId']);
                 foreach($chapters_data as $item){
-                    $this->payment_order
-                    ->create([
+                    PaymentOrder::
+                    create([
                         'payment_request_id' => $payment->id,
                         'chapter_id' => $item['id'],
                         'duration' => $item['duration'],
@@ -94,8 +96,8 @@ trait PlaceOrderFawry
                     "image"=>'fawry.png',
                     'state' => 'Faild',
                 ]; 
-                $payment = $this->payment_request
-                ->create($paymentData);
+                $payment = PaymentRequest::
+                create($paymentData);
                 $payment_number = $payment->id;
                 $package_data = json_decode($item['itemId']);
                 $package = $this->package
@@ -111,10 +113,10 @@ trait PlaceOrderFawry
                     'number' => $package->number,
                 ]);
             }
-            } 
-            catch (\Throwable $th) {
-                return abort(code: 500);
-            }
+            // } 
+            // catch (\Throwable $th) {
+            //     return abort(code: 500);
+            // }
             $data = [
                 'paymentProcess' => $payment_number,
                 'chargeItems'=>[
@@ -143,8 +145,8 @@ trait PlaceOrderFawry
         if($orderStatus == 'PAID'){
             $service = 'Chapters';
             $payment =
-                $this->payment_request
-                ->where('user_id', auth()->user()->id)
+                PaymentRequest::
+                where('user_id', auth()->user()->id)
                 ->where('merchantRefNum', $merchantRefNum)
                 ->first();
             if(empty($payment)){
