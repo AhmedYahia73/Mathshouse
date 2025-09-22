@@ -265,8 +265,7 @@ class CourseController extends Controller
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
 
                 return response()->json([
-                    'payment_link' => $payment_link,
-                    'req' => $request->all()
+                    'payment_link' => $payment_link, 
                 ]);
             }
         }
@@ -411,8 +410,7 @@ class CourseController extends Controller
         if( $payment == "Paymob"){ 
             $payment_link = $this->credit_mobile($user,$paymentMethod,$chapters,$price,'Chapters');
             return response()->json([
-                'payment_link' => $payment_link,
-                'req' => $request->all()
+                'payment_link' => $payment_link, 
             ]);
         }else{
         $p_request = PaymentRequest::create($paymentRequest);

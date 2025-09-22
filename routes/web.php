@@ -95,6 +95,7 @@ use Illuminate\Support\Facades\App;
     Route::controller(HomeController::class)->group(function(){
         Route::get('/about','v_about')->name('v_about');
         Route::get('/contact','v_contact')->name('v_contact');
+        Route::get('/home_data','home_data')->name('home_data');
     });
 
     Route::get('Affilate/Data/{id}', [Aff_DashboardController::class, 'aff_link'])->name('aff_link');
