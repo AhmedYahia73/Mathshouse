@@ -460,7 +460,7 @@ class CourseController extends Controller
         ]);
     }
     
-    use PlaceOrder; // This Trait For Make Order 
+    //use PlaceOrder; // This Trait For Make Order 
     public function payAtFawry(Request $request)
     {
         $request['customerProfileId'] = $request->user()->id ;
@@ -491,6 +491,7 @@ class CourseController extends Controller
             'chargeItems' => 'required|array',
             'chargeItems.*.price' => 'required|numeric',
             'chargeItems.*.chapters_id' => 'required|exists:chapters,id',
+            'chargeItems.*.description' => 'required',
         ]);
       
         
