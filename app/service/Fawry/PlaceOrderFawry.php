@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupNotificationMail;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-trait PlaceOrder
+trait PlaceOrderFawry
 {
 
      protected $orderPlaceReqeust =['chargeItems','amount','customerProfileId','payment_method_id','merchantRefNum'];
