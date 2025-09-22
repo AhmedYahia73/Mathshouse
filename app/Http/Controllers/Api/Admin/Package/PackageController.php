@@ -48,12 +48,12 @@ class PackageController extends Controller
 
     public function modify(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'name' => ['required'],
-            'module' => ['required', 'in:Exam,Question,Live'],
-            'course_id' => ['required', 'exists:courses,id'],
-            'number' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'duration' =>['required', 'numeric'],
+            'name' => ['sometimes'],
+            'module' => ['sometimes', 'in:Exam,Question,Live'],
+            'course_id' => ['sometimes', 'exists:courses,id'],
+            'number' => ['sometimes', 'numeric'],
+            'price' => ['sometimes', 'numeric'],
+            'duration' =>['sometimes', 'numeric'],
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
