@@ -46,7 +46,6 @@ class CourseController extends Controller
     }
     use Image;
     use PaymentPaymob;
-    use FawryPayService;
     use PlaceOrderFawry;
 
     public function lists(Request $request){
