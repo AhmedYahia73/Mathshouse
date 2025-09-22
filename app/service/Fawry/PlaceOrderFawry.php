@@ -24,7 +24,7 @@ trait PlaceOrderFawry
  // This Is Trait About Make any Order 
    
 
-    public function placeOrder(Request $request ){
+    public function placeOrder_fawry(Request $request ){
         
         $user = $request->user();
         $newOrder = $request->only($this->orderPlaceReqeust);

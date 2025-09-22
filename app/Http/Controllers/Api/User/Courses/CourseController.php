@@ -500,7 +500,7 @@ class CourseController extends Controller
       
         
          // Start Create Order If Operation Payment Success
-        $placeOrder = $this->placeOrder($request);
+        $placeOrder = $this->placeOrder_fawry($request);
          // Start Create Order If Operation Payment Success
      
         // Extract data
