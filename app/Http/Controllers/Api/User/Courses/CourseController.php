@@ -479,7 +479,7 @@ class CourseController extends Controller
                 // End Random Number For MerchantRefNumber
 
         // Validate incoming request data
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             // 'customerName' => 'required|string',
             // 'customerMobile' => 'required|string',
             // 'customerEmail' => 'required|email',
