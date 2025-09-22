@@ -104,7 +104,9 @@ class MyPackageController extends Controller
     }
 
     public function lists(Request $request){
-        $payment_methods = PaymentMethod::where('statue', 1)
+        $payment_methods = PaymentMethod::
+        where('statue', 1)
+        ->where('id', 10)
         ->get()
         ->map(function($item){
             $payment_type = 'text';

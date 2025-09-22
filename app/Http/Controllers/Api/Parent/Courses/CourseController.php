@@ -396,7 +396,7 @@ class CourseController extends Controller
             }
             $paymentRequest['state'] = 'Approve'; 
         }
-        elseif ( $img_state ) {
+        elseif ( $img_state && $payment != 'Paymob' ) {
             return response()->json([
                 'errors' => 'You Must Upload Receipt'
             ], 400);
