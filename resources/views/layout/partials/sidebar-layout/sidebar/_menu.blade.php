@@ -336,13 +336,15 @@
 							<span class="menu-title">Packages</span>
 						</a>
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-							href="{{ route('add_stu_package') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Add to Package</span>
-						</a>
+						@can('Wallet')
+							<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+								href="{{ route('add_stu_package') }}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Add to Package</span>
+							</a>
+						@endcan
 						<!--begin:Menu link-->
 						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
 							href="{{ route('package_history') }}">
