@@ -73,18 +73,15 @@ trait PlaceOrderFawry
                 ];
                 $payment = PaymentRequest::
                 create($paymentData);
-                $payment_number = $payment->id;
-                $chapters_data = json_decode($item['itemId']);
-                foreach($chapters_data as $item){
-                    PaymentOrder::
-                    create([
-                        'payment_request_id' => $payment->id,
-                        'chapter_id' => $item['id'],
-                        'duration' => $item['duration'],
-                        'state' => 1,
-                        'date' => now(),
-                    ]);
-                } 
+                $payment_number = $payment->id; 
+                PaymentOrder::
+                create([
+                    'payment_request_id' => $payment->id,
+                    'chapter_id' => $item['itemId'],
+                    'duration' => $item['duration'],
+                    'state' => 1,
+                    'date' => now(),
+                ]); 
             }
             elseif($service == 'Package'){
                 $paymentData = [

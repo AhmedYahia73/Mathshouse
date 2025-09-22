@@ -491,6 +491,7 @@ class CourseController extends Controller
             'chargeItems.*.price' => 'required|numeric',
             'chargeItems.*.itemId' => 'required|exists:chapters,id',
             'chargeItems.*.description' => 'required',
+            'chargeItems.*.duration' => 'required|numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
