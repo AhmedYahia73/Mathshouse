@@ -473,7 +473,7 @@ class CourseController extends Controller
             $randomNumber = random_int($min, $max);
 
             // Check if this number already exists in Payment
-            $exists = $this->wallet::where('merchantRefNum', $randomNumber)->exists();
+            $exists = PaymentRequest::where('merchantRefNum', $randomNumber)->exists();
             $request['merchantRefNum'] = $randomNumber ;
           } while ($exists); // Repeat until a unique number is generated
                 // End Random Number For MerchantRefNumber
