@@ -489,7 +489,7 @@ class CourseController extends Controller
             // 'description' => 'required|string',
             'chargeItems' => 'required|array',
             'chargeItems.*.price' => 'required|numeric',
-            'chargeItems.*.chapters_id' => 'required|exists:chapters,id',
+            'chargeItems.*.itemId' => 'required|exists:chapters,id',
             'chargeItems.*.description' => 'required',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
