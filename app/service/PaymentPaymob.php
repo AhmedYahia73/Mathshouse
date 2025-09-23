@@ -95,7 +95,7 @@ trait PaymentPaymob
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
             "amount_cents"=> $total ,
-            "currency"=> $paymentCurrancy->currency ?? 'EGP',
+            "currency"=> $paymentCurrancy->currency ?? 'USD',
             "items"=> $items,
             "payment"=> $payment,
         ];
