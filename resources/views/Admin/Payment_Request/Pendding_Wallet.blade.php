@@ -49,7 +49,7 @@
                 {{$loop->iteration}}
             </td>
             <td>
-              {{$item->student->f_name . ' ' . $item->student->l_name . ' (' . $item->student->nick_name . ')'}}
+              {{$item?->student?->f_name . ' ' . $item?->student?->l_name . ' (' . $item?->student?->nick_name . ')'}}
             </td>
             <td>
                 ${{$item->wallet}}
