@@ -7,6 +7,8 @@ use App\service\order\placeOrder;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 
+use App\Models\Currancy;
+
 trait PaymentPaymob
 {
     // This Trait About Srvic Payment Paymob
