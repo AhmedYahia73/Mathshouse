@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentEmail;
 use App\trait\Image;
 
+use App\service\PaymentPaymob;
+
 use App\Models\PaymentPackageOrder;
 use App\Models\PaymentRequest;
 use App\Models\SmallPackage;
@@ -31,6 +33,7 @@ use Carbon\Carbon;
 class PackageController extends Controller
 {
     use Image;
+    use PaymentPaymob;
 
     public function my_packages(Request $request){
         $validator = Validator::make($request->all(), [
