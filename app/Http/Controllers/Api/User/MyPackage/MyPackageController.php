@@ -151,6 +151,9 @@ class MyPackageController extends Controller
             ],400);
         }
 
+        $payment_method = PaymentMethod::
+        where('id', $request->payment_method_id)
+        ->first();
         $package_data = Package::where('id', $id)
         ->first();
         $arr = [];
