@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentEmail;
 use App\trait\Image;
 
+use App\service\PaymentPaymob;
+
 use App\Models\PaymentPackageOrder;
 use App\Models\PaymentRequest;
 use App\Models\SmallPackage;
@@ -31,6 +33,7 @@ use Carbon\Carbon;
 class MyPackageController extends Controller
 {
     use Image;
+    use PaymentPaymob;
 
     public function my_packages(Request $request){
         $packages = Package::all();
@@ -105,8 +108,7 @@ class MyPackageController extends Controller
 
     public function lists(Request $request){
         $payment_methods = PaymentMethod::
-        where('statue', 1)
-        ->where('id', '!=', 10)
+        where('statue', 1) 
         ->get()
         ->map(function($item){
             $payment_type = 'text';
@@ -178,6 +180,15 @@ class MyPackageController extends Controller
                 ], 400);
             }
             $arr['state'] = 'Approve'; 
+        }
+        elseif($payment_method->payment == "Paymob"){
+             $user = User::
+             where('id', $request->user_id)
+             ->first();
+            $payment_link = $this->credit_mobile($user,$payment_method,$package_data,$price,'Package');
+            return response()->json([
+                'payment_link' => $payment_link, 
+            ]); 
         }
         elseif ( $img_state ) { 
             return response()->json([
