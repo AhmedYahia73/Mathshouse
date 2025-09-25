@@ -80,7 +80,7 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::delete('/delete/{id}', 'delete');
     });
 
-    Route::controller(AddToPackageController::class)->prefix('package')
+    Route::controller(AddToPackageController::class)->prefix('add_to_package')
     ->group(function(){
         Route::get('/', 'lists');
         Route::post('/add', 'stu_package_add');
