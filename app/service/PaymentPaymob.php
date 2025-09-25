@@ -136,13 +136,10 @@ trait PaymentPaymob
             "last_name" => "mohamed",
             "state" => "0"
         ];
-
-        $egp = Currancy::
-        orWhere('currency', 'EGP')
-        ->first()?->amount ?? 50; 
+ 
          $data = [
             "auth_token" => $token,
-            "amount_cents" => $total_amount * 100 * $egp, //  1000 cents = 10 LE 
+            "amount_cents" => $total_amount * 100, //  1000 cents = 10 LE 
             "expiration" => 3600,// 1 hour
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData, // this data from your model
