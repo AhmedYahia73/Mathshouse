@@ -93,10 +93,14 @@ trait PaymentPaymob
         //     ]
         // ];
         // $data = $items;
+
+            $egp = Currancy::
+            orWhere('currency', 'EGP')
+            ->first()?->amount ?? 50; 
           $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $total ,
+            "amount_cents"=> $total * $egp,
             "currency"=> $paymentCurrancy->currency ?? 'USD',
             "items"=> $items,
             "payment"=> $payment,
