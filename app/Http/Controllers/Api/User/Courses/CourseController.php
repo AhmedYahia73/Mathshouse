@@ -28,6 +28,7 @@ use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
 use App\Models\Wallet;
 use App\Models\PaymentOrder;
+use App\Models\Currancy;
 
 class CourseController extends Controller
 {
@@ -237,7 +238,7 @@ class CourseController extends Controller
             return response()->json([
                 'errors' => $validator->errors(),
             ],400);
-        } 
+        }
         $price = $request->amount;
         $course = $request->course_id;
         $payment_methods = PaymentMethod::
@@ -262,12 +263,15 @@ class CourseController extends Controller
             $query->where('duration', $duration)
             ->first();
         }])
-        ->first();
-        $price = $request->amount;
+        ->first(); 
 
         //   Start Make Paymob Credit
         if(isset($payment_methods->payment)){ 
             if($payment_methods->payment == "Paymob"){
+                $egp = Currancy::
+                orWhere('currency', 'EGP')
+                ->first()?->amount ?? 50;
+                $price *= $egp;
                 $user = auth()->user();
                 $commision = intval(Cookie::get('affilate'));
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
@@ -412,6 +416,10 @@ class CourseController extends Controller
             ->send(new PaymentEmail($request->all(), auth()->user()));
         }
         if( $payment == "Paymob"){
+            $egp = Currancy::
+            orWhere('currency', 'EGP')
+            ->first()?->amount ?? 50;
+            $price *= $egp;
             $user=auth()->user();
             $payment_link = $this->credit_mobile($user,$payment_methods,$chapters,$price,'Chapters');
             return response()->json([
