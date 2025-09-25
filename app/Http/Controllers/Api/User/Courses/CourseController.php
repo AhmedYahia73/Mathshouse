@@ -272,6 +272,7 @@ class CourseController extends Controller
                 orWhere('currency', 'EGP')
                 ->first()?->amount ?? 50;
                 $price *= $egp;
+                $paymentRequest['price'] = $price;
                 $user = auth()->user();
                 $commision = intval(Cookie::get('affilate'));
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
@@ -420,6 +421,7 @@ class CourseController extends Controller
             orWhere('currency', 'EGP')
             ->first()?->amount ?? 50;
             $price *= $egp;
+            $paymentRequest['price'] = $price;
             $user=auth()->user();
             $payment_link = $this->credit_mobile($user,$payment_methods,$chapters,$price,'Chapters');
             return response()->json([
