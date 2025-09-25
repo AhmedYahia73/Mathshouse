@@ -69,7 +69,7 @@ trait placeOrder
 
         $cart = $orderItems ?? null;
         if (isset($cart['Course']) || isset($cart['Chapters']) || isset($cart['Package'])) {
-            $order = $this->createOrdersForItems($orderItems, $payment, $price, $module);
+            $order = $this->createOrdersForItems($orderItems, $payment, $price, $module, $user);
         }
 
         try {
@@ -84,7 +84,7 @@ trait placeOrder
         ];
     }
 
-    private function createOrdersForItems($orderItems, $payment, $price, $service)
+    private function createOrdersForItems($orderItems, $payment, $price, $service, $user)
     {
         $cart = $orderItems ?? null;
         $orderData = [];
@@ -126,7 +126,7 @@ trait placeOrder
                 'number' => $package->number,
                 'state' => 0,
                 'date' => now(),
-                'user_id' => auth()->user()->id
+                'user_id' => $user->id
             ]);
             $orderData[] = [
                 'name' => $package->name,
