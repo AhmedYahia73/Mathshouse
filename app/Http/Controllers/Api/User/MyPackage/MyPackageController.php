@@ -185,9 +185,7 @@ class MyPackageController extends Controller
             $arr['state'] = 'Approve'; 
         }
         elseif($payment_method->payment == "Paymob"){
-             $user = User::
-             where('id', $request->user_id)
-             ->first();
+             $user = $request->user();
             $payment_link = $this->credit_mobile($user,$payment_method,$package_data,$price,'Package');
             return response()->json([
                 'payment_link' => $payment_link, 
