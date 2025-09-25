@@ -4,10 +4,12 @@ namespace App\service\order;
 
 use App\Models\Chapter;
 use App\Models\Payment;
+use App\Models\Package;
 use App\Models\Commission;
 use App\service\ExpireDate;
 use App\Models\PaymentRequest;
 use App\Models\AffilateRequest;
+use App\Models\PaymentPackageOrder;
 use App\Models\PaymentOrder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +68,7 @@ trait placeOrder
         }
 
         $cart = $orderItems ?? null;
-        if (isset($cart['Course']) || isset($cart['Chapters'])) {
+        if (isset($cart['Course']) || isset($cart['Chapters']) || isset($cart['Package'])) {
             $order = $this->createOrdersForItems($orderItems, $payment, $price, $module);
         }
 
@@ -106,6 +108,32 @@ trait placeOrder
                     'quantity' => 1,
                 ];
             }
+
+            return [
+                'items' => $orderData,
+                'total' => floatval($price)
+            ];
+        }
+        
+        if (isset($cart['Package'])) {
+            $package = $cart['Package']; 
+            $package = Package::
+            where('id', $package->id)
+            ->first();
+            $chapterOrder = PaymentPackageOrder::create([
+                'payment_request_id' => $payment->id,
+                'package_id' => $package->id,
+                'number' => $package->number,
+                'state' => 0,
+                'date' => now(),
+                'user_id' => auth()->user()->id
+            ]);
+            $orderData[] = [
+                'name' => $package->name,
+                'amount_cents' => $price,
+                'description' => "Total Price Is $price And Services Is $service",
+                'quantity' => 1,
+            ];
 
             return [
                 'items' => $orderData,

@@ -126,7 +126,6 @@ class PackageController extends Controller
     public function lists(){
         $payment_methods = PaymentMethod::
         where('statue', 1)
-        ->where('id', '!=', 10)
         ->get()
         ->map(function($item){
             $payment_type = 'text';
@@ -165,6 +164,9 @@ class PackageController extends Controller
         }
         $package_data = Package::where('id', $id)
         ->first();
+        $payment_method = PaymentMethod::
+        where('id', $request->payment_method_id)
+        ->first();
         $arr = [];
         $arr['price'] = $package_data->price;
         $price = $package_data->price;
@@ -192,6 +194,13 @@ class PackageController extends Controller
                 ], 400);
             }
             $arr['state'] = 'Approve'; 
+        }
+        elseif($payment_method->payment == "Paymob"){
+             $user = $request->user()->id;
+            $payment_link = $this->credit_mobile($user,$payment_method,$package_data,$price,'Package');
+            return response()->json([
+                'payment_link' => $payment_link, 
+            ]); 
         }
         elseif ( $img_state ) { 
             return response()->json([
