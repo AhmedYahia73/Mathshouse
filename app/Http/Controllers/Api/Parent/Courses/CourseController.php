@@ -26,6 +26,7 @@ use App\Models\PaymentRequest;
 use App\Models\PaymentOrder;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Models\Currancy;
 
 class CourseController extends Controller
 {

@@ -15,6 +15,7 @@ use App\service\Fawry\FawryPayService;
 use App\service\Fawry\PlaceOrderFawry;
 
 use App\Models\Category;
+use App\Models\Currancy;
 use App\Models\Course;
 use App\Models\Chapter;
 use App\Models\Lesson;
@@ -28,7 +29,6 @@ use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
 use App\Models\Wallet;
 use App\Models\PaymentOrder;
-use App\Models\Currancy;
 
 class CourseController extends Controller
 {
@@ -238,7 +238,7 @@ class CourseController extends Controller
             return response()->json([
                 'errors' => $validator->errors(),
             ],400);
-        }
+        } 
         $price = $request->amount;
         $course = $request->course_id;
         $payment_methods = PaymentMethod::
@@ -263,16 +263,12 @@ class CourseController extends Controller
             $query->where('duration', $duration)
             ->first();
         }])
-        ->first(); 
+        ->first();
+        $price = $request->amount;
 
         //   Start Make Paymob Credit
         if(isset($payment_methods->payment)){ 
             if($payment_methods->payment == "Paymob"){
-                $egp = Currancy::
-                orWhere('currency', 'EGP')
-                ->first()?->amount ?? 50;
-                $price *= $egp;
-                $paymentRequest['price'] = $price;
                 $user = auth()->user();
                 $commision = intval(Cookie::get('affilate'));
                 $payment_link = $this->credit_mobile($user,$payment_methods,$course,$price,'Course',$commision);
@@ -417,11 +413,6 @@ class CourseController extends Controller
             ->send(new PaymentEmail($request->all(), auth()->user()));
         }
         if( $payment == "Paymob"){
-            $egp = Currancy::
-            orWhere('currency', 'EGP')
-            ->first()?->amount ?? 50;
-            $price *= $egp;
-            $paymentRequest['price'] = $price;
             $user=auth()->user();
             $payment_link = $this->credit_mobile($user,$payment_methods,$chapters,$price,'Chapters');
             return response()->json([

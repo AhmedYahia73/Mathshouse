@@ -623,12 +623,8 @@ use PaymentPaymob;
             ->send(new PaymentEmail($req->all(), auth()->user()));
         }
         if( $payment == "Paymob"){
-            $egp = Currancy::
-            orWhere('currency', 'EGP')
-            ->first()?->amount ?? 50;
-            $price *= $egp;
-            $user=auth()->user();
-            return $this->credit($user,$paymentMethod,$chapters,$price,'Chapters');
+             $user=auth()->user();
+                return $this->credit($user,$paymentMethod,$chapters,$price,'Chapters');
         }else{
         $p_request = PaymentRequest::create($arr);
 
@@ -758,10 +754,6 @@ use PaymentPaymob;
         //   Start Make Paymob Credit
         if(isset($payment_methods->payment)){
             if($payment_methods->payment == "Paymob"){
-                $egp = Currancy::
-                orWhere('currency', 'EGP')
-                ->first()?->amount ?? 50;
-                $price *= $egp;
                 $course = json_decode(Session::get('marketing'));
                 $price = floatval(Cookie::get('chapters_price'));
                 $token = $req->_token;
