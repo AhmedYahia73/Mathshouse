@@ -157,7 +157,7 @@ class QuestionController extends Controller
         } 
         
         return response()->json([
-            'errors' => 'You must buy package',
+            'errors' => "You don't have a package to start question",
             'course_id' => $question?->lessons?->chapter?->course_id,
         ], 400);
         
