@@ -62,7 +62,7 @@ class CourseController extends Controller
         ->get()
         ->map(function($item)
         use($lessons_db, $questions_db, $quiz_db, $idea_db){
-            $chapters_ids = $element->chapter->pluck('id');
+            $chapters_ids = $item->chapter->pluck('id');
             $chapters = $chapters_ids->count();
             $lessons = $lessons_db
             ->whereIn('chapter_id', $chapters_ids)
@@ -77,7 +77,7 @@ class CourseController extends Controller
             ->whereIn('lesson_id', $lessons)
             ->count();
             return [
-                'id' => $element->id,
+                'id' => $item->id,
                             
                 'videos_count' => $ideas,
                 'chapters_count' => $chapters,
@@ -86,19 +86,19 @@ class CourseController extends Controller
                 'quizs_count' => $quiz,
                 'pdfs_count' => $ideas,
 
-                'price' => $element?->prices?->min('price'),
-                'all_prices' => $element?->prices,
-                'course_name' => $element->course_name,
-                'course_description' => $element->course_des,
-                'course_image' => $element->image_link,
-                'teacher' => $element?->teacher?->nick_name,
-                'chapters' => $element->chapter->map(function($item2){
+                'price' => $item?->prices?->min('price'),
+                'all_prices' => $item?->prices,
+                'course_name' => $item->course_name,
+                'course_description' => $item->course_des,
+                'course_image' => $item->image_link,
+                'teacher' => $item?->teacher?->nick_name,
+                'chapters' => $item->chapter->map(function($element){
                     return [
-                        'id' => $item2->id,
-                        'chapter_price' => $item2?->price?->min('price'),
-                        'chapter_all_prices' => $item2?->price,
-                        'chapter_name' => $item2->chapter_name,
-                        'lessons' => $item2->lessons
+                        'id' => $element->id,
+                        'chapter_price' => $element?->price?->min('price'),
+                        'chapter_all_prices' => $element?->price,
+                        'chapter_name' => $element->chapter_name,
+                        'lessons' => $element->lessons
                         ->map(function($element2){
                             return [
                                 'id' => $element2->id,
