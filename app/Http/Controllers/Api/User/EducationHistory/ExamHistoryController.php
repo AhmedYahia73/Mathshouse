@@ -38,6 +38,7 @@ class ExamHistoryController extends Controller
                 'date' => $item->date,
                 'score' => $item->score,
                 'time' => $item->time,
+                'grade' => $item->score >= $item?->exams?->pass_score ? true : false,
                 'recommendaions' => $chapters,
             ];
         });

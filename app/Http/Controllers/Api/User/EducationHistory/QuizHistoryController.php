@@ -66,6 +66,7 @@ class QuizHistoryController extends Controller
                 'quiz' => $item?->quizze?->title,
                 'my_score' => $item?->score,
                 'quiz_score' => $item?->quizze?->score,
+                'grade' => $item->score >= $item?->quizze?->pass_score ? true : false,
                 'no_questions' => $questions,
                 'right_questions' => $item?->r_questions,
                 'wrong_questions' => $questions - $item?->r_questions,
