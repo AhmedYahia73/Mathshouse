@@ -27,10 +27,11 @@ class AddStudentController extends Controller
         ->where('position', 'student')
         ->get();
         $my_students = $this->user
-        ->select('id', 'email', 'phone', 'nick_name')
+        ->select('id', 'email', 'phone', 'nick_name', 'category_id')
         ->whereHas('parent', function($query) use($request){
             $query->where('sup_parents.id', $request->user()->id);
         })
+        ->with(['category:id,cate_name'])
         ->where('position', 'student')
         ->get();
 

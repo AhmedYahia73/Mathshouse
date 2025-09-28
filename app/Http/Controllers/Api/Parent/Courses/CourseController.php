@@ -114,7 +114,7 @@ class CourseController extends Controller
         ->get();
 
         return response()->json([
-            'categories' => $courses,
+            'courses' => $courses,
             'payment_methods' => $payment_methods,
         ]);
     }
