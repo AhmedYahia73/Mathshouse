@@ -48,6 +48,11 @@ class Wallet extends Model
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
+    public function payment_method()
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+    }
+
     public function payment_req()
     {
         return $this->belongsTo(PaymentRequest::class, 'payment_request_id');
