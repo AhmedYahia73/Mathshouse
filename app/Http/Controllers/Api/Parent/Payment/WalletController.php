@@ -75,7 +75,9 @@ class WalletController extends Controller
         ->where('id', $request->payment_method_id)
         ->first();
         if($payment_method->payment == 'Paymob'){
-            $user = auth()->user();
+            $user = User::
+            where('id', $request->user_id)
+            ->first();
             $payment_link = $this->credit_mobile($user,$payment_method,'Charge Wallet',$request->wallet,'Wallet',0);
 
             return response()->json([
