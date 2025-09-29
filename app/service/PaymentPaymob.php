@@ -45,8 +45,8 @@ trait PaymentPaymob
         ]; // Data
         //this fucntion that send all below function data to paymob and use it for routes;
          $tokens = $this->getToken(); // Get Token
-          $order = $this->createOrder( $data , $tokens, $user,$module,$commision); // Create Order
-         $amount_cents = $order->amount_cents; // Get Amount Cents
+        $order = $this->createOrder( $data , $tokens, $user,$module,$commision); // Create Order
+        $amount_cents = $order->amount_cents; // Get Amount Cents
         $paymentToken = $this->getPaymentToken($user, $amount_cents, $order, $tokens); // Get Payment Token
         $items = $order;
         //    $items = $order['order'];

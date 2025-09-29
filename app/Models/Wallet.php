@@ -23,6 +23,7 @@ class Wallet extends Model
         'state',
         'payment_request_id',
         'currency',
+        'transaction_id',
     ];
     protected $appends = ['image_link'];
 

@@ -2,6 +2,7 @@
 
 namespace App\service\order;
 
+use App\Models\Wallet;
 use App\Models\Chapter;
 use App\Models\Payment;
 use App\Models\Package;
@@ -47,21 +48,32 @@ trait placeOrder
         ];
 
         try {
-            $payment = PaymentRequest::create($newPayment);
-
-            if (!empty(Cookie::get('affilate'))) {
-                $commision = Commission::where('name', 'Chapter')
-                    ->where('user_id', floatval(Cookie::get('affilate')))
-                    ->where('state', 1)
-                    ->first();
-                $commision = empty($commision) ? 0 : $commision->precentage;
-                $price = $price * $commision / 100;
-                AffilateRequest::create([
-                    'affilate_id' => floatval(Cookie::get('affilate')),
-                    'service' => $module,
-                    'earned' => $commision,
-                    'payment_req_id' => $payment->id
+            if($module == 'Wallet'){
+                $payment = Wallet::create([
+                    'student_id' => $user_id,
+                    'wallet' => $price,
+                    'date' => now(),
+                    'state' => 'Faild',
+                    'payment_method_id' => $paymentRequest->id,
                 ]);
+            }
+            else{
+                $payment = PaymentRequest::create($newPayment);
+
+                if (!empty(Cookie::get('affilate'))) {
+                    $commision = Commission::where('name', 'Chapter')
+                        ->where('user_id', floatval(Cookie::get('affilate')))
+                        ->where('state', 1)
+                        ->first();
+                    $commision = empty($commision) ? 0 : $commision->precentage;
+                    $price = $price * $commision / 100;
+                    AffilateRequest::create([
+                        'affilate_id' => floatval(Cookie::get('affilate')),
+                        'service' => $module,
+                        'earned' => $commision,
+                        'payment_req_id' => $payment->id
+                    ]);
+                }
             }
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Payment processing failed'], 500));
