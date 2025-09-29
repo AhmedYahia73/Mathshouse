@@ -56,7 +56,9 @@ trait placeOrder
                     'state' => 'Faild',
                     'payment_method_id' => $paymentRequest->id,
                 ]);
-                $order = [
+                $order = [];
+                $order['total'] = $price;
+                $order['items'] = [
                     'name' => 'Wallet',
                     'amount_cents' => $price,
                     'description' => "Charge Wallet with $price",
