@@ -56,6 +56,12 @@ trait placeOrder
                     'state' => 'Faild',
                     'payment_method_id' => $paymentRequest->id,
                 ]);
+                $order = [
+                    'name' => 'Wallet',
+                    'amount_cents' => $price,
+                    'description' => "Charge Wallet with $price",
+                    'quantity' => 1,
+                ];
             }
             else{
                 $payment = PaymentRequest::create($newPayment);
