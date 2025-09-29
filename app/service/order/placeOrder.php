@@ -58,7 +58,7 @@ trait placeOrder
                 ]);
                 $order = [];
                 $order['total'] = $price;
-                $order['items'] = [
+                $order['items'][] = [
                     'name' => 'Wallet',
                     'amount_cents' => $price,
                     'description' => "Charge Wallet with $price",
