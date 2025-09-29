@@ -66,10 +66,10 @@ class CallBackPaymobController extends Controller
                     $paymentRequest->chapters_order;
                 }
                 else{
-                    $wallet = $this->wallet->where('transaction_id',$transaction_id)->first();
-                    if(!empty($wallet)){
-                        $wallet->state = 'Approve';
-                        $wallet->save();
+                    $paymentRequest = $this->wallet->where('transaction_id',$transaction_id)->first();
+                    if(!empty($paymentRequest)){
+                        $paymentRequest->state = 'Approve';
+                        $paymentRequest->save();
                     }
                 }
                 // Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
@@ -89,13 +89,13 @@ class CallBackPaymobController extends Controller
             //    "alert('payment Success')"
             //    ]));
             } else {
-                    $transaction_id = $data['order'];
-                       $redirectUrl = route('student');;
-                       $message = 'Your payment is Failed. Please try again...';
-                       $timer = 3; // 3 seconds
-                       $totalAmount = $data['amount_cents'] / 100;
-                       return view('Student.Payment.paymentSuccess',
-                       compact('paymentRequest','totalAmount','message','redirectUrl','timer','data'));
+                $transaction_id = $data['order'];
+                $redirectUrl = route('student');;
+                $message = 'Your payment is Failed. Please try again...';
+                $timer = 3; // 3 seconds
+                $totalAmount = $data['amount_cents'] / 100;
+                return view('Student.Payment.paymentSuccess',
+                compact('paymentRequest','totalAmount','message','redirectUrl','timer','data'));
 
             }
         } else {
