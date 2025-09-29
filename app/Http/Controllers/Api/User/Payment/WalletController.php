@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
+use App\service\PaymentPaymob;
 
 use App\Models\Wallet;
 use App\Models\PaymentMethod;
@@ -16,6 +17,7 @@ class WalletController extends Controller
     private Wallet $wallet){
     }
     use Image;
+    use PaymentPaymob;
 
     public function history(){
         $wallets = $this->wallet
