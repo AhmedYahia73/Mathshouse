@@ -10,6 +10,7 @@ use App\service\PaymentPaymob;
 
 use App\Models\Wallet;
 use App\Models\PaymentMethod;
+use App\Models\User;
 
 class WalletController extends Controller
 {
