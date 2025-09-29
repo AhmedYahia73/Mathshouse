@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
+use App\service\PaymentPaymob;
 
 use App\Models\Wallet;
 use App\Models\PaymentMethod;
@@ -15,6 +16,7 @@ class WalletController extends Controller
     public function __construct(private PaymentMethod $payment_method,
     private Wallet $wallet){}
     use Image;
+    use PaymentPaymob;
 
     public function history(Request $request){
         $validator = Validator::make($request->all(), [
