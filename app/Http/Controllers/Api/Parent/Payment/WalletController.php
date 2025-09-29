@@ -67,17 +67,32 @@ class WalletController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-        $walletRequest = [
-            'student_id' => $request->user_id,
-            'wallet' => $request->wallet,
-            'date' => now(),
-            'state' => 'Pendding',
-            'payment_method_id' => $request->payment_method_id,
-        ];
+        
  
-        $image_path = $this->store_base64($request->image, 'images/wallet');
-        $walletRequest['image'] = $image_path;
-        Wallet::create($walletRequest);
+        $payment_method = $this->payment_method
+        ->where('id', $request->payment_method_id)
+        ->first();
+        if($payment_method->payment == 'Paymob'){
+            $user = auth()->user();
+            $payment_link = $this->credit_mobile($user,$payment_method,'Charge Wallet',$request->wallet,'Wallet',0);
+
+            return response()->json([
+                'payment_link' => $payment_link,
+            ]);
+        }
+        else{
+            $walletRequest = [
+                'student_id' => $request->user_id,
+                'wallet' => $request->wallet,
+                'date' => now(),
+                'state' => 'Pendding',
+                'payment_method_id' => $request->payment_method_id,
+            ];
+    
+            $image_path = $this->store_base64($request->image, 'images/wallet');
+            $walletRequest['image'] = $image_path;
+            Wallet::create($walletRequest);
+        }
 
         return response()->json([
             'success' => 'You charge wallet success'
