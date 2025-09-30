@@ -28,40 +28,45 @@ class PackageReportController extends Controller
             $question_count = $item?->small_package?->where('module', 'Question')?->sum('number') ?? 0;
             $exam_count = $item?->small_package?->where('module', 'Exam')?->sum('number') ?? 0;
             $item?->payment_package?->map(function($element) use($live_count, $live_courses_ids){
-                $live_count += $element?->package_order?->package?->where('module', 'Live')?->number ?? 0;
-                $live = $element?->package_order?->package?->where('module', 'Live');
-                $live_courses_ids[$live->course_id] = isset($live_courses_ids[$live->course_id] ) ? $live_courses_ids[$live->course_id] + $live->number : $live->number;
+                $live = $element?->package_order?->package;
+                if ($live && $live->module === 'Live') {
+                    $live_count += $live->number;
+                    $live_courses_ids[$live->course_id] = ($live_courses_ids[$live->course_id] ?? 0) + $live->number;
+                } 
             });
             $item?->payment_package?->map(function($element) use($question_count){
-                $question_count += $element?->package_order?->package?->where('module', 'Question')?->number ?? 0;
-                $question = $element?->package_order?->package?->where('module', 'Question');
-                $question_courses_ids[$question->course_id] = isset($question_courses_ids[$question->course_id] ) ? $question_courses_ids[$question->course_id] + $question->number : $question->number;
+                $question = $element?->package_order?->package;
+                if ($question && $question->module === 'Question') {
+                    $question_count += $question->number;
+                    $question_courses_ids[$question->course_id] = ($question_courses_ids[$question->course_id] ?? 0) + $question->number;
+                }
             });
             $item?->payment_package?->map(function($element) use($exam_count){
-                $exam_count += $element?->package_order?->package?->where('module', 'Exam')?->number ?? 0;
-                
-                $exam = $element?->package_order?->package?->where('module', 'Exam');
-                $exam_courses_ids[$exam->course_id] = isset($exam_courses_ids[$exam->course_id] ) ? $exam_courses_ids[$exam->course_id] + $exam->number : $exam->number;
+                $exam = $element?->package_order?->package;
+                if ($exam && $exam->module === 'Exam') {
+                    $exam_count += $exam->number;
+                    $exam_courses_ids[$exam->course_id] = ($exam_courses_ids[$exam->course_id] ?? 0) + $exam->number;
+                }
             });
             $live_details = [];
             $question_details = [];
             $exam_details = [];
-            foreach ($live_courses_ids as $key => $item) {
+            foreach ($live_courses_ids as $key => $element) {
                 $live_details[] = [
                     'course_name' => $course->where('id', $key)->first()?->course_name,
-                    'number' => $key
+                    'number' => $element
                 ];
             }
-            foreach ($question_courses_ids as $key => $item) {
+            foreach ($question_courses_ids as $key => $element) {
                 $question_details[] = [
                     'course_name' => $course->where('id', $key)->first()?->course_name,
-                    'number' => $key
+                    'number' => $element
                 ];
             }
-            foreach ($exam_courses_ids as $key => $item) {
+            foreach ($exam_courses_ids as $key => $element) {
                 $exam_details[] = [
                     'course_name' => $course->where('id', $key)->first()?->course_name,
-                    'number' => $key
+                    'number' => $element
                 ];
             }
 
