@@ -209,9 +209,9 @@ class PackageReportController extends Controller
                 'id' => $item->id,
                 'nick_name' => $item->nick_name,
                 'phone' => $item->phone,
-                'live_count' => $live_count,
-                'question_count' => $question_count,
-                'exam_count' => $exam_count,
+                'live_count' => $live,
+                'question_count' => $questions,
+                'exam_count' => $exam,
                 
                 'live_details' => $live_details,
                 'question_details' => $question_details,
