@@ -7,12 +7,31 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Package;
+use App\Models\PaymentPackageOrder;
+
+use Carbon\Carbon;
 
 class PackageReportController extends Controller
 {
     public function __construct(private Course $course){}
 
     public function lists(Request $request){
+        $packages = Package::all();
+        foreach ( $packages as $item ) {
+            $newTime = Carbon::now()->subDays($item->duration); 
+            $payment = PaymentPackageOrder::
+            where('package_id', $item->id)
+            ->get();
+
+            foreach ( $payment as $value ) {
+                
+                if ( $value->date < $newTime ) 
+                 {  
+                    $value->delete();
+                 }
+            }
+        }
         $course = $this->course;
         $students = User::
         select('id', 'nick_name', 'phone')
@@ -134,9 +153,9 @@ class PackageReportController extends Controller
                 'question_history_count' => $question_history_count,
                 'live_history_count' => $live_history_count,
                 
-                'exam_history_details' => $exam_history_details,
-                'question_history_details' => $question_history_details,
-                'live_history_details' => $live_history_details,
+                'exam_history_details' => array_values($exam_history_details),
+                'question_history_details' => array_values($question_history_details),
+                'live_history_details' => array_values($live_history_details),
             ];
         });
 
