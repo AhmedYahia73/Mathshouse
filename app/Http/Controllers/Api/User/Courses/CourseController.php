@@ -42,12 +42,23 @@ class CourseController extends Controller
     private PaymentMethod $payment_method,
     private Course $course,
     private Chapter $chapters,
+    private Currancy $currencies,
     FawryPayService $fawryPayService){
         $this->fawryPayService = $fawryPayService;
     }
     use Image;
     use PaymentPaymob;
     use PlaceOrderFawry;
+
+    public function currencies_list(Request $request){
+        $currencies = $this->currencies
+        ->select('id', 'currency', 'amount')
+        ->get();
+
+        return response()->json([
+            'currencies' => $currencies
+        ]);
+    } 
 
     public function lists(Request $request){
         
