@@ -64,9 +64,9 @@ class PackageReportController extends Controller
                 ];
             }
 
-            $exam_history_count = $item?->exams_history?->count ?? 0;
-            $question_history_count = $item?->questions_history?->count ?? 0;
-            $live_history_count = $item?->lives_history?->count ?? 0;
+            $exam_history_count = $item?->exams_history?->count() ?? 0;
+            $question_history_count = $item?->questions_history?->count() ?? 0;
+            $live_history_count = $item?->lives_history?->count() ?? 0;
 
             $exam_history = $item?->exams_history ?? [];
             $question_history = $item?->questions_history ?? [];
