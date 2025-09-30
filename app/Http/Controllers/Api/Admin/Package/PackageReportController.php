@@ -17,7 +17,7 @@ class PackageReportController extends Controller
         $students = User::
         select('id', 'nick_name', 'phone')
         ->with('payment_package.package_order.package', 'small_package',
-        'exams_history', 'questions_history', 'lives_history')
+            'exams_history', 'questions_history', 'lives_history')
         ->get()
         ->map(function($item) use($course){
             $live_courses_ids = $item?->small_package?->where('module', 'Live')->pluck('course_id')?->values()?->toArray();
@@ -27,30 +27,41 @@ class PackageReportController extends Controller
             $live_count = $item?->small_package?->where('module', 'Live')?->sum('number') ?? 0;
             $question_count = $item?->small_package?->where('module', 'Question')?->sum('number') ?? 0;
             $exam_count = $item?->small_package?->where('module', 'Exam')?->sum('number') ?? 0;
-            $item?->payment_package?->map(function($element) use($live_count, $live_courses_ids){
-                $live = $element?->package_order?->package;
-                if ($live && $live->module === 'Live') {
-                    $live_count += $live->number;
-                    $live_courses_ids[$live->course_id] = ($live_courses_ids[$live->course_id] ?? 0) + $live->number;
-                } 
+
+            $item?->payment_package?->each(function($element) use (&$live_count, &$live_courses_ids){
+                $element?->package_order?->each(function($order) use (&$live_count, &$live_courses_ids){
+                    $live = $order?->package;
+                    if ($live && $live->module === 'Live') {
+                        $live_count += $live->number;
+                        $live_courses_ids[$live->course_id] = ($live_courses_ids[$live->course_id] ?? 0) + $live->number;
+                    }
+                });
             });
-            $item?->payment_package?->map(function($element) use($question_count){
-                $question = $element?->package_order?->package;
-                if ($question && $question->module === 'Question') {
-                    $question_count += $question->number;
-                    $question_courses_ids[$question->course_id] = ($question_courses_ids[$question->course_id] ?? 0) + $question->number;
-                }
+
+            $item?->payment_package?->each(function($element) use (&$question_count, &$question_courses_ids){
+                $element?->package_order?->each(function($order) use (&$question_count, &$question_courses_ids){
+                    $question = $order?->package;
+                    if ($question && $question->module === 'Question') {
+                        $question_count += $question->number;
+                        $question_courses_ids[$question->course_id] = ($question_courses_ids[$question->course_id] ?? 0) + $question->number;
+                    }
+                });
             });
-            $item?->payment_package?->map(function($element) use($exam_count){
-                $exam = $element?->package_order?->package;
-                if ($exam && $exam->module === 'Exam') {
-                    $exam_count += $exam->number;
-                    $exam_courses_ids[$exam->course_id] = ($exam_courses_ids[$exam->course_id] ?? 0) + $exam->number;
-                }
+
+            $item?->payment_package?->each(function($element) use (&$exam_count, &$exam_courses_ids){
+                $element?->package_order?->each(function($order) use (&$exam_count, &$exam_courses_ids){
+                    $exam = $order?->package;
+                    if ($exam && $exam->module === 'Exam') {
+                        $exam_count += $exam->number;
+                        $exam_courses_ids[$exam->course_id] = ($exam_courses_ids[$exam->course_id] ?? 0) + $exam->number;
+                    }
+                });
             });
+
             $live_details = [];
             $question_details = [];
             $exam_details = [];
+
             foreach ($live_courses_ids as $key => $element) {
                 $live_details[] = [
                     'course_name' => $course->where('id', $key)->first()?->course_name,
@@ -87,7 +98,7 @@ class PackageReportController extends Controller
                 $exam_history_details[$course_id] = [
                     'course' => $course->where('id', $course_id)->first()?->course_name,
                     'number' => isset($exam_history_details[$course_id]) ? 
-                    ($exam_history_details[$course_id]['number'] + 1) : 1
+                        ($exam_history_details[$course_id]['number'] + 1) : 1
                 ];
             } 
             foreach ($question_history as $key => $element) {
@@ -95,7 +106,7 @@ class PackageReportController extends Controller
                 $question_history_details[$course_id] = [
                     'course' => $course->where('id', $course_id)->first()?->course_name,
                     'number' => isset($question_history_details[$course_id]) ? 
-                    ($question_history_details[$course_id]['number'] + 1) : 1
+                        ($question_history_details[$course_id]['number'] + 1) : 1
                 ];
             } 
             foreach ($live_history as $key => $element) {
@@ -103,9 +114,10 @@ class PackageReportController extends Controller
                 $live_history_details[$course_id] = [
                     'course' => $course->where('id', $course_id)->first()?->course_name,
                     'number' => isset($live_history_details[$course_id]) ? 
-                    ($live_history_details[$course_id]['number'] + 1) : 1
+                        ($live_history_details[$course_id]['number'] + 1) : 1
                 ];
             }
+
             return [
                 'id' => $item->id,
                 'nick_name' => $item->nick_name,
@@ -128,4 +140,5 @@ class PackageReportController extends Controller
             ];
         });
     }
+
 }
