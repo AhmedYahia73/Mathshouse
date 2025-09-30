@@ -190,6 +190,10 @@ class MyPackageController extends Controller
         $live_details = collect($live_details1)->merge(collect($live_details2));
         $question_details = collect($question_details1)->merge(collect($question_details2));
         $exam_details = collect($exam_details1)->merge(collect($exam_details2));
+        $courses = Course::
+        select('id', 'course_name')
+        ->where('category_id', $request->user()->category_id)
+        ->get();
 
         return response()->json([
             'exams' => $exam,

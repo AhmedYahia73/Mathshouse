@@ -248,7 +248,7 @@ class MyCoursesController extends Controller
         ->map(function($item){
             return [
                 'id' => $item->question->id,
-                'q_image' => $item->question->id,
+                'q_image' => $item->question->q_image,
                 'question' => $item->question->question,
                 'ans_type' => $item->question->ans_type,
                 'mcq' => $item->question->mcq,
