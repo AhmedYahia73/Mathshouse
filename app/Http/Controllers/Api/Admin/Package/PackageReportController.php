@@ -139,6 +139,10 @@ class PackageReportController extends Controller
                 'live_history_details' => $live_history_details,
             ];
         });
+
+        return response()->json([
+            'students' => $students
+        ]);
     }
 
 }
