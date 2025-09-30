@@ -50,7 +50,7 @@ class PackageReportController extends Controller
             $item?->payment_package?->each(function($element) use (&$live_count, &$live_courses_ids){
                 $element?->package_order?->each(function($order) use (&$live_count, &$live_courses_ids){
                     $live = $order?->package;
-                    if ($live && $live->module === 'Live') {
+                    if ($live && $live->module === 'Live' && $order->state == 1) {
                         $live_count += $live->number;
                         $live_courses_ids[$live->course_id] = ($live_courses_ids[$live->course_id] ?? 0) + $live->number;
                     }
@@ -60,7 +60,7 @@ class PackageReportController extends Controller
             $item?->payment_package?->each(function($element) use (&$question_count, &$question_courses_ids){
                 $element?->package_order?->each(function($order) use (&$question_count, &$question_courses_ids){
                     $question = $order?->package;
-                    if ($question && $question->module === 'Question') {
+                    if ($question && $question->module === 'Question' && $order->state == 1) {
                         $question_count += $question->number;
                         $question_courses_ids[$question->course_id] = ($question_courses_ids[$question->course_id] ?? 0) + $question->number;
                     }
@@ -70,7 +70,7 @@ class PackageReportController extends Controller
             $item?->payment_package?->each(function($element) use (&$exam_count, &$exam_courses_ids){
                 $element?->package_order?->each(function($order) use (&$exam_count, &$exam_courses_ids){
                     $exam = $order?->package;
-                    if ($exam && $exam->module === 'Exam') {
+                    if ($exam && $exam->module === 'Exam' && $order->state == 1) {
                         $exam_count += $exam->number;
                         $exam_courses_ids[$exam->course_id] = ($exam_courses_ids[$exam->course_id] ?? 0) + $exam->number;
                     }

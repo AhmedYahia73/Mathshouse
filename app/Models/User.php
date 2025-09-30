@@ -105,8 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function payment_package(){
         return $this->hasMany(PaymentRequest::class, 'user_id')
-        ->where('module', 'Package')
-        ->where('state', 'Approve');
+        ->where('module', 'Package');
     }
 
     public function small_package(){
