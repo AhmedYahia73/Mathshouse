@@ -44,11 +44,11 @@ class PackageReportController extends Controller
             'exams_history', 'questions_history', 'lives_history')
         ->get()
         ->map(function($item) use($courses, $small_package, $payment_package_order, ){
-            $small_package = $small_package->where('user_id', $item->id)
+            $my_small_package = $small_package->where('user_id', $item->id)
             ->get();
-            $s_exams = $small_package->where('module', 'Exam')->sum('number');
-            $s_questions = $small_package->where('module', 'Question')->sum('number');
-            $s_live = $small_package->where('module', 'Live')->sum('number');
+            $s_exams = $my_small_package->where('module', 'Exam')->sum('number');
+            $s_questions = $my_small_package->where('module', 'Question')->sum('number');
+            $s_live = $my_small_package->where('module', 'Live')->sum('number');
             $exam = $payment_package_order->
             leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
