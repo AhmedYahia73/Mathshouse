@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Admin\Notification\NotificationController;
 use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
 use App\Http\Controllers\Api\Admin\Package\PackageController;
+use App\Http\Controllers\Api\Admin\Package\PackageReportController;
 
 use App\Http\Controllers\Api\Admin\Home\HomeController;
 
@@ -243,6 +244,11 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create')->name('parent_add');
         Route::post('/update/{id}', 'update')->name('parent_update');
         Route::delete('/delete/{id}', 'delete')->name('parent_delete');
+    });
+
+    Route::controller(PackageReportController::class)->prefix('package_report')
+    ->middleware('can:Packages')->group(function(){ 
+        Route::get('/', 'lists'); 
     });
 
     Route::controller(PackageController::class)->prefix('package')
