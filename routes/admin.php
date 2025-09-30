@@ -59,10 +59,9 @@ use App\Http\Controllers\Api\Admin\AddToPackage\AddToPackageController;
 Route::post('login', [AdminLoginController::class, 'login']);
 
 
-Route::controller(PackageController::class)->prefix('package')
+Route::controller(PackageReportController::class)->prefix('package_report')
 ->group(function(){ 
-    Route::get('/', 'view');
-    Route::post('/update/{id}', 'modify'); 
+    Route::get('/', 'lists'); 
 });
 
 Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
@@ -253,9 +252,10 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::delete('/delete/{id}', 'delete')->name('parent_delete');
     });
 
-    Route::controller(PackageReportController::class)->prefix('package_report')
+    Route::controller(PackageController::class)->prefix('package')
     ->middleware('can:Packages')->group(function(){ 
-        Route::get('/', 'lists'); 
+        Route::get('/', 'view');
+        Route::post('/update/{id}', 'modify'); 
     });
     
 
