@@ -16,7 +16,8 @@ class PackageReportController extends Controller
         $course = $this->course;
         $students = User::
         select('id', 'nick_name', 'phone')
-        ->with('payment_package.package_order.package', 'small_package')
+        ->with('payment_package.package_order.package', 'small_package',
+        'exams_history', 'questions_history', 'lives_history')
         ->get()
         ->map(function($item) use($course){
             $live_courses_ids = $item?->small_package?->where('module', 'Live')->pluck('course_id')?->values()?->toArray();
