@@ -23,7 +23,6 @@ class PackageReportController extends Controller
         $packages = Package::all();
         $small_package = $this->small_package;
         $payment_package_order = $this->payment_package_order;
-        $courses = $this->course;
         foreach ( $packages as $item ) {
             $newTime = Carbon::now()->subDays($item->duration); 
             $payment = PaymentPackageOrder::
@@ -38,13 +37,13 @@ class PackageReportController extends Controller
                  }
             }
         }
-        $course = $this->course;
+        $courses = $this->course;
         $students = User::
         select('id', 'nick_name', 'phone')
         ->with('payment_package.package_order.package', 'small_package',
             'exams_history', 'questions_history', 'lives_history')
         ->get()
-        ->map(function($item) use($course, $small_package){
+        ->map(function($item) use($courses, $small_package, $payment_package_order, ){
             $small_package = $small_package->where('user_id', $item->id)
             ->get();
             $s_exams = $small_package->where('module', 'Exam')->sum('number');
@@ -184,7 +183,7 @@ class PackageReportController extends Controller
             foreach ($exam_history as $key => $element) {
                 $course_id = $element?->exams?->course_id;
                 $exam_history_details[$course_id] = [
-                    'course' => $course->where('id', $course_id)->first()?->course_name,
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
                     'number' => isset($exam_history_details[$course_id]) ? 
                         ($exam_history_details[$course_id]['number'] + 1) : 1
                 ];
@@ -192,7 +191,7 @@ class PackageReportController extends Controller
             foreach ($question_history as $key => $element) {
                 $course_id = $element?->exams?->course_id;
                 $question_history_details[$course_id] = [
-                    'course' => $course->where('id', $course_id)->first()?->course_name,
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
                     'number' => isset($question_history_details[$course_id]) ? 
                         ($question_history_details[$course_id]['number'] + 1) : 1
                 ];
@@ -200,7 +199,7 @@ class PackageReportController extends Controller
             foreach ($live_history as $key => $element) {
                 $course_id = $element?->exams?->course_id;
                 $live_history_details[$course_id] = [
-                    'course' => $course->where('id', $course_id)->first()?->course_name,
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
                     'number' => isset($live_history_details[$course_id]) ? 
                         ($live_history_details[$course_id]['number'] + 1) : 1
                 ];
