@@ -45,7 +45,7 @@ class PackageReportController extends Controller
             'exams_history', 'questions_history', 'lives_history')
         ->get()
         ->map(function($item) use($course, $small_package){
-            $small_package = $small_package->where('user_id', auth()->user()->id)
+            $small_package = $small_package->where('user_id', $item->id)
             ->get();
             $s_exams = $small_package->where('module', 'Exam')->sum('number');
             $s_questions = $small_package->where('module', 'Question')->sum('number');
@@ -55,7 +55,7 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Exam')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->sum('payment_package_order.number') + $s_exams;
             
             $questions = $payment_package_order->
@@ -63,7 +63,7 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Question')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->sum('payment_package_order.number') + $s_questions;
             
             $live = $payment_package_order->
@@ -71,12 +71,12 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Live')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->sum('payment_package_order.number') + $s_live;
             
             $exam_details1 = $small_package->
             selectRaw('course_id, SUM(number) AS number')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $item->id)
             ->with('course')
             ->where('module', 'Exam')
             ->groupBy('course_id')
@@ -89,7 +89,7 @@ class PackageReportController extends Controller
             });
             $live_details1 = $small_package->
             selectRaw('course_id, SUM(number) AS number')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $item->id)
             ->with('course')
             ->where('module', 'Live')
             ->groupBy('course_id')
@@ -102,7 +102,7 @@ class PackageReportController extends Controller
             });
             $question_details1 = $small_package->
             selectRaw('course_id, SUM(number) AS number')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $item->id)
             ->with('course')
             ->where('module', 'Question')
             ->groupBy('course_id')
@@ -120,7 +120,7 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Live')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->groupBy('course_id')
             ->get()
             ->map(function($item) use($courses){
@@ -137,7 +137,7 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Exam')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->groupBy('course_id')
             ->get()
             ->map(function($item) use($courses){
@@ -154,7 +154,7 @@ class PackageReportController extends Controller
             ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
             ->where('payment_package_order.state', 1)
             ->where('packages.module', 'Question')
-            ->where('payment_package_order.user_id', auth()->user()->id)
+            ->where('payment_package_order.user_id', $item->id)
             ->groupBy('course_id')
             ->get()
             ->map(function($item) use($courses){
