@@ -181,7 +181,7 @@ Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
         
     Route::controller(PackageReportController::class)->prefix('package_report')
     ->group(function(){ 
-        Route::get('/', 'report_lists'); 
+        Route::get('/', 'report_lists')->name('report_package_lists'); 
         Route::post('/report', 'report')->name('report_package'); 
     });
 
