@@ -19,7 +19,15 @@ class PackageReportController extends Controller
     private SmallPackage $small_package,
     private PaymentPackageOrder $payment_package_order){}
 
-    public function lists(Request $request){
+    public function report_lists(Request $request){
+        $students = User::
+        select('id', 'nick_name', 'phone')
+        ->where('position', 'student')
+        ->get();
+
+        return view('Admin.PackageReport.MainPackageReport', compact('students'));
+    }
+    public function report(Request $request){
         $packages = Package::all();
         $small_package = $this->small_package;
         $payment_package_order = $this->payment_package_order;
@@ -225,9 +233,11 @@ class PackageReportController extends Controller
                 'question_history_details' => array_values($question_history_details),
                 'live_history_details' => array_values($live_history_details),
             ];
-        });
+        }); 
+        $students = $data
+        ->select('id', 'nick_name', 'phone');
 
-        return view('Admin.PackageReport.PackageReport', compact('data'));
+        return view('Admin.PackageReport.PackageReport', compact('data', 'students'));
     }
 
 }
