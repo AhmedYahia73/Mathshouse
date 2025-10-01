@@ -38,7 +38,6 @@ use App\Http\Controllers\Api\Admin\Notification\NotificationController;
 use App\Http\Controllers\Api\Admin\Parent\ParentController;
 
 use App\Http\Controllers\Api\Admin\Package\PackageController;
-use App\Http\Controllers\Api\Admin\Package\PackageReportController;
 
 use App\Http\Controllers\Api\Admin\Home\HomeController;
 
@@ -59,10 +58,6 @@ use App\Http\Controllers\Api\Admin\AddToPackage\AddToPackageController;
 Route::post('login', [AdminLoginController::class, 'login']);
 
 
-Route::controller(PackageReportController::class)->prefix('package_report')
-->group(function(){ 
-    Route::get('/', 'lists'); 
-});
 
 Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(TeacherController::class)->prefix('teacher')

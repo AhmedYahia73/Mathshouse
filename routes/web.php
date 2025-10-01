@@ -65,6 +65,8 @@ use App\Http\Controllers\Affilate\Aff_PayoutController;
 use App\Http\Controllers\Affilate\Aff_ServiceController;
 use App\Http\Controllers\Affilate\Aff_ProfileController;
 
+use App\Http\Controllers\Api\Admin\Package\PackageReportController;
+
 use App\Http\Controllers\login\LoginController;
 
 use App\Http\Controllers\DomPdfController;
@@ -176,6 +178,11 @@ use Illuminate\Support\Facades\App;
 
 //  Hello MR Ahmed
 Route::middleware(['auth','auth.Admin'])->prefix('Admin')->group(function(){
+        
+    Route::controller(PackageReportController::class)->prefix('package_report')
+    ->group(function(){ 
+        Route::get('/', 'lists'); 
+    });
 
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

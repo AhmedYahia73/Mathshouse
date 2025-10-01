@@ -205,7 +205,7 @@ class PackageReportController extends Controller
                 ];
             }
 
-            return [
+            $data = [
                 'id' => $item->id,
                 'nick_name' => $item->nick_name,
                 'phone' => $item->phone,
@@ -227,9 +227,7 @@ class PackageReportController extends Controller
             ];
         });
 
-        return response()->json([
-            'students' => $students
-        ]);
+        return view('Admin.PackageReport.PackageReport', compact('data'));
     }
 
 }
