@@ -245,9 +245,11 @@ class PackageReportController extends Controller
                 'question_history_details' => array_values($question_history_details),
                 'live_history_details' => array_values($live_history_details),
             ];
-        }); 
-        $students = $data
-        ->select('id', 'nick_name', 'phone');
+        });     
+        $students = User::
+        select('id', 'nick_name', 'phone')
+        ->where('position', 'student')
+        ->get();
 
         return view('Admin.PackageReport.PackageReport', compact('data', 'students'));
     }
