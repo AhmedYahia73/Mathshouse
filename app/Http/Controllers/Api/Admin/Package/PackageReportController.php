@@ -38,7 +38,7 @@ class PackageReportController extends Controller
             }
         }
         $courses = $this->course;
-        $students = User::
+        $data = User::
         select('id', 'nick_name', 'phone')
         ->with('payment_package.package_order.package', 'small_package',
             'exams_history', 'questions_history', 'lives_history')
@@ -205,7 +205,7 @@ class PackageReportController extends Controller
                 ];
             }
 
-            $data = [
+            return [
                 'id' => $item->id,
                 'nick_name' => $item->nick_name,
                 'phone' => $item->phone,
