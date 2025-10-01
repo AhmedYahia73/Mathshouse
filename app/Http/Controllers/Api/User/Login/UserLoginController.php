@@ -129,8 +129,9 @@ class UserLoginController extends Controller
             if ($user->state == 'hidden') {
                 return response()->json([
                     'faild' => ' This Account Unavailable'
-                ]);
+                ], 400);
             }
+            Auth::loginUsingId($user->id);
             $user_login = LoginUser::
             where('user_id', $user->id)
             ->where('type', 'mobile')
@@ -152,7 +153,7 @@ class UserLoginController extends Controller
                 'token' => $token
             ], 200);
         } else {
-            return response()->json(['faild' => 'Your Account Not Available']);
+            return response()->json(['faild' => 'Your Account Not Available'], 400);
         }
     }
 
