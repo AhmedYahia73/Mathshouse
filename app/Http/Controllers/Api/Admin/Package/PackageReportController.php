@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin\Package;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 use App\Models\Course;
@@ -28,6 +29,16 @@ class PackageReportController extends Controller
         return view('Admin.PackageReport.MainPackageReport', compact('students'));
     }
     public function report(Request $request){
+        $validator = Validator::make($request->all(), [
+            'student_ids' =>['required', 'array'],
+            'student_ids.*' =>['required', 'exists:users,id'],
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
         $packages = Package::all();
         $small_package = $this->small_package;
         $payment_package_order = $this->payment_package_order;
@@ -50,6 +61,7 @@ class PackageReportController extends Controller
         select('id', 'nick_name', 'phone')
         ->with('payment_package.package_order.package', 'small_package',
             'exams_history', 'questions_history', 'lives_history')
+        ->whereIn('id', $request->student_ids)
         ->get()
         ->map(function($item) use($courses, $small_package, $payment_package_order, ){
             $my_small_package = $small_package->where('user_id', $item->id)
