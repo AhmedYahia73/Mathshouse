@@ -129,7 +129,7 @@ class UserLoginController extends Controller
             if ($user->state == 'hidden') {
                 return response()->json([
                     'faild' => ' This Account Unavailable'
-                ], 400);
+                ], 403);
             }
             Auth::loginUsingId($user->id);
             $user_login = LoginUser::
@@ -153,7 +153,7 @@ class UserLoginController extends Controller
                 'token' => $token
             ], 200);
         } else {
-            return response()->json(['faild' => 'Your Account Not Available'], 400);
+            return response()->json(['faild' => 'Your Account Not Available'], 403);
         }
     }
 
@@ -210,7 +210,7 @@ class UserLoginController extends Controller
         } else {
             return response()->json([
                 'faild' => 'Email or Phone is Wrong'
-            ]);
+            ], 403);
         }
     }
     
@@ -240,7 +240,7 @@ class UserLoginController extends Controller
         } else {
             return response()->json([
                 'faild' => 'Code Is Wrong'
-            ]);
+            ], 400);
         }
     }
 
@@ -274,7 +274,7 @@ class UserLoginController extends Controller
         } else {
             return response()->json([
                 'faild' => 'Code Is Wrong'
-            ]);
+            ], 400);
         }
     }
 }
