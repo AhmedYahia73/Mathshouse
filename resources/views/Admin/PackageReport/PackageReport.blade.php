@@ -109,6 +109,5 @@
             $("#report").html(html);
         });
     </script>
-
-    @endsection
+ 
 </x-default-layout>
