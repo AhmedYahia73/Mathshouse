@@ -96,7 +96,6 @@ class Logincontroller extends Controller
         }
 
         public function module(Request $request){
-                
                 $request->validate([
                 'email'=> 'required|email',
                 'password'=> 'required'
@@ -159,10 +158,17 @@ class Logincontroller extends Controller
                                 }  
                                 if(!empty($request->course_id)){
                                         return redirect()->route('v_course', ['id' => $request->course_id]);
+								}
+                                if(!empty($request->course_id)){
+                                        return redirect()->route('v_course', ['id' => $request->course_id]);
                                 }  
                         }
                         if(!$authantecated){
+                                if(!empty($request->course_id)){
+                                        return redirect()->route('v_course', ['id' => $request->course_id]);
+                                }  
                                 return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
+                 
                         }
 
                            
