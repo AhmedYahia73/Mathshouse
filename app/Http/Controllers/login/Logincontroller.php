@@ -88,6 +88,9 @@ class Logincontroller extends Controller
 					elseif($module_type == 'exams'){
 						return redirect()->route('exam_page', ['id' => $id]);
 					}  
+					if($module_type == 'course'){
+						return redirect()->route('v_course', ['id' => $id]);
+					} 
                 } 
                 LoginUser::
                 where('ip', $value)
@@ -158,10 +161,7 @@ class Logincontroller extends Controller
                                 }  
                                 if(!empty($request->course_id)){
                                         return redirect()->route('v_course', ['id' => $request->course_id]);
-								}
-                                if(!empty($request->course_id)){
-                                        return redirect()->route('v_course', ['id' => $request->course_id]);
-                                }  
+								} 
                         }
                         if(!$authantecated){
                                 if(!empty($request->course_id)){
