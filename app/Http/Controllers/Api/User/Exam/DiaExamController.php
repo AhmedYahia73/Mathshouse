@@ -108,8 +108,7 @@ class DiaExamController extends Controller
         $right_questions = $score;
         $score = ($right_questions / $total_question) * 100; 
         $grade = $exam->pass_score < $score ? true : false;
-        $timer = $request->timer;
-        if (empty($stu_q)) {
+        $timer = $request->timer; 
             $stu_exam = $this->exam_history
             ->create([
                 'date' => now(),
@@ -126,8 +125,7 @@ class DiaExamController extends Controller
                     'student_exam_id' => $stu_exam->id,
                     'question_id' => $item->id
                 ]);
-            }
-        }
+            } 
         $mistakes = collect($mistakes);
         $lessons_ids = $mistakes->pluck('lesson_id');
         $recommanditions = $this->lesson
@@ -149,6 +147,7 @@ class DiaExamController extends Controller
             'pass_score' => $pass_score,
             'exam_name' => $exam_name,
             'recommanditions' => $recommanditions,
+            'exam_history_id' => $stu_exam->id,
         ]);
  
     }
