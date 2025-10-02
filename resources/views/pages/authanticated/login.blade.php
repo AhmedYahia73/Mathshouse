@@ -245,6 +245,9 @@
             @elseif($module_type == 'exams')
                 <form action='{{ route('login.module') }}' method="POST" novalidate="novalidate" class="leftRe">
                 <input type="hidden" name="exam_id" value="{{ $id }}" />
+            @elseif($module_type == 'course')
+                <form action='{{ route('login.module') }}' method="POST" novalidate="novalidate" class="leftRe">
+                <input type="hidden" name="course_id" value="{{ $id }}" />
             @endif
         @else
             <form action='{{ route('login.store') }}' method="POST" novalidate="novalidate" class="leftRe">
