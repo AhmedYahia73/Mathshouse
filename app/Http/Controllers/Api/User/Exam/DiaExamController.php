@@ -104,7 +104,7 @@ class DiaExamController extends Controller
                 }
             }
         }
-        unset($exam->exam);
+        unset($exam->question);
   
         $right_questions = $score;
         $score = ($right_questions / $total_question) * 100; 
