@@ -104,6 +104,7 @@ class DiaExamController extends Controller
                 }
             }
         }
+        unset($exam->exam);
   
         $right_questions = $score;
         $score = ($right_questions / $total_question) * 100; 
@@ -138,8 +139,7 @@ class DiaExamController extends Controller
         ?->pluck('chapter');
 
         return response()->json([
-            'grade' => $grade,
-            'mistakes' => $mistakes,
+            'grade' => $grade, 
             'score' => $score,
             'exam' => $exam,
             'right_question' => $right_questions,
