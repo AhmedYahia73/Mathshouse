@@ -142,7 +142,7 @@ class DiaExamController extends Controller
         ?->pluck('chapter')
         ?->map(function($item){
             $item->min_price = $item->price?->min('price');
-            return $itme;
+            return $item;
         });
 
         return response()->json([
