@@ -132,7 +132,10 @@ class DiaExamController extends Controller
         $recommanditions = $this->lesson
         ->whereIn('id', $lessons_ids)
         ->with(['chapter' => function($query){
-            $query->select('chapter_name', 'id');
+            $query->select('chapter_name', 'id')
+            ->with(function($q){
+                $q->select('id', 'duration', 'price', 'discount', 'chapter_id');
+            });
         }])
         ->get()
         ->unique('chapter_id')
