@@ -60,6 +60,17 @@ class CourseController extends Controller
         ]);
     } 
 
+    public function payment_methods_list(Request $request){
+        $payment_methods = $this->payment_method
+        ->select('id', 'payment', 'description', 'logo')
+        ->where('statue', 1)
+        ->get();
+
+        return response()->json([
+            'payment_methods' => $payment_methods
+        ]);
+    }
+
     public function lists(Request $request){
         
         $lessons_db = $this->lessons;
