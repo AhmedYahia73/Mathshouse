@@ -139,7 +139,11 @@ class DiaExamController extends Controller
         }])
         ->get()
         ->unique('chapter_id')
-        ?->pluck('chapter');
+        ?->pluck('chapter')
+        ?->map(function($item){
+            $item->min_price = $item->price?->min('price');
+            return $itme;
+        });
 
         return response()->json([
             'grade' => $grade, 
