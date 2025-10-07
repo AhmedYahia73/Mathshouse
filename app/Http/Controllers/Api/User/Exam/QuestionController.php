@@ -197,18 +197,16 @@ class QuestionController extends Controller
             'time' => $timer_val,
         ]);
     }
-
+       
     public function grid_answer($answers, $my_answer){
-        if(intval($answers)){
-            foreach ($answers as $item) {
-                if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
-                    return true;
-                }
+        foreach ($answers as $item) {
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+                return true;
+            }
+            elseif($my_answer == $item){
+                return true;
             }
         }
-        elseif($answers == $my_answer){
-            return true;
-        }
         return false;
-    }
+    } 
 }
