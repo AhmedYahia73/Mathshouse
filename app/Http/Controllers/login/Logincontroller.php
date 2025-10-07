@@ -109,8 +109,7 @@ class Logincontroller extends Controller
                 'email.required'=> 'Email or Password Invalid',
                 'email.email'=> 'Email or Password Invalid',
                 'password.required'=> 'Email or Password Invalid',
-                ]);
-
+                ]); 
 
                         $user = User::where('email',$request->input('email'))->first();
                         if(!$user){
@@ -173,6 +172,9 @@ class Logincontroller extends Controller
                                 if(!empty($request->course_id)){
                                         return redirect()->route('v_course', ['id' => $request->course_id]);
                                 }  
+                                if(!empty($request->live)){
+                                        return redirect()->route('v_live');
+				} 
                                 return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
                  
                         }
