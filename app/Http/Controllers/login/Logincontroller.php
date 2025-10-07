@@ -82,15 +82,18 @@ class Logincontroller extends Controller
                         ->first();
                 }
                 if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'student' ) {
-					if($module_type == 'questions'){
-						return redirect()->route('q_page', ['id' => $id]);
-					}  
-					elseif($module_type == 'exams'){
-						return redirect()->route('exam_page', ['id' => $id]);
-					}  
-					if($module_type == 'course'){
-						return redirect()->route('v_course', ['id' => $id]);
-					} 
+                        if($module_type == 'questions'){
+                                return redirect()->route('q_page', ['id' => $id]);
+                        }  
+                        elseif($module_type == 'exams'){
+                                return redirect()->route('exam_page', ['id' => $id]);
+                        }  
+                        if($module_type == 'course'){
+                                return redirect()->route('v_course', ['id' => $id]);
+                        } 
+                        if(!empty($request->live)){
+                                return redirect()->route('v_live');
+                        } 
                 } 
                 LoginUser::
                 where('ip', $value)
@@ -161,7 +164,10 @@ class Logincontroller extends Controller
                                 }  
                                 if(!empty($request->course_id)){
                                         return redirect()->route('v_course', ['id' => $request->course_id]);
-								} 
+				} 
+                                if(!empty($request->live)){
+                                        return redirect()->route('v_live');
+				} 
                         }
                         if(!$authantecated){
                                 if(!empty($request->course_id)){
