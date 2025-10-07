@@ -37,16 +37,7 @@ class CoursesController extends Controller
 use PaymentPaymob;
 
     public function categories(){
-        $categories = Category::all();
-        $popup = MarketingPopup::
-        where('starts', '<=', now())
-        ->where('ends', '>=', now())
-        ->whereHas('popup_pages', function($query){
-            $query->where('page_name', 'Categories');
-        })
-        ->get();
-
-        return view('Visitor.Courses.Categories', compact('categories', 'popup'));
+        return redirect('https://mathshouse.net/systems');
     }
 
     public function courses($id){

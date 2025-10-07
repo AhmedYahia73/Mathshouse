@@ -32,18 +32,7 @@ class V_ExamController extends Controller
     
 
     public function v_exams(){
-        $exam_code = ExamCodes::all();
-        $courses = Course::all();
-        $categories = Category::all();
-        $popup = MarketingPopup::
-        where('starts', '<=', now())
-        ->where('ends', '>=', now())
-        ->whereHas('popup_pages', function($query){
-            $query->where('page_name', 'Exams');
-        })
-        ->get();
-
-        return view('Visitor.Exam.Exam', compact('exam_code', 'courses', 'categories', 'popup'));
+        return redirect('https://mathshouse.net/exams');
     }
 
     public function filter_exam( Request $req ){

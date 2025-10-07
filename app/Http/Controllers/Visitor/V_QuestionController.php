@@ -27,19 +27,8 @@ use Carbon\Carbon;
 class V_QuestionController extends Controller
 {
     
-    public function v_question(){ 
-        $popup = MarketingPopup::
-        where('starts', '<=', now())
-        ->where('ends', '>=', now())
-        ->whereHas('popup_pages', function($query){
-            $query->where('page_name', 'Question');
-        })
-        ->get();
-        $codes = ExamCodes::all();
-        $categories = Category::all();
-        $courses = Course::all();
-
-        return view('Visitor.Question.Question', compact('popup', 'categories', 'courses', 'codes'));
+    public function v_question(){
+        return redirect('https://mathshouse.net/questions');
     }
 
     public function v_filter_question( Request $req ){
