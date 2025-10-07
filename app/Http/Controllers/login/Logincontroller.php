@@ -91,7 +91,7 @@ class Logincontroller extends Controller
                         if($module_type == 'course'){
                                 return redirect()->route('v_course', ['id' => $id]);
                         } 
-                        if(!empty($request->live)){
+                        if($module_type == 'course'){
                                 return redirect()->route('v_live');
                         } 
                 } 
