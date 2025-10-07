@@ -160,10 +160,15 @@ class DiaExamController extends Controller
     }
 
     public function grid_answer($answers, $my_answer){
-        foreach ($answers as $item) {
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
-                return true;
+        if(intval($answer)){
+            foreach ($answers as $item) {
+                if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+                    return true;
+                }
             }
+        }
+        elseif($answers == $my_answer){
+            return true;
         }
         return false;
     }
