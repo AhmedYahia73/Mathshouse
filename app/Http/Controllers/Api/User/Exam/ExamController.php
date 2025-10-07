@@ -250,7 +250,7 @@ class ExamController extends Controller
     }
 
     public function grid_answer($answers, $my_answer){
-        if(intval($answer)){
+        if(intval($answers)){
             foreach ($answers as $item) {
                 if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
                     return true;
