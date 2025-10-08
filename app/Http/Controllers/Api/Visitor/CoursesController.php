@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api\Visitor;
 
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Category;
 use App\Models\Lesson;
@@ -88,4 +91,23 @@ class CoursesController extends Controller
             'categories' => $categories, 
         ]);
     }
+
+    public function send_email(Request $request){ 
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'description' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+         
+
+        Mail::to('mathhouse24@gmail.com')->send(new ContactMail($request->all()));
+
+        return "Email sent successfully!";
+        }
 }
