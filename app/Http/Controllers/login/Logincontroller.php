@@ -43,6 +43,9 @@ class Logincontroller extends Controller
                         ->where('user_id', auth()->user()->id)
                         ->where('created_at', '>=', $timeMinus120Minutes)
                         ->first();
+                                if ( $l_user ) {
+                					return view('pages.authanticated.login');  
+                                }
                 }
                 if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'student' ) {
                         return redirect()->route('stu_dashboard');
@@ -110,7 +113,6 @@ class Logincontroller extends Controller
                 'email.email'=> 'Email or Password Invalid',
                 'password.required'=> 'Email or Password Invalid',
                 ]); 
-
                         $user = User::where('email',$request->input('email'))->first();
                         if(!$user){
                                 return redirect()->route('login.index')->withErrors(['error'=>'The Email or Password Invalid']);
@@ -134,12 +136,12 @@ class Logincontroller extends Controller
                                         return redirect()->route('login.index')->withErrors(['error'=>'You are logged in from another device.']);
                                 }
                         }
+                            
 
                         Auth::loginUsingId($user->id);
 
                         $credentials = $request->only('email','password');
 
-                                
                         $authantecated = Auth::attempt($credentials);
                         $value = Cookie::get('device_id');
                         if ( empty($value) ) {
