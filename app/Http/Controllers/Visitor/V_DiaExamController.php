@@ -37,6 +37,12 @@ class V_DiaExamController extends Controller
             $query->where('page_name', 'Diagnostic Exam', 'popup');
         })
         ->get();
+        $user = auth()->user();
+        if($user){
+            $token = $user->createToken("user")->plainTextToken;
+            $user->token = $token;
+            return redirect("https://mathshouse.net/login?user=" . $user);
+        }
 
         return view('Visitor.Dia_Exam.Dia_Exam', compact('categories', 'popup', 'courses'));
     }
