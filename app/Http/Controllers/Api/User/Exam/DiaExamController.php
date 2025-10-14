@@ -162,7 +162,8 @@ class DiaExamController extends Controller
        
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+            $item = is_numeric($item) ? floatval($item): $item;
+            if(is_numeric($item) && is_numeric($my_answer) && $item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
                 return true;
             }
             elseif($my_answer == $item){
