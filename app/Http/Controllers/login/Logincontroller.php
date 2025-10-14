@@ -127,14 +127,33 @@ class Logincontroller extends Controller
                         $now = Carbon::now();
                         $timeMinus120Minutes = $now->subMinutes(300);
                         if ( auth()->user() ) {
-                                $l_user = LoginUser::
-                                where('type', 'web') 
-                                ->where('user_id', $user->id)
-                                ->where('created_at', '>=', $timeMinus120Minutes)
-                                ->first();
-                                if ( $l_user ) {
-                                        return redirect()->route('login.index')->withErrors(['error'=>'You are logged in from another device.']);
+                                if(!empty($request->question_id)){
+                                        return redirect()->route('q_page', ['id' => $request->question_id]);
+                                }  
+                                if(!empty($request->exam_id)){
+                                        return redirect()->route('exam_page', ['id' => $request->exam_id]);
+                                }  
+                                if(!empty($request->course_id)){
+                                        return redirect()->route('v_course', ['id' => $request->course_id]);
+				} 
+                                if(!empty($request->live)){
+                                        return redirect()->route('v_live');
+				} 
+                                if( auth()->user()->position == 'admin'){
+                                        return redirect()->route('dashboard')->with(['success'=>'Loged In']);
                                 }
+                                elseif( auth()->user()->position == 'user_admin'){
+                                        return redirect()->route('dashboard')->with(['success'=>'Loged In']);
+                                }
+                                elseif( auth()->user()->position == 'teacher'){
+                                        return redirect()->route('t_dashboard')->with(['success'=>'Loged In']);
+                               }
+                               elseif( auth()->user()->position == 'student'){
+                                        return redirect()->route('stu_dashboard');
+                               }
+                               elseif( auth()->user()->position == 'affilate'){
+                                        return redirect()->route('stu_affilate');
+                               }
                         }
                             
 
@@ -152,6 +171,14 @@ class Logincontroller extends Controller
                                 $user = User::where('email',$request->email)->first();
                                 $token = $user->createToken("user")->plainTextToken;
                                 $user->token =$token;
+                                $l_user = LoginUser::
+                                where('type', 'web') 
+                                ->where('user_id', $user->id)
+                                ->where('created_at', '>=', $timeMinus120Minutes)
+                                ->first();
+                                if ( $l_user ) {
+                                        return redirect()->route('login.index')->withErrors(['error'=>'You are logged in from another device.']);
+                                }
                                 LoginUser::create([
                                         'type' => 'web',
                                         'user_id'=> $user->id,
