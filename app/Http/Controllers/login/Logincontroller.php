@@ -37,31 +37,35 @@ class Logincontroller extends Controller
                         Cookie::queue(Cookie::make('device_id', $value, 60 * 24 * 365));
                 }
 
-                if ( auth()->user() ) {
-                        $l_user = LoginUser::
-                        where('type', 'web')
-                        ->where('user_id', auth()->user()->id)
-                        ->where('created_at', '>=', $timeMinus120Minutes)
-                        ->first();
-                                if ( $l_user ) {
-                					return view('pages.authanticated.login');  
+                        if ( auth()->user() ) {
+                                if(!empty($request->question_id)){
+                                        return redirect()->route('q_page', ['id' => $request->question_id]);
+                                }  
+                                if(!empty($request->exam_id)){
+                                        return redirect()->route('exam_page', ['id' => $request->exam_id]);
+                                }  
+                                if(!empty($request->course_id)){
+                                        return redirect()->route('v_course', ['id' => $request->course_id]);
+				} 
+                                if(!empty($request->live)){
+                                        return redirect()->route('v_live');
+				} 
+                                if( auth()->user()->position == 'admin'){
+                                        return redirect()->route('dashboard')->with(['success'=>'Loged In']);
                                 }
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'student' ) {
-                        return redirect()->route('stu_dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'user_admin' ) {
-                        return redirect()->route('dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'admin' ) {
-                        return redirect()->route('dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'teacher' ) {
-                        return redirect()->route('t_dashboard');
-                }
-                if ( isset($l_user) && isset(auth()->user()->position) && auth()->user()->position == 'affilate' ) {
-                        return redirect()->route('stu_affilate');
-                }
+                                elseif( auth()->user()->position == 'user_admin'){
+                                        return redirect()->route('dashboard')->with(['success'=>'Loged In']);
+                                }
+                                elseif( auth()->user()->position == 'teacher'){
+                                        return redirect()->route('t_dashboard')->with(['success'=>'Loged In']);
+                               }
+                               elseif( auth()->user()->position == 'student'){
+                                        return redirect()->route('stu_dashboard');
+                               }
+                               elseif( auth()->user()->position == 'affilate'){
+                                        return redirect()->route('stu_affilate');
+                               }
+                        }
                 LoginUser::
                 where('ip', $value)
                 ->delete();
