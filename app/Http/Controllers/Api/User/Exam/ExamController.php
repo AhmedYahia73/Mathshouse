@@ -140,7 +140,7 @@ class ExamController extends Controller
         } 
         
         return response()->json([
-            'errors' => 'You must buy package',
+            'errors' => "You don't have a package to start exam",
             'course_id' => $exam->course_id,
         ], 400);
     }
@@ -249,15 +249,16 @@ class ExamController extends Controller
         ]);
  
     }
-
+       
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
-            $item = floatval($item);
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+                return true;
+            }
+            elseif($my_answer == $item){
                 return true;
             }
         }
         return false;
-    }
-
+    } 
 }

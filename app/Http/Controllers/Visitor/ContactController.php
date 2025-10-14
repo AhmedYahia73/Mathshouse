@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
 
     public function index(){
-        return view('Visitor.Contact.Contact');
+        return redirect('https://mathshouse.net/ContactUs');
     }
 
     public function contact_msg( Request $req ){

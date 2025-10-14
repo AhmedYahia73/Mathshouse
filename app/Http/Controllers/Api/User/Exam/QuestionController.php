@@ -157,7 +157,7 @@ class QuestionController extends Controller
         } 
         
         return response()->json([
-            'errors' => 'You must buy package',
+            'errors' => "You don't have a package to start question",
             'course_id' => $question?->lessons?->chapter?->course_id,
         ], 400);
         
@@ -198,14 +198,16 @@ class QuestionController extends Controller
             'time' => $timer_val,
         ]);
     }
-
+       
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
-            $item = floatval($item);
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+                return true;
+            }
+            elseif($my_answer == $item){
                 return true;
             }
         }
         return false;
-    }
+    } 
 }

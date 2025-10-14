@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\trait\Image;
+use App\service\PaymentPaymob;
 
 use App\Models\Wallet;
 use App\Models\PaymentMethod;
+use App\Models\User;
 
 class WalletController extends Controller
 {
     public function __construct(private PaymentMethod $payment_method,
     private Wallet $wallet){}
     use Image;
+    use PaymentPaymob;
 
     public function history(Request $request){
         $validator = Validator::make($request->all(), [
@@ -67,17 +70,34 @@ class WalletController extends Controller
                 'errors' => $validator->errors(),
             ],400);
         }
-        $walletRequest = [
-            'student_id' => $request->user_id,
-            'wallet' => $request->wallet,
-            'date' => now(),
-            'state' => 'Pendding',
-            'payment_method_id' => $request->payment_method_id,
-        ];
+        
  
-        $image_path = $this->store_base64($request->image, 'images/wallet');
-        $walletRequest['image'] = $image_path;
-        Wallet::create($walletRequest);
+        $payment_method = $this->payment_method
+        ->where('id', $request->payment_method_id)
+        ->first();
+        if($payment_method->payment == 'Paymob'){
+            $user = User::
+            where('id', $request->user_id)
+            ->first();
+            $payment_link = $this->credit_mobile($user,$payment_method,'Charge Wallet',$request->wallet,'Wallet',0);
+
+            return response()->json([
+                'payment_link' => $payment_link,
+            ]);
+        }
+        else{
+            $walletRequest = [
+                'student_id' => $request->user_id,
+                'wallet' => $request->wallet,
+                'date' => now(),
+                'state' => 'Pendding',
+                'payment_method_id' => $request->payment_method_id,
+            ];
+    
+            $image_path = $this->store_base64($request->image, 'images/wallet');
+            $walletRequest['image'] = $image_path;
+            Wallet::create($walletRequest);
+        }
 
         return response()->json([
             'success' => 'You charge wallet success'

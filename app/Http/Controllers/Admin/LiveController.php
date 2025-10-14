@@ -260,13 +260,15 @@ class LiveController extends Controller
                 'stu_id' => $req->stu_id[$i],
             ]);
         }
-        for ($i=0, $end = count($req->day); $i < $end; $i++) {
-            GroupDay::create([
-                'day' => $req->day[$i],
-                'from' => $req->from[$i],
-                'to' => $req->to[$i],
-                'group_id' => $session_g->id,
-            ]);
+        if($req->day){
+            for ($i=0, $end = count($req->day); $i < $end; $i++) {
+                GroupDay::create([
+                    'day' => $req->day[$i],
+                    'from' => $req->from[$i],
+                    'to' => $req->to[$i],
+                    'group_id' => $session_g->id,
+                ]);
+            }
         }
 
         return redirect()->back();

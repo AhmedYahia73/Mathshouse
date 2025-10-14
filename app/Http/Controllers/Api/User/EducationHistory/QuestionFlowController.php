@@ -89,7 +89,7 @@ class QuestionFlowController extends Controller
     public function solve_parallel(Request $request, $id){
         if(!$this->check_package($id)){
             return response()->json([
-                'errors' => 'You must buy package'
+                'errors' => "You don't have a package to start question",
             ], 403);
         }
 
@@ -155,7 +155,7 @@ class QuestionFlowController extends Controller
     public function view_answer(Request $request, $id){
         if(!$this->check_package($id)){
             return response()->json([
-                'errors' => 'You must buy package'
+                'errors' => "You don't have a package to start question"
             ], 403);
         }
 

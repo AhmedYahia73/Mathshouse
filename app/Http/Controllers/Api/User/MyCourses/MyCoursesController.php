@@ -225,16 +225,18 @@ class MyCoursesController extends Controller
             'pass_score' => $quiz->pass_score,
         ]);
     }
-
+       
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
-            $item = floatval($item);
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+                return true;
+            }
+            elseif($my_answer == $item){
                 return true;
             }
         }
         return false;
-    }
+    } 
 
     public function quiz_mistakes(Request $request, $id){
         $mistakes = StudentQuizzeMistake::
@@ -250,7 +252,7 @@ class MyCoursesController extends Controller
         ->map(function($item){
             return [
                 'id' => $item->question->id,
-                'q_image' => $item->question->id,
+                'q_image' => $item->question->q_image,
                 'question' => $item->question->question,
                 'ans_type' => $item->question->ans_type,
                 'mcq' => $item->question->mcq,

@@ -2,12 +2,15 @@
 
 namespace App\service\order;
 
+use App\Models\Wallet;
 use App\Models\Chapter;
 use App\Models\Payment;
+use App\Models\Package;
 use App\Models\Commission;
 use App\service\ExpireDate;
 use App\Models\PaymentRequest;
 use App\Models\AffilateRequest;
+use App\Models\PaymentPackageOrder;
 use App\Models\PaymentOrder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -45,29 +48,48 @@ trait placeOrder
         ];
 
         try {
-            $payment = PaymentRequest::create($newPayment);
-
-            if (!empty(Cookie::get('affilate'))) {
-                $commision = Commission::where('name', 'Chapter')
-                    ->where('user_id', floatval(Cookie::get('affilate')))
-                    ->where('state', 1)
-                    ->first();
-                $commision = empty($commision) ? 0 : $commision->precentage;
-                $price = $price * $commision / 100;
-                AffilateRequest::create([
-                    'affilate_id' => floatval(Cookie::get('affilate')),
-                    'service' => $module,
-                    'earned' => $commision,
-                    'payment_req_id' => $payment->id
+            if($module == 'Wallet'){
+                $payment = Wallet::create([
+                    'student_id' => $user_id,
+                    'wallet' => $price,
+                    'date' => now(),
+                    'state' => 'Faild',
+                    'payment_method_id' => $paymentRequest->id,
                 ]);
+                $order = [];
+                $order['total'] = $price;
+                $order['items'][] = [
+                    'name' => 'Wallet',
+                    'amount_cents' => $price,
+                    'description' => "Charge Wallet with $price",
+                    'quantity' => 1,
+                ];
+            }
+            else{
+                $payment = PaymentRequest::create($newPayment);
+
+                if (!empty(Cookie::get('affilate'))) {
+                    $commision = Commission::where('name', 'Chapter')
+                        ->where('user_id', floatval(Cookie::get('affilate')))
+                        ->where('state', 1)
+                        ->first();
+                    $commision = empty($commision) ? 0 : $commision->precentage;
+                    $price = $price * $commision / 100;
+                    AffilateRequest::create([
+                        'affilate_id' => floatval(Cookie::get('affilate')),
+                        'service' => $module,
+                        'earned' => $commision,
+                        'payment_req_id' => $payment->id
+                    ]);
+                }
             }
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Payment processing failed'], 500));
         }
 
         $cart = $orderItems ?? null;
-        if (isset($cart['Course']) || isset($cart['Chapters'])) {
-            $order = $this->createOrdersForItems($orderItems, $payment, $price, $module);
+        if (isset($cart['Course']) || isset($cart['Chapters']) || isset($cart['Package'])) {
+            $order = $this->createOrdersForItems($orderItems, $payment, $price, $module, $user);
         }
 
         try {
@@ -82,7 +104,7 @@ trait placeOrder
         ];
     }
 
-    private function createOrdersForItems($orderItems, $payment, $price, $service)
+    private function createOrdersForItems($orderItems, $payment, $price, $service, $user)
     {
         $cart = $orderItems ?? null;
         $orderData = [];
@@ -106,6 +128,32 @@ trait placeOrder
                     'quantity' => 1,
                 ];
             }
+
+            return [
+                'items' => $orderData,
+                'total' => floatval($price)
+            ];
+        }
+        
+        if (isset($cart['Package'])) {
+            $package = $cart['Package']; 
+            $package = Package::
+            where('id', $package->id)
+            ->first();
+            $chapterOrder = PaymentPackageOrder::create([
+                'payment_request_id' => $payment->id,
+                'package_id' => $package->id,
+                'number' => $package->number,
+                'state' => 0,
+                'date' => now(),
+                'user_id' => $user->id
+            ]);
+            $orderData[] = [
+                'name' => $package->name,
+                'amount_cents' => $price,
+                'description' => "Total Price Is $price And Services Is $service",
+                'quantity' => 1,
+            ];
 
             return [
                 'items' => $orderData,

@@ -43,6 +43,8 @@ use App\Http\Controllers\Api\Admin\Home\HomeController;
 
 use App\Http\Controllers\Api\Admin\Profile\ProfileController;
 
+use App\Http\Controllers\Api\Admin\AddToPackage\AddToPackageController;
+
 
 // Parents ++++
 // Students +++++
@@ -54,6 +56,8 @@ use App\Http\Controllers\Api\Admin\Profile\ProfileController;
 // Teacher sessions +++
 
 Route::post('login', [AdminLoginController::class, 'login']);
+
+
 
 Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
     Route::controller(TeacherController::class)->prefix('teacher')
@@ -76,6 +80,12 @@ Route::middleware(['auth:sanctum', 'auth.MobileAdmin'])->group(function(){
         Route::post('/add', 'create');
         Route::post('/update/{id}', 'modify');
         Route::delete('/delete/{id}', 'delete');
+    });
+
+    Route::controller(AddToPackageController::class)->prefix('add_to_package')
+    ->group(function(){
+        Route::get('/', 'lists');
+        Route::post('/add', 'stu_package_add');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')

@@ -7,6 +7,8 @@ use App\service\order\placeOrder;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 
+use App\Models\Currancy;
+
 trait PaymentPaymob
 {
     // This Trait About Srvic Payment Paymob
@@ -43,8 +45,8 @@ trait PaymentPaymob
         ]; // Data
         //this fucntion that send all below function data to paymob and use it for routes;
          $tokens = $this->getToken(); // Get Token
-          $order = $this->createOrder( $data , $tokens, $user,$module,$commision); // Create Order
-         $amount_cents = $order->amount_cents; // Get Amount Cents
+        $order = $this->createOrder( $data , $tokens, $user,$module,$commision); // Create Order
+        $amount_cents = $order->amount_cents; // Get Amount Cents
         $paymentToken = $this->getPaymentToken($user, $amount_cents, $order, $tokens); // Get Payment Token
         $items = $order;
         //    $items = $order['order'];
@@ -91,11 +93,15 @@ trait PaymentPaymob
         //     ]
         // ];
         // $data = $items;
+
+            $egp = Currancy::
+            orWhere('currency', 'EGP')
+            ->first()?->amount ?? 50; 
           $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $total ,
-            "currency"=> $paymentCurrancy->currency ?? 'EGP',
+            "amount_cents"=> $total * $egp,
+            "currency"=> $paymentCurrancy->currency ?? 'USD',
             "items"=> $items,
             "payment"=> $payment,
         ];
@@ -130,7 +136,7 @@ trait PaymentPaymob
             "last_name" => "mohamed",
             "state" => "0"
         ];
-        
+ 
          $data = [
             "auth_token" => $token,
             "amount_cents" => $total_amount * 100, //  1000 cents = 10 LE 

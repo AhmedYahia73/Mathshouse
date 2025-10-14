@@ -105,12 +105,12 @@ class DiaExamController extends Controller
                 }
             }
         }
+        unset($exam->question);
   
         $right_questions = $score;
         $score = ($right_questions / $total_question) * 100; 
         $grade = $exam->pass_score < $score ? true : false;
-        $timer = $request->timer;
-        if (empty($stu_q)) {
+        $timer = $request->timer; 
             $stu_exam = $this->exam_history
             ->create([
                 'date' => now(),
@@ -127,22 +127,27 @@ class DiaExamController extends Controller
                     'student_exam_id' => $stu_exam->id,
                     'question_id' => $item->id
                 ]);
-            }
-        }
+            } 
         $mistakes = collect($mistakes);
         $lessons_ids = $mistakes->pluck('lesson_id');
         $recommanditions = $this->lesson
         ->whereIn('id', $lessons_ids)
         ->with(['chapter' => function($query){
-            $query->select('chapter_name', 'id');
+            $query->select('chapter_name', 'id')
+            ->with(['price' => function($q){
+                $q->select('id', 'duration', 'price', 'discount', 'chapter_id');
+            }]);
         }])
         ->get()
         ->unique('chapter_id')
-        ?->pluck('chapter');
+        ?->pluck('chapter')
+        ?->map(function($item){
+            $item->min_price = $item->price?->min('price');
+            return $item;
+        });
 
         return response()->json([
-            'grade' => $grade,
-            'mistakes' => $mistakes,
+            'grade' => $grade, 
             'score' => $score,
             'exam' => $exam,
             'right_question' => $right_questions,
@@ -150,17 +155,20 @@ class DiaExamController extends Controller
             'pass_score' => $pass_score,
             'exam_name' => $exam_name,
             'recommanditions' => $recommanditions,
+            'exam_history_id' => $stu_exam->id,
         ]);
  
     }
-
+       
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
-            $item = floatval($item);
-            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
+            if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04 && is_numeric($my_answer)){
+                return true;
+            }
+            elseif($my_answer == $item){
                 return true;
             }
         }
         return false;
-    }
+    } 
 }

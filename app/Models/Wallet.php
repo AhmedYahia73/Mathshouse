@@ -23,6 +23,7 @@ class Wallet extends Model
         'state',
         'payment_request_id',
         'currency',
+        'transaction_id',
     ];
     protected $appends = ['image_link'];
 
@@ -43,6 +44,11 @@ class Wallet extends Model
     }
 
     public function method()
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+    }
+
+    public function payment_method()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }

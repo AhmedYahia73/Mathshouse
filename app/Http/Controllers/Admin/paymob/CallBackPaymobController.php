@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin\paymob;
 
 use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class CallBackPaymobController extends Controller
 {
-    public function __construct(private PaymentRequest $paymentRequest){}
+    public function __construct(private PaymentRequest $paymentRequest,
+    private Wallet $wallet){}
     // This Call Back Paymob When Make Payment With Payment 
      public function callback(Request $request)
     {
@@ -57,9 +59,19 @@ class CallBackPaymobController extends Controller
                  $transaction_id = $data['order'];
                   $totalAmount = $data['amount_cents'] / 100;
                 $paymentRequest = $this->paymentRequest->where('transaction_id',$transaction_id)->first();
-                 $paymentRequest->update(['state'=>'Approve']);
-                $paymentRequest->chapters_order()->update(['state'=> 1, 'date' => now()]);
-                 $paymentRequest->chapters_order;
+                if(!empty($paymentRequest)){
+                    $paymentRequest->update(['state'=>'Approve']);
+                    $paymentRequest->chapters_order()->update(['state'=> 1, 'date' => now()]);
+                    $paymentRequest->package_order()->update(['state'=> 1, 'date' => now()]);
+                    $paymentRequest->chapters_order;
+                }
+                else{
+                    $paymentRequest = $this->wallet->where('transaction_id',$transaction_id)->first();
+                    if(!empty($paymentRequest)){
+                        $paymentRequest->state = 'Approve';
+                        $paymentRequest->save();
+                    }
+                }
                 // Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
               
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
@@ -77,16 +89,13 @@ class CallBackPaymobController extends Controller
             //    "alert('payment Success')"
             //    ]));
             } else {
-                    $transaction_id = $data['order'];
-                      $paymentRequest = $this->paymentRequest->where('transaction_id',$transaction_id)->first();
-                      $paymentRequest->update(['state'=>'Rejected']);
-                      
-                       $redirectUrl = route('student');;
-                       $message = 'Your payment is Failed. Please try again...';
-                       $timer = 3; // 3 seconds
-                       $totalAmount = $data['amount_cents'] / 100;
-                       return view('Student.Payment.paymentSuccess',
-                       compact('paymentRequest','totalAmount','message','redirectUrl','timer','data'));
+                $transaction_id = $data['order'];
+                $redirectUrl = route('student');;
+                $message = 'Your payment is Failed. Please try again...';
+                $timer = 3; // 3 seconds
+                $totalAmount = $data['amount_cents'] / 100;
+                return view('Student.Payment.paymentSuccess',
+                compact('paymentRequest','totalAmount','message','redirectUrl','timer','data'));
 
             }
         } else {

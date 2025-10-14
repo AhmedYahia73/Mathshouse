@@ -42,6 +42,8 @@ class PaymentController extends Controller
 
     public function del_payment( Request $req ){
         PaymentMethod::where('id', $req->id)
+        ->where('id', '!=', 10)
+        ->where('id', '!=', 42)
         ->delete();
 
         return redirect()->back();

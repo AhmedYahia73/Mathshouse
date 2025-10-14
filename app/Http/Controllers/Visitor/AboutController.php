@@ -9,7 +9,7 @@ class AboutController extends Controller
 {
     
     public function index(){
-        return view('Visitor.About.About');
+        return redirect('https://mathshouse.net/About');
     }
 
 }

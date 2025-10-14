@@ -105,6 +105,8 @@ class PaymentMethodController extends Controller
     public function delete(Request $request, $id){
         $payment_method = $this->payment_method
         ->where('id', $id)
+        ->where('id', '!=', 10)
+        ->where('id', '!=', 42)
         ->delete(); 
 
         return response()->json([

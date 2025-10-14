@@ -15,6 +15,7 @@ use App\service\Fawry\FawryPayService;
 use App\service\Fawry\PlaceOrderFawry;
 
 use App\Models\Category;
+use App\Models\Currancy;
 use App\Models\Course;
 use App\Models\Chapter;
 use App\Models\Lesson;
@@ -41,12 +42,34 @@ class CourseController extends Controller
     private PaymentMethod $payment_method,
     private Course $course,
     private Chapter $chapters,
+    private Currancy $currencies,
     FawryPayService $fawryPayService){
         $this->fawryPayService = $fawryPayService;
     }
     use Image;
     use PaymentPaymob;
     use PlaceOrderFawry;
+
+    public function currencies_list(Request $request){
+        $currencies = $this->currencies
+        ->select('id', 'currency', 'amount')
+        ->get();
+
+        return response()->json([
+            'currencies' => $currencies
+        ]);
+    } 
+
+    public function payment_methods_list(Request $request){
+        $payment_methods = $this->payment_method
+        ->select('id', 'payment', 'description', 'logo')
+        ->where('statue', 1)
+        ->get();
+
+        return response()->json([
+            'payment_methods' => $payment_methods
+        ]);
+    }
 
     public function lists(Request $request){
         

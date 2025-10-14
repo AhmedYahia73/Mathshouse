@@ -162,10 +162,12 @@ return 'admin';
               data-bs-target="#modalCenter{{$item->id}}">
               Edit
             </button>
-            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-              data-bs-target="#modalDelete{{$item->id}}">
-              Delete
-            </button>
+            @if ($item->id != 10 && $item->id != 42)
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                data-bs-target="#modalDelete{{$item->id}}">
+                Delete
+              </button>
+            @endif
 
             <!-- Modal -->
             <form method="POST" action="{{route('payment_edit')}}" enctype="multipart/form-data">
@@ -245,33 +247,35 @@ return 'admin';
               </div>
             </form>
 
-            <!-- Modal -->
-            <div class="modal fade" id="modalDelete{{$item->id}}" tabindex="-1" aria-hidden="true"
-              style="display: none;">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
+            @if ($item->id != 10 && $item->id != 42)
+              <!-- Modal -->
+              <div class="modal fade" id="modalDelete{{$item->id}}" tabindex="-1" aria-hidden="true"
+                style="display: none;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
 
-                    <h5 class="modal-title" id="modalCenterTitle">Delete Payment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
+                      <h5 class="modal-title" id="modalCenterTitle">Delete Payment</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                  <div class='p-3'>
-                    Are You Sure To Delete
-                    <span class='text-danger'>
-                      {{$item->payment}} ??
-                    </span>
-                  </div>
+                    <div class='p-3'>
+                      Are You Sure To Delete
+                      <span class='text-danger'>
+                        {{$item->payment}} ??
+                      </span>
+                    </div>
 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                      Close
-                    </button>
-                    <a href="{{route('del_payment', ['id'=>$item->id])}}" class="btn btn-danger">Delete</a>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                        Close
+                      </button>
+                      <a href="{{route('del_payment', ['id'=>$item->id])}}" class="btn btn-danger">Delete</a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            @endif
           </div>
         </td>
       </tr>

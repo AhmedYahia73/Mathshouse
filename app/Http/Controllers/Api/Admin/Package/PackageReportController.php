@@ -1,0 +1,257 @@
+<?php
+
+namespace App\Http\Controllers\Api\Admin\Package;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+use App\Models\User;
+use App\Models\Course;
+use App\Models\Package;
+use App\Models\PaymentPackageOrder;
+use App\Models\SmallPackage;
+
+use Carbon\Carbon;
+
+class PackageReportController extends Controller
+{
+    public function __construct(private Course $course,
+    private SmallPackage $small_package,
+    private PaymentPackageOrder $payment_package_order){}
+
+    public function report_lists(Request $request){
+        $students = User::
+        select('id', 'nick_name', 'phone')
+        ->where('position', 'student')
+        ->get();
+
+        return view('Admin.PackageReport.MainPackageReport', compact('students'));
+    }
+    public function report(Request $request){
+        $validator = Validator::make($request->all(), [
+            'student_ids' =>['required', 'array'],
+            'student_ids.*' =>['required', 'exists:users,id'],
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        $packages = Package::all();
+        $small_package = $this->small_package;
+        $payment_package_order = $this->payment_package_order;
+        foreach ( $packages as $item ) {
+            $newTime = Carbon::now()->subDays($item->duration); 
+            $payment = PaymentPackageOrder::
+            where('package_id', $item->id)
+            ->get();
+
+            foreach ( $payment as $value ) {
+                
+                if ( $value->date < $newTime ) 
+                 {  
+                    $value->delete();
+                 }
+            }
+        }
+        $courses = $this->course;
+        $data = User::
+        select('id', 'nick_name', 'phone')
+        ->with('payment_package.package_order.package', 'small_package',
+            'exams_history', 'questions_history', 'lives_history')
+        ->whereIn('id', $request->student_ids)
+        ->get()
+        ->map(function($item) use($courses, $small_package, $payment_package_order, ){
+            $my_small_package = $small_package->where('user_id', $item->id)
+            ->get();
+            $s_exams = $my_small_package->where('module', 'Exam')->sum('number');
+            $s_questions = $my_small_package->where('module', 'Question')->sum('number');
+            $s_live = $my_small_package->where('module', 'Live')->sum('number');
+            $exam = $payment_package_order->
+            leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Exam')
+            ->where('payment_package_order.user_id', $item->id)
+            ->sum('payment_package_order.number') + $s_exams;
+            
+            $questions = $payment_package_order->
+            leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Question')
+            ->where('payment_package_order.user_id', $item->id)
+            ->sum('payment_package_order.number') + $s_questions;
+            
+            $live = $payment_package_order->
+            leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Live')
+            ->where('payment_package_order.user_id', $item->id)
+            ->sum('payment_package_order.number') + $s_live;
+            
+            $exam_details1 = $small_package->
+            selectRaw('course_id, SUM(number) AS number')
+            ->where('user_id', $item->id)
+            ->with('course')
+            ->where('module', 'Exam')
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item){
+                return [
+                    'course' => $item?->course?->course_name,
+                    'number' => $item->number
+                ];
+            });
+            $live_details1 = $small_package->
+            selectRaw('course_id, SUM(number) AS number')
+            ->where('user_id', $item->id)
+            ->with('course')
+            ->where('module', 'Live')
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item){
+                return [
+                    'course' => $item?->course?->course_name,
+                    'number' => $item->number
+                ];
+            });
+            $question_details1 = $small_package->
+            selectRaw('course_id, SUM(number) AS number')
+            ->where('user_id', $item->id)
+            ->with('course')
+            ->where('module', 'Question')
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item){
+                return [
+                    'course' => $item?->course?->course_name,
+                    'number' => $item->number
+                ];
+            });
+            $courses = $courses->get();
+            $live_details2 = $payment_package_order->
+            selectRaw('sum(payment_package_order.number) as number, course_id')
+            ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Live')
+            ->where('payment_package_order.user_id', $item->id)
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item) use($courses){
+                $course = $courses->where('id', $item->course_id)
+                ->first();
+                return [
+                    'number' => $item?->number,
+                    'course' => $course?->course_name,
+                ];
+            });
+            $exam_details2 = $payment_package_order->
+            selectRaw('sum(payment_package_order.number) as number, course_id')
+            ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Exam')
+            ->where('payment_package_order.user_id', $item->id)
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item) use($courses){
+                $course = $courses->where('id', $item->course_id)
+                ->first();
+                return [
+                    'number' => $item?->number,
+                    'course' => $course?->course_name,
+                ];
+            });
+            $question_details2 = $payment_package_order->
+            selectRaw('sum(payment_package_order.number) as number, course_id')
+            ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+            ->where('payment_package_order.state', 1)
+            ->where('packages.module', 'Question')
+            ->where('payment_package_order.user_id', $item->id)
+            ->groupBy('course_id')
+            ->get()
+            ->map(function($item) use($courses){
+                $course = $courses->where('id', $item->course_id)
+                ->first();
+                return [
+                    'number' => $item?->number,
+                    'course' => $course?->course_name,
+                ];
+            });
+            $live_details = collect($live_details1)->merge(collect($live_details2));
+            $question_details = collect($question_details1)->merge(collect($question_details2));
+            $exam_details = collect($exam_details1)->merge(collect($exam_details2));
+
+            $exam_history_count = $item?->exams_history?->count() ?? 0;
+            $question_history_count = $item?->questions_history?->count() ?? 0;
+            $live_history_count = $item?->lives_history?->count() ?? 0;
+
+            $exam_history = $item?->exams_history ?? [];
+            $question_history = $item?->questions_history ?? [];
+            $live_history = $item?->lives_history ?? [];
+
+            $exam_history_details = [];
+            $question_history_details = [];
+            $live_history_details = [];
+
+            foreach ($exam_history as $key => $element) {
+                $course_id = $element?->exams?->course_id;
+                $exam_history_details[$course_id] = [
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
+                    'number' => isset($exam_history_details[$course_id]) ? 
+                        ($exam_history_details[$course_id]['number'] + 1) : 1
+                ];
+            } 
+            foreach ($question_history as $key => $element) {
+                $course_id = $element?->exams?->course_id;
+                $question_history_details[$course_id] = [
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
+                    'number' => isset($question_history_details[$course_id]) ? 
+                        ($question_history_details[$course_id]['number'] + 1) : 1
+                ];
+            } 
+            foreach ($live_history as $key => $element) {
+                $course_id = $element?->exams?->course_id;
+                $live_history_details[$course_id] = [
+                    'course' => $courses->where('id', $course_id)->first()?->course_name,
+                    'number' => isset($live_history_details[$course_id]) ? 
+                        ($live_history_details[$course_id]['number'] + 1) : 1
+                ];
+            }
+
+            return [
+                'id' => $item->id,
+                'nick_name' => $item->nick_name,
+                'phone' => $item->phone,
+                'live_count' => $live,
+                'question_count' => $questions,
+                'exam_count' => $exam,
+                
+                'live_details' => $live_details,
+                'question_details' => $question_details,
+                'exam_details' => $exam_details,
+                
+                'exam_history_count' => $exam_history_count,
+                'question_history_count' => $question_history_count,
+                'live_history_count' => $live_history_count,
+                
+                'exam_history_details' => array_values($exam_history_details),
+                'question_history_details' => array_values($question_history_details),
+                'live_history_details' => array_values($live_history_details),
+            ];
+        });     
+        $students = User::
+        select('id', 'nick_name', 'phone')
+        ->where('position', 'student')
+        ->get();
+
+        return view('Admin.PackageReport.PackageReport', compact('data', 'students'));
+    }
+
+}

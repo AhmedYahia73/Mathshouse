@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentEmail;
 use App\trait\Image;
 
+use App\service\PaymentPaymob;
+
 use App\Models\PaymentPackageOrder;
 use App\Models\PaymentRequest;
 use App\Models\SmallPackage;
@@ -31,6 +33,7 @@ use Carbon\Carbon;
 class PackageController extends Controller
 {
     use Image;
+    use PaymentPaymob;
 
     public function my_packages(Request $request){
         $validator = Validator::make($request->all(), [
@@ -89,15 +92,113 @@ class PackageController extends Controller
         ->where('payment_package_order.user_id', $request->user_id)
         ->sum('payment_package_order.number') + $s_live;
         
+        $exam_details1 = SmallPackage::
+        selectRaw('course_id, SUM(number) AS number')
+        ->where('user_id', $request->user_id)
+        ->with('course')
+        ->where('module', 'Exam')
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item){
+            return [
+                'course' => $item?->course?->course_name,
+                'number' => $item->number
+            ];
+        });
+        $live_details1 = SmallPackage::
+        selectRaw('course_id, SUM(number) AS number')
+        ->where('user_id', $request->user_id)
+        ->with('course')
+        ->where('module', 'Live')
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item){
+            return [
+                'course' => $item?->course?->course_name,
+                'number' => $item->number
+            ];
+        });
+        $question_details1 = SmallPackage::
+        selectRaw('course_id, SUM(number) AS number')
+        ->where('user_id', $request->user_id)
+        ->with('course')
+        ->where('module', 'Question')
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item){
+            return [
+                'course' => $item?->course?->course_name,
+                'number' => $item->number
+            ];
+        });
+        $courses = Course::all();
+        $live_details2 = PaymentPackageOrder::
+        selectRaw('sum(payment_package_order.number) as number, course_id')
+        ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+        ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+        ->where('payment_package_order.state', 1)
+        ->where('packages.module', 'Live')
+        ->where('payment_package_order.user_id', $request->user_id)
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item) use($courses){
+            $course = $courses->where('id', $item->course_id)
+            ->first();
+            return [
+                'number' => $item?->number,
+                'course' => $course?->course_name,
+            ];
+        });
+        $exam_details2 = PaymentPackageOrder::
+        selectRaw('sum(payment_package_order.number) as number, course_id')
+        ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+        ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+        ->where('payment_package_order.state', 1)
+        ->where('packages.module', 'Exam')
+        ->where('payment_package_order.user_id', $request->user_id)
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item) use($courses){
+            $course = $courses->where('id', $item->course_id)
+            ->first();
+            return [
+                'number' => $item?->number,
+                'course' => $course?->course_name,
+            ];
+        });
+        $question_details2 = PaymentPackageOrder::
+        selectRaw('sum(payment_package_order.number) as number, course_id')
+        ->leftJoin('payment_requests', 'payment_package_order.payment_request_id', '=', 'payment_requests.id')
+        ->leftJoin('packages', 'payment_package_order.package_id', '=', 'packages.id')
+        ->where('payment_package_order.state', 1)
+        ->where('packages.module', 'Question')
+        ->where('payment_package_order.user_id', $request->user_id)
+        ->groupBy('course_id')
+        ->get()
+        ->map(function($item) use($courses){
+            $course = $courses->where('id', $item->course_id)
+            ->first();
+            return [
+                'number' => $item?->number,
+                'course' => $course?->course_name,
+            ];
+        });
+        $live_details = collect($live_details1)->merge(collect($live_details2));
+        $question_details = collect($question_details1)->merge(collect($question_details2));
+        $exam_details = collect($exam_details1)->merge(collect($exam_details2));
         $courses = Course::
         select('course_name', 'id')
         ->where('category_id', $user->category_id)
         ->with('packages:id,name,course_id,price,number,duration,module')
         ->get();
+
         return response()->json([
             'exams' => $exam,
             'questions' => $questions,
             'lives' => $live,
+            'live_details' => $live_details,
+            'exam_details' => $exam_details,
+            'question_details' => $question_details,
             'courses' => $courses,
         ]);
     }
@@ -126,7 +227,6 @@ class PackageController extends Controller
     public function lists(){
         $payment_methods = PaymentMethod::
         where('statue', 1)
-        ->where('id', '!=', 10)
         ->get()
         ->map(function($item){
             $payment_type = 'text';
@@ -165,6 +265,9 @@ class PackageController extends Controller
         }
         $package_data = Package::where('id', $id)
         ->first();
+        $payment_method = PaymentMethod::
+        where('id', $request->payment_method_id)
+        ->first();
         $arr = [];
         $arr['price'] = $package_data->price;
         $price = $package_data->price;
@@ -192,6 +295,15 @@ class PackageController extends Controller
                 ], 400);
             }
             $arr['state'] = 'Approve'; 
+        }
+        elseif($payment_method->payment == "Paymob"){
+             $user = User::
+             where('id', $request->user_id)
+             ->first();
+            $payment_link = $this->credit_mobile($user,$payment_method,$package_data,$price,'Package');
+            return response()->json([
+                'payment_link' => $payment_link, 
+            ]); 
         }
         elseif ( $img_state ) { 
             return response()->json([

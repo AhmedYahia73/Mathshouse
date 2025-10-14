@@ -91,6 +91,27 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Wallet::class, 'student_id');
     }
 
+    public function exams_history(){
+        return $this->hasMany(ExamHistory::class, 'user_id');
+    }
+
+    public function questions_history(){
+        return $this->hasMany(QuestionHistory::class, 'user_id');
+    }
+
+    public function lives_history(){
+        return $this->hasMany(LiveLesson::class, 'user_id');
+    }
+
+    public function payment_package(){
+        return $this->hasMany(PaymentRequest::class, 'user_id')
+        ->where('module', 'Package');
+    }
+
+    public function small_package(){
+        return $this->hasMany(SmallPackage::class, 'user_id');
+    }
+
     public function city(){
         return $this->belongsTo(City::class, 'city_id');
     }

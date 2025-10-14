@@ -38,6 +38,9 @@ Route::delete('delete', [UserLoginController::class, 'delete'])->middleware(['au
 Route::get('sign_up_lists', [UserLoginController::class, 'sign_up_lists']);
 Route::post('sign_up', [UserLoginController::class, 'sign_up']);
 
+Route::get('currencies_list', [CourseController::class, 'currencies_list']);
+Route::get('payment_methods_list', [CourseController::class, 'payment_methods_list']);
+
 // /user/forget_password
 // /user/confirm_code
 // /user/update_password

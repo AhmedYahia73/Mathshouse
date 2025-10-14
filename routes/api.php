@@ -62,6 +62,7 @@ Route::controller(V_Api_ExamController::class)
     Route::post('question/filter', 'filter_question');
 });
 
+Route::post('/send_email', [V_CoursesController::class, 'send_email']);
 Route::post('/filter_exams', [ScoreSheetExamController::class, 'filter_exams'])->name('filter_exams');
 
 Route::post('/question_type', [QuestionController::class, 'question_type'])->name('question_type');

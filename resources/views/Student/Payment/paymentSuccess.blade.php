@@ -164,7 +164,7 @@
                                     {{ $data['success'] ? 'confirmed' : 'declined' }}.
 
                                 </p>
-                                <p>Thank you for choosing Wegostores . You will shortly receive a confirmation
+                                <p>Thank you for choosing Mathshouse . You will shortly receive a confirmation
                                     email.</p>
                             </div>
                             <br>
