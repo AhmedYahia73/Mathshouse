@@ -176,6 +176,7 @@ class MyCoursesController extends Controller
             }
             else {
                 $q_answer = $question->g_ans;
+                $answer[$iter] = floatval($answer[$iter]);
                 $grade =  $this->grid_answer($q_answer?->pluck('grid_ans'), $answer);
                 if($q_answer->count() > 0 && $grade){
                     $score++;
@@ -227,6 +228,7 @@ class MyCoursesController extends Controller
 
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
+            $item = floatval($item);
             if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
                 return true;
             }

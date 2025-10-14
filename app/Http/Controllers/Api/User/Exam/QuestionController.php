@@ -184,6 +184,7 @@ class QuestionController extends Controller
             $grade = $question?->mcq[0]?->mcq_answers == $request->answer;
         }
         else{
+            $answer[$iter] = floatval($answer[$iter]);
             $grade =  $this->grid_answer($question?->g_ans?->pluck('grid_ans'), $request->answer);
         }
         $arr['user_id'] = auth()->user()->id;
@@ -200,6 +201,7 @@ class QuestionController extends Controller
 
     public function grid_answer($answers, $my_answer){
         foreach ($answers as $item) {
+            $item = floatval($item);
             if($item >= $my_answer - 0.04 && $item <= $my_answer + 0.04){
                 return true;
             }
