@@ -109,7 +109,7 @@ use Illuminate\Support\Facades\App;
         Route::post('/login/module','module')->name('login.module'); 
         Route::post('/login/exam','exam')->name('login.exam');
 
-        Route::post('/login.store','store')->name('login.store');
+        Route::post('/login_store','store')->name('login.store');
         Route::get('/sign_up','sign_up')->name('sign_up');
 
         Route::get('/SignupConfirm','signup_confirm')->name('signup_confirm');
