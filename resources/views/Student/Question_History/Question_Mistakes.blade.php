@@ -167,7 +167,7 @@
                     <button type="button" class="btn btn-label-secondary close_qiuzze_btn" data-bs-dismiss="modal">
                         Close
                     </button>
-                    <a href="{{route('ad_score_question_answer', ['id' => $mistake->question->id])}}" class="btn btn-primary">OK</a>
+                    <a href="{{route('quizz', ['id' => $mistake->question->id])}}" class="btn btn-primary">OK</a>
                     </div>
                 </div>
                 </div>
