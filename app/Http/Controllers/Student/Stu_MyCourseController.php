@@ -133,7 +133,7 @@ class Stu_MyCourseController extends Controller
     public function quizze_ques_ans(Request $request, $id ){
         $mistake = ExamMistake::where('question_id', $id)
         ->where('id', $request->mistake_id)
-        ->first();
+        ->first(); 
         if(!empty($mistake)){
             $question = Question::where('id', $id)
             ->first();

@@ -20,4 +20,9 @@ class StudentQuizzeMistake extends Model
     {
         return $this->belongsTo(Question::class, 'question_id');
     }
+
+    public function student_quiz()
+    {
+        return $this->belongsTo(StudentQuizze::class, 'student_quizze_id');
+    }
 }
