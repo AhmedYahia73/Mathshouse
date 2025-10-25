@@ -312,7 +312,9 @@ class UserController extends Controller
     
             return view('Admin.Users.Students', compact('students', 'data'));
         }
-        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_email', 'parent_phone', 'grade');
+        $arr = $req->only('f_name', 'l_name', 'nick_name', 
+        'email', 'phone', 'parent_email', 'parent_phone', 'grade',
+        'category_id');
         $req->validate([
         'nick_name'    => 'required',
         'email'        => 'required|email',
