@@ -328,6 +328,18 @@
                                                         </select>
                                                 </div>
 
+                                                <div class='my-3'>
+                                                    <label>Category</label>
+                                                    <select name="category_id" class="form-control" id="gradeInput">
+                                                        <option disabled selected>Select Category ...</option>
+                                                        @foreach ($categories as $element)
+                                                            <option value="{{ $element->id }}" {{ $element->id == $item->category_id ? 'selected' : null }}>
+                                                                {{ $element->cate_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
                                                 <div class="my-2 px-3">
                                                     <label>
                                                         Phone
