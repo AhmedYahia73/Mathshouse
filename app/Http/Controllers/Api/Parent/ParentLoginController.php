@@ -21,7 +21,7 @@ class ParentLoginController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required', 
             'email' => 'required|email|unique:sup_parents,email', 
-            'phone' => 'required|unique:sup_parents,phone', 
+            'phone' => 'unique:sup_parents,phone', 
             'password' => 'required|min:7', 
             'conf_password' => 'required|same:password', 
             // 'status' => 'required|boolean', 
