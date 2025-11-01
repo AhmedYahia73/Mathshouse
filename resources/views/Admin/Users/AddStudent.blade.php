@@ -59,6 +59,17 @@
                                         <input class='form-control' value="{{@$data['phone']}}" name="phone" placeholder="Phone" />
                                     </div>
                                     <div class='my-3'>
+                                        <label>Category</label>
+                                        <select name="category_id" class="form-control" id="gradeInput">
+                                            <option disabled selected>Select Category ...</option>
+                                            @foreach ($categories as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->cate_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class='my-3'>
                                         <label>Grade</label>
                                             <select name="grade" class="form-control" id="gradeInput">
                                                 <option disabled>Select Grade ...</option>

@@ -39,8 +39,11 @@ class UserController extends Controller
         $students = User::where('position', 'student')
         ->orderByDesc('id')
         ->get();
+        $categories = Category::
+        select("id", "cate_name")
+        ->get();
 
-        return view('Admin.Users.Students', compact('students'));
+        return view('Admin.Users.Students', compact('students', 'categories'));
     }
 
     public function student_filter(Request $req){
@@ -312,7 +315,9 @@ class UserController extends Controller
     
             return view('Admin.Users.Students', compact('students', 'data'));
         }
-        $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 'parent_email', 'parent_phone', 'grade');
+        $arr = $req->only('f_name', 'l_name', 'nick_name', 
+        'email', 'phone', 'parent_email', 'parent_phone', 'grade',
+        'category_id');
         $req->validate([
         'nick_name'    => 'required',
         'email'        => 'required|email',
@@ -329,7 +334,7 @@ class UserController extends Controller
 
     public function stu_edit( Request $req ){
         $arr = $req->only('f_name', 'l_name', 'nick_name', 'email', 'phone', 
-        'parent_email', 'parent_phone', 'grade');
+        'parent_email', 'parent_phone', 'grade', 'category_id');
 
         $arr['state'] = $req->state == 1 ? 'Show': 'hidden';
         if ( !empty($req->password) ) {

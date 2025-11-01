@@ -25,7 +25,7 @@ class MobileUserMiddleware
             ->where('user_id', $user->id)
             ->first();
             // Check if the logged-in user has the appropriate position
-            if (!empty($l_user) && auth()->user()->position == 'student') {
+            if (auth()->user()->position == 'student') {
                 return $next($request);
             }
         }

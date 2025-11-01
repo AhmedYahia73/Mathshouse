@@ -133,13 +133,87 @@ class Stu_MyCourseController extends Controller
     public function quizze_ques_ans(Request $request, $id ){
         $mistake = ExamMistake::where('question_id', $id)
         ->where('id', $request->mistake_id)
-        ->first();
+        ->first(); 
         if(!empty($mistake)){
             $question = Question::where('id', $id)
             ->first();
             $reports = ReportVideoList::all();
 
             return view('Student.Question_History.Question_Ans', compact('question', 'reports'));
+        }
+        else{
+                
+            if ( empty(auth()->user()) ) {
+                if ( !session()->has('previous_page') ) {
+                    session(['previous_page' => url()->current()]);
+                }
+                return redirect()->route('login.index');
+            }
+            else{
+                            
+                $reports = ReportQuestionList::all();
+                $question = Question::where('id', $id)
+                ->first();
+
+                $payments = PaymentPackageOrder::
+                where('state', 1)
+                ->with('pay_req')
+                ->with('package')
+                ->get();
+                $user = User::where('id', auth()->user()->id)
+                ->first();
+
+                $small_package = SmallPackage::where('user_id', auth()->user()->id)
+                ->where('module', 'Question')
+                ->where('course_id', $question->lessons->chapter->course_id)
+                ->where('number', '>', 0)
+                ->first();
+
+                if ( !empty($small_package) ) { 
+                    SmallPackage::where('user_id', auth()->user()->id)
+                    ->where('module', 'Question')
+                    ->where('course_id', $question->lessons->chapter->course_id)
+                    ->where('number', '>', 0)
+                    ->update([
+                        'number' => $small_package->number - 1
+                    ]);
+                    
+
+                    return view('Student.Question_History.Question_Ans', compact('question', 'reports')); 
+                }
+
+                foreach ( $payments as $item ) { 
+                    $newTime = Carbon::now()->subDays($item->package->number);
+                    $question = Question::where('id', $id)
+                    ->first();
+
+                    if ( $item->package->module == 'Question' && 
+                    $item->pay_req->user_id == auth()->user()->id &&
+                    $item->date > $newTime &&
+                    $item->number > 0
+                    && $item->package->course_id == $question->lessons->chapter->course_id 
+                        ) 
+                        {  
+
+                        PaymentPackageOrder::where('id', $item->id)
+                        ->update([
+                            'number' => $item->number - 1
+                        ]);
+                        return view('Student.Question_History.Question_Ans', compact('question', 'reports')); 
+                    }
+                }
+                $package = Package::
+                where('module', 'Question')
+                ->where('course_id', $question->lessons->chapter->course_id)
+                ->get();
+                $categories = Category::get();
+                $courses = Course::get();
+                $module = 'Question';
+                Cookie::queue(Cookie::make('q_id', $id, 90));
+                $currency = Currancy::all();
+                return view('Student.Exam.Exam_Package', 
+                compact('package', 'categories', 'courses', 'module', 'currency'));
+            } 
         }
     }
 

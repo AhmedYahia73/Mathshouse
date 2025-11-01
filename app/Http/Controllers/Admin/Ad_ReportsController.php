@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
+use App\Models\PaymentPackageOrder;
+use App\Models\ReportQuestionList;
+use App\Models\SmallPackage;
 use App\Models\SessionAttendance;
 use App\Models\User;
 use App\Models\PaymentRequest;
@@ -20,6 +24,10 @@ use App\Models\ExamHistory;
 use App\Models\Exam;
 use App\Models\StudentQuizze;
 use App\Models\ReportVideoList; 
+use App\Models\Package;
+
+use App\Models\Currancy;
+use Carbon\Carbon;
 
 class Ad_ReportsController extends Controller
 {
@@ -382,13 +390,70 @@ class Ad_ReportsController extends Controller
             }
             return redirect()->route('login.index');
         }
-        else{  
-            $reports = ReportVideoList::all();
+        else{
+                        
+            $reports = ReportQuestionList::all();
             $question = Question::where('id', $id)
             ->first();
 
-            return view('Admin.Reports.ScoreSheet.Quiz.Question_Ans', compact('question', 'reports')); 
-    
+            $payments = PaymentPackageOrder::
+            where('state', 1)
+            ->with('pay_req')
+            ->with('package')
+            ->get();
+            $user = User::where('id', auth()->user()->id)
+            ->first();
+
+            $small_package = SmallPackage::where('user_id', auth()->user()->id)
+            ->where('module', 'Question')
+            ->where('course_id', $question->lessons->chapter->course_id)
+            ->where('number', '>', 0)
+            ->first();
+
+            if ( !empty($small_package) ) { 
+                SmallPackage::where('user_id', auth()->user()->id)
+                ->where('module', 'Question')
+                ->where('course_id', $question->lessons->chapter->course_id)
+                ->where('number', '>', 0)
+                ->update([
+                    'number' => $small_package->number - 1
+                ]);
+                
+
+                return view('Admin.Reports.ScoreSheet.Quiz.Question_Ans', compact('question', 'reports')); 
+            }
+
+            foreach ( $payments as $item ) { 
+                $newTime = Carbon::now()->subDays($item->package->number);
+                $question = Question::where('id', $id)
+                ->first();
+
+                if ( $item->package->module == 'Question' && 
+                $item->pay_req->user_id == auth()->user()->id &&
+                $item->date > $newTime &&
+                $item->number > 0
+                && $item->package->course_id == $question->lessons->chapter->course_id 
+                    ) 
+                    {  
+
+                    PaymentPackageOrder::where('id', $item->id)
+                    ->update([
+                        'number' => $item->number - 1
+                    ]);
+                    return view('Admin.Reports.ScoreSheet.Quiz.Question_Ans', compact('question', 'reports')); 
+                }
+            }
+            $package = Package::
+            where('module', 'Question')
+            ->where('course_id', $question->lessons->chapter->course_id)
+            ->get();
+            $categories = Category::get();
+            $courses = Course::get();
+            $module = 'Question';
+            Cookie::queue(Cookie::make('q_id', $id, 90));
+            $currency = Currancy::all();
+            return view('Student.Exam.Exam_Package', 
+            compact('package', 'categories', 'courses', 'module', 'currency'));
         } 
     }
  
