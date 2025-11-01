@@ -436,7 +436,7 @@
                                     $session->lesson?->chapter?->id &&
                                         $chapter_id == $session->lesson->chapter->id &&
                                         (\Carbon\Carbon::now()->subDays(7) <= $session->date or
-                                            $session->lesson->user_extraDays(auth()->user()->id)->where('end_date','>=',date('Y-m-d'))->max('end_date') >= date('Y-m-d') && 
+                                            $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d') && 
                                             $chapter_id == $session->lesson->chapter->id) &&
                                         !in_array($session->lesson->id, $arr_lessons))
                                     @php
@@ -603,8 +603,8 @@
                         @if (
                             $session->lesson?->chapter?->id &&
                                 (\Carbon\Carbon::now()->subDays(7) <= $session->date && $chapter_id == $session->lesson->chapter->id or
-                                    $session->lesson->user_extraDays(auth()->user()->id)->where('end_date','>=',date('Y-m-d'))->max('end_date') 
-                                    && $chapter_id == $session->lesson->chapter->id) &&
+                                    $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d') && 
+                                    $chapter_id == $session->lesson->chapter->id) &&
                                 !in_array($session->lesson->id, $arr_lessons))
                             @php
                                 $arr_lessons[] = $session->lesson->id;
