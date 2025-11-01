@@ -673,7 +673,8 @@
                         @if (
                             $live_item->lesson?->chapter?->id &&
                                 $chapter_id == $live_item->lesson->chapter->id &&
-                                \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
+                                (\Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+								|| $live_item->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d')) &&
                                 !in_array($live_item->lesson->id, $arr_lessons))
                             @php
                                 $arr_lessons[] = $live_item->lesson_id;
@@ -1070,7 +1071,8 @@
                                 @if (
                                     $live_item->lesson?->chapter?->id &&
                                         $chapter_id == $live_item->lesson->chapter->id &&
-                                        \Carbon\Carbon::now()->subDays(7) <= $live_item->created_at &&
+                                (\Carbon\Carbon::now()->subDays(7) <= $live_item->created_at
+								|| $live_item->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d')) &&
                                         !in_array($live_item->lesson->id, $arr_lessons))
                                     @php
                                         $arr_lessons[] = $live_item->lesson_id;
