@@ -602,10 +602,10 @@
                         @foreach ($sessions->sortBy('lesson_id') as $session)
                         @if (
                             $session->lesson?->chapter?->id &&
-                                (\Carbon\Carbon::now()->subDays(7) <= $session->date && $chapter_id == $session->lesson->chapter->id or
+                                (\Carbon\Carbon::now()->subDays(7) <= $session->date && $chapter_id == $session->lesson->chapter->id ||
                                     $session->lesson->getUserExtraDays(auth()->user()->id) >= date('Y-m-d') && 
-                                    $chapter_id == $session->lesson->chapter->id) &&
-                                !in_array($session->lesson->id, $arr_lessons))
+                                    $chapter_id == $session->lesson->chapter->id) 
+                                )
                             @php
                                 $arr_lessons[] = $session->lesson->id;
                             @endphp
