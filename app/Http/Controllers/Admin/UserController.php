@@ -312,8 +312,9 @@ class UserController extends Controller
             ->orderByDesc('id')
             ->get();
             $data = $req->all();
-    
-            return view('Admin.Users.Students', compact('students', 'data'));
+            $categories = Category::all();
+
+            return view('Admin.Users.Students', compact('students', 'data', 'categories'));
         }
         $arr = $req->only('f_name', 'l_name', 'nick_name', 
         'email', 'phone', 'parent_email', 'parent_phone', 'grade',
