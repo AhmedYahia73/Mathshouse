@@ -51,16 +51,18 @@ class UserController extends Controller
         where('grade', $req->grade)
         ->orderByDesc('id')
         ->get();
+        $categories = Category::all();
 
-        return view('Admin.Users.Students', compact('students'));
+        return view('Admin.Users.Students', compact('students', 'categories'));
     }
 
     public function stu_info(){
         $students = User::where('position', 'student')
         ->orderByDesc('id')
-        ->get();
+        ->get(); 
+        $categories = Category::all();
 
-        return view('Admin.Users.Students', compact('students'));
+        return view('Admin.Users.Students', compact('students', 'categories'));
     }
 
     public function stu_details( $id ){
@@ -301,8 +303,9 @@ class UserController extends Controller
             ->orderByDesc('id')
             ->get();
             $data = $req->all();
+            $categories = Category::all();
     
-            return view('Admin.Users.Students', compact('students', 'data'));
+            return view('Admin.Users.Students', compact('students', 'data', 'categories'));
         }
         $user = User::where('nick_name', $req->nick_name)
         ->first();
