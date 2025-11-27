@@ -36,8 +36,16 @@ class LessonController extends Controller
         ->first();
 
     if (!empty($lesson_name)) {
-        session()->flash('faild', 'Lesson already exists');
-        return redirect()->back();
+        $lesson_course_id = Chapter::
+        where("id", $lesson_name->chapter_id)
+        ->first()?->course_id;
+        $new_course_id = Chapter::
+        where("id", $req->chapter_id)
+        ->first()?->course_id;
+        if($lesson_course_id == $new_course_id){
+            session()->flash('faild', 'Lesson already exists');
+            return redirect()->back();
+        }
     }
 
     $arr = $req->only('lesson_name', 'lesson_des', 'chapter_id', 'teacher_id', 'pre_requisition', 'gain', 'chapter_id');
@@ -139,8 +147,14 @@ class LessonController extends Controller
         $lesson_name = Lesson::
         where('lesson_name', $req->lesson_name)
         ->first();
-        if ( !empty($lesson_name) ) {
-            session()->flash('faild','Lesson is exist');
+        $lesson_course_id = Chapter::
+        where("id", $lesson_name->chapter_id)
+        ->first()?->course_id;
+        $new_course_id = Chapter::
+        where("id", $req->chapter_id)
+        ->first()?->course_id;
+        if($lesson_course_id == $new_course_id){
+            session()->flash('faild', 'Lesson already exists');
             return redirect()->back();
         }
 
