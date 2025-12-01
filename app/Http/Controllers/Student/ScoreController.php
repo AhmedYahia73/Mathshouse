@@ -61,6 +61,11 @@ class ScoreController extends Controller
                 ->where('user_id', auth()->user()->id)
                 ->first();
                 $element->live_attend = empty($live_attend) ? 'Absent' : 'Attend';
+                foreach ($element->quizs as $value) {
+                    $value->quiz_link = url('student/MyCourses/Quizze/' . $value->id);
+                    $value->student_status = $value->student_quizs->count() == 0 ? "Not Solve" : 
+                    ($value->student_quizs->max('score') >= $value->pass_score ? "Success" : "Faild");
+                }
             }
         }
 
