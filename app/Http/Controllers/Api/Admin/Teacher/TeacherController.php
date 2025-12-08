@@ -37,7 +37,7 @@ class TeacherController extends Controller
                 'email' => $item->email,
                 'phone' => $item->phone,
                 'image' => $item->image_link,
-                'categories' => $item->teacher_courses?->pluck('category'),
+                'categories' => $item->teacher_courses?->pluck('category')->unique("id"),
                 'courses' => $item->teacher_courses,
             ];
         });
