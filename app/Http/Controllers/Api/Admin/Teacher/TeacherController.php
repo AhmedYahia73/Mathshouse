@@ -102,7 +102,7 @@ class TeacherController extends Controller
             'nick_name'  => 'required|unique:users,nick_name,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|unique:users,email,' . $id,
-            'password' => 'required',
+            'password' => 'sometimes',
             'course_ids' => 'required|array',
             'category_ids' => 'required|array',
             'course_ids.*' => 'required|exists:courses,id',
@@ -126,7 +126,9 @@ class TeacherController extends Controller
         $teacher->nick_name = $request->nick_name ?? $teacher->nick_name;
         $teacher->email = $request->email ?? $teacher->email;
         $teacher->phone = $request->phone ?? $teacher->phone;
-        $teacher->password = bcrypt($request->password) ?? $teacher->password;
+        if($request->password){
+            $teacher->password = bcrypt($request->password) ?? $teacher->password;
+        }
         $teacher->image = $request->image ? $image_path : $teacher->image;
         $teacher->save();
         if ($request->course_ids) {
