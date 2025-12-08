@@ -176,7 +176,7 @@ class MyCoursesController extends Controller
             }
             else {
                 $q_answer = $question->g_ans;
-                $answer[$iter] = floatval($answer[$iter]);
+                $answer = floatval($answer);
                 $grade =  $this->grid_answer($q_answer?->pluck('grid_ans'), $answer);
                 if($q_answer->count() > 0 && $grade){
                     $score++;
