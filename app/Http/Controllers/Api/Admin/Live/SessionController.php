@@ -102,7 +102,34 @@ class SessionController extends Controller
     }
 
     public function users(Request $request){
-        
+        $search = $request->search ?? null;
+
+        // بناء query
+        $query = User::where('position', 'student');
+
+        // إضافة شرط البحث لو فيه قيمة
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('nick_name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // تطبيق pagination (مثلاً 10 طلاب في الصفحة)
+        $students = $query->paginate(10);
+
+        // تعديل النتائج قبل الإرسال لو عايز (optional)
+        $students->getCollection()->transform(function($student) {
+            return [
+                'id' => $student->id,
+                'nick_name' => $student->nick_name,
+                'email' => $student->email,
+                'phone' => $student->phone,
+            ];
+        });
+
+        return response()->json($students);
     }
 
     public function lists(Request $request){  
@@ -112,10 +139,7 @@ class SessionController extends Controller
         $lessons = $this->lesson->get();
         $teachers = $this->user
         ->where('position', 'teacher')
-        ->get();
-        $users = $this->user
-        ->where('position', 'student')
-        ->get();
+        ->get(); 
         $groups = $this->session_group->get();
         $session_types = ['explanation','re_explanation', 'mistakes'];
         $types = ['group','private', 'session'];
@@ -125,8 +149,7 @@ class SessionController extends Controller
             'courses' => $courses,
             'chapters' => $chapters,
             'lessons' => $lessons,
-            'teachers' => $teachers,
-            'users' => $users,
+            'teachers' => $teachers, 
             'groups' => $groups,
             'types' => $types,
             'session_types' => $session_types
