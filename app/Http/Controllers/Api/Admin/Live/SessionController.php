@@ -37,12 +37,40 @@ class SessionController extends Controller
         'teacher_material',
     ];
 
-    public function view(Request $request){ 
-        $sessions = $this->session
-        ->orderByDesc('id')
-        ->limit(1000)
-        ->get()
-        ->map(function($item){ 
+    public function view(Request $request){ // جلب الـ course_id من request لو موجود
+        $courseId = $request->course_id ?? null;
+
+        // بناء query
+        $query = $this->session
+            ->with([
+                'course',
+                'session_lesson',
+                'teacher',
+                'group',
+                'users:id,nick_name'
+            ])
+            ->orderByDesc('id');
+
+        // إضافة شرط البحث لو فيه course_id
+        if ($courseId) {
+            $query->whereHas('course', function($query) use($courseId){
+                $query->where("courses.id", $courseId);
+            })
+            ->orWhereHas("lesson", function($query) use($courseId){
+                $query->whereHas("chapter", function($query2) use($courseId){
+                    $query2->whereHas("course", function($q) use($courseId){
+                        $q->where("courses.id", $courseId);
+                    });
+                });
+            })
+            ;
+        }
+
+        // تطبيق pagination (مثلاً 10 جلسات في الصفحة)
+        $sessions = $query->paginate(10);
+
+        // تعديل البيانات قبل الإرسال
+        $sessions->getCollection()->transform(function($item){ 
             return [
                 'id' => $item->id,
                 'name' => $item->name,
@@ -63,13 +91,18 @@ class SessionController extends Controller
                 'lesson' => $item?->session_lesson?->lesson_name,
                 'teacher' => $item?->teacher?->nick_name,
                 'group' => $item?->group?->name,
-                'users' => $item?->users?->select('id', 'nick_name')
+                'users' => $item?->users // already selected id,nick_name
             ];
         });
+ 
 
         return response()->json([
             'sessions' => $sessions,
         ]);
+    }
+
+    public function users(Request $request){
+        
     }
 
     public function lists(Request $request){  
