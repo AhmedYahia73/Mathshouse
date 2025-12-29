@@ -147,9 +147,12 @@ class LessonController extends Controller
         $lesson_name = Lesson::
         where('lesson_name', $req->lesson_name)
         ->first();
-        $lesson_course_id = Chapter::
-        where("id", $lesson_name->chapter_id)
-        ->first()?->course_id;
+        $lesson_course_id = 0;
+        if(!empty($lesson_name)){
+            $lesson_course_id = Chapter::
+            where("id", $lesson_name->chapter_id)
+            ->first()?->course_id;
+        }
         $new_course_id = Chapter::
         where("id", $req->chapter_id)
         ->first()?->course_id;
