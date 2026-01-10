@@ -314,7 +314,7 @@ return "admin";
                                                 </div>
                                                 <div class='my-3'>
                                                     <label>Category</label>
-                                                    <select name="category_id" class="form-control">
+                                                    <select name="category_id" class="form-control category_item">
                                                         <option value="{{ $lesson->chapter->course->category->id ?? "
                                                             Empty" }}">
                                                             {{ $lesson->chapter->course->category->cate_name ??
@@ -329,7 +329,7 @@ return "admin";
                                                 </div>
                                                 <div class='my-3'>
                                                     <label>Course</label>
-                                                    <select name="Course_id" class="form-control">
+                                                    <select name="Course_id" class="form-control course_item">
                                                         <option value="{{ $lesson->chapter->course->id ?? " Empty" }}">
                                                             {{ $lesson->chapter->course->course_name ?? "Empty"}}
                                                         </option>
@@ -337,7 +337,7 @@ return "admin";
                                                 </div>
                                                 <div class='my-3'>
                                                     <label>Chapter</label>
-                                                    <select name="chapter_id" class="form-control">
+                                                    <select name="chapter_id" class="form-control chapter_item">
                                                         <option value="{{ $lesson->chapter->id }}">
                                                             {{ $lesson->chapter->chapter_name }}
                                                         </option>
@@ -911,6 +911,46 @@ return "admin";
                 }
             });
         }
+
+        //__________________
+        
+        let category_items = document.querySelectorAll('.category_item');
+        let course_items = document.querySelectorAll('.course_item');
+        let lesson_items = document.querySelectorAll('.lesson_item');
+        category_items.forEach(item => {
+            item.addEventListener('change', function(e){
+                for (let j = 0; j < end; j++) {
+                    if (e.target == category_items[j]) {
+                        course_items[j].innerHTML = '';
+                        courses_add.forEach(element => {
+                            if (category_items[j].value == element.category_id) {
+                                course_items[j].innerHTML += `
+                                <option value="${element.id}">
+                                    ${element.course_name}
+                                </option>`;
+                            }
+                        });
+                    }
+                }
+            })
+        }); 
+        course_items.forEach(item => {
+            item.addEventListener('change', function(e){
+                for (let j = 0; j < end; j++) {
+                    if (e.target == course_items[j]) {
+                        course_items[j].innerHTML = '';
+                        chapters_add.forEach(element => {
+                            if (course_items[j].value == element.course_id) {
+                                course_items[j].innerHTML += `
+                                <option value="${element.id}">
+                                    ${element.chapter_name}
+                                </option>`;
+                            }
+                        });
+                    }
+                }
+            })
+        }); 
     </script>
     @section('script')
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
