@@ -916,6 +916,7 @@ return "admin";
         
         let category_items = document.querySelectorAll('.category_item');
         let course_items = document.querySelectorAll('.course_item');
+        let end = category_items.length;
         category_items.forEach(item => {
             item.addEventListener('change', function(e){
                 for (let j = 0; j < end; j++) {
