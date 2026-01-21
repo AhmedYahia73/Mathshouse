@@ -340,6 +340,14 @@
                                                     </select>
                                                 </div>
 
+                                            
+                                                <div class="my-2 px-3">
+                                                    <label for="student_activation_active">
+                                                        Active
+                                                    </label>
+                                                    <br />
+                                                    <input id="student_activation_active" name="state" class="form-check-input" type="checkbox" value="1" {{$user->state == 'Show' ? 'checked' : null}} />
+                                                </div>
                                                 <div class="my-2 px-3">
                                                     <label>
                                                         Phone
