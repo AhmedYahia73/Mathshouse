@@ -346,7 +346,7 @@
                                                         Active
                                                     </label>
                                                     <br />
-                                                    <input id="student_activation_active" name="state" class="form-check-input" type="checkbox" value="1" {{$user->state == 'Show' ? 'checked' : null}} />
+                                                    <input id="student_activation_active" name="state" class="form-check-input" type="checkbox" value="1" {{$item->state == 'Show' ? 'checked' : null}} />
                                                 </div>
                                                 <div class="my-2 px-3">
                                                     <label>
