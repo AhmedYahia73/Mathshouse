@@ -1,0 +1,31 @@
+SELECT 
+    q.*,
+    l.lesson_name   AS lesson_name,
+    ch.chapter_name  AS chapter_name,
+    co.course_name  AS course_name,
+    ca.cate_name  AS category_name
+FROM questions q
+
+-- answers
+LEFT JOIN mcq_ans m 
+    ON m.q_id = q.id AND q.ans_type = 'MCQ'
+
+LEFT JOIN grid_ans g 
+    ON g.q_id = q.id AND q.ans_type = 'Grid_in'
+
+-- lesson hierarchy
+LEFT JOIN lessons l 
+    ON l.id = q.lesson_id
+
+LEFT JOIN chapters ch 
+    ON ch.id = l.chapter_id
+
+LEFT JOIN courses co 
+    ON co.id = ch.course_id
+
+LEFT JOIN categories ca 
+    ON ca.id = co.category_id
+
+WHERE
+    (q.ans_type = 'MCQ' AND m.q_id IS NULL)
+ OR (q.ans_type = 'Grid_in' AND g.q_id IS NULL);
