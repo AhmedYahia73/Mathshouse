@@ -1077,60 +1077,19 @@
                                                         name="section">
                                                         <option selected disabled>
                                                             Select Section
-                                                        </option>
-                                                        @if ( $question->section == 1 )
-                                                        <option value="1" selected>
+                                                        </option> 
+                                                        <option value="1" {{$question->section == 1 ? "selected" : null}}>
                                                             1
                                                         </option>
-                                                        <option value="2">
+                                                        <option value="2" {{$question->section == 2 ? "selected" : null}}>
                                                             2
                                                         </option>
-                                                        <option value="3">
+                                                        <option value="3" {{$question->section == 3 ? "selected" : null}}>
                                                             3
                                                         </option>
-                                                        <option value="4">
+                                                        <option value="4" {{$question->section == 4 ? "selected" : null}}>
                                                             4
                                                         </option>
-                                                        @elseif( $question->section == 2 )
-                                                        <option value="1">
-                                                            1
-                                                        </option>
-                                                        <option value="2" selected>
-                                                            2
-                                                        </option>
-                                                        <option value="3">
-                                                            3
-                                                        </option>
-                                                        <option value="4">
-                                                            4
-                                                        </option>
-                                                        @elseif( $question->section == 3 )
-                                                        <option value="1">
-                                                            1
-                                                        </option>
-                                                        <option value="2">
-                                                            2
-                                                        </option>
-                                                        <option value="3" selected>
-                                                            3
-                                                        </option>
-                                                        <option value="4">
-                                                            4
-                                                        </option>
-                                                        @elseif( $question->section == 4 )
-                                                        <option value="1">
-                                                            1
-                                                        </option>
-                                                        <option value="2">
-                                                            2
-                                                        </option>
-                                                        <option value="3">
-                                                            3
-                                                        </option>
-                                                        <option value="4" selected>
-                                                            4
-                                                        </option>
-                                                        @endif
                                                     </select>
                                                     <!--end::Input-->
                                                 </div>
