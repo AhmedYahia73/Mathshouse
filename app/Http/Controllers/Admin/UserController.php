@@ -49,6 +49,8 @@ class UserController extends Controller
     }
 
     public function student_filter(Request $req){
+        // ارفع الذاكرة هنا في بداية الدالة
+        ini_set('memory_limit', '512M');
         $students = User::
         where('grade', $req->grade)
         ->orderByDesc('id')
@@ -59,6 +61,8 @@ class UserController extends Controller
     }
 
     public function stu_info(){
+        // ارفع الذاكرة هنا في بداية الدالة
+        ini_set('memory_limit', '512M');
         $students = User::where('position', 'student')
         ->orderByDesc('id')
         ->get(); 
