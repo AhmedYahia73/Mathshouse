@@ -1,14 +1,8 @@
-
-
 @php
     function fun_admin()
     {
         return 'admin';
-    }// لرفع الذاكرة إلى 512 ميجابايت مثلاً
-ini_set('memory_limit', '512M');
-
-// أو لإلغاء الحد تماماً (استهلاك مفتوح - استخدمه بحذر)
-ini_set('memory_limit', '-1');
+    }
 @endphp
 <x-default-layout>
     @error('name')

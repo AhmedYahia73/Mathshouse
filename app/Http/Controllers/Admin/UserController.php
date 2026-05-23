@@ -36,6 +36,8 @@ class UserController extends Controller
         
 
     public function student(){
+        // ارفع الذاكرة هنا في بداية الدالة
+        ini_set('memory_limit', '512M');
         $students = User::where('position', 'student')
         ->orderByDesc('id')
         ->get();
