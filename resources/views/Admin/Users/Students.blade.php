@@ -1,4 +1,4 @@
-@php
+{{-- @php
     function fun_admin()
     {
         return 'admin';
@@ -493,4 +493,383 @@
         })
     </script>
 
+</x-default-layout> --}}
+@php
+    function fun_admin()
+    {
+        return 'admin';
+    }
+    
+    ini_set('memory_limit', '512M');
+    ini_set('memory_limit', '-1');
+@endphp
+<x-default-layout>
+    @error('name')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    @error('email')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    @error('phone')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    @error('parent_email')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    @error('parent_phone')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    
+    @include('Admin.Users.stu_header')
+    @include('success')
+    @section('title', 'Students')
+
+    <style>
+        #ship-list_filter>label {
+            display: flex;
+            align-items: baseline;
+            justify-content: flex-end;
+            color: #373f4d;
+            font-size: 1.2rem;
+        }
+
+        #ship-list_length>label {
+            font-size: 1.2rem;
+            color: #373f4d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            width: 18% !important;
+            text-align: center !important;
+            color: #fff !important;
+            background-color: #23aac0 !important;
+        }
+
+        .table td {
+            color: #1e1e1e !important;
+            font-size: 1rem;
+            font-family: sans-serif;
+        }
+
+        .table td p {
+            margin-bottom: 0 !important;
+            text-overflow: ellipsis;
+            width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .table td p:hover {
+            width: 100%;
+        }
+        
+        /* تحسين مظهر أزرار التنقل */
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <div class="d-flex col-12 align-items-center justify-content-start gap-6">
+        <div style="display: flex; align-items: center;justify-content: flex-start">
+            <input type="text" class="my-3 form-control" placeholder="Search..." style="width: 200px;" id="myInput">
+        </div>
+        <div class="col-md-2 d-flex" style="align-items: center; column-gap:10px">
+            <span style="font-size: 1.2rem;font-weight: 600;">Section:</span>
+            <select id="selPayment" name="selPayment" class="form-control">
+                <option value="">Select Payment</option>
+                <option value="free">Free</option>
+                <option value="paid">Paid</option>
+            </select>
+        </div>  
+    </div>
+
+    <div class="mt-4 card-datatable table-responsive" style="overflow-x: hidden">
+        <table class="datatables-users border-top display table-hover table-striped" id="cm-list">
+            <thead>
+                <tr>
+                    <th scope="row">Name</th>
+                    <th scope="row">Details</th>
+                    <th scope="row">Account</th>
+                    <th scope="row">Phone</th>
+                    <th scope="row">Email</th>
+                    <th scope="row">Parent Phone</th>
+                    <th scope="row">Payment</th>
+                    <th scope="row">History</th>
+                    @can('Wallet')
+                        <th scope="row">Wallet</th>
+                    @endcan
+                    <th scope="row">Action</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @foreach ($students as $item)
+                    <tr>
+                        <td style="width: 8%;">
+                            <p>{{ $item->f_name . ' ' . $item->l_name . ' (' . $item->nick_name . ')' }}</p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>
+                                <a class="btn btn-success btn-sm" href="{{ route('opent_student_account', ['id' => $item->id]) }}">
+                                    Open Account
+                                </a>
+                            </p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>
+                                <a class="btn btn-info btn-sm" href="{{ route('stu_details', ['id' => $item->id]) }}">
+                                    View
+                                </a>
+                            </p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>{{ $item->phone }}</p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>{{ $item->email }}</p>
+                        </td>
+                        <td style="width: 8%;">
+                            <p>{{ $item->parent_phone }}</p>
+                        </td>
+                        <td>
+                            {{ $item->payment_req_approve->count() > 0 ? 'Paid' : 'Free' }}
+                        </td>
+                        <td style="width: 8%;">
+                            <p>
+                                <a href="{{ route('student_payments', ['id' => $item->id]) }}" class='btn btn-primary btn-sm'>
+                                    View
+                                </a>
+                            </p>
+                        </td>
+
+                        @can('Wallet')
+                            <td style="width: 8%;">
+                                @php
+                                    // جلب المجموع مباشرة بدل جلب كل السجلات وهدر الذاكرة
+                                    $totalWallet = DB::table('wallets')
+                                        ->where('student_id', $item->id)
+                                        ->where('state', 'Approve')
+                                        ->sum('wallet');
+                                @endphp
+
+                                <button type="button" class="btn btn-sm btn-primary show_wallet">
+                                    View
+                                </button>
+                    
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#modalCenter{{ $item->id }}">
+                                    Top up
+                                </button>
+                                
+                                <div class='wallet_h d-none mt-1 fw-bold'>
+                                    {{ $totalWallet }}$
+                                </div>
+
+                                <div class="modal fade" id="modalCenter{{ $item->id }}" tabindex="-1" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalCenterTitle">Top Up</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="POST" action="{{ route('ad_add_wallet') }}">
+                                                @csrf
+                                                <div class='p-3'>Add Amount Wallet</div>
+                                                <div class="px-3">
+                                                    <input class="form-control" name="wallet" type="number" required />
+                                                </div>
+                                                <input class="form-control" name="student_id" type="hidden" value="{{ $item->id }}" />
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Confirm</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        @endcan
+
+                        <td style="width: 8%;">
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenterEdit{{ $item->id }}">
+                                    Edit
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteEdit{{ $item->id }}">
+                                    Delete
+                                </button>
+
+                                <form method="POST" action="{{ route('stu_edit') }}">
+                                    @csrf
+                                    <div class="modal fade" id="modalCenterEdit{{ $item->id }}" tabindex="-1" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalCenterTitle">Edit Student</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class='my-2 px-3'>
+                                                    <label>First Name</label>
+                                                    <input class='form-control' value="{{ $item->f_name }}" name="f_name" placeholder="First Name" />
+                                                </div>
+                                                <div class='my-2 px-3'>
+                                                    <label>Last Name</label>
+                                                    <input class='form-control' name="l_name" value="{{ $item->l_name }}" placeholder="Last Name" />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>Nick Name</label>
+                                                    <input class='form-control' name="name" value="{{ $item->nick_name }}" placeholder="Name" />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>E-mail</label>
+                                                    <input class='form-control' name="email" value="{{ $item->email }}" placeholder="E-mail" />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>Password</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                                        <input class="form-control password_field" type="password" name="password" placeholder="Password" />
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-eye togglePassword" style="cursor: pointer"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class='my-3 px-3'>
+                                                    <label>Grade</label>
+                                                    <select name="grade" class="form-control">
+                                                        <option disabled>Select Grade ...</option>
+                                                        @for ($i = 1; $i <= 13; $i++)
+                                                            <option value="{{ $i }}" {{ $item->grade == $i ? 'selected' : null }}>{{ $i }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                <div class='my-3 px-3'>
+                                                    <label>Category</label>
+                                                    <select name="category_id" class="form-control">
+                                                        <option disabled selected>Select Category ...</option>
+                                                        @foreach ($categories as $element)
+                                                            <option value="{{ $element->id }}" {{ $element->id == $item->category_id ? 'selected' : null }}>
+                                                                {{ $element->cate_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label for="student_activation_active{{ $item->id }}">Active</label>
+                                                    <br />
+                                                    <input id="student_activation_active{{ $item->id }}" name="state" class="form-check-input" type="checkbox" value="1" {{ $item->state == 'Show' ? 'checked' : null }} />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>Phone</label>
+                                                    <input class='form-control' name="phone" value="{{ $item->phone }}" placeholder="Phone" />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>Parent Phone</label>
+                                                    <input class='form-control' name="parent_phone" value="{{ $item->parent_phone }}" placeholder="Parent Phone" />
+                                                </div>
+                                                <div class="my-2 px-3">
+                                                    <label>Parent E-mail</label>
+                                                    <input class='form-control' name="parent_email" value="{{ $item->parent_email }}" placeholder="Parent E-mail" />
+                                                </div>
+
+                                                <input type="hidden" value="{{ $item->id }}" name="user_id" />
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="modal fade" id="modalDeleteEdit{{ $item->id }}" tabindex="-1" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalCenterTitle">Delete Student</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class='p-3'>
+                                                Are You Sure To Delete <span class='text-danger'>{{ $item->nick_name }} ??</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                                                <a href="{{ route('del_stu', ['id' => $item->id]) }}" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        {{ $students->links('pagination::bootstrap-5') }}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // كود البحث السريع المخصص في الجدول
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            $("#selPayment").on("change", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            // إظهار وإخفاء المحفظة
+            $(document).on('click', '.show_wallet', function() {
+                $(this).siblings('.wallet_h').toggleClass('d-none');
+            });
+
+            // إظهار وإخفاء كلمة المرور داخل المودال
+            $(document).on('click', '.togglePassword', function() {
+                const passwordField = $(this).closest('.input-group').find('.password_field');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                $(this).toggleClass('fa-eye fa-eye-slash');
+            });
+        });
+    </script>
 </x-default-layout>

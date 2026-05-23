@@ -40,7 +40,7 @@ class UserController extends Controller
         ini_set('memory_limit', '-1');
         $students = User::where('position', 'student')
         ->orderByDesc('id')
-        ->get();
+        ->paginate(50);
         $categories = Category::
         select("id", "cate_name")
         ->get();
