@@ -18,14 +18,6 @@ class QuizzeController extends Controller
     public function quizze(){ 
         ini_set('memory_limit', '256M');
 
-        // 1. تحديد اسم الجدول 'questions.' قبل الـ id والأعمدة المشتركة
-        $questions = Question::select(
-                "questions.id", "questions.lesson_id", "questions.q_type", "questions.year", 
-                "questions.month", "questions.section", "questions.q_num", "questions.difficulty", "questions.q_code"
-            )
-            ->with('code', 'lessons.chapter')
-            ->get();
-
         // 2. تعديل الـ select جوة الـ eager loading للكويزات
         $quizzes = quizze::with(['question' => function($query){
                 $query->select(
@@ -43,6 +35,17 @@ class QuizzeController extends Controller
             }])
             ->orderByDesc('id')
             ->simplePaginate(10);
+
+        $lessonIds = $quizzes->pluck('lesson_id')->unique()->toArray();
+
+        // 1. تحديد اسم الجدول 'questions.' قبل الـ id والأعمدة المشتركة
+        $questions = Question::select(
+                "questions.id", "questions.lesson_id", "questions.q_type", "questions.year", 
+                "questions.month", "questions.section", "questions.q_num", "questions.difficulty", "questions.q_code"
+            )
+            ->whereIn('lesson_id', $lessonIds)
+            ->with('code', 'lessons.chapter')
+            ->get();
 
         // باقي الكود سليم لأن الجداول دي مفيش فيها تداخل علاقات يسبب الاختلاط
         $categories = Category::select("id", "cate_name")->get();
@@ -154,46 +157,63 @@ class QuizzeController extends Controller
     }
 
     public function filter_quiz( Request $req ){
-        $questions = Question::all();
         $categories = Category::all();
         $courses = Course::all();
         $chapters = Chapter::all();
         $lessons = Lesson::all();
         $codes = ExamCodes::all();
-        $quizzes = [];
+
+        $quizzesQuery = quizze::with(['question' => function($query){
+            $query->select(
+                "questions.id", "questions.q_type", "questions.year", "questions.month", 
+                "questions.section", "questions.q_num", "questions.difficulty", "questions.lesson_id", "questions.q_code"
+            )
+            ->with([
+                'code', 
+                'lessons' => function($q){
+                    $q->select("lessons.id", "lessons.chapter_id", "lessons.lesson_name")
+                    ->with("chapter:id,chapter_name");
+                }
+            ]);
+        }]);
 
         if ( !empty($req->lesson_id) ) {
-            $quizzes = quizze::
-            where( 'lesson_id', $req->lesson_id )
-            ->simplePaginate(10);
+            $quizzes = (clone $quizzesQuery)->where( 'lesson_id', $req->lesson_id )->simplePaginate(10);
         }
         elseif ( !empty($req->chapter_id)) {
             $chapter_id = $req->chapter_id;
-            $quizzes = quizze::
-            whereHas('lesson', function($query) use($chapter_id){
+            $quizzes = (clone $quizzesQuery)->whereHas('lesson', function($query) use($chapter_id){
                 $query->where('chapter_id', $chapter_id);
             })
             ->simplePaginate(10);
         }
         elseif ( !empty($req->course_id)) {
             $course_id = $req->course_id;
-            $quizzes = quizze::
-            whereHas('lesson.chapter', function($query) use($course_id){
+            $quizzes = (clone $quizzesQuery)->whereHas('lesson.chapter', function($query) use($course_id){
                 $query->where('course_id', $course_id);
             })
             ->simplePaginate(10);
         }
         elseif ( !empty($req->category_id)) {
             $category_id = $req->category_id;
-            $quizzes = quizze::
-            whereHas('lesson.chapter.course', function($query) use($category_id){
+            $quizzes = (clone $quizzesQuery)->whereHas('lesson.chapter.course', function($query) use($category_id){
                 $query->where('category_id', $category_id);
             })
             ->simplePaginate(10);
         }
         else {
-            $quizzes = quizze::simplePaginate(10);
+            $quizzes = (clone $quizzesQuery)->simplePaginate(10);
         }
+
+        $lessonIds = $quizzes->pluck('lesson_id')->unique()->toArray();
+
+        $questions = Question::select(
+                "questions.id", "questions.lesson_id", "questions.q_type", "questions.year", 
+                "questions.month", "questions.section", "questions.q_num", "questions.difficulty", "questions.q_code"
+            )
+            ->whereIn('lesson_id', $lessonIds)
+            ->with('code', 'lessons.chapter')
+            ->get();
         
 
         $data = $req->all();
