@@ -17,7 +17,9 @@ class QuizzeController extends Controller
 {
     public function quizze(){ 
         $questions = Question::
-        with('code', 'lessons.chapter')
+        select("id", "lesson_id", "q_type", "year", "month", "section", 
+        "q_num", "difficulty", "q_code")
+        ->with('code', 'lessons.chapter')
         ->get();
         $quizzes = quizze::
         with(['question' => function($query){
@@ -27,11 +29,21 @@ class QuizzeController extends Controller
         }])
         ->orderByDesc('id')
         ->simplePaginate(10);
-        $categories = Category::all();
-        $courses = Course::all();
-        $chapters = Chapter::all();
-        $lessons = Lesson::all();
-        $codes = ExamCodes::all();
+        $categories = Category::
+        select("id", "cate_name")
+        ->get();
+        $courses = Course::
+        select("id", "course_name", "category_id")
+        ->get();
+        $chapters = Chapter::
+        select("id", 'chapter_name', "course_id")
+        ->get();
+        $lessons = Lesson::
+        select("id", "lesson_name", "chapter_id")
+        ->get();
+        $codes = ExamCodes::
+        select("id", "exam_code")
+        ->get();
 
         return view('Admin.courses.Quizze.Quizze', 
         compact('quizzes', 'questions', 'categories', 'courses', 'chapters', 'lessons', 'codes'));
