@@ -24,8 +24,14 @@ class QuizzeController extends Controller
         ->get();
         $quizzes = quizze::
         with(['question' => function($query){
-            $query->with([
-                'code', 'lessons.chapter'
+            $query
+            ->select("id", "q_type", "year", "month", "section", 
+            "q_num", "difficulty", "lesson_id", "q_code")
+            ->with([
+                'code', 'lessons' => function($q){
+                    $q->select("id", "chapter_id", "lesson_name")
+                    ->with("chapter:id,chapter_name");
+                }
             ]);
         }])
         ->orderByDesc('id')
