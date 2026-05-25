@@ -16,6 +16,7 @@ use App\Models\ExamCodes;
 class QuizzeController extends Controller
 {
     public function quizze(){ 
+        ini_set('memory_limit', '512M');
         $questions = Question::
         select("id", "lesson_id", "q_type", "year", "month", "section", 
         "q_num", "difficulty", "q_code")
