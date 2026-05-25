@@ -45,11 +45,11 @@ class QuizzeController extends Controller
             ->simplePaginate(10);
 
         // باقي الكود سليم لأن الجداول دي مفيش فيها تداخل علاقات يسبب الاختلاط
-        $categories = Category::pluck("cate_name", "id");
-        $courses    = Course::pluck("course_name", "id");
-        $chapters   = Chapter::pluck("chapter_name", "id");
-        $lessons    = Lesson::pluck("lesson_name", "id");
-        $codes      = ExamCodes::pluck("exam_code", "id");
+        $categories = Category::select("id", "cate_name")->get();
+        $courses    = Course::select("id", "course_name", "category_id")->get();
+        $chapters   = Chapter::select("id", 'chapter_name', "course_id")->get();
+        $lessons    = Lesson::select("id", "lesson_name", "chapter_id")->get();
+        $codes      = ExamCodes::select("id", "exam_code")->get();
 
         return view('Admin.courses.Quizze.Quizze', 
             compact('quizzes', 'questions', 'categories', 'courses', 'chapters', 'lessons', 'codes'));
