@@ -17,43 +17,42 @@ class QuizzeController extends Controller
 {
     public function quizze(){ 
         ini_set('memory_limit', '512M');
-        $questions = Question::
-        select("id", "lesson_id", "q_type", "year", "month", "section", 
-        "q_num", "difficulty", "q_code")
-        ->with('code', 'lessons.chapter')
-        ->get();
-        $quizzes = quizze::
-        with(['question' => function($query){
-            $query
-            ->select("id", "q_type", "year", "month", "section", 
-            "q_num", "difficulty", "lesson_id", "q_code")
-            ->with([
-                'code', 'lessons' => function($q){
-                    $q->select("id", "chapter_id", "lesson_name")
-                    ->with("chapter:id,chapter_name");
-                }
-            ]);
-        }])
-        ->orderByDesc('id')
-        ->simplePaginate(10);
-        $categories = Category::
-        select("id", "cate_name")
-        ->get();
-        $courses = Course::
-        select("id", "course_name", "category_id")
-        ->get();
-        $chapters = Chapter::
-        select("id", 'chapter_name', "course_id")
-        ->get();
-        $lessons = Lesson::
-        select("id", "lesson_name", "chapter_id")
-        ->get();
-        $codes = ExamCodes::
-        select("id", "exam_code")
-        ->get();
+
+        // 1. تحديد اسم الجدول 'questions.' قبل الـ id والأعمدة المشتركة
+        $questions = Question::select(
+                "questions.id", "questions.lesson_id", "questions.q_type", "questions.year", 
+                "questions.month", "questions.section", "questions.q_num", "questions.difficulty", "questions.q_code"
+            )
+            ->with('code', 'lessons.chapter')
+            ->get();
+
+        // 2. تعديل الـ select جوة الـ eager loading للكويزات
+        $quizzes = quizze::with(['question' => function($query){
+                $query->select(
+                    "questions.id", "questions.q_type", "questions.year", "questions.month", 
+                    "questions.section", "questions.q_num", "questions.difficulty", "questions.lesson_id", "questions.q_code"
+                )
+                ->with([
+                    'code', 
+                    'lessons' => function($q){
+                        // تحديد اسم جدول الدروس 'lessons.'
+                        $q->select("lessons.id", "lessons.chapter_id", "lessons.lesson_name")
+                        ->with("chapter:id,chapter_name"); // هنا تمام لأنها مكتوبة كدا chapter:id
+                    }
+                ]);
+            }])
+            ->orderByDesc('id')
+            ->simplePaginate(10);
+
+        // باقي الكود سليم لأن الجداول دي مفيش فيها تداخل علاقات يسبب الاختلاط
+        $categories = Category::select("id", "cate_name")->get();
+        $courses    = Course::select("id", "course_name", "category_id")->get();
+        $chapters   = Chapter::select("id", 'chapter_name', "course_id")->get();
+        $lessons    = Lesson::select("id", "lesson_name", "chapter_id")->get();
+        $codes      = ExamCodes::select("id", "exam_code")->get();
 
         return view('Admin.courses.Quizze.Quizze', 
-        compact('quizzes', 'questions', 'categories', 'courses', 'chapters', 'lessons', 'codes'));
+            compact('quizzes', 'questions', 'categories', 'courses', 'chapters', 'lessons', 'codes'));
     }
 
     public function quize_del_q( Request $req ){
