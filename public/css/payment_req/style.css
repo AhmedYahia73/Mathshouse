@@ -1,0 +1,1365 @@
+.maths-house,
+.maths-house * {
+  box-sizing: border-box;
+}
+.maths-house {
+  background: #ffffff;
+  height: 1024px;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-to-maths-house {
+  text-align: left;
+  font-family: "Heebo-Medium", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 235px);
+  top: 48px;
+}
+.welcome-to-maths-house-span {
+  color: #323131;
+  font-family: "Heebo-Medium", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+}
+.welcome-to-maths-house-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Medium", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+}
+.group-239067 {
+  position: absolute;
+  inset: 0;
+}
+.group-239065 {
+  width: 391px;
+  height: 53px;
+  position: static;
+}
+.choose-your-class-time {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 123px;
+}
+.choose-your-class-time-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+}
+.choose-your-class-time-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+}
+.choose-your-class-time-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+}
+.group-239083 {
+  position: absolute;
+  inset: 0;
+}
+.frame-51 {
+  background: #ffffff;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 60px;
+  top: 216px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-52 {
+  background: #dc3545;
+  border-style: solid;
+  border-color: #dc3545;
+  border-width: 1px;
+  width: 171px;
+  height: 56px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+.march {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 44.5px);
+  top: calc(50% - 24px);
+}
+.saturday {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 47.5px);
+  top: calc(50% - -46px);
+}
+._31 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 17.5px);
+  top: calc(50% - 22px);
+}
+.frame-55 {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 263px;
+  top: 216px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.group-239073 {
+  position: absolute;
+  inset: 0;
+}
+.group-239069 {
+  width: 181px;
+  height: 29px;
+  position: static;
+}
+.group-2390652 {
+  width: 181px;
+  height: 29px;
+  position: static;
+}
+.mr-ahmed-al-basha {
+  color: #494949;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 65px;
+}
+.frame-3 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+.group-239072 {
+  position: absolute;
+  inset: 0;
+}
+.group-239068 {
+  width: 142px;
+  height: 29px;
+  position: static;
+}
+.group-2390653 {
+  width: 142px;
+  height: 29px;
+  position: static;
+}
+._8-00-m-10-00-m {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 18px;
+}
+._8-00-m-10-00-m-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.frame-56 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  overflow: hidden;
+}
+.clock-streamline-wayfinding {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.group-239075 {
+  position: absolute;
+  inset: 0;
+}
+.group-239074 {
+  width: 97px;
+  height: 29px;
+  position: static;
+}
+.group-239070 {
+  width: 97px;
+  height: 29px;
+  position: static;
+}
+.group-2390654 {
+  width: 97px;
+  height: 29px;
+  position: static;
+}
+.chapter-1 {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 161px;
+}
+.chapter-1-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.frame-57 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: 160px;
+  overflow: hidden;
+}
+._3209265-book-bookmark-chapter-mark-read-icon-1 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: hidden;
+}
+.layer-1 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239084 {
+  position: absolute;
+  inset: 0;
+}
+.group-239077 {
+  width: 142px;
+  height: 29px;
+  position: static;
+}
+.group-2390742 {
+  width: 142px;
+  height: 29px;
+  position: static;
+}
+.group-2390702 {
+  width: 142px;
+  height: 29px;
+  position: static;
+}
+.course-history {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 113px;
+}
+.course-history-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.frame-64 {
+  background: #ffffff;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: 112px;
+  overflow: hidden;
+}
+._2205242-college-course-degree-education-university-icon-1 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.group-239076 {
+  position: absolute;
+  inset: 0;
+}
+.group-2390743 {
+  width: 109px;
+  height: 35px;
+  position: static;
+}
+.group-2390703 {
+  width: 109px;
+  height: 35px;
+  position: static;
+}
+.group-2390655 {
+  width: 109px;
+  height: 35px;
+  position: static;
+}
+.lesson-3 {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 301px;
+  top: 16px;
+}
+.lesson-3-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.frame-572 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 257px;
+  top: 17px;
+  overflow: hidden;
+}
+.layer-12 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239082 {
+  position: absolute;
+  inset: 0;
+}
+.frame-522 {
+  background: #ffffff;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 60px;
+  top: 448px;
+  box-shadow: 0px 2px 19px 0px rgba(232, 148, 156, 0.24);
+  overflow: hidden;
+}
+.april {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 32.5px);
+  top: calc(50% - 24px);
+}
+.sunday {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 39.5px);
+  top: calc(50% - -46px);
+}
+._1 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 8.5px);
+  top: calc(50% - 22px);
+}
+.frame-58 {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 263px;
+  top: 448px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-32 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+._8-00-m-10-00-m-span4 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span5 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span6 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.clock-streamline-wayfinding2 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.chapter-1-span4 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span5 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span6 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.layer-13 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-2390772 {
+  position: absolute;
+  inset: 0;
+}
+.group-239085 {
+  width: 186px;
+  height: 32px;
+  position: static;
+}
+.course-history2 {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 114px;
+}
+.course-history-2-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._2205242-college-course-degree-education-university-icon-12 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.lesson-3-span4 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span5 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span6 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.layer-14 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239079 {
+  position: absolute;
+  inset: 0;
+}
+.frame-60 {
+  background: #ffffff;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 748px;
+  top: 448px;
+  box-shadow: 0px 2px 19px 0px rgba(232, 148, 156, 0.24);
+  overflow: hidden;
+}
+._4 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 8.5px);
+  top: calc(50% - 22px);
+}
+.frame-62 {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 951px;
+  top: 448px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-33 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+._8-00-m-10-00-m-span7 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span8 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span9 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.clock-streamline-wayfinding3 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.chapter-1-span7 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span8 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span9 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.layer-15 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-2390744 {
+  width: 186px;
+  height: 32px;
+  position: static;
+}
+.course-history-2-span4 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span5 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span6 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._2205242-college-course-degree-education-university-icon-13 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.lesson-3-span7 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span8 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span9 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.layer-16 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239081 {
+  position: absolute;
+  inset: 0;
+}
+.frame-54 {
+  background: #ffffff;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 60px;
+  top: 680px;
+  box-shadow: 0px 2px 19px 0px rgba(232, 148, 156, 0.24);
+  overflow: hidden;
+}
+.monday {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 42.5px);
+  top: calc(50% - -46px);
+}
+._2 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 8.5px);
+  top: calc(50% - 22px);
+}
+.frame-59 {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 263px;
+  top: 680px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-34 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+._8-00-m-10-00-m-span10 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span11 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span12 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.clock-streamline-wayfinding4 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.chapter-1-span10 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span11 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span12 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.layer-17 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239086 {
+  width: 186px;
+  height: 32px;
+  position: static;
+}
+.course-history-2-span7 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span8 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-2-span9 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._2205242-college-course-degree-education-university-icon-14 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.lesson-3-span10 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span11 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span12 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.layer-18 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239080 {
+  position: absolute;
+  inset: 0;
+}
+.frame-61 {
+  background: #ffffff;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 748px;
+  top: 680px;
+  box-shadow: 0px 2px 19px 0px rgba(232, 148, 156, 0.24);
+  overflow: hidden;
+}
+._5 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 8.5px);
+  top: calc(50% - 22px);
+}
+.frame-63 {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 951px;
+  top: 680px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-35 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+._8-00-m-10-00-m-span13 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span14 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._8-00-m-10-00-m-span15 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.clock-streamline-wayfinding5 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.chapter-1-span13 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span14 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.chapter-1-span15 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.layer-19 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.lesson-3-span13 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span14 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.lesson-3-span15 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.layer-110 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-239087 {
+  width: 186px;
+  height: 32px;
+  position: static;
+}
+.course-history3 {
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 112px;
+}
+.course-history-3-span {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-3-span2 {
+  color: #dc3545;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.course-history-3-span3 {
+  color: #494949;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+._2205242-college-course-degree-education-university-icon-15 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.group-239078 {
+  position: absolute;
+  inset: 0;
+}
+.frame-562 {
+  background: #dc3545;
+  border-radius: 18px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 200px;
+  position: absolute;
+  left: 748px;
+  top: 216px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.frame-523 {
+  background: #ffffff;
+  border-radius: 18px 18px 0px 0px;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 1px;
+  width: 171px;
+  height: 56px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+.march2 {
+  color: #dc3545;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 44.5px);
+  top: calc(50% - 24px);
+}
+.saturday2 {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 47.5px);
+  top: calc(50% - -46px);
+}
+._3 {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 8.5px);
+  top: calc(50% - 22px);
+}
+.frame-573 {
+  background: #dc3545;
+  border-radius: 10px;
+  width: 429px;
+  height: 200px;
+  position: absolute;
+  left: 951px;
+  top: 216px;
+  box-shadow: var(--1-box-shadow, 0px 2px 19px 0px rgba(232, 148, 156, 0.24));
+  overflow: hidden;
+}
+.mr-ahmed-al-basha2 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 65px;
+}
+.frame-36 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 36px);
+  overflow: visible;
+}
+._8-00-m-10-00-m2 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 18px;
+}
+.clock-streamline-wayfinding6 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.chapter-12 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 161px;
+}
+.layer-111 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.course-history4 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 60px;
+  top: 114px;
+}
+.frame-642 {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 16px;
+  top: 112px;
+  overflow: hidden;
+}
+._2205242-college-course-degree-education-university-icon-16 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.lesson-32 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 301px;
+  top: 16px;
+}
+.layer-112 {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+  top: 2%;
+  overflow: visible;
+}
+.group-2390704 {
+  position: absolute;
+  inset: 0;
+}
+.group-2390692 {
+  width: 72px;
+  height: 58px;
+  position: static;
+}
+.frame-49 {
+  border-radius: 5px;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 1240px;
+  top: 968px;
+  transform: translate(-32px, -32px);
+  overflow: visible;
+}
+._30-3-2024 {
+  color: #989898;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  position: absolute;
+  left: 1188px;
+  top: 972px;
+}
+.group-2390682 {
+  width: 64px;
+  height: 58px;
+  position: static;
+}
+.frame-48 {
+  border-radius: 5px;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 1332px;
+  top: 936px;
+  overflow: visible;
+}
+._5-4-2024 {
+  color: #989898;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  position: absolute;
+  left: 1316px;
+  top: 972px;
+}
+.frame-53 {
+  background: #dc3545;
+  border-radius: 10px;
+  width: 300px;
+  height: 56px;
+  position: absolute;
+  left: calc(50% - 150px);
+  top: 920px;
+  overflow: hidden;
+}
+.book {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Heebo-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 36px);
+  top: calc(50% - 23px);
+}

@@ -1,0 +1,27 @@
+.footer {
+    background-color: #fef5f3;
+    padding: 20px;
+    margin-top: 20px;
+    border-bottom: outset;
+}
+.footer-two {
+    background-color: #fef5f3;
+}
+.footer_contact_widget h4 {
+    color: #727272;
+}
+.footer_company_widget h4 {
+    color: #727272;
+}
+.footer_program_widget h4 {
+    color: #727272;
+}
+.footer_support_widget h4 {
+    color: #727272;
+}
+.footer_apps_widget h4 {
+    color: #727272;
+}
+.footer-contact .p-contact {
+    margin-right: 100px !important;
+}
