@@ -51,10 +51,11 @@ class UserController extends Controller
     public function student_filter(Request $req){
         // ارفع الذاكرة هنا في بداية الدالة
         ini_set('memory_limit', '512M');
-        $students = User::
-        where('grade', $req->grade)
-        ->orderByDesc('id')
-        ->get();
+        $query = User::where('position', 'student');
+        if ($req->filled('grade')) {
+            $query->where('grade', $req->grade);
+        }
+        $students = $query->orderByDesc('id')->paginate(50)->appends($req->all());
         $categories = Category::all();
 
         return view('Admin.Users.Students', compact('students', 'categories'));
@@ -65,7 +66,7 @@ class UserController extends Controller
         ini_set('memory_limit', '512M');
         $students = User::where('position', 'student')
         ->orderByDesc('id')
-        ->get(); 
+        ->paginate(50); 
         $categories = Category::all();
 
         return view('Admin.Users.Students', compact('students', 'categories'));
@@ -304,26 +305,12 @@ class UserController extends Controller
         $user = User::where('email', $req->email)
         ->first();
         if ( !empty($user) ) {
-            session()->flash('faild','Email is Duplicated');
-            $students = User::where('position', 'student')
-            ->orderByDesc('id')
-            ->get();
-            $data = $req->all();
-            $categories = Category::all();
-    
-            return view('Admin.Users.Students', compact('students', 'data', 'categories'));
+            return redirect()->back()->withInput()->with('faild', 'Email is Duplicated');
         }
         $user = User::where('nick_name', $req->nick_name)
         ->first();
         if ( !empty($user) ) {
-            session()->flash('faild','Nickname is Duplicated');
-            $students = User::where('position', 'student')
-            ->orderByDesc('id')
-            ->get();
-            $data = $req->all();
-            $categories = Category::all();
-
-            return view('Admin.Users.Students', compact('students', 'data', 'categories'));
+            return redirect()->back()->withInput()->with('faild', 'Nickname is Duplicated');
         }
         $arr = $req->only('f_name', 'l_name', 'nick_name', 
         'email', 'phone', 'parent_email', 'parent_phone', 'grade',

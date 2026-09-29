@@ -40,30 +40,30 @@
                                 <div>
                                     <div class='my-3'>
                                         <label>First Name</label>
-                                        <input class='form-control' value="{{@$data['f_name']}}" name="f_name" placeholder="First Name" />
+                                        <input class='form-control' value="{{ old('f_name', @$data['f_name']) }}" name="f_name" placeholder="First Name" />
                                     </div>
                                     <div class='my-3'>
                                         <label>Last Name</label>
-                                        <input class='form-control' value="{{@$data['l_name']}}" name="l_name" placeholder="Last Name" />
+                                        <input class='form-control' value="{{ old('l_name', @$data['l_name']) }}" name="l_name" placeholder="Last Name" />
                                     </div>
                                     <div class='my-3'>
                                         <label>Nick Name</label>
-                                        <input class='form-control' value="{{@$data['nick_name']}}" name="nick_name" placeholder="Nick Name" />
+                                        <input class='form-control' value="{{ old('nick_name', @$data['nick_name']) }}" name="nick_name" placeholder="Nick Name" />
                                     </div>
                                     <div class='my-3'>
                                         <label>E-mail</label>
-                                        <input class='form-control' value="{{@$data['email']}}" name="email" placeholder="E-mail" />
+                                        <input class='form-control' value="{{ old('email', @$data['email']) }}" name="email" placeholder="E-mail" />
                                     </div>
                                     <div class='my-3'>
                                         <label>Phone</label>
-                                        <input class='form-control' value="{{@$data['phone']}}" name="phone" placeholder="Phone" />
+                                        <input class='form-control' value="{{ old('phone', @$data['phone']) }}" name="phone" placeholder="Phone" />
                                     </div>
                                     <div class='my-3'>
                                         <label>Category</label>
                                         <select name="category_id" class="form-control" id="gradeInput">
-                                            <option disabled selected>Select Category ...</option>
+                                            <option disabled {{ old('category_id', @$data['category_id']) ? '' : 'selected' }}>Select Category ...</option>
                                             @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}">
+                                                <option value="{{ $item->id }}" {{ old('category_id', @$data['category_id']) == $item->id ? 'selected' : '' }}>
                                                     {{ $item->cate_name }}
                                                 </option>
                                             @endforeach
@@ -72,9 +72,9 @@
                                     <div class='my-3'>
                                         <label>Grade</label>
                                             <select name="grade" class="form-control" id="gradeInput">
-                                                <option disabled>Select Grade ...</option>
+                                                <option disabled {{ old('grade', @$data['grade']) ? '' : 'selected' }}>Select Grade ...</option>
                                                 @for ($i = 1; $i <= 13; $i++)
-                                                    <option value="{{ $i }}">
+                                                    <option value="{{ $i }}" {{ old('grade', @$data['grade']) == $i ? 'selected' : '' }}>
                                                         {{ $i }}
                                                     </option>
                                                 @endfor
@@ -93,11 +93,11 @@
                                     </div> --}}
                                     <div class='my-3'>
                                         <label>Parent E-mail</label>
-                                        <input class='form-control' value="{{@$data['parent_email']}}" name="parent_email" placeholder="Parent E-mail" />
+                                        <input class='form-control' value="{{ old('parent_email', @$data['parent_email']) }}" name="parent_email" placeholder="Parent E-mail" />
                                     </div>
                                     <div class='my-3'>
                                         <label>Parent Phone</label>
-                                        <input class='form-control' value="{{@$data['parent_phone']}}" name="parent_phone" placeholder="Parent Phone" />
+                                        <input class='form-control' value="{{ old('parent_phone', @$data['parent_phone']) }}" name="parent_phone" placeholder="Parent Phone" />
                                     </div>
                                 
                                     <div class="my-3">

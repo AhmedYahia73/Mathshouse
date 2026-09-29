@@ -837,9 +837,11 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
-        {{ $students->links('pagination::bootstrap-5') }}
-    </div>
+    @if(method_exists($students, 'links'))
+        <div class="d-flex justify-content-center mt-4">
+            {{ $students->links('pagination::bootstrap-5') }}
+        </div>
+    @endif
 
     <script>
         $(document).ready(function() {
