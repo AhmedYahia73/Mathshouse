@@ -598,19 +598,26 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <div class="d-flex col-12 align-items-center justify-content-start gap-6">
-        <div style="display: flex; align-items: center;justify-content: flex-start">
-            <input type="text" class="my-3 form-control" placeholder="Search..." style="width: 200px;" id="myInput">
+    <form method="GET" action="{{ route('student') }}" class="d-flex col-12 align-items-center justify-content-start gap-3 my-3 flex-wrap">
+        <div style="display: flex; align-items: center; justify-content: flex-start">
+            <input type="text" name="search" class="form-control" placeholder="Search by name, phone, email, ID..." style="width: 280px;" value="{{ request('search') }}" id="myInput">
         </div>
-        <div class="col-md-2 d-flex" style="align-items: center; column-gap:10px">
-            <span style="font-size: 1.2rem;font-weight: 600;">Section:</span>
-            <select id="selPayment" name="selPayment" class="form-control">
-                <option value="">Select Payment</option>
-                <option value="free">Free</option>
-                <option value="paid">Paid</option>
+        <div class="d-flex align-items-center" style="column-gap: 10px;">
+            <span style="font-size: 1.1rem; font-weight: 600;">Section:</span>
+            <select id="selPayment" name="payment" class="form-control" style="width: 160px;" onchange="this.form.submit()">
+                <option value="">All Payments</option>
+                <option value="free" {{ request('payment') === 'free' ? 'selected' : '' }}>Free</option>
+                <option value="paid" {{ request('payment') === 'paid' ? 'selected' : '' }}>Paid</option>
             </select>
-        </div>  
-    </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        @if(request()->filled('search') || request()->filled('payment'))
+            <a href="{{ route('student') }}" class="btn btn-secondary">Reset</a>
+        @endif
+        @if(method_exists($students, 'total'))
+            <span class="text-muted ms-2" style="font-size: 0.95rem;">Total: {{ $students->total() }} students</span>
+        @endif
+    </form>
 
     <div class="mt-4 card-datatable table-responsive" style="overflow-x: hidden">
         <table class="datatables-users border-top display table-hover table-striped" id="cm-list">
@@ -845,21 +852,6 @@
 
     <script>
         $(document).ready(function() {
-            // كود البحث السريع المخصص في الجدول
-            $("#myInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
-
-            $("#selPayment").on("change", function() {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
-
             // إظهار وإخفاء المحفظة
             $(document).on('click', '.show_wallet', function() {
                 $(this).siblings('.wallet_h').toggleClass('d-none');
@@ -868,8 +860,9 @@
             // إظهار وإخفاء كلمة المرور داخل المودال
             $(document).on('click', '.togglePassword', function() {
                 const passwordField = $(this).closest('.input-group').find('.password_field');
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
+                const currentType = passwordField.attr('type');
+                const type = currentType === 'password' ? 'text' : 'password';
+                passwordField.attr('type', type);
                 $(this).toggleClass('fa-eye fa-eye-slash');
             });
         });

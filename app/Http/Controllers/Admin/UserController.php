@@ -35,30 +35,54 @@ class UserController extends Controller
     public function __construct(private User $user){}
         
 
-    public function student(){
+    public function student(Request $request){
         ini_set('memory_limit', '512M');
         ini_set('memory_limit', '-1');
-        $students = User::where('position', 'student')
-        ->orderByDesc('id')
-        ->paginate(50);
-        $categories = Category::
-        select("id", "cate_name")
-        ->get();
+
+        $query = User::where('position', 'student');
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('nick_name', 'like', "%{$search}%")
+                  ->orWhere('f_name', 'like', "%{$search}%")
+                  ->orWhere('l_name', 'like', "%{$search}%")
+                  ->orWhereRaw("CONCAT(COALESCE(f_name, ''), ' ', COALESCE(l_name, '')) LIKE ?", ["%{$search}%"])
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('parent_phone', 'like', "%{$search}%")
+                  ->orWhere('parent_email', 'like', "%{$search}%");
+
+                if (is_numeric($search)) {
+                    $q->orWhere('id', $search);
+                }
+            });
+        }
+
+        if ($request->filled('payment')) {
+            if ($request->payment === 'paid') {
+                $query->whereHas('payment_req_approve');
+            } elseif ($request->payment === 'free') {
+                $query->whereDoesntHave('payment_req_approve');
+            }
+        }
+
+        if ($request->filled('grade')) {
+            $query->where('grade', $request->grade);
+        }
+
+        $students = $query->with('payment_req_approve')
+            ->orderByDesc('id')
+            ->paginate(50)
+            ->withQueryString();
+
+        $categories = Category::select("id", "cate_name")->get();
 
         return view('Admin.Users.Students', compact('students', 'categories'));
     }
 
     public function student_filter(Request $req){
-        // ارفع الذاكرة هنا في بداية الدالة
-        ini_set('memory_limit', '512M');
-        $query = User::where('position', 'student');
-        if ($req->filled('grade')) {
-            $query->where('grade', $req->grade);
-        }
-        $students = $query->orderByDesc('id')->paginate(50)->appends($req->all());
-        $categories = Category::all();
-
-        return view('Admin.Users.Students', compact('students', 'categories'));
+        return $this->student($req);
     }
 
     public function stu_info(){
